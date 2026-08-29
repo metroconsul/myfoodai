@@ -10,33 +10,207 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
+import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
+import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
+import { Route as AuthenticatedAppEmployeesRouteImport } from './routes/_authenticated/app.employees'
+import { Route as AuthenticatedAppRolesTeamsRouteImport } from './routes/_authenticated/app.roles-teams'
+import { Route as AuthenticatedAppScheduleComplianceRouteImport } from './routes/_authenticated/app.schedule-compliance'
+import { Route as AuthenticatedAppScheduleHistoryRouteImport } from './routes/_authenticated/app.schedule-history'
+import { Route as AuthenticatedAppScheduleTemplatesRouteImport } from './routes/_authenticated/app.schedule-templates'
+import { Route as AuthenticatedAppSchedulesRouteImport } from './routes/_authenticated/app.schedules'
+import { Route as AuthenticatedAppShiftsRouteImport } from './routes/_authenticated/app.shifts'
+import { Route as AuthenticatedAppTimeEntriesRouteImport } from './routes/_authenticated/app.time-entries'
+import { Route as AuthenticatedAppUnitsRouteImport } from './routes/_authenticated/app.units'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
+const AuthenticatedAppEmployeesRoute =
+  AuthenticatedAppEmployeesRouteImport.update({
+    id: '/employees',
+    path: '/employees',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppRolesTeamsRoute =
+  AuthenticatedAppRolesTeamsRouteImport.update({
+    id: '/roles-teams',
+    path: '/roles-teams',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppScheduleComplianceRoute =
+  AuthenticatedAppScheduleComplianceRouteImport.update({
+    id: '/schedule-compliance',
+    path: '/schedule-compliance',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppScheduleHistoryRoute =
+  AuthenticatedAppScheduleHistoryRouteImport.update({
+    id: '/schedule-history',
+    path: '/schedule-history',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppScheduleTemplatesRoute =
+  AuthenticatedAppScheduleTemplatesRouteImport.update({
+    id: '/schedule-templates',
+    path: '/schedule-templates',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppSchedulesRoute =
+  AuthenticatedAppSchedulesRouteImport.update({
+    id: '/schedules',
+    path: '/schedules',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppShiftsRoute = AuthenticatedAppShiftsRouteImport.update({
+  id: '/shifts',
+  path: '/shifts',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
+const AuthenticatedAppTimeEntriesRoute =
+  AuthenticatedAppTimeEntriesRouteImport.update({
+    id: '/time-entries',
+    path: '/time-entries',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppUnitsRoute = AuthenticatedAppUnitsRouteImport.update({
+  id: '/units',
+  path: '/units',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/app': typeof AuthenticatedAppRouteWithChildren
+  '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/app/employees': typeof AuthenticatedAppEmployeesRoute
+  '/app/roles-teams': typeof AuthenticatedAppRolesTeamsRoute
+  '/app/schedule-compliance': typeof AuthenticatedAppScheduleComplianceRoute
+  '/app/schedule-history': typeof AuthenticatedAppScheduleHistoryRoute
+  '/app/schedule-templates': typeof AuthenticatedAppScheduleTemplatesRoute
+  '/app/schedules': typeof AuthenticatedAppSchedulesRoute
+  '/app/shifts': typeof AuthenticatedAppShiftsRoute
+  '/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
+  '/app/units': typeof AuthenticatedAppUnitsRoute
+  '/app/': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/app/employees': typeof AuthenticatedAppEmployeesRoute
+  '/app/roles-teams': typeof AuthenticatedAppRolesTeamsRoute
+  '/app/schedule-compliance': typeof AuthenticatedAppScheduleComplianceRoute
+  '/app/schedule-history': typeof AuthenticatedAppScheduleHistoryRoute
+  '/app/schedule-templates': typeof AuthenticatedAppScheduleTemplatesRoute
+  '/app/schedules': typeof AuthenticatedAppSchedulesRoute
+  '/app/shifts': typeof AuthenticatedAppShiftsRoute
+  '/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
+  '/app/units': typeof AuthenticatedAppUnitsRoute
+  '/app': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
+  '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
+  '/_authenticated/app/employees': typeof AuthenticatedAppEmployeesRoute
+  '/_authenticated/app/roles-teams': typeof AuthenticatedAppRolesTeamsRoute
+  '/_authenticated/app/schedule-compliance': typeof AuthenticatedAppScheduleComplianceRoute
+  '/_authenticated/app/schedule-history': typeof AuthenticatedAppScheduleHistoryRoute
+  '/_authenticated/app/schedule-templates': typeof AuthenticatedAppScheduleTemplatesRoute
+  '/_authenticated/app/schedules': typeof AuthenticatedAppSchedulesRoute
+  '/_authenticated/app/shifts': typeof AuthenticatedAppShiftsRoute
+  '/_authenticated/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
+  '/_authenticated/app/units': typeof AuthenticatedAppUnitsRoute
+  '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/app'
+    | '/onboarding'
+    | '/app/employees'
+    | '/app/roles-teams'
+    | '/app/schedule-compliance'
+    | '/app/schedule-history'
+    | '/app/schedule-templates'
+    | '/app/schedules'
+    | '/app/shifts'
+    | '/app/time-entries'
+    | '/app/units'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/onboarding'
+    | '/app/employees'
+    | '/app/roles-teams'
+    | '/app/schedule-compliance'
+    | '/app/schedule-history'
+    | '/app/schedule-templates'
+    | '/app/schedules'
+    | '/app/shifts'
+    | '/app/time-entries'
+    | '/app/units'
+    | '/app'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/app'
+    | '/_authenticated/onboarding'
+    | '/_authenticated/app/employees'
+    | '/_authenticated/app/roles-teams'
+    | '/_authenticated/app/schedule-compliance'
+    | '/_authenticated/app/schedule-history'
+    | '/_authenticated/app/schedule-templates'
+    | '/_authenticated/app/schedules'
+    | '/_authenticated/app/shifts'
+    | '/_authenticated/app/time-entries'
+    | '/_authenticated/app/units'
+    | '/_authenticated/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +222,155 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/app': {
+      id: '/_authenticated/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AuthenticatedAppRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/onboarding': {
+      id: '/_authenticated/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/': {
+      id: '/_authenticated/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/employees': {
+      id: '/_authenticated/app/employees'
+      path: '/employees'
+      fullPath: '/app/employees'
+      preLoaderRoute: typeof AuthenticatedAppEmployeesRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/roles-teams': {
+      id: '/_authenticated/app/roles-teams'
+      path: '/roles-teams'
+      fullPath: '/app/roles-teams'
+      preLoaderRoute: typeof AuthenticatedAppRolesTeamsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/schedule-compliance': {
+      id: '/_authenticated/app/schedule-compliance'
+      path: '/schedule-compliance'
+      fullPath: '/app/schedule-compliance'
+      preLoaderRoute: typeof AuthenticatedAppScheduleComplianceRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/schedule-history': {
+      id: '/_authenticated/app/schedule-history'
+      path: '/schedule-history'
+      fullPath: '/app/schedule-history'
+      preLoaderRoute: typeof AuthenticatedAppScheduleHistoryRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/schedule-templates': {
+      id: '/_authenticated/app/schedule-templates'
+      path: '/schedule-templates'
+      fullPath: '/app/schedule-templates'
+      preLoaderRoute: typeof AuthenticatedAppScheduleTemplatesRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/schedules': {
+      id: '/_authenticated/app/schedules'
+      path: '/schedules'
+      fullPath: '/app/schedules'
+      preLoaderRoute: typeof AuthenticatedAppSchedulesRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/shifts': {
+      id: '/_authenticated/app/shifts'
+      path: '/shifts'
+      fullPath: '/app/shifts'
+      preLoaderRoute: typeof AuthenticatedAppShiftsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/time-entries': {
+      id: '/_authenticated/app/time-entries'
+      path: '/time-entries'
+      fullPath: '/app/time-entries'
+      preLoaderRoute: typeof AuthenticatedAppTimeEntriesRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/units': {
+      id: '/_authenticated/app/units'
+      path: '/units'
+      fullPath: '/app/units'
+      preLoaderRoute: typeof AuthenticatedAppUnitsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
   }
 }
 
+interface AuthenticatedAppRouteChildren {
+  AuthenticatedAppEmployeesRoute: typeof AuthenticatedAppEmployeesRoute
+  AuthenticatedAppRolesTeamsRoute: typeof AuthenticatedAppRolesTeamsRoute
+  AuthenticatedAppScheduleComplianceRoute: typeof AuthenticatedAppScheduleComplianceRoute
+  AuthenticatedAppScheduleHistoryRoute: typeof AuthenticatedAppScheduleHistoryRoute
+  AuthenticatedAppScheduleTemplatesRoute: typeof AuthenticatedAppScheduleTemplatesRoute
+  AuthenticatedAppSchedulesRoute: typeof AuthenticatedAppSchedulesRoute
+  AuthenticatedAppShiftsRoute: typeof AuthenticatedAppShiftsRoute
+  AuthenticatedAppTimeEntriesRoute: typeof AuthenticatedAppTimeEntriesRoute
+  AuthenticatedAppUnitsRoute: typeof AuthenticatedAppUnitsRoute
+  AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
+}
+
+const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
+  AuthenticatedAppEmployeesRoute: AuthenticatedAppEmployeesRoute,
+  AuthenticatedAppRolesTeamsRoute: AuthenticatedAppRolesTeamsRoute,
+  AuthenticatedAppScheduleComplianceRoute:
+    AuthenticatedAppScheduleComplianceRoute,
+  AuthenticatedAppScheduleHistoryRoute: AuthenticatedAppScheduleHistoryRoute,
+  AuthenticatedAppScheduleTemplatesRoute:
+    AuthenticatedAppScheduleTemplatesRoute,
+  AuthenticatedAppSchedulesRoute: AuthenticatedAppSchedulesRoute,
+  AuthenticatedAppShiftsRoute: AuthenticatedAppShiftsRoute,
+  AuthenticatedAppTimeEntriesRoute: AuthenticatedAppTimeEntriesRoute,
+  AuthenticatedAppUnitsRoute: AuthenticatedAppUnitsRoute,
+  AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
+}
+
+const AuthenticatedAppRouteWithChildren =
+  AuthenticatedAppRoute._addFileChildren(AuthenticatedAppRouteChildren)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
+  AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAppRoute: AuthenticatedAppRouteWithChildren,
+  AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
