@@ -113,8 +113,8 @@ function PortalHome() {
 
         <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
           <div className="portal-tile p-3">
-            <dt className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground">Função</dt>
-            <dd className="mt-1 truncate font-semibold">{data.employee.position ?? "—"}</dd>
+            <dt className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground">Matrícula</dt>
+            <dd className="mt-1 truncate font-semibold">{data.employee.code ?? "—"}</dd>
           </div>
           <div className="portal-tile p-3">
             <dt className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground">Unidade</dt>
@@ -122,7 +122,7 @@ function PortalHome() {
           </div>
         </dl>
 
-        <PortalButton asChild={undefined} block className="mt-5" disabled={journeyDone} onClick={() => navigate({ to: "/portal/ponto" })}>
+        <PortalButton block className="mt-5" disabled={journeyDone} onClick={() => navigate({ to: "/portal/ponto" })}>
           {punchLabel}
         </PortalButton>
 
