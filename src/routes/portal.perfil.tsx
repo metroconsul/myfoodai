@@ -59,10 +59,10 @@ function PortalProfilePage() {
       <h1 className="text-2xl font-semibold">Meu perfil</h1>
 
       <section className="rounded-xl border border-border p-4 text-sm">
-        <p className="font-medium">{profile?.employee.name ?? "—"}</p>
+        <p className="font-medium">{profile?.employee?.name ?? "—"}</p>
         <p className="text-muted-foreground">{profile?.unit?.name ?? "Sem unidade vinculada"}</p>
-        {profile?.employee.code ? (
-          <p className="text-muted-foreground">Matrícula {profile.employee.code}</p>
+        {profile?.employee?.code ? (
+          <p className="text-muted-foreground">Matrícula {profile.employee?.code}</p>
         ) : null}
       </section>
 
