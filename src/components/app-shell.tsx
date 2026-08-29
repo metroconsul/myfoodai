@@ -12,14 +12,8 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
-  Package,
-  Settings,
   ShieldAlert,
-  ShoppingBag,
   Users,
-  Bell,
-  Boxes,
-  HandHeart,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/use-workspace";
@@ -31,11 +25,7 @@ import { cn } from "@/lib/utils";
 const NAV = [
   {
     label: "Operação",
-    items: [
-      { to: "/app", label: "Visão geral", icon: LayoutDashboard, exact: true },
-      { to: "/app/inventory", label: "Estoque", icon: Boxes },
-      { to: "/app/sales", label: "Vendas", icon: ShoppingBag },
-    ],
+    items: [{ to: "/app", label: "Visão geral", icon: LayoutDashboard, exact: true }],
   },
   {
     label: "Pessoas",
@@ -57,25 +47,7 @@ const NAV = [
   },
   {
     label: "Ponto",
-    items: [
-      { to: "/app/time-entries", label: "Registros de ponto", icon: Clock },
-      { to: "/app/point-cards", label: "Cartões de ponto", icon: FileSpreadsheet },
-      { to: "/app/point-policy", label: "Política de ponto", icon: ShieldAlert },
-    ],
-  },
-  {
-    label: "Itens",
-    items: [
-      { to: "/app/catalog", label: "Catálogo", icon: Package },
-      { to: "/app/deliveries", label: "Entregas individuais", icon: HandHeart },
-    ],
-  },
-  {
-    label: "Sistema",
-    items: [
-      { to: "/app/notifications", label: "Notificações", icon: Bell },
-      { to: "/app/settings", label: "Configurações", icon: Settings },
-    ],
+    items: [{ to: "/app/time-entries", label: "Registros de ponto", icon: Clock }],
   },
 ] as const;
 

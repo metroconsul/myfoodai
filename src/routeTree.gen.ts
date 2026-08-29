@@ -22,6 +22,7 @@ import { Route as AuthenticatedAppScheduleHistoryRouteImport } from './routes/_a
 import { Route as AuthenticatedAppScheduleTemplatesRouteImport } from './routes/_authenticated/app.schedule-templates'
 import { Route as AuthenticatedAppSchedulesRouteImport } from './routes/_authenticated/app.schedules'
 import { Route as AuthenticatedAppShiftsRouteImport } from './routes/_authenticated/app.shifts'
+import { Route as AuthenticatedAppTimeEntriesRouteImport } from './routes/_authenticated/app.time-entries'
 import { Route as AuthenticatedAppUnitsRouteImport } from './routes/_authenticated/app.units'
 
 const IndexRoute = IndexRouteImport.update({
@@ -94,6 +95,12 @@ const AuthenticatedAppShiftsRoute = AuthenticatedAppShiftsRouteImport.update({
   path: '/shifts',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedAppTimeEntriesRoute =
+  AuthenticatedAppTimeEntriesRouteImport.update({
+    id: '/time-entries',
+    path: '/time-entries',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppUnitsRoute = AuthenticatedAppUnitsRouteImport.update({
   id: '/units',
   path: '/units',
@@ -112,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/app/schedule-templates': typeof AuthenticatedAppScheduleTemplatesRoute
   '/app/schedules': typeof AuthenticatedAppSchedulesRoute
   '/app/shifts': typeof AuthenticatedAppShiftsRoute
+  '/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/app/': typeof AuthenticatedAppIndexRoute
 }
@@ -126,6 +134,7 @@ export interface FileRoutesByTo {
   '/app/schedule-templates': typeof AuthenticatedAppScheduleTemplatesRoute
   '/app/schedules': typeof AuthenticatedAppSchedulesRoute
   '/app/shifts': typeof AuthenticatedAppShiftsRoute
+  '/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/app': typeof AuthenticatedAppIndexRoute
 }
@@ -143,6 +152,7 @@ export interface FileRoutesById {
   '/_authenticated/app/schedule-templates': typeof AuthenticatedAppScheduleTemplatesRoute
   '/_authenticated/app/schedules': typeof AuthenticatedAppSchedulesRoute
   '/_authenticated/app/shifts': typeof AuthenticatedAppShiftsRoute
+  '/_authenticated/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/_authenticated/app/units': typeof AuthenticatedAppUnitsRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
 }
@@ -160,6 +170,7 @@ export interface FileRouteTypes {
     | '/app/schedule-templates'
     | '/app/schedules'
     | '/app/shifts'
+    | '/app/time-entries'
     | '/app/units'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
@@ -174,6 +185,7 @@ export interface FileRouteTypes {
     | '/app/schedule-templates'
     | '/app/schedules'
     | '/app/shifts'
+    | '/app/time-entries'
     | '/app/units'
     | '/app'
   id:
@@ -190,6 +202,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/schedule-templates'
     | '/_authenticated/app/schedules'
     | '/_authenticated/app/shifts'
+    | '/_authenticated/app/time-entries'
     | '/_authenticated/app/units'
     | '/_authenticated/app/'
   fileRoutesById: FileRoutesById
@@ -293,6 +306,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppShiftsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/time-entries': {
+      id: '/_authenticated/app/time-entries'
+      path: '/time-entries'
+      fullPath: '/app/time-entries'
+      preLoaderRoute: typeof AuthenticatedAppTimeEntriesRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/units': {
       id: '/_authenticated/app/units'
       path: '/units'
@@ -311,6 +331,7 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppScheduleTemplatesRoute: typeof AuthenticatedAppScheduleTemplatesRoute
   AuthenticatedAppSchedulesRoute: typeof AuthenticatedAppSchedulesRoute
   AuthenticatedAppShiftsRoute: typeof AuthenticatedAppShiftsRoute
+  AuthenticatedAppTimeEntriesRoute: typeof AuthenticatedAppTimeEntriesRoute
   AuthenticatedAppUnitsRoute: typeof AuthenticatedAppUnitsRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
 }
@@ -325,6 +346,7 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
     AuthenticatedAppScheduleTemplatesRoute,
   AuthenticatedAppSchedulesRoute: AuthenticatedAppSchedulesRoute,
   AuthenticatedAppShiftsRoute: AuthenticatedAppShiftsRoute,
+  AuthenticatedAppTimeEntriesRoute: AuthenticatedAppTimeEntriesRoute,
   AuthenticatedAppUnitsRoute: AuthenticatedAppUnitsRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
 }

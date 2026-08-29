@@ -46,7 +46,7 @@ function Landing() {
         </span>
         <div className="flex gap-2">
           <Button asChild variant="ghost">
-            <Link to="/portal/login">Portal do colaborador</Link>
+            <Link to="/auth">Portal do colaborador</Link>
           </Button>
           <Button asChild>
             <Link to="/auth">Entrar no painel</Link>
@@ -71,7 +71,7 @@ function Landing() {
               <Link to="/auth">Começar agora</Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/portal/login">Sou colaborador</Link>
+              <Link to="/auth">Sou colaborador</Link>
             </Button>
           </div>
         </div>
