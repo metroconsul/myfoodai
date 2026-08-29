@@ -252,7 +252,7 @@ function Landing() {
 
             <div className="relative lg:col-span-5">
               <DashboardMockup />
-              <div className="gh-box gh-box-lg gh-float absolute -bottom-6 -left-2 max-w-[15rem] bg-[#d2e823] p-3 sm:-left-6">
+              <div className="gh-box gh-box-lg gh-acid gh-float absolute -bottom-6 -left-2 max-w-[15rem] p-3 sm:-left-6">
                 <p className="gh-mono text-[10px] font-bold">Operação alinhada</p>
                 <p className="mt-1 text-sm font-medium">
                   Pessoas, turnos e estoque no mesmo ritmo.
@@ -368,7 +368,7 @@ function Landing() {
                   key={n}
                   className={[
                     "gh-box p-5",
-                    i === 0 ? "bg-[#d2e823]" : "",
+                    i === 0 ? "gh-acid" : "",
                   ].join(" ")}
                 >
                   <span className="gh-display text-3xl">{n}</span>

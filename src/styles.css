@@ -340,3 +340,7 @@
   background: var(--gh-ink);
   color: var(--gh-paper);
 }
+
+.gh-box.gh-acid {
+  background: var(--gh-acid);
+}
