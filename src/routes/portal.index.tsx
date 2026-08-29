@@ -23,7 +23,7 @@ export const Route = createFileRoute("/portal/")({
 });
 
 function PortalHome() {
-  const { token, ready } = usePortalSession();
+  const { token, ready, clear } = usePortalSession();
   const me = useServerFn(portalMe);
   const navigate = useNavigate();
 
@@ -31,17 +31,34 @@ function PortalHome() {
     if (ready && !token) navigate({ to: "/portal/login", replace: true });
   }, [ready, token, navigate]);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["portal-me", token],
     enabled: !!token,
+    retry: 1,
     queryFn: () => me({ data: { token: token! } }),
   });
 
   useEffect(() => {
-    if (data && "error" in data && data.error) navigate({ to: "/portal/login", replace: true });
-  }, [data, navigate]);
+    if (data && "error" in data && data.error) {
+      clear();
+      toast.error("Sua sessão expirou. Entre novamente.");
+      navigate({ to: "/portal/login", replace: true });
+    }
+  }, [data, navigate, clear]);
 
-  if (!ready || isLoading) return <LoadingState />;
+  if (!ready || isLoading) return <LoadingState rows={4} />;
+  if (isError)
+    return (
+      <ErrorState
+        title="Não foi possível carregar seu painel"
+        description="Verifique sua conexão e tente novamente."
+        action={
+          <Button variant="secondary" onClick={() => refetch()}>
+            Tentar novamente
+          </Button>
+        }
+      />
+    );
   if (!data || "error" in data) return null;
 
   return (
