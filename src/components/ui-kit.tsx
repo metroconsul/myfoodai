@@ -1,26 +1,36 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { Card, CardContent } from "@/components/ui/card";
 
 export function PageHeader({
   title,
   description,
   actions,
+  eyebrow,
 }: {
   title: string;
   description?: string;
   actions?: ReactNode;
+  eyebrow?: string;
 }) {
   return (
     <div className="mb-6 flex flex-wrap items-end justify-between gap-3 animate-rise">
       <div>
-        <h1 className="text-2xl font-semibold">{title}</h1>
-        {description ? <p className="mt-1 text-sm text-muted-foreground">{description}</p> : null}
+        {eyebrow ? <p className="meta-mono mb-1">{eyebrow}</p> : null}
+        <h1 className="display-type text-2xl sm:text-3xl">{title}</h1>
+        {description ? <p className="mt-2 max-w-2xl text-sm text-muted-foreground">{description}</p> : null}
       </div>
       {actions ? <div className="flex flex-wrap gap-2">{actions}</div> : null}
     </div>
   );
 }
+
+const STAT_TONES: Record<string, string> = {
+  default: "bg-card",
+  success: "bg-success",
+  warning: "bg-warning",
+  danger: "bg-destructive",
+  info: "bg-info",
+};
 
 export function StatCard({
   label,
@@ -33,30 +43,28 @@ export function StatCard({
   value: ReactNode;
   hint?: string;
   icon?: ReactNode;
-  tone?: "default" | "success" | "warning" | "danger";
+  tone?: keyof typeof STAT_TONES;
 }) {
-  const toneClass = {
-    default: "text-foreground",
-    success: "text-success",
-    warning: "text-warning",
-    danger: "text-destructive",
-  }[tone];
-
   return (
-    <Card className="hover-lift animate-rise">
-      <CardContent className="flex items-start justify-between gap-3 p-5">
-        <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
-          <p className={cn("mt-2 text-2xl font-semibold", toneClass)}>{value}</p>
-          {hint ? <p className="mt-1 text-xs text-muted-foreground">{hint}</p> : null}
+    <div
+      className={cn(
+        "hover-lift animate-rise rounded-[12px] border-2 border-foreground p-5 shadow-[4px_4px_0_var(--ink)]",
+        STAT_TONES[tone],
+      )}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="meta-mono text-foreground/70">{label}</p>
+          <p className="display-type mt-2 text-3xl">{value}</p>
+          {hint ? <p className="mt-2 text-xs text-foreground/70">{hint}</p> : null}
         </div>
         {icon ? (
-          <span className="flex size-10 items-center justify-center rounded-xl bg-accent text-accent-foreground">
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-[8px] border-2 border-foreground bg-card">
             {icon}
           </span>
         ) : null}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
 
@@ -71,7 +79,10 @@ export function EmptyState({
 }) {
   return (
     <div className="surface-card flex flex-col items-center justify-center gap-2 px-6 py-14 text-center animate-rise">
-      <p className="text-base font-medium">{title}</p>
+      <span className="mb-2 inline-block rounded-[8px] border-2 border-foreground bg-accent px-3 py-1 text-[11px] font-bold uppercase tracking-widest">
+        Sem dados
+      </span>
+      <p className="display-type text-lg">{title}</p>
       {description ? <p className="max-w-md text-sm text-muted-foreground">{description}</p> : null}
       {action ? <div className="mt-3">{action}</div> : null}
     </div>
@@ -79,11 +90,12 @@ export function EmptyState({
 }
 
 const STATUS_TONES: Record<string, string> = {
-  ok: "bg-success/10 text-success",
-  warn: "bg-warning/15 text-warning-foreground",
-  danger: "bg-destructive/10 text-destructive",
-  neutral: "bg-secondary text-muted-foreground",
+  ok: "bg-success text-success-foreground",
+  warn: "bg-warning text-warning-foreground",
+  danger: "bg-destructive text-destructive-foreground",
+  neutral: "bg-card text-muted-foreground",
   brand: "bg-accent text-accent-foreground",
+  info: "bg-info text-info-foreground",
 };
 
 export function StatusBadge({
@@ -96,7 +108,7 @@ export function StatusBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium transition-colors",
+        "inline-flex items-center rounded-[8px] border-2 border-foreground px-2.5 py-0.5 text-xs font-semibold",
         STATUS_TONES[tone],
       )}
     >
@@ -105,10 +117,23 @@ export function StatusBadge({
   );
 }
 
-export function SectionCard({ title, children }: { title?: string; children: ReactNode }) {
+export function SectionCard({
+  title,
+  action,
+  children,
+}: {
+  title?: string;
+  action?: ReactNode;
+  children: ReactNode;
+}) {
   return (
     <section className="surface-card p-5 animate-rise">
-      {title ? <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">{title}</h2> : null}
+      {title || action ? (
+        <div className="mb-4 flex items-center justify-between gap-3">
+          {title ? <h2 className="text-sm font-bold uppercase tracking-widest">{title}</h2> : <span />}
+          {action}
+        </div>
+      ) : null}
       {children}
     </section>
   );

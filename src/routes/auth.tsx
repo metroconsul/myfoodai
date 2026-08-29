@@ -76,80 +76,114 @@ function AuthPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 py-10">
-      <div className="w-full max-w-md surface-card p-7 animate-rise">
-        <Link to="/" className="mb-6 flex items-center gap-2 text-sm text-muted-foreground">
-          ← Voltar
-        </Link>
-        <h1 className="text-2xl font-semibold">
-          {mode === "login" ? "Entrar no painel" : "Criar conta"}
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Gestão de pessoas, escalas, ponto, estoque e vendas.
-        </p>
+    <div className="grid min-h-screen lg:grid-cols-2">
+      <div className="flex items-center justify-center px-4 py-10">
+        <div className="w-full max-w-md surface-card p-7 animate-rise">
+          <Link to="/" className="mb-6 inline-flex items-center gap-2 text-sm font-medium hover:underline">
+            ← Voltar
+          </Link>
+          <p className="display-type text-xs uppercase tracking-tight">{BRAND_NAME}</p>
+          <h1 className="display-type mt-3 text-2xl">
+            {mode === "login" ? "Entrar no painel" : "Criar conta"}
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Gestão de pessoas, escalas, ponto, estoque e vendas.
+          </p>
 
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-          {mode === "signup" ? (
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            {mode === "signup" ? (
+              <div className="space-y-1.5">
+                <Label htmlFor="fullName">Nome completo</Label>
+                <Input
+                  id="fullName"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  maxLength={120}
+                  required
+                />
+              </div>
+            ) : null}
             <div className="space-y-1.5">
-              <Label htmlFor="fullName">Nome completo</Label>
+              <Label htmlFor="email">E-mail</Label>
               <Input
-                id="fullName"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                maxLength={120}
+                id="email"
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                maxLength={255}
                 required
               />
             </div>
-          ) : null}
-          <div className="space-y-1.5">
-            <Label htmlFor="email">E-mail</Label>
-            <Input
-              id="email"
-              type="email"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              maxLength={255}
-              required
-            />
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between gap-2">
+                <Label htmlFor="password">Senha</Label>
+                {mode === "login" ? (
+                  <button
+                    type="button"
+                    className="text-xs font-medium underline-offset-4 hover:underline"
+                    onClick={() =>
+                      toast.info("Fale com o administrador da conta para redefinir sua senha.")
+                    }
+                  >
+                    Esqueci minha senha
+                  </button>
+                ) : null}
+              </div>
+              <Input
+                id="password"
+                type="password"
+                autoComplete={mode === "login" ? "current-password" : "new-password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                minLength={8}
+                maxLength={72}
+                required
+              />
+            </div>
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Aguarde…" : mode === "login" ? "Entrar" : "Criar conta"}
+            </Button>
+          </form>
+
+          <div className="my-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            <span className="h-0.5 flex-1 bg-foreground" /> ou <span className="h-0.5 flex-1 bg-foreground" />
           </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="password">Senha</Label>
-            <Input
-              id="password"
-              type="password"
-              autoComplete={mode === "login" ? "current-password" : "new-password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              minLength={8}
-              maxLength={72}
-              required
-            />
-          </div>
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Aguarde…" : mode === "login" ? "Entrar" : "Criar conta"}
+
+          <Button variant="outline" className="w-full" onClick={handleGoogle}>
+            Continuar com Google
           </Button>
-        </form>
 
-        <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground">
-          <span className="h-px flex-1 bg-border" /> ou <span className="h-px flex-1 bg-border" />
+          <p className="mt-6 text-center text-sm text-muted-foreground">
+            {mode === "login" ? "Ainda não tem conta?" : "Já tem conta?"}{" "}
+            <button
+              type="button"
+              className="font-semibold text-foreground underline underline-offset-4"
+              onClick={() => setMode(mode === "login" ? "signup" : "login")}
+            >
+              {mode === "login" ? "Criar agora" : "Entrar"}
+            </button>
+          </p>
         </div>
-
-        <Button variant="outline" className="w-full" onClick={handleGoogle}>
-          Continuar com Google
-        </Button>
-
-        <p className="mt-6 text-center text-sm text-muted-foreground">
-          {mode === "login" ? "Ainda não tem conta?" : "Já tem conta?"}{" "}
-          <button
-            type="button"
-            className="font-medium text-primary underline-offset-4 hover:underline"
-            onClick={() => setMode(mode === "login" ? "signup" : "login")}
-          >
-            {mode === "login" ? "Criar agora" : "Entrar"}
-          </button>
-        </p>
       </div>
+
+      <aside className="hidden border-l-2 border-foreground bg-accent p-12 lg:flex lg:flex-col lg:justify-between">
+        <p className="display-type text-sm uppercase">{BRAND_NAME}</p>
+        <p className="display-type max-w-md text-4xl leading-[1.05]">
+          Gestão de pessoas, escalas, ponto, estoque e vendas.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {["Escalas", "Ponto auditável", "Estoque visual", "Multiunidade"].map((tag) => (
+            <span
+              key={tag}
+              className="rounded-[8px] border-2 border-foreground bg-card px-3 py-1 text-xs font-semibold shadow-[2px_2px_0_var(--ink)]"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </aside>
     </div>
   );
 }
+
