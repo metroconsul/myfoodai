@@ -18,6 +18,7 @@ import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authentic
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
 import { Route as PortalEscalaRouteImport } from './routes/portal.escala'
 import { Route as PortalLoginRouteImport } from './routes/portal.login'
+import { Route as PortalPontoRouteImport } from './routes/portal.ponto'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppCatalogRouteImport } from './routes/_authenticated/app.catalog'
 import { Route as AuthenticatedAppEmployeesRouteImport } from './routes/_authenticated/app.employees'
@@ -75,6 +76,11 @@ const PortalEscalaRoute = PortalEscalaRouteImport.update({
 const PortalLoginRoute = PortalLoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalPontoRoute = PortalPontoRouteImport.update({
+  id: '/ponto',
+  path: '/ponto',
   getParentRoute: () => PortalRoute,
 } as any)
 const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
@@ -164,6 +170,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/portal/escala': typeof PortalEscalaRoute
   '/portal/login': typeof PortalLoginRoute
+  '/portal/ponto': typeof PortalPontoRoute
   '/portal/': typeof PortalIndexRoute
   '/app/catalog': typeof AuthenticatedAppCatalogRoute
   '/app/employees': typeof AuthenticatedAppEmployeesRoute
@@ -186,6 +193,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/portal/escala': typeof PortalEscalaRoute
   '/portal/login': typeof PortalLoginRoute
+  '/portal/ponto': typeof PortalPontoRoute
   '/portal': typeof PortalIndexRoute
   '/app/catalog': typeof AuthenticatedAppCatalogRoute
   '/app/employees': typeof AuthenticatedAppEmployeesRoute
@@ -212,6 +220,7 @@ export interface FileRoutesById {
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/portal/escala': typeof PortalEscalaRoute
   '/portal/login': typeof PortalLoginRoute
+  '/portal/ponto': typeof PortalPontoRoute
   '/portal/': typeof PortalIndexRoute
   '/_authenticated/app/catalog': typeof AuthenticatedAppCatalogRoute
   '/_authenticated/app/employees': typeof AuthenticatedAppEmployeesRoute
@@ -238,6 +247,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/portal/escala'
     | '/portal/login'
+    | '/portal/ponto'
     | '/portal/'
     | '/app/catalog'
     | '/app/employees'
@@ -260,6 +270,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/portal/escala'
     | '/portal/login'
+    | '/portal/ponto'
     | '/portal'
     | '/app/catalog'
     | '/app/employees'
@@ -285,6 +296,7 @@ export interface FileRouteTypes {
     | '/_authenticated/onboarding'
     | '/portal/escala'
     | '/portal/login'
+    | '/portal/ponto'
     | '/portal/'
     | '/_authenticated/app/catalog'
     | '/_authenticated/app/employees'
@@ -373,6 +385,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/portal/login'
       preLoaderRoute: typeof PortalLoginRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/ponto': {
+      id: '/portal/ponto'
+      path: '/ponto'
+      fullPath: '/portal/ponto'
+      preLoaderRoute: typeof PortalPontoRouteImport
       parentRoute: typeof PortalRoute
     }
     '/_authenticated/app/': {
@@ -529,12 +548,14 @@ const AuthenticatedRouteRouteWithChildren =
 interface PortalRouteChildren {
   PortalEscalaRoute: typeof PortalEscalaRoute
   PortalLoginRoute: typeof PortalLoginRoute
+  PortalPontoRoute: typeof PortalPontoRoute
   PortalIndexRoute: typeof PortalIndexRoute
 }
 
 const PortalRouteChildren: PortalRouteChildren = {
   PortalEscalaRoute: PortalEscalaRoute,
   PortalLoginRoute: PortalLoginRoute,
+  PortalPontoRoute: PortalPontoRoute,
   PortalIndexRoute: PortalIndexRoute,
 }
 
