@@ -34,7 +34,7 @@ test("falha de rede no portal não deixa a tela em branco", async ({ page }) => 
   await page.route("**/_serverFn/**", (route) => route.abort("failed"));
   await page.goto("/portal/escala", { waitUntil: "domcontentloaded" });
 
-  await expect(page.getByRole("navigation").or(page.getByRole("main"))).toBeVisible({
-    timeout: 20_000,
-  });
+  await expect(page.getByRole("main")).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByRole("navigation", { name: "Navegação do portal" })).toBeVisible();
+
 });
