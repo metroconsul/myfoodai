@@ -192,3 +192,155 @@
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ============================================================
+   Landing — "Acid Operations" (neo-brutalismo)
+   Escopo isolado em .gh: não afeta o painel nem o portal.
+   ============================================================ */
+.gh {
+  --gh-paper: #f8f4e8;
+  --gh-ink: #09090b;
+  --gh-acid: #d2e823;
+  --gh-ember: #f26b38;
+  --gh-mute: #5e5a50;
+  --gh-surface: #fffdf6;
+  background-color: var(--gh-paper);
+  color: var(--gh-ink);
+  font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  position: relative;
+}
+
+.gh::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.gh-display {
+  font-family: "Dela Gothic One", ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+}
+
+.gh-mono {
+  font-family: "Space Mono", ui-monospace, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.gh-box {
+  border: 2px solid var(--gh-ink);
+  border-radius: 12px;
+  background: var(--gh-surface);
+  box-shadow: 4px 4px 0 var(--gh-ink);
+}
+
+.gh-box-lg {
+  box-shadow: 8px 8px 0 var(--gh-ink);
+}
+
+.gh-press {
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease;
+}
+.gh-press:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--gh-ink);
+}
+.gh-press:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--gh-ink);
+}
+
+.gh-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.7rem 1.25rem;
+  border: 2px solid var(--gh-ink);
+  border-radius: 10px;
+  box-shadow: 4px 4px 0 var(--gh-ink);
+  font-weight: 700;
+  background: var(--gh-surface);
+  color: var(--gh-ink);
+}
+.gh-btn-primary {
+  background: var(--gh-acid);
+}
+.gh-btn:hover {
+  background: var(--gh-acid);
+}
+.gh-btn:focus-visible,
+.gh a:focus-visible {
+  outline: 3px solid var(--gh-ember);
+  outline-offset: 3px;
+}
+
+.gh-card-hover {
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.gh-card-hover:hover {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--gh-ink);
+}
+
+.gh-dots {
+  background-image: radial-gradient(var(--gh-ink) 1px, transparent 1px);
+  background-size: 12px 12px;
+  opacity: 0.12;
+}
+
+.gh-glitch:hover {
+  animation: gh-glitch 0.3s steps(1) infinite;
+}
+@keyframes gh-glitch {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-2px, 1px); }
+  50% { transform: translate(2px, -1px); }
+  75% { transform: translate(-1px, -2px); }
+  100% { transform: translate(0, 0); }
+}
+
+.gh-float {
+  animation: gh-float 4s ease-in-out infinite;
+}
+@keyframes gh-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.gh-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.gh-marquee-track {
+  display: inline-flex;
+  animation: gh-marquee 20s linear infinite;
+}
+@keyframes gh-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.gh-tilt {
+  transform: rotate(-3deg);
+}
+
+.gh-box.gh-dark {
+  background: var(--gh-ink);
+  color: var(--gh-paper);
+}
+
+.gh-box.gh-acid {
+  background: var(--gh-acid);
+}
