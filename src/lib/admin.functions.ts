@@ -202,3 +202,81 @@ export const sendPointCard = createServerFn({ method: "POST" })
     });
     return { ok: true };
   });
+
+const bootstrapSchema = z.object({
+  companyName: z.string().trim().min(2).max(120),
+  brandName: z.string().trim().max(120).optional(),
+  unitName: z.string().trim().min(2).max(120),
+  unitType: z.enum([
+    "restaurante",
+    "bar",
+    "cafeteria",
+    "lanchonete",
+    "padaria",
+    "cozinha",
+    "varejo",
+    "outro",
+  ]),
+  city: z.string().trim().max(120).optional(),
+  fullName: z.string().trim().max(120).optional(),
+});
+
+/** Cria empresa, primeira unidade, política de ponto padrão e vincula o usuário como owner. */
+export const bootstrapCompany = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => bootstrapSchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { data: existing } = await supabaseAdmin
+      .from("profiles")
+      .select("company_id")
+      .eq("id", context.userId)
+      .maybeSingle();
+    if (existing?.company_id) return { companyId: existing.company_id, created: false };
+
+    const { data: company, error: companyError } = await supabaseAdmin
+      .from("companies")
+      .insert({ name: data.companyName, brand_name: data.brandName ?? data.companyName })
+      .select("id")
+      .single();
+    if (companyError || !company) throw new Error("Não foi possível criar a empresa.");
+
+    const { data: unit, error: unitError } = await supabaseAdmin
+      .from("units")
+      .insert({
+        company_id: company.id,
+        name: data.unitName,
+        type: data.unitType,
+        city: data.city ?? null,
+      })
+      .select("id")
+      .single();
+    if (unitError || !unit) throw new Error("Não foi possível criar a unidade.");
+
+    await supabaseAdmin.from("point_policies").insert({ company_id: company.id, unit_id: null });
+
+    await supabaseAdmin.from("profiles").upsert({
+      id: context.userId,
+      company_id: company.id,
+      active_unit_id: unit.id,
+      full_name: data.fullName ?? null,
+      email: (context.claims as { email?: string } | null)?.email ?? null,
+    });
+
+    await supabaseAdmin
+      .from("user_roles")
+      .insert({ user_id: context.userId, company_id: company.id, role: "owner" });
+    await supabaseAdmin.from("user_units").insert({ user_id: context.userId, unit_id: unit.id });
+
+    await supabaseAdmin.from("audit_logs").insert({
+      company_id: company.id,
+      unit_id: unit.id,
+      user_id: context.userId,
+      action: "empresa_criada",
+      entity: "companies",
+      entity_id: company.id,
+    });
+
+    return { companyId: company.id, created: true };
+  });
