@@ -12,11 +12,21 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as PortalRouteImport } from './routes/portal'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
+import { Route as PortalIndexRouteImport } from './routes/portal.index'
+import { Route as PortalCartaoPontoRouteImport } from './routes/portal.cartao-ponto'
+import { Route as PortalEscalaRouteImport } from './routes/portal.escala'
+import { Route as PortalLoginRouteImport } from './routes/portal.login'
+import { Route as PortalPerfilRouteImport } from './routes/portal.perfil'
+import { Route as PortalPontoRouteImport } from './routes/portal.ponto'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
+import { Route as AuthenticatedAppCatalogRouteImport } from './routes/_authenticated/app.catalog'
 import { Route as AuthenticatedAppEmployeesRouteImport } from './routes/_authenticated/app.employees'
+import { Route as AuthenticatedAppInventoryRouteImport } from './routes/_authenticated/app.inventory'
 import { Route as AuthenticatedAppRolesTeamsRouteImport } from './routes/_authenticated/app.roles-teams'
+import { Route as AuthenticatedAppSalesRouteImport } from './routes/_authenticated/app.sales'
 import { Route as AuthenticatedAppScheduleComplianceRouteImport } from './routes/_authenticated/app.schedule-compliance'
 import { Route as AuthenticatedAppScheduleHistoryRouteImport } from './routes/_authenticated/app.schedule-history'
 import { Route as AuthenticatedAppScheduleTemplatesRouteImport } from './routes/_authenticated/app.schedule-templates'
@@ -24,6 +34,7 @@ import { Route as AuthenticatedAppSchedulesRouteImport } from './routes/_authent
 import { Route as AuthenticatedAppShiftsRouteImport } from './routes/_authenticated/app.shifts'
 import { Route as AuthenticatedAppTimeEntriesRouteImport } from './routes/_authenticated/app.time-entries'
 import { Route as AuthenticatedAppUnitsRouteImport } from './routes/_authenticated/app.units'
+import { Route as ApiPublicSalesIngestRouteImport } from './routes/api/public/sales-ingest'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -39,6 +50,11 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalRoute = PortalRouteImport.update({
+  id: '/portal',
+  path: '/portal',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
   id: '/app',
   path: '/app',
@@ -49,9 +65,44 @@ const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   path: '/onboarding',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const PortalIndexRoute = PortalIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalCartaoPontoRoute = PortalCartaoPontoRouteImport.update({
+  id: '/cartao-ponto',
+  path: '/cartao-ponto',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalEscalaRoute = PortalEscalaRouteImport.update({
+  id: '/escala',
+  path: '/escala',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalLoginRoute = PortalLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalPerfilRoute = PortalPerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalPontoRoute = PortalPontoRouteImport.update({
+  id: '/ponto',
+  path: '/ponto',
+  getParentRoute: () => PortalRoute,
+} as any)
 const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
+const AuthenticatedAppCatalogRoute = AuthenticatedAppCatalogRouteImport.update({
+  id: '/catalog',
+  path: '/catalog',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
 const AuthenticatedAppEmployeesRoute =
@@ -60,12 +111,23 @@ const AuthenticatedAppEmployeesRoute =
     path: '/employees',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppInventoryRoute =
+  AuthenticatedAppInventoryRouteImport.update({
+    id: '/inventory',
+    path: '/inventory',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppRolesTeamsRoute =
   AuthenticatedAppRolesTeamsRouteImport.update({
     id: '/roles-teams',
     path: '/roles-teams',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppSalesRoute = AuthenticatedAppSalesRouteImport.update({
+  id: '/sales',
+  path: '/sales',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
 const AuthenticatedAppScheduleComplianceRoute =
   AuthenticatedAppScheduleComplianceRouteImport.update({
     id: '/schedule-compliance',
@@ -106,14 +168,29 @@ const AuthenticatedAppUnitsRoute = AuthenticatedAppUnitsRouteImport.update({
   path: '/units',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const ApiPublicSalesIngestRoute = ApiPublicSalesIngestRouteImport.update({
+  id: '/api/public/sales-ingest',
+  path: '/api/public/sales-ingest',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/portal': typeof PortalRouteWithChildren
   '/app': typeof AuthenticatedAppRouteWithChildren
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/portal/cartao-ponto': typeof PortalCartaoPontoRoute
+  '/portal/escala': typeof PortalEscalaRoute
+  '/portal/login': typeof PortalLoginRoute
+  '/portal/perfil': typeof PortalPerfilRoute
+  '/portal/ponto': typeof PortalPontoRoute
+  '/portal/': typeof PortalIndexRoute
+  '/app/catalog': typeof AuthenticatedAppCatalogRoute
   '/app/employees': typeof AuthenticatedAppEmployeesRoute
+  '/app/inventory': typeof AuthenticatedAppInventoryRoute
   '/app/roles-teams': typeof AuthenticatedAppRolesTeamsRoute
+  '/app/sales': typeof AuthenticatedAppSalesRoute
   '/app/schedule-compliance': typeof AuthenticatedAppScheduleComplianceRoute
   '/app/schedule-history': typeof AuthenticatedAppScheduleHistoryRoute
   '/app/schedule-templates': typeof AuthenticatedAppScheduleTemplatesRoute
@@ -121,14 +198,24 @@ export interface FileRoutesByFullPath {
   '/app/shifts': typeof AuthenticatedAppShiftsRoute
   '/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/app/units': typeof AuthenticatedAppUnitsRoute
+  '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/app/': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/portal/cartao-ponto': typeof PortalCartaoPontoRoute
+  '/portal/escala': typeof PortalEscalaRoute
+  '/portal/login': typeof PortalLoginRoute
+  '/portal/perfil': typeof PortalPerfilRoute
+  '/portal/ponto': typeof PortalPontoRoute
+  '/portal': typeof PortalIndexRoute
+  '/app/catalog': typeof AuthenticatedAppCatalogRoute
   '/app/employees': typeof AuthenticatedAppEmployeesRoute
+  '/app/inventory': typeof AuthenticatedAppInventoryRoute
   '/app/roles-teams': typeof AuthenticatedAppRolesTeamsRoute
+  '/app/sales': typeof AuthenticatedAppSalesRoute
   '/app/schedule-compliance': typeof AuthenticatedAppScheduleComplianceRoute
   '/app/schedule-history': typeof AuthenticatedAppScheduleHistoryRoute
   '/app/schedule-templates': typeof AuthenticatedAppScheduleTemplatesRoute
@@ -136,6 +223,7 @@ export interface FileRoutesByTo {
   '/app/shifts': typeof AuthenticatedAppShiftsRoute
   '/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/app/units': typeof AuthenticatedAppUnitsRoute
+  '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/app': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRoutesById {
@@ -143,10 +231,20 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/portal': typeof PortalRouteWithChildren
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
+  '/portal/cartao-ponto': typeof PortalCartaoPontoRoute
+  '/portal/escala': typeof PortalEscalaRoute
+  '/portal/login': typeof PortalLoginRoute
+  '/portal/perfil': typeof PortalPerfilRoute
+  '/portal/ponto': typeof PortalPontoRoute
+  '/portal/': typeof PortalIndexRoute
+  '/_authenticated/app/catalog': typeof AuthenticatedAppCatalogRoute
   '/_authenticated/app/employees': typeof AuthenticatedAppEmployeesRoute
+  '/_authenticated/app/inventory': typeof AuthenticatedAppInventoryRoute
   '/_authenticated/app/roles-teams': typeof AuthenticatedAppRolesTeamsRoute
+  '/_authenticated/app/sales': typeof AuthenticatedAppSalesRoute
   '/_authenticated/app/schedule-compliance': typeof AuthenticatedAppScheduleComplianceRoute
   '/_authenticated/app/schedule-history': typeof AuthenticatedAppScheduleHistoryRoute
   '/_authenticated/app/schedule-templates': typeof AuthenticatedAppScheduleTemplatesRoute
@@ -154,6 +252,7 @@ export interface FileRoutesById {
   '/_authenticated/app/shifts': typeof AuthenticatedAppShiftsRoute
   '/_authenticated/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/_authenticated/app/units': typeof AuthenticatedAppUnitsRoute
+  '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRouteTypes {
@@ -161,10 +260,20 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/portal'
     | '/app'
     | '/onboarding'
+    | '/portal/cartao-ponto'
+    | '/portal/escala'
+    | '/portal/login'
+    | '/portal/perfil'
+    | '/portal/ponto'
+    | '/portal/'
+    | '/app/catalog'
     | '/app/employees'
+    | '/app/inventory'
     | '/app/roles-teams'
+    | '/app/sales'
     | '/app/schedule-compliance'
     | '/app/schedule-history'
     | '/app/schedule-templates'
@@ -172,14 +281,24 @@ export interface FileRouteTypes {
     | '/app/shifts'
     | '/app/time-entries'
     | '/app/units'
+    | '/api/public/sales-ingest'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/onboarding'
+    | '/portal/cartao-ponto'
+    | '/portal/escala'
+    | '/portal/login'
+    | '/portal/perfil'
+    | '/portal/ponto'
+    | '/portal'
+    | '/app/catalog'
     | '/app/employees'
+    | '/app/inventory'
     | '/app/roles-teams'
+    | '/app/sales'
     | '/app/schedule-compliance'
     | '/app/schedule-history'
     | '/app/schedule-templates'
@@ -187,16 +306,27 @@ export interface FileRouteTypes {
     | '/app/shifts'
     | '/app/time-entries'
     | '/app/units'
+    | '/api/public/sales-ingest'
     | '/app'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/portal'
     | '/_authenticated/app'
     | '/_authenticated/onboarding'
+    | '/portal/cartao-ponto'
+    | '/portal/escala'
+    | '/portal/login'
+    | '/portal/perfil'
+    | '/portal/ponto'
+    | '/portal/'
+    | '/_authenticated/app/catalog'
     | '/_authenticated/app/employees'
+    | '/_authenticated/app/inventory'
     | '/_authenticated/app/roles-teams'
+    | '/_authenticated/app/sales'
     | '/_authenticated/app/schedule-compliance'
     | '/_authenticated/app/schedule-history'
     | '/_authenticated/app/schedule-templates'
@@ -204,6 +334,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/shifts'
     | '/_authenticated/app/time-entries'
     | '/_authenticated/app/units'
+    | '/api/public/sales-ingest'
     | '/_authenticated/app/'
   fileRoutesById: FileRoutesById
 }
@@ -211,6 +342,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  PortalRoute: typeof PortalRouteWithChildren
+  ApiPublicSalesIngestRoute: typeof ApiPublicSalesIngestRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -236,6 +369,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portal': {
+      id: '/portal'
+      path: '/portal'
+      fullPath: '/portal'
+      preLoaderRoute: typeof PortalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/app': {
       id: '/_authenticated/app'
       path: '/app'
@@ -250,11 +390,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/portal/': {
+      id: '/portal/'
+      path: '/'
+      fullPath: '/portal/'
+      preLoaderRoute: typeof PortalIndexRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/cartao-ponto': {
+      id: '/portal/cartao-ponto'
+      path: '/cartao-ponto'
+      fullPath: '/portal/cartao-ponto'
+      preLoaderRoute: typeof PortalCartaoPontoRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/escala': {
+      id: '/portal/escala'
+      path: '/escala'
+      fullPath: '/portal/escala'
+      preLoaderRoute: typeof PortalEscalaRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/login': {
+      id: '/portal/login'
+      path: '/login'
+      fullPath: '/portal/login'
+      preLoaderRoute: typeof PortalLoginRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/perfil': {
+      id: '/portal/perfil'
+      path: '/perfil'
+      fullPath: '/portal/perfil'
+      preLoaderRoute: typeof PortalPerfilRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/ponto': {
+      id: '/portal/ponto'
+      path: '/ponto'
+      fullPath: '/portal/ponto'
+      preLoaderRoute: typeof PortalPontoRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/_authenticated/app/': {
       id: '/_authenticated/app/'
       path: '/'
       fullPath: '/app/'
       preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/catalog': {
+      id: '/_authenticated/app/catalog'
+      path: '/catalog'
+      fullPath: '/app/catalog'
+      preLoaderRoute: typeof AuthenticatedAppCatalogRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
     '/_authenticated/app/employees': {
@@ -264,11 +453,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppEmployeesRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/inventory': {
+      id: '/_authenticated/app/inventory'
+      path: '/inventory'
+      fullPath: '/app/inventory'
+      preLoaderRoute: typeof AuthenticatedAppInventoryRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/roles-teams': {
       id: '/_authenticated/app/roles-teams'
       path: '/roles-teams'
       fullPath: '/app/roles-teams'
       preLoaderRoute: typeof AuthenticatedAppRolesTeamsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/sales': {
+      id: '/_authenticated/app/sales'
+      path: '/sales'
+      fullPath: '/app/sales'
+      preLoaderRoute: typeof AuthenticatedAppSalesRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
     '/_authenticated/app/schedule-compliance': {
@@ -320,12 +523,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppUnitsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/api/public/sales-ingest': {
+      id: '/api/public/sales-ingest'
+      path: '/api/public/sales-ingest'
+      fullPath: '/api/public/sales-ingest'
+      preLoaderRoute: typeof ApiPublicSalesIngestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 interface AuthenticatedAppRouteChildren {
+  AuthenticatedAppCatalogRoute: typeof AuthenticatedAppCatalogRoute
   AuthenticatedAppEmployeesRoute: typeof AuthenticatedAppEmployeesRoute
+  AuthenticatedAppInventoryRoute: typeof AuthenticatedAppInventoryRoute
   AuthenticatedAppRolesTeamsRoute: typeof AuthenticatedAppRolesTeamsRoute
+  AuthenticatedAppSalesRoute: typeof AuthenticatedAppSalesRoute
   AuthenticatedAppScheduleComplianceRoute: typeof AuthenticatedAppScheduleComplianceRoute
   AuthenticatedAppScheduleHistoryRoute: typeof AuthenticatedAppScheduleHistoryRoute
   AuthenticatedAppScheduleTemplatesRoute: typeof AuthenticatedAppScheduleTemplatesRoute
@@ -337,8 +550,11 @@ interface AuthenticatedAppRouteChildren {
 }
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
+  AuthenticatedAppCatalogRoute: AuthenticatedAppCatalogRoute,
   AuthenticatedAppEmployeesRoute: AuthenticatedAppEmployeesRoute,
+  AuthenticatedAppInventoryRoute: AuthenticatedAppInventoryRoute,
   AuthenticatedAppRolesTeamsRoute: AuthenticatedAppRolesTeamsRoute,
+  AuthenticatedAppSalesRoute: AuthenticatedAppSalesRoute,
   AuthenticatedAppScheduleComplianceRoute:
     AuthenticatedAppScheduleComplianceRoute,
   AuthenticatedAppScheduleHistoryRoute: AuthenticatedAppScheduleHistoryRoute,
@@ -367,10 +583,33 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface PortalRouteChildren {
+  PortalCartaoPontoRoute: typeof PortalCartaoPontoRoute
+  PortalEscalaRoute: typeof PortalEscalaRoute
+  PortalLoginRoute: typeof PortalLoginRoute
+  PortalPerfilRoute: typeof PortalPerfilRoute
+  PortalPontoRoute: typeof PortalPontoRoute
+  PortalIndexRoute: typeof PortalIndexRoute
+}
+
+const PortalRouteChildren: PortalRouteChildren = {
+  PortalCartaoPontoRoute: PortalCartaoPontoRoute,
+  PortalEscalaRoute: PortalEscalaRoute,
+  PortalLoginRoute: PortalLoginRoute,
+  PortalPerfilRoute: PortalPerfilRoute,
+  PortalPontoRoute: PortalPontoRoute,
+  PortalIndexRoute: PortalIndexRoute,
+}
+
+const PortalRouteWithChildren =
+  PortalRoute._addFileChildren(PortalRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  PortalRoute: PortalRouteWithChildren,
+  ApiPublicSalesIngestRoute: ApiPublicSalesIngestRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
