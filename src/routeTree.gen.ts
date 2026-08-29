@@ -26,6 +26,7 @@ import { Route as AuthenticatedAppSchedulesRouteImport } from './routes/_authent
 import { Route as AuthenticatedAppShiftsRouteImport } from './routes/_authenticated/app.shifts'
 import { Route as AuthenticatedAppTimeEntriesRouteImport } from './routes/_authenticated/app.time-entries'
 import { Route as AuthenticatedAppUnitsRouteImport } from './routes/_authenticated/app.units'
+import { Route as ApiPublicSalesIngestRouteImport } from './routes/api/public/sales-ingest'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -119,6 +120,11 @@ const AuthenticatedAppUnitsRoute = AuthenticatedAppUnitsRouteImport.update({
   path: '/units',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const ApiPublicSalesIngestRoute = ApiPublicSalesIngestRouteImport.update({
+  id: '/api/public/sales-ingest',
+  path: '/api/public/sales-ingest',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/app/shifts': typeof AuthenticatedAppShiftsRoute
   '/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/app/units': typeof AuthenticatedAppUnitsRoute
+  '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/app/': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRoutesByTo {
@@ -153,6 +160,7 @@ export interface FileRoutesByTo {
   '/app/shifts': typeof AuthenticatedAppShiftsRoute
   '/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/app/units': typeof AuthenticatedAppUnitsRoute
+  '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/app': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRoutesById {
@@ -173,6 +181,7 @@ export interface FileRoutesById {
   '/_authenticated/app/shifts': typeof AuthenticatedAppShiftsRoute
   '/_authenticated/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/_authenticated/app/units': typeof AuthenticatedAppUnitsRoute
+  '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRouteTypes {
@@ -193,6 +202,7 @@ export interface FileRouteTypes {
     | '/app/shifts'
     | '/app/time-entries'
     | '/app/units'
+    | '/api/public/sales-ingest'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -210,6 +220,7 @@ export interface FileRouteTypes {
     | '/app/shifts'
     | '/app/time-entries'
     | '/app/units'
+    | '/api/public/sales-ingest'
     | '/app'
   id:
     | '__root__'
@@ -229,6 +240,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/shifts'
     | '/_authenticated/app/time-entries'
     | '/_authenticated/app/units'
+    | '/api/public/sales-ingest'
     | '/_authenticated/app/'
   fileRoutesById: FileRoutesById
 }
@@ -236,6 +248,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  ApiPublicSalesIngestRoute: typeof ApiPublicSalesIngestRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -359,6 +372,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppUnitsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/api/public/sales-ingest': {
+      id: '/api/public/sales-ingest'
+      path: '/api/public/sales-ingest'
+      fullPath: '/api/public/sales-ingest'
+      preLoaderRoute: typeof ApiPublicSalesIngestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -414,6 +434,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  ApiPublicSalesIngestRoute: ApiPublicSalesIngestRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
