@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/use-workspace";
 import { PageHeader, StatCard, SectionCard, EmptyState, StatusBadge } from "@/components/ui-kit";
 import { BRAND_NAME } from "@/config/brand";
-import { formatCurrency, formatDateTime, formatMinutes } from "@/lib/format";
+import { currency, dateTimeFmt, minutesToHours } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated/app/")({
@@ -109,7 +109,7 @@ function Dashboard() {
         <StatCard label="Colaboradores ativos" value={data?.employeeCount ?? "—"} icon={<Users className="size-5" />} />
         <StatCard
           label="Horas planejadas hoje"
-          value={formatMinutes(plannedMinutes)}
+          value={minutesToHours(plannedMinutes)}
           hint={`${data?.blocks.length ?? 0} blocos de escala`}
           icon={<CalendarDays className="size-5" />}
         />
@@ -122,7 +122,7 @@ function Dashboard() {
         />
         <StatCard
           label="Vendas (último dia)"
-          value={data?.sales ? formatCurrency(Number(data.sales.gross_amount)) : "—"}
+          value={data?.sales ? currency(Number(data.sales.gross_amount)) : "—"}
           hint={data?.sales ? `${data.sales.orders_count} pedidos` : "Sem conexão de vendas"}
           icon={<ShoppingBag className="size-5" />}
         />
@@ -163,7 +163,7 @@ function Dashboard() {
                       {(e.employees as { full_name: string } | null)?.full_name ?? "Colaborador"}
                     </span>
                     <span className="text-xs text-muted-foreground">
-                      {e.entry_type.replace("_", " ")} · {formatDateTime(e.server_time)}
+                      {e.entry_type.replace("_", " ")} · {dateTimeFmt(e.server_time)}
                     </span>
                   </span>
                   <StatusBadge tone={e.geo_status === "dentro_do_raio" ? "ok" : "warn"}>
