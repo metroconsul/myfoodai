@@ -277,7 +277,7 @@ function SalesPage() {
         <StatCard
           label="Conexões ativas"
           value={connections.filter((c) => c.active).length}
-          hint={connections.length === 0 ? "Nenhuma origem conectada" : undefined}
+          {...(connections.length === 0 ? { hint: "Nenhuma origem conectada" } : {})}
           icon={<Plug className="size-5" />}
         />
       </div>
