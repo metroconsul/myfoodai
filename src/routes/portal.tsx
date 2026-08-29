@@ -39,7 +39,7 @@ function PortalLayout() {
           aria-label="Navegação do portal"
         >
           {TABS.map((tab) => {
-            const active = tab.exact ? pathname === tab.to : pathname.startsWith(tab.to);
+            const active = "exact" in tab && tab.exact ? pathname === tab.to : pathname.startsWith(tab.to);
             const Icon = tab.icon;
             return (
               <Link
