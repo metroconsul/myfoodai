@@ -6,7 +6,7 @@ import { portalSchedule } from "@/lib/portal.functions";
 import { usePortalSession } from "@/hooks/use-portal-session";
 import { BRAND_NAME } from "@/config/brand";
 import { addDays, dateFmt, isoDate, startOfWeek, timeFmt, minutesToHours } from "@/lib/format";
-import { EmptyState } from "@/components/ui-kit";
+import { EmptyState, LoadingState } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/portal/escala")({
@@ -66,7 +66,7 @@ function PortalSchedulePage() {
       <p className="text-sm text-muted-foreground">Total previsto: {minutesToHours(totalMinutes)}</p>
 
       {isLoading ? (
-        <p className="text-sm text-muted-foreground">Carregando…</p>
+        <LoadingState />
       ) : blocks.length === 0 ? (
         <EmptyState
           title="Sem turnos nesta semana"
@@ -75,7 +75,7 @@ function PortalSchedulePage() {
       ) : (
         <ul className="space-y-2">
           {blocks.map((b) => (
-            <li key={b.id} className="rounded-xl border border-border p-3">
+            <li key={b.id} className="rounded-[12px] border-2 border-foreground bg-card p-3">
               <div className="flex items-center justify-between">
                 <span className="font-medium">{dateFmt(b.work_date)}</span>
                 <span className="text-sm text-muted-foreground">

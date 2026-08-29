@@ -138,3 +138,52 @@ export function SectionCard({
     </section>
   );
 }
+
+export function LoadingState({
+  rows = 3,
+  label = "Carregando…",
+}: {
+  rows?: number;
+  label?: string;
+}) {
+  return (
+    <div role="status" aria-live="polite" className="space-y-3">
+      <span className="meta-mono inline-flex items-center gap-2">
+        <span className="inline-block size-2 animate-pulse rounded-full bg-accent-foreground" aria-hidden />
+        {label}
+      </span>
+      <div className="space-y-2" aria-hidden>
+        {Array.from({ length: rows }).map((_, i) => (
+          <div
+            key={i}
+            className="h-11 animate-pulse rounded-[10px] border-2 border-foreground bg-secondary"
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function ErrorState({
+  title = "Algo não carregou",
+  description = "Verifique sua conexão e tente novamente.",
+  action,
+}: {
+  title?: string;
+  description?: string;
+  action?: ReactNode;
+}) {
+  return (
+    <div
+      role="alert"
+      className="flex flex-col items-center justify-center gap-2 rounded-[12px] border-2 border-foreground bg-destructive px-6 py-10 text-center text-destructive-foreground shadow-[4px_4px_0_var(--ink)]"
+    >
+      <span className="mb-1 inline-block rounded-[8px] border-2 border-foreground bg-card px-3 py-1 text-[11px] font-bold uppercase tracking-widest">
+        Erro
+      </span>
+      <p className="display-type text-lg">{title}</p>
+      <p className="max-w-md text-sm">{description}</p>
+      {action ? <div className="mt-3">{action}</div> : null}
+    </div>
+  );
+}

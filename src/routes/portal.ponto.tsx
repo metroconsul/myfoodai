@@ -158,7 +158,7 @@ function PortalPunchPage() {
         {entries.length === 0 ? (
           <EmptyState title="Nenhum registro no período" />
         ) : (
-          <ul className="divide-y divide-border rounded-xl border border-border">
+          <ul className="divide-y-2 divide-foreground rounded-[12px] border-2 border-foreground bg-card overflow-hidden">
             {entries.map((e) => (
               <li key={e.id} className="flex items-center justify-between gap-2 px-3 py-2.5 text-sm">
                 <span className="min-w-0">

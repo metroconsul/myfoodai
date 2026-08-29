@@ -69,7 +69,7 @@ function HistoryPage() {
           {(schedules.data ?? []).length === 0 ? (
             <EmptyState title="Nenhuma escala registrada" />
           ) : (
-            <ul className="divide-y divide-border">
+            <ul className="divide-y-2 divide-foreground">
               {schedules.data!.map((s) => (
                 <li key={s.id} className="flex items-center justify-between py-2.5 text-sm">
                   <span>
@@ -89,7 +89,7 @@ function HistoryPage() {
           {(changes.data ?? []).length === 0 ? (
             <EmptyState title="Sem alterações registradas" />
           ) : (
-            <ul className="divide-y divide-border">
+            <ul className="divide-y-2 divide-foreground">
               {changes.data!.map((c) => (
                 <li key={c.id} className="py-2.5 text-sm">
                   <span className="font-medium">{c.change_type}</span>
@@ -107,7 +107,7 @@ function HistoryPage() {
           {(swaps.data ?? []).length === 0 ? (
             <EmptyState title="Nenhuma solicitação de troca" />
           ) : (
-            <ul className="divide-y divide-border">
+            <ul className="divide-y-2 divide-foreground">
               {swaps.data!.map((s) => (
                 <li key={s.id} className="flex items-center justify-between py-2.5 text-sm">
                   <span>{dateTimeFmt(s.created_at)}</span>

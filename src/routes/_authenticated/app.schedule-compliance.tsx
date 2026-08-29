@@ -116,7 +116,7 @@ function CompliancePage() {
               {g.items.length === 0 ? (
                 <EmptyState title="Nenhum conflito nesta categoria" />
               ) : (
-                <ul className="divide-y divide-border">
+                <ul className="divide-y-2 divide-foreground">
                   {g.items.map((i, idx) => (
                     <li key={`${i.name}-${idx}`} className="flex justify-between py-2 text-sm">
                       <span className="font-medium">{i.name}</span>

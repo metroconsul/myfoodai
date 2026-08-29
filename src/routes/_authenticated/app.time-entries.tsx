@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/use-workspace";
-import { PageHeader, SectionCard, EmptyState, StatusBadge, StatCard } from "@/components/ui-kit";
+import { PageHeader, SectionCard, EmptyState, StatusBadge, StatCard, LoadingState } from "@/components/ui-kit";
 import { BRAND_NAME } from "@/config/brand";
 import { dateTimeFmt, isoDate } from "@/lib/format";
 import { Input } from "@/components/ui/input";
@@ -99,11 +99,11 @@ function TimeEntriesPage() {
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
         <SectionCard title="Marcações">
           {isLoading ? (
-            <p className="text-sm text-muted-foreground">Carregando…</p>
+            <LoadingState />
           ) : entries.length === 0 ? (
             <EmptyState title="Nenhuma marcação neste dia" />
           ) : (
-            <ul className="divide-y divide-border">
+            <ul className="divide-y-2 divide-foreground">
               {entries.map((e) => (
                 <li key={e.id} className="flex items-center justify-between gap-2 py-2.5 text-sm">
                   <span className="min-w-0">
@@ -128,7 +128,7 @@ function TimeEntriesPage() {
           {reviews.length === 0 ? (
             <EmptyState title="Nenhuma solicitação pendente" />
           ) : (
-            <ul className="divide-y divide-border">
+            <ul className="divide-y-2 divide-foreground">
               {reviews.map((r) => (
                 <li key={r.id} className="py-3 text-sm">
                   <p className="font-medium">{(r.employees as { full_name: string } | null)?.full_name}</p>

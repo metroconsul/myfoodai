@@ -6,7 +6,8 @@ import { portalMe } from "@/lib/portal.functions";
 import { usePortalSession } from "@/hooks/use-portal-session";
 import { BRAND_NAME } from "@/config/brand";
 import { dateTimeFmt, timeFmt, dateFmt } from "@/lib/format";
-import { StatusBadge, EmptyState } from "@/components/ui-kit";
+import { StatusBadge, EmptyState, LoadingState, ErrorState } from "@/components/ui-kit";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/portal/")({
@@ -23,7 +24,7 @@ export const Route = createFileRoute("/portal/")({
 });
 
 function PortalHome() {
-  const { token, ready } = usePortalSession();
+  const { token, ready, clear } = usePortalSession();
   const me = useServerFn(portalMe);
   const navigate = useNavigate();
 
@@ -31,17 +32,34 @@ function PortalHome() {
     if (ready && !token) navigate({ to: "/portal/login", replace: true });
   }, [ready, token, navigate]);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["portal-me", token],
     enabled: !!token,
+    retry: 1,
     queryFn: () => me({ data: { token: token! } }),
   });
 
   useEffect(() => {
-    if (data && "error" in data && data.error) navigate({ to: "/portal/login", replace: true });
-  }, [data, navigate]);
+    if (data && "error" in data && data.error) {
+      clear();
+      toast.error("Sua sessão expirou. Entre novamente.");
+      navigate({ to: "/portal/login", replace: true });
+    }
+  }, [data, navigate, clear]);
 
-  if (!ready || isLoading) return <p className="text-sm text-muted-foreground">Carregando…</p>;
+  if (!ready || isLoading) return <LoadingState rows={4} />;
+  if (isError)
+    return (
+      <ErrorState
+        title="Não foi possível carregar seu painel"
+        description="Verifique sua conexão e tente novamente."
+        action={
+          <Button variant="secondary" onClick={() => refetch()}>
+            Tentar novamente
+          </Button>
+        }
+      />
+    );
   if (!data || "error" in data) return null;
 
   return (
@@ -66,7 +84,7 @@ function PortalHome() {
         {data.nextBlocks.length === 0 ? (
           <EmptyState title="Nenhum turno publicado" description="Sua escala aparecerá aqui quando publicada." />
         ) : (
-          <ul className="divide-y divide-border rounded-xl border border-border">
+          <ul className="divide-y-2 divide-foreground rounded-[12px] border-2 border-foreground bg-card overflow-hidden">
             {data.nextBlocks.map((b) => (
               <li key={b.id} className="flex items-center justify-between px-3 py-2.5 text-sm">
                 <span className="font-medium">{dateFmt(b.work_date)}</span>
@@ -86,7 +104,7 @@ function PortalHome() {
         {data.lastEntries.length === 0 ? (
           <EmptyState title="Nenhum ponto registrado" />
         ) : (
-          <ul className="divide-y divide-border rounded-xl border border-border">
+          <ul className="divide-y-2 divide-foreground rounded-[12px] border-2 border-foreground bg-card overflow-hidden">
             {data.lastEntries.map((e) => (
               <li key={e.id} className="flex items-center justify-between gap-2 px-3 py-2.5 text-sm">
                 <span>

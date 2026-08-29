@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Users, Clock, Boxes, ShoppingBag, AlertTriangle, CalendarDays } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/use-workspace";
-import { PageHeader, StatCard, SectionCard, EmptyState, StatusBadge } from "@/components/ui-kit";
+import { PageHeader, StatCard, SectionCard, EmptyState, StatusBadge, LoadingState } from "@/components/ui-kit";
 import { BRAND_NAME } from "@/config/brand";
 import { currency, dateTimeFmt, minutesToHours } from "@/lib/format";
 import { Button } from "@/components/ui/button";
@@ -131,11 +131,11 @@ function Dashboard() {
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
         <SectionCard title="Escala de hoje">
           {isLoading ? (
-            <p className="text-sm text-muted-foreground">Carregando…</p>
+            <LoadingState />
           ) : (data?.blocks.length ?? 0) === 0 ? (
             <EmptyState title="Nenhum turno planejado para hoje" description="Crie uma escala para esta unidade." />
           ) : (
-            <ul className="divide-y divide-border">
+            <ul className="divide-y-2 divide-foreground">
               {data!.blocks.map((b) => (
                 <li key={b.id} className="flex items-center justify-between py-2.5 text-sm">
                   <span className="font-medium">
@@ -155,7 +155,7 @@ function Dashboard() {
           {(data?.entries.length ?? 0) === 0 ? (
             <EmptyState title="Nenhum ponto registrado hoje" description="Os registros do portal aparecem aqui." />
           ) : (
-            <ul className="divide-y divide-border">
+            <ul className="divide-y-2 divide-foreground">
               {data!.entries.map((e) => (
                 <li key={e.id} className="flex items-center justify-between gap-2 py-2.5 text-sm">
                   <span className="min-w-0">
@@ -181,7 +181,7 @@ function Dashboard() {
           <SectionCard title="Reposição sugerida">
             <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {data!.low.slice(0, 9).map((i) => (
-                <li key={i.id} className="flex items-center gap-2 rounded-lg bg-secondary px-3 py-2 text-sm">
+                <li key={i.id} className="flex items-center gap-2 rounded-[10px] border-2 border-foreground bg-secondary px-3 py-2 text-sm">
                   <AlertTriangle className="size-4 text-warning" aria-hidden />
                   <span className="flex-1 truncate">{i.name}</span>
                   <span className="text-muted-foreground">

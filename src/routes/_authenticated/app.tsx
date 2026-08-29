@@ -28,8 +28,18 @@ function WorkspaceGate() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
-        Carregando sua operação…
+      <div className="flex min-h-screen items-center justify-center p-6">
+        <div
+          role="status"
+          aria-live="polite"
+          className="w-full max-w-sm rounded-[12px] border-2 border-foreground bg-card p-6 text-center shadow-[4px_4px_0_var(--ink)]"
+        >
+          <span className="display-type text-lg">Preparando o turno</span>
+          <p className="meta-mono mt-2">Carregando sua operação…</p>
+          <div className="mt-4 h-2 w-full overflow-hidden rounded-full border-2 border-foreground bg-secondary">
+            <div className="h-full w-1/2 animate-pulse bg-accent" />
+          </div>
+        </div>
       </div>
     );
   }

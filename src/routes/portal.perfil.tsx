@@ -58,7 +58,7 @@ function PortalProfilePage() {
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">Meu perfil</h1>
 
-      <section className="rounded-xl border border-border p-4 text-sm">
+      <section className="rounded-[12px] border-2 border-foreground bg-card p-4 text-sm">
         <p className="font-medium">{profile?.employee?.name ?? "—"}</p>
         <p className="text-muted-foreground">{profile?.unit?.name ?? "Sem unidade vinculada"}</p>
         {profile?.employee?.code ? (
@@ -73,7 +73,7 @@ function PortalProfilePage() {
         {deliveries.length === 0 ? (
           <EmptyState title="Nenhum item registrado" description="Uniformes e EPIs entregues aparecem aqui." />
         ) : (
-          <ul className="divide-y divide-border rounded-xl border border-border">
+          <ul className="divide-y-2 divide-foreground rounded-[12px] border-2 border-foreground bg-card overflow-hidden">
             {deliveries.map((d) => (
               <li key={d.id} className="flex items-center justify-between gap-2 px-3 py-2.5 text-sm">
                 <span>

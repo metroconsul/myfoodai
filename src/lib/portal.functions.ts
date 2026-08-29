@@ -96,29 +96,10 @@ export const portalLogin = createServerFn({ method: "POST" })
     return { token, name: employee.full_name };
   });
 
-async function resolveSession(token: string) {
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const { hashToken } = await import("./portal.server");
-  const { data: session } = await supabaseAdmin
-    .from("portal_sessions")
-    .select("id, employee_id, expires_at, revoked_at")
-    .eq("token_hash", await hashToken(token))
-    .maybeSingle();
-  if (!session || session.revoked_at || new Date(session.expires_at) < new Date()) return null;
-  const { data: employee } = await supabaseAdmin
-    .from("employees")
-    .select(
-      "id, full_name, company_id, unit_id, avatar_url, employee_code, employment_status, role_id, team_id",
-    )
-    .eq("id", session.employee_id)
-    .maybeSingle();
-  return employee ?? null;
-}
-
 export const portalMe = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => tokenSchema.parse(d))
   .handler(async ({ data }) => {
-    const employee = await resolveSession(data.token);
+    const employee = await (await import("./portal-session.server")).resolveSession(data.token);
     if (!employee) return { error: "Sessão expirada." as const };
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
@@ -167,7 +148,7 @@ export const portalMe = createServerFn({ method: "POST" })
 export const portalSchedule = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => rangeSchema.parse(d))
   .handler(async ({ data }) => {
-    const employee = await resolveSession(data.token);
+    const employee = await (await import("./portal-session.server")).resolveSession(data.token);
     if (!employee) return { error: "Sessão expirada." as const };
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: blocks } = await supabaseAdmin
@@ -183,7 +164,7 @@ export const portalSchedule = createServerFn({ method: "POST" })
 export const portalTimeEntries = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => rangeSchema.parse(d))
   .handler(async ({ data }) => {
-    const employee = await resolveSession(data.token);
+    const employee = await (await import("./portal-session.server")).resolveSession(data.token);
     if (!employee) return { error: "Sessão expirada." as const };
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: entries } = await supabaseAdmin
@@ -199,7 +180,7 @@ export const portalTimeEntries = createServerFn({ method: "POST" })
 export const portalPunch = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => punchSchema.parse(d))
   .handler(async ({ data }) => {
-    const employee = await resolveSession(data.token);
+    const employee = await (await import("./portal-session.server")).resolveSession(data.token);
     if (!employee) return { error: "Sessão expirada." as const };
     if (!employee.unit_id) return { error: "Colaborador sem unidade vinculada." };
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -301,7 +282,7 @@ export const portalPunch = createServerFn({ method: "POST" })
 export const portalPointCards = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => tokenSchema.parse(d))
   .handler(async ({ data }) => {
-    const employee = await resolveSession(data.token);
+    const employee = await (await import("./portal-session.server")).resolveSession(data.token);
     if (!employee) return { error: "Sessão expirada." as const };
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: cards } = await supabaseAdmin
@@ -318,7 +299,7 @@ export const portalPointCards = createServerFn({ method: "POST" })
 export const portalAcknowledgePointCard = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => ackSchema.parse(d))
   .handler(async ({ data }) => {
-    const employee = await resolveSession(data.token);
+    const employee = await (await import("./portal-session.server")).resolveSession(data.token);
     if (!employee) return { error: "Sessão expirada." as const };
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin
@@ -341,7 +322,7 @@ export const portalAcknowledgePointCard = createServerFn({ method: "POST" })
 export const portalRequestCorrection = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => correctionSchema.parse(d))
   .handler(async ({ data }) => {
-    const employee = await resolveSession(data.token);
+    const employee = await (await import("./portal-session.server")).resolveSession(data.token);
     if (!employee) return { error: "Sessão expirada." as const };
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.from("time_entry_reviews").insert({
@@ -360,7 +341,7 @@ export const portalRequestCorrection = createServerFn({ method: "POST" })
 export const portalDeliveries = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => tokenSchema.parse(d))
   .handler(async ({ data }) => {
-    const employee = await resolveSession(data.token);
+    const employee = await (await import("./portal-session.server")).resolveSession(data.token);
     if (!employee) return { error: "Sessão expirada." as const };
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: deliveries } = await supabaseAdmin
