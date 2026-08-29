@@ -17,6 +17,7 @@ import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppEmployeesRouteImport } from './routes/_authenticated/app.employees'
 import { Route as AuthenticatedAppRolesTeamsRouteImport } from './routes/_authenticated/app.roles-teams'
+import { Route as AuthenticatedAppSchedulesRouteImport } from './routes/_authenticated/app.schedules'
 import { Route as AuthenticatedAppShiftsRouteImport } from './routes/_authenticated/app.shifts'
 import { Route as AuthenticatedAppUnitsRouteImport } from './routes/_authenticated/app.units'
 
@@ -61,6 +62,12 @@ const AuthenticatedAppRolesTeamsRoute =
     path: '/roles-teams',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppSchedulesRoute =
+  AuthenticatedAppSchedulesRouteImport.update({
+    id: '/schedules',
+    path: '/schedules',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppShiftsRoute = AuthenticatedAppShiftsRouteImport.update({
   id: '/shifts',
   path: '/shifts',
@@ -79,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/app/employees': typeof AuthenticatedAppEmployeesRoute
   '/app/roles-teams': typeof AuthenticatedAppRolesTeamsRoute
+  '/app/schedules': typeof AuthenticatedAppSchedulesRoute
   '/app/shifts': typeof AuthenticatedAppShiftsRoute
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/app/': typeof AuthenticatedAppIndexRoute
@@ -89,6 +97,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/app/employees': typeof AuthenticatedAppEmployeesRoute
   '/app/roles-teams': typeof AuthenticatedAppRolesTeamsRoute
+  '/app/schedules': typeof AuthenticatedAppSchedulesRoute
   '/app/shifts': typeof AuthenticatedAppShiftsRoute
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/app': typeof AuthenticatedAppIndexRoute
@@ -102,6 +111,7 @@ export interface FileRoutesById {
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/app/employees': typeof AuthenticatedAppEmployeesRoute
   '/_authenticated/app/roles-teams': typeof AuthenticatedAppRolesTeamsRoute
+  '/_authenticated/app/schedules': typeof AuthenticatedAppSchedulesRoute
   '/_authenticated/app/shifts': typeof AuthenticatedAppShiftsRoute
   '/_authenticated/app/units': typeof AuthenticatedAppUnitsRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
@@ -115,6 +125,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/app/employees'
     | '/app/roles-teams'
+    | '/app/schedules'
     | '/app/shifts'
     | '/app/units'
     | '/app/'
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/app/employees'
     | '/app/roles-teams'
+    | '/app/schedules'
     | '/app/shifts'
     | '/app/units'
     | '/app'
@@ -137,6 +149,7 @@ export interface FileRouteTypes {
     | '/_authenticated/onboarding'
     | '/_authenticated/app/employees'
     | '/_authenticated/app/roles-teams'
+    | '/_authenticated/app/schedules'
     | '/_authenticated/app/shifts'
     | '/_authenticated/app/units'
     | '/_authenticated/app/'
@@ -206,6 +219,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppRolesTeamsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/schedules': {
+      id: '/_authenticated/app/schedules'
+      path: '/schedules'
+      fullPath: '/app/schedules'
+      preLoaderRoute: typeof AuthenticatedAppSchedulesRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/shifts': {
       id: '/_authenticated/app/shifts'
       path: '/shifts'
@@ -226,6 +246,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedAppRouteChildren {
   AuthenticatedAppEmployeesRoute: typeof AuthenticatedAppEmployeesRoute
   AuthenticatedAppRolesTeamsRoute: typeof AuthenticatedAppRolesTeamsRoute
+  AuthenticatedAppSchedulesRoute: typeof AuthenticatedAppSchedulesRoute
   AuthenticatedAppShiftsRoute: typeof AuthenticatedAppShiftsRoute
   AuthenticatedAppUnitsRoute: typeof AuthenticatedAppUnitsRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
@@ -234,6 +255,7 @@ interface AuthenticatedAppRouteChildren {
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppEmployeesRoute: AuthenticatedAppEmployeesRoute,
   AuthenticatedAppRolesTeamsRoute: AuthenticatedAppRolesTeamsRoute,
+  AuthenticatedAppSchedulesRoute: AuthenticatedAppSchedulesRoute,
   AuthenticatedAppShiftsRoute: AuthenticatedAppShiftsRoute,
   AuthenticatedAppUnitsRoute: AuthenticatedAppUnitsRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
