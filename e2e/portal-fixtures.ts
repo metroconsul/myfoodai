@@ -41,13 +41,13 @@ export async function hashPin(pin: string) {
     {
       name: "PBKDF2",
       salt: Uint8Array.from(salt.match(/.{2}/g)!.map((h) => parseInt(h, 16))),
-      iterations: 120_000,
+      iterations: 100_000,
       hash: "SHA-256",
     },
     key,
     256,
   );
-  return `pbkdf2$${salt}$${toHex(bits)}`;
+  return `pbkdf2$100000$${salt}$${toHex(bits)}`;
 }
 
 /** Garante um colaborador de teste ativo com PIN conhecido (no-op sem acesso admin). */
