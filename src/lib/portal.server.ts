@@ -7,10 +7,22 @@ const toHex = (buf: ArrayBuffer) =>
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
 
-async function pbkdf2(pin: string, saltHex: string) {
+/**
+ * O runtime de borda limita PBKDF2 a 100.000 iterações; acima disso o
+ * `deriveBits` lança erro e o login falha. Guardamos as iterações no hash
+ * para manter compatibilidade com PINs antigos.
+ */
+export const PBKDF2_ITERATIONS = 100_000;
+
+async function pbkdf2(pin: string, saltHex: string, iterations: number) {
   const key = await crypto.subtle.importKey("raw", enc.encode(pin), "PBKDF2", false, ["deriveBits"]);
   const bits = await crypto.subtle.deriveBits(
-    { name: "PBKDF2", salt: Uint8Array.from(saltHex.match(/.{2}/g)!.map((h) => parseInt(h, 16))), iterations: 120_000, hash: "SHA-256" },
+    {
+      name: "PBKDF2",
+      salt: Uint8Array.from(saltHex.match(/.{2}/g)!.map((h) => parseInt(h, 16))),
+      iterations,
+      hash: "SHA-256",
+    },
     key,
     256,
   );
@@ -19,16 +31,24 @@ async function pbkdf2(pin: string, saltHex: string) {
 
 export async function hashPin(pin: string) {
   const salt = toHex(crypto.getRandomValues(new Uint8Array(16)).buffer);
-  const hash = await pbkdf2(pin, salt);
-  return `pbkdf2$${salt}$${hash}`;
+  const hash = await pbkdf2(pin, salt, PBKDF2_ITERATIONS);
+  return `pbkdf2$${PBKDF2_ITERATIONS}$${salt}$${hash}`;
 }
 
 export async function verifyPin(pin: string, stored?: string | null) {
   if (!stored) return false;
-  const [, salt, hash] = stored.split("$");
+  const parts = stored.split("$");
+  // Formatos aceitos: pbkdf2$<iter>$<salt>$<hash> (atual) e pbkdf2$<salt>$<hash> (legado 120k).
+  const [salt, hash, iterations] =
+    parts.length === 4
+      ? [parts[2], parts[3], Number(parts[1]) || PBKDF2_ITERATIONS]
+      : [parts[1], parts[2], 120_000];
   if (!salt || !hash) return false;
-  const candidate = await pbkdf2(pin, salt);
-  return candidate === hash;
+  try {
+    return (await pbkdf2(pin, salt, iterations)) === hash;
+  } catch {
+    return false;
+  }
 }
 
 export function newSessionToken() {
