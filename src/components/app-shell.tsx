@@ -51,10 +51,23 @@ const NAV = [
   {
     label: "Ponto",
     items: [{ to: "/app/time-entries", label: "Registros de ponto", icon: Clock }],
+  {
+    label: "Ponto",
+    items: [{ to: "/app/time-entries", label: "Registros de ponto", icon: Clock }],
+  },
+  {
+    label: "Itens e estoque",
+    items: [
+      { to: "/app/catalog", label: "Catálogo de itens", icon: Package },
+      { to: "/app/inventory", label: "Estoque por unidade", icon: Boxes },
+    ],
+  },
+  {
+    label: "Indicadores",
+    items: [{ to: "/app/sales", label: "Vendas", icon: LineChart }],
   },
 ] as const;
 
-export function AppShell({ children }: { children: ReactNode }) {
   const { company, units, activeUnitId, setActiveUnitId } = useWorkspace();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
