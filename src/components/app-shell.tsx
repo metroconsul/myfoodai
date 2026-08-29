@@ -51,9 +51,6 @@ const NAV = [
   {
     label: "Ponto",
     items: [{ to: "/app/time-entries", label: "Registros de ponto", icon: Clock }],
-  {
-    label: "Ponto",
-    items: [{ to: "/app/time-entries", label: "Registros de ponto", icon: Clock }],
   },
   {
     label: "Itens e estoque",
@@ -68,6 +65,7 @@ const NAV = [
   },
 ] as const;
 
+export function AppShell({ children }: { children: ReactNode }) {
   const { company, units, activeUnitId, setActiveUnitId } = useWorkspace();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
