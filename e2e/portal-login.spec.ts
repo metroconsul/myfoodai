@@ -23,8 +23,10 @@ test("login com CPF e PIN válidos abre o portal", async ({ page }) => {
   await login(page);
   await expect(page).toHaveURL(/\/portal$/);
   expect(await readToken(page)).toBeTruthy();
-  await expect(page.getByRole("link", { name: "Escala" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Ponto" })).toBeVisible();
+  const nav = page.getByRole("navigation", { name: "Navegação do portal" });
+  await expect(nav.getByRole("link", { name: "Escala" })).toBeVisible();
+  await expect(nav.getByRole("link", { name: "Ponto", exact: true })).toBeVisible();
+
 });
 
 test("PIN incorreto mantém o usuário no login e mostra mensagem", async ({ page }) => {
