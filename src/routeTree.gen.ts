@@ -16,6 +16,7 @@ import { Route as PortalRouteImport } from './routes/portal'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
+import { Route as PortalCartaoPontoRouteImport } from './routes/portal.cartao-ponto'
 import { Route as PortalEscalaRouteImport } from './routes/portal.escala'
 import { Route as PortalLoginRouteImport } from './routes/portal.login'
 import { Route as PortalPontoRouteImport } from './routes/portal.ponto'
@@ -66,6 +67,11 @@ const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
 const PortalIndexRoute = PortalIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalCartaoPontoRoute = PortalCartaoPontoRouteImport.update({
+  id: '/cartao-ponto',
+  path: '/cartao-ponto',
   getParentRoute: () => PortalRoute,
 } as any)
 const PortalEscalaRoute = PortalEscalaRouteImport.update({
@@ -168,6 +174,7 @@ export interface FileRoutesByFullPath {
   '/portal': typeof PortalRouteWithChildren
   '/app': typeof AuthenticatedAppRouteWithChildren
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/portal/cartao-ponto': typeof PortalCartaoPontoRoute
   '/portal/escala': typeof PortalEscalaRoute
   '/portal/login': typeof PortalLoginRoute
   '/portal/ponto': typeof PortalPontoRoute
@@ -191,6 +198,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/portal/cartao-ponto': typeof PortalCartaoPontoRoute
   '/portal/escala': typeof PortalEscalaRoute
   '/portal/login': typeof PortalLoginRoute
   '/portal/ponto': typeof PortalPontoRoute
@@ -218,6 +226,7 @@ export interface FileRoutesById {
   '/portal': typeof PortalRouteWithChildren
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
+  '/portal/cartao-ponto': typeof PortalCartaoPontoRoute
   '/portal/escala': typeof PortalEscalaRoute
   '/portal/login': typeof PortalLoginRoute
   '/portal/ponto': typeof PortalPontoRoute
@@ -245,6 +254,7 @@ export interface FileRouteTypes {
     | '/portal'
     | '/app'
     | '/onboarding'
+    | '/portal/cartao-ponto'
     | '/portal/escala'
     | '/portal/login'
     | '/portal/ponto'
@@ -268,6 +278,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/onboarding'
+    | '/portal/cartao-ponto'
     | '/portal/escala'
     | '/portal/login'
     | '/portal/ponto'
@@ -294,6 +305,7 @@ export interface FileRouteTypes {
     | '/portal'
     | '/_authenticated/app'
     | '/_authenticated/onboarding'
+    | '/portal/cartao-ponto'
     | '/portal/escala'
     | '/portal/login'
     | '/portal/ponto'
@@ -371,6 +383,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/portal/'
       preLoaderRoute: typeof PortalIndexRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/cartao-ponto': {
+      id: '/portal/cartao-ponto'
+      path: '/cartao-ponto'
+      fullPath: '/portal/cartao-ponto'
+      preLoaderRoute: typeof PortalCartaoPontoRouteImport
       parentRoute: typeof PortalRoute
     }
     '/portal/escala': {
@@ -546,6 +565,7 @@ const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface PortalRouteChildren {
+  PortalCartaoPontoRoute: typeof PortalCartaoPontoRoute
   PortalEscalaRoute: typeof PortalEscalaRoute
   PortalLoginRoute: typeof PortalLoginRoute
   PortalPontoRoute: typeof PortalPontoRoute
@@ -553,6 +573,7 @@ interface PortalRouteChildren {
 }
 
 const PortalRouteChildren: PortalRouteChildren = {
+  PortalCartaoPontoRoute: PortalCartaoPontoRoute,
   PortalEscalaRoute: PortalEscalaRoute,
   PortalLoginRoute: PortalLoginRoute,
   PortalPontoRoute: PortalPontoRoute,
