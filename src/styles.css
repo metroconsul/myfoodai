@@ -335,3 +335,8 @@
 .gh-tilt {
   transform: rotate(-3deg);
 }
+
+.gh-box.gh-dark {
+  background: var(--gh-ink);
+  color: var(--gh-paper);
+}

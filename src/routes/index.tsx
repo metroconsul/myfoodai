@@ -307,7 +307,7 @@ function Landing() {
                   className={[
                     "gh-box gh-card-hover relative overflow-hidden p-5",
                     f.big ? "sm:col-span-2 sm:row-span-2" : "",
-                    f.dark ? "bg-[#09090b] text-[#f8f4e8]" : "",
+                    f.dark ? "gh-dark" : "",
                   ].join(" ")}
                 >
                   {!f.dark ? (
