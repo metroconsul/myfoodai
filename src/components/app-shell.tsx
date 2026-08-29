@@ -156,7 +156,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Menu className="size-5" />
           </Button>
 
-          <Select value={activeUnitId ?? undefined} onValueChange={setActiveUnitId}>
+          <Select value={activeUnitId ?? ""} onValueChange={setActiveUnitId}>
             <SelectTrigger className="w-[220px]" aria-label="Unidade ativa">
               <SelectValue placeholder="Selecione a unidade" />
             </SelectTrigger>
