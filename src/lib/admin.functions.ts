@@ -97,7 +97,7 @@ export const generatePointCard = createServerFn({ method: "POST" })
 
     let workedMinutes = 0;
     let missingPunches = 0;
-    const days: Record<string, unknown>[] = [];
+    const days: { day: string; punches: number; minutes: number }[] = [];
     for (const [day, list] of byDay) {
       let dayMinutes = 0;
       let openAt: number | null = null;
