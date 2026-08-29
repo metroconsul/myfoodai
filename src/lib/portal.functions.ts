@@ -268,7 +268,7 @@ export const portalPunch = createServerFn({ method: "POST" })
         unit_id: employee.unit_id,
         employee_id: employee.id,
         entry_type: data.entryType,
-        device_time: data.deviceTime,
+        device_time: data.deviceTime ?? null,
         server_time: nowIso,
         latitude: data.latitude ?? null,
         longitude: data.longitude ?? null,
