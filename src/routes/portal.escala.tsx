@@ -75,7 +75,7 @@ function PortalSchedulePage() {
       ) : (
         <ul className="space-y-2">
           {blocks.map((b) => (
-            <li key={b.id} className="rounded-xl border border-border p-3">
+            <li key={b.id} className="rounded-[12px] border-2 border-foreground bg-card p-3">
               <div className="flex items-center justify-between">
                 <span className="font-medium">{dateFmt(b.work_date)}</span>
                 <span className="text-sm text-muted-foreground">

@@ -318,7 +318,7 @@ function SalesPage() {
 
           {metrics.length > 0 ? (
             <SectionCard title="Detalhe por dia">
-              <ul className="divide-y divide-border">
+              <ul className="divide-y-2 divide-foreground">
                 {metrics.slice(0, 20).map((m) => (
                   <li key={m.id} className="flex items-center justify-between py-2.5 text-sm">
                     <span className="font-medium">{dateFmt(m.metric_date)}</span>
@@ -341,7 +341,7 @@ function SalesPage() {
                 description="Crie uma conexão de API, webhook ou CSV para receber vendas."
               />
             ) : (
-              <ul className="divide-y divide-border">
+              <ul className="divide-y-2 divide-foreground">
                 {connections.map((c) => {
                   const secret = (c.config as { secret?: string } | null)?.secret;
                   return (
@@ -359,7 +359,7 @@ function SalesPage() {
                         {c.last_sync_error ? ` · ${c.last_sync_error}` : ""}
                       </p>
                       {c.adapter_type === "webhook" && secret ? (
-                        <div className="rounded-lg bg-secondary p-3 text-xs">
+                        <div className="rounded-[10px] border-2 border-foreground bg-secondary p-3 text-xs">
                           <p className="font-medium">Endpoint</p>
                           <code className="break-all">POST {webhookUrl}</code>
                           <p className="mt-2 font-medium">Cabeçalhos</p>
@@ -402,7 +402,7 @@ function SalesPage() {
             {jobs.length === 0 ? (
               <EmptyState title="Nenhuma importação registrada" />
             ) : (
-              <ul className="divide-y divide-border">
+              <ul className="divide-y-2 divide-foreground">
                 {jobs.map((j) => (
                   <li key={j.id} className="flex items-center justify-between gap-2 py-2.5 text-sm">
                     <span>

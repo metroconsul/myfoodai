@@ -127,7 +127,7 @@ function ShiftsPage() {
           ) : (
             <ul className="grid gap-2 sm:grid-cols-2">
               {shifts.map((s) => (
-                <li key={s.id} className="flex items-center gap-3 rounded-lg border border-border p-3">
+                <li key={s.id} className="flex items-center gap-3 rounded-[10px] border-2 border-foreground bg-card p-3">
                   <span className="size-3 rounded-full" style={{ backgroundColor: s.color }} aria-hidden />
                   <span className="flex-1">
                     <span className="block text-sm font-medium">{s.name}</span>

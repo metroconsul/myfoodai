@@ -268,7 +268,7 @@ function TemplatesPage() {
                 </div>
               </form>
 
-              <ul className="mt-4 divide-y divide-border">
+              <ul className="mt-4 divide-y-2 divide-foreground">
                 {(items.data ?? []).map((it) => (
                   <li key={it.id} className="flex items-center justify-between py-2 text-sm">
                     <span>

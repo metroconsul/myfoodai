@@ -260,7 +260,7 @@ function EmployeesPage() {
         ) : filtered.length === 0 ? (
           <EmptyState title="Nenhum colaborador encontrado" description="Cadastre a equipe para liberar escalas e ponto." />
         ) : (
-          <ul className="divide-y divide-border">
+          <ul className="divide-y-2 divide-foreground">
             {filtered.map((e) => (
               <li key={e.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
                 <div className="min-w-0">

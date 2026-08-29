@@ -395,7 +395,7 @@ function InventoryPage() {
                 {items.map((item) => {
                   const isLow = Number(item.quantity) <= Number(item.minimum_stock);
                   return (
-                    <li key={item.id} className="flex items-center gap-3 rounded-xl border border-border p-3">
+                    <li key={item.id} className="flex items-center gap-3 rounded-[12px] border-2 border-foreground bg-card p-3">
                       <ItemPhoto path={item.photo_url} alt={item.name} />
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-medium">{item.name}</p>
@@ -432,7 +432,7 @@ function InventoryPage() {
             {movements.length === 0 ? (
               <EmptyState title="Sem movimentações" description="Entradas, saídas e ajustes aparecem aqui." />
             ) : (
-              <ul className="divide-y divide-border">
+              <ul className="divide-y-2 divide-foreground">
                 {movements.map((m) => (
                   <li key={m.id} className="flex flex-wrap items-center justify-between gap-2 py-2.5 text-sm">
                     <span className="min-w-0">
@@ -466,7 +466,7 @@ function InventoryPage() {
             {alerts.length === 0 ? (
               <EmptyState title="Nenhum alerta aberto" description="Estoques dentro do mínimo definido." />
             ) : (
-              <ul className="divide-y divide-border">
+              <ul className="divide-y-2 divide-foreground">
                 {alerts.map((a) => (
                   <li key={a.id} className="flex items-center justify-between gap-2 py-2.5 text-sm">
                     <span>

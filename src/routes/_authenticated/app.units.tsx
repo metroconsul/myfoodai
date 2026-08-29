@@ -207,7 +207,7 @@ function UnitsPage() {
         ) : units.length === 0 ? (
           <EmptyState title="Nenhuma unidade cadastrada" description="Crie a primeira unidade da operação." />
         ) : (
-          <ul className="divide-y divide-border">
+          <ul className="divide-y-2 divide-foreground">
             {units.map((u) => (
               <li key={u.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
                 <div>

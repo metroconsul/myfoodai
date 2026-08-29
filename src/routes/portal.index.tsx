@@ -66,7 +66,7 @@ function PortalHome() {
         {data.nextBlocks.length === 0 ? (
           <EmptyState title="Nenhum turno publicado" description="Sua escala aparecerá aqui quando publicada." />
         ) : (
-          <ul className="divide-y divide-border rounded-xl border border-border">
+          <ul className="divide-y-2 divide-foreground rounded-[12px] border-2 border-foreground bg-card overflow-hidden">
             {data.nextBlocks.map((b) => (
               <li key={b.id} className="flex items-center justify-between px-3 py-2.5 text-sm">
                 <span className="font-medium">{dateFmt(b.work_date)}</span>
@@ -86,7 +86,7 @@ function PortalHome() {
         {data.lastEntries.length === 0 ? (
           <EmptyState title="Nenhum ponto registrado" />
         ) : (
-          <ul className="divide-y divide-border rounded-xl border border-border">
+          <ul className="divide-y-2 divide-foreground rounded-[12px] border-2 border-foreground bg-card overflow-hidden">
             {data.lastEntries.map((e) => (
               <li key={e.id} className="flex items-center justify-between gap-2 px-3 py-2.5 text-sm">
                 <span>

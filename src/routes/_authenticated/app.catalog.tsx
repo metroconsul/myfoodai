@@ -230,7 +230,7 @@ function CatalogPage() {
         ) : (
           <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {visible.map((item) => (
-              <li key={item.id} className="flex items-center gap-3 rounded-xl border border-border p-3">
+              <li key={item.id} className="flex items-center gap-3 rounded-[12px] border-2 border-foreground bg-card p-3">
                 <ItemPhoto path={item.photo_url} alt={item.name} />
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-medium">{item.name}</p>

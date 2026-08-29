@@ -71,7 +71,7 @@ function PortalPointCardPage() {
       ) : (
         <ul className="space-y-3">
           {cards.map((c) => (
-            <li key={c.id} className="rounded-xl border border-border p-4">
+            <li key={c.id} className="rounded-[12px] border-2 border-foreground bg-card p-4">
               <div className="flex items-center justify-between gap-2">
                 <span className="font-medium">
                   {dateFmt(c.period_start)} — {dateFmt(c.period_end)}

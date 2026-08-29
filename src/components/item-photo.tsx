@@ -15,7 +15,7 @@ export function ItemPhoto({
   return (
     <span
       className={cn(
-        "flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-secondary text-muted-foreground",
+        "flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-[12px] border-2 border-foreground bg-secondary text-muted-foreground",
         className,
       )}
     >

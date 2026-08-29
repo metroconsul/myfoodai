@@ -103,7 +103,7 @@ function TimeEntriesPage() {
           ) : entries.length === 0 ? (
             <EmptyState title="Nenhuma marcação neste dia" />
           ) : (
-            <ul className="divide-y divide-border">
+            <ul className="divide-y-2 divide-foreground">
               {entries.map((e) => (
                 <li key={e.id} className="flex items-center justify-between gap-2 py-2.5 text-sm">
                   <span className="min-w-0">
@@ -128,7 +128,7 @@ function TimeEntriesPage() {
           {reviews.length === 0 ? (
             <EmptyState title="Nenhuma solicitação pendente" />
           ) : (
-            <ul className="divide-y divide-border">
+            <ul className="divide-y-2 divide-foreground">
               {reviews.map((r) => (
                 <li key={r.id} className="py-3 text-sm">
                   <p className="font-medium">{(r.employees as { full_name: string } | null)?.full_name}</p>
