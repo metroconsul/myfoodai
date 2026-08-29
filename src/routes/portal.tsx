@@ -21,21 +21,24 @@ function PortalLayout() {
   const isLogin = pathname.startsWith("/portal/login");
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-md flex-col bg-background">
-      <header className="flex h-14 items-center gap-2 border-b border-border px-4">
-        <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-sm font-bold text-primary-foreground">
+    <div className="mx-auto flex min-h-screen w-full max-w-md flex-col border-x-2 border-foreground bg-background">
+      <header className="sticky top-0 z-20 flex h-14 items-center gap-2 border-b-2 border-foreground bg-card px-4">
+        <span className="flex size-8 items-center justify-center rounded-[8px] border-2 border-foreground bg-accent text-sm font-bold shadow-[2px_2px_0_var(--ink)]">
           {BRAND_NAME.slice(0, 1).toUpperCase()}
         </span>
-        <span className="font-semibold">Portal do colaborador</span>
+        <div className="min-w-0">
+          <p className="display-type truncate text-xs uppercase">{BRAND_NAME}</p>
+          <p className="meta-mono truncate">Portal do colaborador</p>
+        </div>
       </header>
 
-      <main className={cn("flex-1 px-4 py-5", !isLogin && "pb-24")}>
+      <main className={cn("flex-1 px-4 py-5", !isLogin && "pb-28")}>
         <Outlet />
       </main>
 
       {!isLogin ? (
         <nav
-          className="fixed inset-x-0 bottom-0 mx-auto flex w-full max-w-md justify-between border-t border-border bg-card px-2 py-2"
+          className="fixed inset-x-0 bottom-0 mx-auto flex w-full max-w-md justify-between gap-1 border-t-2 border-foreground bg-card px-2 py-2"
           aria-label="Navegação do portal"
         >
           {TABS.map((tab) => {
@@ -45,9 +48,12 @@ function PortalLayout() {
               <Link
                 key={tab.to}
                 to={tab.to}
+                aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex flex-1 flex-col items-center gap-1 rounded-lg py-1.5 text-[11px] transition-colors",
-                  active ? "text-primary font-medium" : "text-muted-foreground",
+                  "flex min-h-11 flex-1 flex-col items-center justify-center gap-1 rounded-[8px] border-2 py-1.5 text-[11px] font-semibold transition-colors",
+                  active
+                    ? "border-foreground bg-accent text-accent-foreground shadow-[2px_2px_0_var(--ink)]"
+                    : "border-transparent text-muted-foreground",
                 )}
               >
                 <Icon className="size-5" aria-hidden />
