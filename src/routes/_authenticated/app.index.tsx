@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Users, Clock, Boxes, ShoppingBag, AlertTriangle, CalendarDays } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/use-workspace";
-import { PageHeader, StatCard, SectionCard, EmptyState, StatusBadge } from "@/components/ui-kit";
+import { PageHeader, StatCard, SectionCard, EmptyState, StatusBadge, LoadingState } from "@/components/ui-kit";
 import { BRAND_NAME } from "@/config/brand";
 import { currency, dateTimeFmt, minutesToHours } from "@/lib/format";
 import { Button } from "@/components/ui/button";
@@ -131,7 +131,7 @@ function Dashboard() {
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
         <SectionCard title="Escala de hoje">
           {isLoading ? (
-            <p className="text-sm text-muted-foreground">Carregando…</p>
+            <LoadingState />
           ) : (data?.blocks.length ?? 0) === 0 ? (
             <EmptyState title="Nenhum turno planejado para hoje" description="Crie uma escala para esta unidade." />
           ) : (

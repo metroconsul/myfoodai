@@ -6,7 +6,7 @@ import { portalPointCards, portalAcknowledgePointCard } from "@/lib/portal.funct
 import { usePortalSession } from "@/hooks/use-portal-session";
 import { BRAND_NAME } from "@/config/brand";
 import { dateFmt, dateTimeFmt, minutesToHours } from "@/lib/format";
-import { EmptyState, StatusBadge } from "@/components/ui-kit";
+import { EmptyState, StatusBadge, LoadingState } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -62,7 +62,7 @@ function PortalPointCardPage() {
       </p>
 
       {isLoading ? (
-        <p className="text-sm text-muted-foreground">Carregando…</p>
+        <LoadingState />
       ) : cards.length === 0 ? (
         <EmptyState
           title="Nenhum cartão disponível"

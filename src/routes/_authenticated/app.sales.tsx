@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/use-workspace";
-import { PageHeader, SectionCard, EmptyState, StatCard, StatusBadge } from "@/components/ui-kit";
+import { PageHeader, SectionCard, EmptyState, StatCard, StatusBadge, LoadingState } from "@/components/ui-kit";
 import { BRAND_NAME } from "@/config/brand";
 import { currency, dateFmt, dateTimeFmt, numberFmt } from "@/lib/format";
 import { Button } from "@/components/ui/button";
@@ -292,7 +292,7 @@ function SalesPage() {
         <TabsContent value="indicadores" className="mt-4 space-y-4">
           <SectionCard title="Faturamento diário">
             {isLoading ? (
-              <p className="text-sm text-muted-foreground">Carregando…</p>
+              <LoadingState />
             ) : chart.length === 0 ? (
               <EmptyState
                 title="Nenhum dado de vendas recebido"

@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { setEmployeePin } from "@/lib/admin.functions";
 import { useWorkspace } from "@/hooks/use-workspace";
-import { PageHeader, SectionCard, EmptyState, StatusBadge } from "@/components/ui-kit";
+import { PageHeader, SectionCard, EmptyState, StatusBadge, LoadingState } from "@/components/ui-kit";
 import { BRAND_NAME } from "@/config/brand";
 import { maskCpf, maskCpfPrivate, onlyDigits } from "@/lib/format";
 import { Button } from "@/components/ui/button";
@@ -256,7 +256,7 @@ function EmployeesPage() {
 
       <SectionCard>
         {isLoading ? (
-          <p className="text-sm text-muted-foreground">Carregando…</p>
+          <LoadingState />
         ) : filtered.length === 0 ? (
           <EmptyState title="Nenhum colaborador encontrado" description="Cadastre a equipe para liberar escalas e ponto." />
         ) : (

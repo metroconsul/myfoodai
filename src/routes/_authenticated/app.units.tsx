@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/use-workspace";
-import { PageHeader, SectionCard, EmptyState, StatusBadge } from "@/components/ui-kit";
+import { PageHeader, SectionCard, EmptyState, StatusBadge, LoadingState } from "@/components/ui-kit";
 import { BRAND_NAME } from "@/config/brand";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -203,7 +203,7 @@ function UnitsPage() {
 
       <SectionCard>
         {isLoading ? (
-          <p className="text-sm text-muted-foreground">Carregando…</p>
+          <LoadingState />
         ) : units.length === 0 ? (
           <EmptyState title="Nenhuma unidade cadastrada" description="Crie a primeira unidade da operação." />
         ) : (

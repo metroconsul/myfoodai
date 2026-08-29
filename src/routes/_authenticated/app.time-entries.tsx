@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/use-workspace";
-import { PageHeader, SectionCard, EmptyState, StatusBadge, StatCard } from "@/components/ui-kit";
+import { PageHeader, SectionCard, EmptyState, StatusBadge, StatCard, LoadingState } from "@/components/ui-kit";
 import { BRAND_NAME } from "@/config/brand";
 import { dateTimeFmt, isoDate } from "@/lib/format";
 import { Input } from "@/components/ui/input";
@@ -99,7 +99,7 @@ function TimeEntriesPage() {
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
         <SectionCard title="Marcações">
           {isLoading ? (
-            <p className="text-sm text-muted-foreground">Carregando…</p>
+            <LoadingState />
           ) : entries.length === 0 ? (
             <EmptyState title="Nenhuma marcação neste dia" />
           ) : (

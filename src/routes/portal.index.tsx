@@ -6,7 +6,7 @@ import { portalMe } from "@/lib/portal.functions";
 import { usePortalSession } from "@/hooks/use-portal-session";
 import { BRAND_NAME } from "@/config/brand";
 import { dateTimeFmt, timeFmt, dateFmt } from "@/lib/format";
-import { StatusBadge, EmptyState } from "@/components/ui-kit";
+import { StatusBadge, EmptyState, LoadingState } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/portal/")({
@@ -41,7 +41,7 @@ function PortalHome() {
     if (data && "error" in data && data.error) navigate({ to: "/portal/login", replace: true });
   }, [data, navigate]);
 
-  if (!ready || isLoading) return <p className="text-sm text-muted-foreground">Carregando…</p>;
+  if (!ready || isLoading) return <LoadingState />;
   if (!data || "error" in data) return null;
 
   return (

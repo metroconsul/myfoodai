@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/use-workspace";
 import { uploadPhoto } from "@/hooks/use-signed-url";
 import { ItemPhoto } from "@/components/item-photo";
-import { PageHeader, SectionCard, EmptyState, StatusBadge } from "@/components/ui-kit";
+import { PageHeader, SectionCard, EmptyState, StatusBadge, LoadingState } from "@/components/ui-kit";
 import { BRAND_NAME } from "@/config/brand";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -221,7 +221,7 @@ function CatalogPage() {
 
       <SectionCard title="Itens cadastrados">
         {isLoading ? (
-          <p className="text-sm text-muted-foreground">Carregando…</p>
+          <LoadingState />
         ) : visible.length === 0 ? (
           <EmptyState
             title="Nenhum item no catálogo"

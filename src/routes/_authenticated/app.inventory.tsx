@@ -7,7 +7,7 @@ import { useWorkspace } from "@/hooks/use-workspace";
 import { uploadPhoto } from "@/hooks/use-signed-url";
 import { ItemPhoto } from "@/components/item-photo";
 import { applyStockMovement } from "@/lib/inventory.functions";
-import { PageHeader, SectionCard, EmptyState, StatCard, StatusBadge } from "@/components/ui-kit";
+import { PageHeader, SectionCard, EmptyState, StatCard, StatusBadge, LoadingState } from "@/components/ui-kit";
 import { BRAND_NAME } from "@/config/brand";
 import { currency, dateTimeFmt, numberFmt } from "@/lib/format";
 import { Button } from "@/components/ui/button";
@@ -384,7 +384,7 @@ function InventoryPage() {
         <TabsContent value="itens" className="mt-4">
           <SectionCard title="Estoque da unidade">
             {isLoading ? (
-              <p className="text-sm text-muted-foreground">Carregando…</p>
+              <LoadingState />
             ) : items.length === 0 ? (
               <EmptyState
                 title="Nenhum item no estoque desta unidade"
