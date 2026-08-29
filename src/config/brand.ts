@@ -3,7 +3,7 @@
  * Altere apenas este arquivo (e os tokens em src/styles.css) para trocar
  * nome, logo, favicon e cores em todo o produto.
  */
-export const BRAND_NAME = "BRAND_NAME";
+export const BRAND_NAME = "Golden Hour Hub";
 export const BRAND_TAGLINE = "Operação de food service em um só lugar";
 export const BRAND_LOGO = "/favicon.ico";
 export const BRAND_FAVICON = "/favicon.ico";
