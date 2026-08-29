@@ -6,13 +6,21 @@ import { MapPin } from "lucide-react";
 import { portalPunch, portalTimeEntries, portalRequestCorrection } from "@/lib/portal.functions";
 import { usePortalSession } from "@/hooks/use-portal-session";
 import { BRAND_NAME } from "@/config/brand";
-import { dateTimeFmt, isoDate, addDays } from "@/lib/format";
-import { EmptyState, StatusBadge } from "@/components/ui-kit";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import { dateTimeFmt, isoDate, addDays, dateFmt } from "@/lib/format";
+import {
+  PortalButton,
+  PortalCard,
+  PortalChip,
+  PortalEmpty,
+  PortalField,
+  PortalLabel,
+  PortalSection,
+  PortalTile,
+} from "@/components/portal-ui";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 const TYPES = [
   { value: "entrada", label: "Entrada" },
@@ -75,6 +83,14 @@ function PortalPunchPage() {
   });
 
   const entries = data && !("error" in data) ? data.entries : [];
+  const last = entries[0] ?? null;
+  const journeyStatus = !last
+    ? "Pronto para registrar"
+    : last.entry_type === "saida"
+      ? "Jornada concluída"
+      : last.entry_type === "intervalo_saida"
+        ? "Pausa em andamento"
+        : "Entrada registrada";
 
   async function startPunch(type: EntryType) {
     setBusy(true);
@@ -102,12 +118,12 @@ function PortalPunchPage() {
         toast.error(result.error);
         return;
       }
-      toast.success("Ponto registrado.");
+      toast.success("Registro realizado.");
       setConfirm(null);
       queryClient.invalidateQueries({ queryKey: ["portal-entries"] });
       queryClient.invalidateQueries({ queryKey: ["portal-me"] });
     } catch {
-      toast.error("Não foi possível registrar agora.");
+      toast.error("Não foi possível concluir agora. Tente novamente.");
     } finally {
       setBusy(false);
     }
@@ -128,70 +144,81 @@ function PortalPunchPage() {
   }
 
   return (
-    <div className="space-y-5">
-      <h1 className="text-2xl font-semibold">Registrar ponto</h1>
-      <p className="text-sm text-muted-foreground">
-        Sua localização é usada apenas para validar a batida na unidade e fica registrada na auditoria.
-      </p>
+    <div className="space-y-6">
+      <PortalCard className="p-6">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <PortalLabel>Meu ponto</PortalLabel>
+            <p className="display-type mt-1 text-xl">{dateFmt(to)}</p>
+          </div>
+          <PortalChip tone={journeyStatus === "Jornada concluída" ? "acid" : "card"}>{journeyStatus}</PortalChip>
+        </div>
 
-      <div className="grid grid-cols-2 gap-2">
-        {TYPES.map((t) => (
-          <Button
-            key={t.value}
-            variant={selected === t.value ? "default" : "outline"}
-            onClick={() => setSelected(t.value)}
-            className="h-14"
-          >
-            {t.label}
-          </Button>
-        ))}
-      </div>
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          {TYPES.map((t) => (
+            <button
+              key={t.value}
+              type="button"
+              aria-pressed={selected === t.value}
+              onClick={() => setSelected(t.value)}
+              className={cn(
+                "portal-press min-h-14 rounded-[16px] border-2 border-foreground px-3 text-sm font-bold shadow-[2px_2px_0_var(--ink)]",
+                selected === t.value ? "bg-accent text-accent-foreground" : "bg-card",
+              )}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
 
-      <Button className="h-12 w-full" disabled={busy} onClick={() => startPunch(selected)}>
-        {busy ? "Obtendo localização…" : `Bater ${TYPES.find((t) => t.value === selected)!.label.toLowerCase()}`}
-      </Button>
+        <PortalButton block className="mt-4" loading={busy} onClick={() => startPunch(selected)}>
+          {busy ? "Obtendo localização…" : `Registrar ${TYPES.find((t) => t.value === selected)!.label.toLowerCase()}`}
+        </PortalButton>
 
-      <section>
-        <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-          Últimos 7 dias
-        </h2>
+        <p className="mt-3 flex items-start gap-2 text-xs text-muted-foreground">
+          <MapPin className="mt-0.5 size-4 shrink-0" aria-hidden />
+          Seu registro pode usar a localização para confirmar se você está dentro do raio permitido da unidade.
+        </p>
+      </PortalCard>
+
+      <PortalSection title="Últimos 7 dias">
         {entries.length === 0 ? (
-          <EmptyState title="Nenhum registro no período" />
+          <PortalEmpty title="Nenhuma informação disponível para este período." />
         ) : (
-          <ul className="divide-y-2 divide-foreground rounded-[12px] border-2 border-foreground bg-card overflow-hidden">
+          <ul className="space-y-3">
             {entries.map((e) => (
-              <li key={e.id} className="flex items-center justify-between gap-2 px-3 py-2.5 text-sm">
-                <span className="min-w-0">
-                  <span className="block font-medium">{e.entry_type.replaceAll("_", " ")}</span>
-                  <span className="text-xs text-muted-foreground">{dateTimeFmt(e.server_time)}</span>
-                  <button
-                    type="button"
-                    className="mt-1 block text-xs text-primary underline"
-                    onClick={() => setCorrectionFor(e.id)}
-                  >
-                    Solicitar correção
-                  </button>
-                </span>
-                <StatusBadge tone={e.geo_status === "dentro_do_raio" ? "ok" : "warn"}>
-                  {e.geo_status.replaceAll("_", " ")}
-                </StatusBadge>
+              <li key={e.id}>
+                <PortalTile className="flex items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="truncate font-bold capitalize">{e.entry_type.replaceAll("_", " ")}</p>
+                    <p className="text-xs text-muted-foreground">{dateTimeFmt(e.server_time)}</p>
+                    <button
+                      type="button"
+                      className="mt-1 text-xs font-bold underline underline-offset-4"
+                      onClick={() => setCorrectionFor(e.id)}
+                    >
+                      Solicitar ajuste
+                    </button>
+                  </div>
+                  <PortalChip tone={e.geo_status === "dentro_do_raio" ? "acid" : "warn"}>
+                    {e.geo_status.replaceAll("_", " ")}
+                  </PortalChip>
+                </PortalTile>
               </li>
             ))}
           </ul>
         )}
-      </section>
+      </PortalSection>
 
       <Dialog open={!!confirm} onOpenChange={(o) => !o && setConfirm(null)}>
-        <DialogContent>
+        <DialogContent className="rounded-[24px]">
           <DialogHeader>
             <DialogTitle>Confirmar registro</DialogTitle>
           </DialogHeader>
           <div className="space-y-3 text-sm">
             <p>
-              <span className="font-medium">
-                {TYPES.find((t) => t.value === confirm?.type)?.label}
-              </span>{" "}
-              em {new Date().toLocaleString("pt-BR")}
+              <span className="font-bold">{TYPES.find((t) => t.value === confirm?.type)?.label}</span> em{" "}
+              {new Date().toLocaleString("pt-BR")}
             </p>
             <p className="flex items-center gap-2 text-muted-foreground">
               <MapPin className="size-4" aria-hidden />
@@ -199,17 +226,17 @@ function PortalPunchPage() {
                 ? `Localização capturada (precisão ${Math.round(confirm.coords.accuracy)} m)`
                 : "Localização indisponível — a batida poderá ir para revisão."}
             </p>
-            <Button className="w-full" disabled={busy} onClick={confirmPunch}>
-              {busy ? "Registrando…" : "Confirmar batida"}
-            </Button>
+            <PortalButton block loading={busy} onClick={confirmPunch}>
+              Confirmar
+            </PortalButton>
           </div>
         </DialogContent>
       </Dialog>
 
       <Dialog open={!!correctionFor} onOpenChange={(o) => !o && setCorrectionFor(null)}>
-        <DialogContent>
+        <DialogContent className="rounded-[24px]">
           <DialogHeader>
-            <DialogTitle>Solicitar correção</DialogTitle>
+            <DialogTitle>Solicitar ajuste</DialogTitle>
           </DialogHeader>
           <form
             className="space-y-4"
@@ -218,8 +245,7 @@ function PortalPunchPage() {
               void sendCorrection();
             }}
           >
-            <div className="space-y-1.5">
-              <Label htmlFor="reason">Motivo</Label>
+            <PortalField id="reason" label="Motivo" hint="Conte o que aconteceu com esta batida.">
               <Textarea
                 id="reason"
                 required
@@ -227,11 +253,22 @@ function PortalPunchPage() {
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
                 placeholder="Explique o que aconteceu com esta batida."
+                className="rounded-[16px]"
               />
+            </PortalField>
+            <div className="flex gap-2">
+              <PortalButton
+                type="button"
+                variant="secondary"
+                className="flex-1"
+                onClick={() => setCorrectionFor(null)}
+              >
+                Cancelar
+              </PortalButton>
+              <PortalButton type="submit" className="flex-1">
+                Enviar
+              </PortalButton>
             </div>
-            <Button type="submit" className="w-full">
-              Enviar solicitação
-            </Button>
           </form>
         </DialogContent>
       </Dialog>

@@ -1,13 +1,21 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect } from "react";
+import { FileText } from "lucide-react";
 import { portalMe, portalDeliveries, portalLogout } from "@/lib/portal.functions";
 import { usePortalSession } from "@/hooks/use-portal-session";
 import { BRAND_NAME } from "@/config/brand";
 import { dateFmt } from "@/lib/format";
-import { EmptyState } from "@/components/ui-kit";
-import { Button } from "@/components/ui/button";
+import {
+  PortalButton,
+  PortalCard,
+  PortalChip,
+  PortalEmpty,
+  PortalLabel,
+  PortalSection,
+  PortalTile,
+} from "@/components/portal-ui";
 
 export const Route = createFileRoute("/portal/perfil")({
   head: () => ({
@@ -56,47 +64,66 @@ function PortalProfilePage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Meu perfil</h1>
-
-      <section className="rounded-[12px] border-2 border-foreground bg-card p-4 text-sm">
-        <p className="font-medium">{profile?.employee?.name ?? "—"}</p>
-        <p className="text-muted-foreground">{profile?.unit?.name ?? "Sem unidade vinculada"}</p>
+      <PortalCard className="p-6">
+        <PortalLabel>Meu perfil</PortalLabel>
+        <p className="display-type mt-1 text-2xl">{profile?.employee?.name ?? "—"}</p>
+        <p className="mt-1 text-sm text-muted-foreground">
+          {profile?.unit?.name ?? "Sem unidade vinculada"}
+        </p>
         {profile?.employee?.code ? (
-          <p className="text-muted-foreground">Matrícula {profile.employee?.code}</p>
+          <div className="mt-3">
+            <PortalChip tone="acid">Matrícula {profile.employee.code}</PortalChip>
+          </div>
         ) : null}
-      </section>
+        <PortalButton
+          variant="dark"
+          block
+          className="mt-5"
+          onClick={() => navigate({ to: "/portal/cartao-ponto" })}
+        >
+          <FileText className="size-4" aria-hidden />
+          Ver cartão de ponto
+        </PortalButton>
+      </PortalCard>
 
-      <section>
-        <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-          Itens recebidos
-        </h2>
+      <PortalSection
+        title="Itens recebidos"
+        action={
+          <Link to="/portal" className="text-sm font-bold underline underline-offset-4">
+            Início
+          </Link>
+        }
+      >
         {deliveries.length === 0 ? (
-          <EmptyState title="Nenhum item registrado" description="Uniformes e EPIs entregues aparecem aqui." />
+          <PortalEmpty
+            title="Nenhum item registrado"
+            description="Uniformes e EPIs entregues aparecem aqui."
+          />
         ) : (
-          <ul className="divide-y-2 divide-foreground rounded-[12px] border-2 border-foreground bg-card overflow-hidden">
+          <ul className="space-y-3">
             {deliveries.map((d) => (
-              <li key={d.id} className="flex items-center justify-between gap-2 px-3 py-2.5 text-sm">
-                <span>
-                  <span className="block font-medium">
-                    {(d.catalog_items as { name: string } | null)?.name ?? "Item"}
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    {Number(d.quantity)} un · {dateFmt(d.delivered_at)}
-                    {d.size ? ` · tam. ${d.size}` : ""}
-                  </span>
-                </span>
-                {d.returned_at ? (
-                  <span className="text-xs text-muted-foreground">Devolvido</span>
-                ) : null}
+              <li key={d.id}>
+                <PortalTile className="flex items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="truncate font-bold">
+                      {(d.catalog_items as { name: string } | null)?.name ?? "Item"}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {Number(d.quantity)} un · {dateFmt(d.delivered_at)}
+                      {d.size ? ` · tam. ${d.size}` : ""}
+                    </p>
+                  </div>
+                  {d.returned_at ? <PortalChip tone="card">Devolvido</PortalChip> : null}
+                </PortalTile>
               </li>
             ))}
           </ul>
         )}
-      </section>
+      </PortalSection>
 
-      <Button variant="outline" className="w-full" onClick={() => void signOut()}>
+      <PortalButton variant="secondary" block onClick={() => void signOut()}>
         Sair do portal
-      </Button>
+      </PortalButton>
     </div>
   );
 }

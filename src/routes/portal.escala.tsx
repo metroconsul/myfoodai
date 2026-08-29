@@ -6,8 +6,15 @@ import { portalSchedule } from "@/lib/portal.functions";
 import { usePortalSession } from "@/hooks/use-portal-session";
 import { BRAND_NAME } from "@/config/brand";
 import { addDays, dateFmt, isoDate, startOfWeek, timeFmt, minutesToHours } from "@/lib/format";
-import { EmptyState, LoadingState } from "@/components/ui-kit";
-import { Button } from "@/components/ui/button";
+import {
+  PortalButton,
+  PortalCard,
+  PortalChip,
+  PortalEmpty,
+  PortalLabel,
+  PortalLoading,
+} from "@/components/portal-ui";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/portal/escala")({
   head: () => ({
@@ -27,6 +34,7 @@ function PortalSchedulePage() {
   const fetchSchedule = useServerFn(portalSchedule);
   const navigate = useNavigate();
   const [weekStart, setWeekStart] = useState(() => startOfWeek(new Date()));
+  const [selected, setSelected] = useState<string>(() => isoDate(new Date()));
 
   useEffect(() => {
     if (ready && !token) navigate({ to: "/portal/login", replace: true });
@@ -47,47 +55,91 @@ function PortalSchedulePage() {
     0,
   );
 
+  const days = Array.from({ length: 7 }, (_, i) => isoDate(addDays(weekStart, i)));
+
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-semibold">Minha escala</h1>
-
-      <div className="flex items-center justify-between gap-2">
-        <Button variant="outline" size="sm" onClick={() => setWeekStart(addDays(weekStart, -7))}>
-          Semana anterior
-        </Button>
-        <span className="text-xs text-muted-foreground">
+    <div className="space-y-5">
+      <PortalCard className="p-5">
+        <PortalLabel>Semana</PortalLabel>
+        <p className="display-type mt-1 text-xl">
           {dateFmt(from)} — {dateFmt(to)}
-        </span>
-        <Button variant="outline" size="sm" onClick={() => setWeekStart(addDays(weekStart, 7))}>
-          Próxima
-        </Button>
-      </div>
-
-      <p className="text-sm text-muted-foreground">Total previsto: {minutesToHours(totalMinutes)}</p>
+        </p>
+        <p className="mt-1 text-sm text-muted-foreground">Total previsto: {minutesToHours(totalMinutes)}</p>
+        <div className="mt-4 flex gap-2">
+          <PortalButton
+            variant="secondary"
+            className="min-h-11 flex-1 px-3 text-xs"
+            onClick={() => setWeekStart(addDays(weekStart, -7))}
+          >
+            Semana anterior
+          </PortalButton>
+          <PortalButton
+            variant="dark"
+            className="min-h-11 flex-1 px-3 text-xs"
+            onClick={() => setWeekStart(addDays(weekStart, 7))}
+          >
+            Próxima semana
+          </PortalButton>
+        </div>
+      </PortalCard>
 
       {isLoading ? (
-        <LoadingState />
+        <PortalLoading />
       ) : blocks.length === 0 ? (
-        <EmptyState
-          title="Sem turnos nesta semana"
-          description="Somente escalas publicadas aparecem aqui."
+        <PortalEmpty
+          title="Ainda não há uma escala publicada para este período."
+          description="Quando a gestão publicar sua escala, ela aparecerá aqui."
         />
       ) : (
-        <ul className="space-y-2">
-          {blocks.map((b) => (
-            <li key={b.id} className="rounded-[12px] border-2 border-foreground bg-card p-3">
-              <div className="flex items-center justify-between">
-                <span className="font-medium">{dateFmt(b.work_date)}</span>
-                <span className="text-sm text-muted-foreground">
-                  {timeFmt(b.start_at)} – {timeFmt(b.end_at)}
-                </span>
-              </div>
-              {(b.shifts as { name: string } | null)?.name ? (
-                <p className="mt-1 text-xs text-muted-foreground">{(b.shifts as { name: string }).name}</p>
-              ) : null}
-              {b.notes ? <p className="mt-1 text-xs text-muted-foreground">{b.notes}</p> : null}
-            </li>
-          ))}
+        <ul className="space-y-3">
+          {days.map((day) => {
+            const dayBlocks = blocks.filter((b) => b.work_date === day);
+            const isSelected = selected === day;
+            return (
+              <li key={day}>
+                <button
+                  type="button"
+                  aria-expanded={isSelected}
+                  onClick={() => setSelected(isSelected ? "" : day)}
+                  className={cn(
+                    "portal-press w-full rounded-[16px] border-2 border-foreground p-4 text-left shadow-[2px_2px_0_var(--ink)]",
+                    isSelected ? "bg-accent text-accent-foreground" : "bg-card",
+                  )}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-bold">{dateFmt(day)}</span>
+                    <PortalChip tone={dayBlocks.length ? "ink" : "paper"}>
+                      {dayBlocks.length ? "Confirmado" : "Folga"}
+                    </PortalChip>
+                  </div>
+                  {isSelected ? (
+                    <div className="mt-3 space-y-2">
+                      {dayBlocks.length === 0 ? (
+                        <p className="text-sm">Nenhuma informação disponível para este dia.</p>
+                      ) : (
+                        dayBlocks.map((b) => (
+                          <div
+                            key={b.id}
+                            className="rounded-[12px] border-2 border-foreground bg-card p-3 text-sm text-foreground"
+                          >
+                            <p className="font-bold">
+                              {timeFmt(b.start_at)} – {timeFmt(b.end_at)}
+                            </p>
+                            {(b.shifts as { name: string } | null)?.name ? (
+                              <p className="text-xs text-muted-foreground">
+                                {(b.shifts as { name: string }).name}
+                              </p>
+                            ) : null}
+                            {b.notes ? <p className="mt-1 text-xs text-muted-foreground">{b.notes}</p> : null}
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  ) : null}
+                </button>
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

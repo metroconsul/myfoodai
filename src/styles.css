@@ -381,3 +381,52 @@
 .gh-box.gh-acid {
   background: var(--gh-acid);
 }
+
+/* ============================================================
+   Portal do Colaborador — componentes suaves da mesma família
+   Acid Operations: mesmas cores e fontes, formas mais arredondadas.
+   ============================================================ */
+
+@utility portal-card {
+  background-color: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 28px;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+@utility portal-tile {
+  background-color: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+@utility portal-press {
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.2s ease;
+  &:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+  &:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0 0 0 var(--ink);
+  }
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal-press:hover,
+  .portal-press:active {
+    transform: none;
+  }
+}

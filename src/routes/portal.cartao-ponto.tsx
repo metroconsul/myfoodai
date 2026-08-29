@@ -6,8 +6,14 @@ import { portalPointCards, portalAcknowledgePointCard } from "@/lib/portal.funct
 import { usePortalSession } from "@/hooks/use-portal-session";
 import { BRAND_NAME } from "@/config/brand";
 import { dateFmt, dateTimeFmt, minutesToHours } from "@/lib/format";
-import { EmptyState, StatusBadge, LoadingState } from "@/components/ui-kit";
-import { Button } from "@/components/ui/button";
+import {
+  PortalButton,
+  PortalCard,
+  PortalChip,
+  PortalEmpty,
+  PortalLabel,
+  PortalLoading,
+} from "@/components/portal-ui";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/portal/cartao-ponto")({
@@ -54,48 +60,59 @@ function PortalPointCardPage() {
   }
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-semibold">Meu cartão de ponto</h1>
-      <p className="text-sm text-muted-foreground">
-        Cada período traz horas planejadas, trabalhadas e pendências. Ao confirmar, sua ciência fica registrada
-        com data e hora.
-      </p>
+    <div className="space-y-5">
+      <PortalCard className="p-6">
+        <PortalLabel>Avisos e cartão de ponto</PortalLabel>
+        <h1 className="display-type mt-1 text-2xl">Meu cartão de ponto</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Cada período traz horas planejadas, trabalhadas e pendências. Ao confirmar, sua ciência fica
+          registrada com data e hora.
+        </p>
+      </PortalCard>
 
       {isLoading ? (
-        <LoadingState />
+        <PortalLoading />
       ) : cards.length === 0 ? (
-        <EmptyState
-          title="Nenhum cartão disponível"
+        <PortalEmpty
+          title="Nenhuma informação disponível para este período."
           description="Sua liderança gera o cartão ao fechar cada período."
         />
       ) : (
         <ul className="space-y-3">
           {cards.map((c) => (
-            <li key={c.id} className="rounded-[12px] border-2 border-foreground bg-card p-4">
+            <li key={c.id} className="portal-tile p-4">
               <div className="flex items-center justify-between gap-2">
-                <span className="font-medium">
+                <span className="font-bold">
                   {dateFmt(c.period_start)} — {dateFmt(c.period_end)}
                 </span>
-                <StatusBadge tone={c.acknowledged_at ? "ok" : "warn"}>
+                <PortalChip tone={c.acknowledged_at ? "acid" : "warn"}>
                   {c.acknowledged_at ? "Ciente" : c.status}
-                </StatusBadge>
+                </PortalChip>
               </div>
               <dl className="mt-3 grid grid-cols-2 gap-2 text-sm">
-                <div>
-                  <dt className="text-xs text-muted-foreground">Planejado</dt>
-                  <dd className="font-medium">{minutesToHours(c.planned_minutes)}</dd>
+                <div className="rounded-[12px] border-2 border-foreground bg-background p-3">
+                  <dt className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground">
+                    Planejado
+                  </dt>
+                  <dd className="display-type mt-1 text-lg">{minutesToHours(c.planned_minutes)}</dd>
                 </div>
-                <div>
-                  <dt className="text-xs text-muted-foreground">Trabalhado</dt>
-                  <dd className="font-medium">{minutesToHours(c.worked_minutes)}</dd>
+                <div className="rounded-[12px] border-2 border-foreground bg-background p-3">
+                  <dt className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground">
+                    Trabalhado
+                  </dt>
+                  <dd className="display-type mt-1 text-lg">{minutesToHours(c.worked_minutes)}</dd>
                 </div>
-                <div>
-                  <dt className="text-xs text-muted-foreground">Atrasos</dt>
-                  <dd className="font-medium">{minutesToHours(c.late_minutes)}</dd>
+                <div className="rounded-[12px] border-2 border-foreground bg-background p-3">
+                  <dt className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground">
+                    Atrasos
+                  </dt>
+                  <dd className="display-type mt-1 text-lg">{minutesToHours(c.late_minutes)}</dd>
                 </div>
-                <div>
-                  <dt className="text-xs text-muted-foreground">Batidas faltantes</dt>
-                  <dd className="font-medium">{c.missing_punches}</dd>
+                <div className="rounded-[12px] border-2 border-foreground bg-background p-3">
+                  <dt className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground">
+                    Batidas faltantes
+                  </dt>
+                  <dd className="display-type mt-1 text-lg">{c.missing_punches}</dd>
                 </div>
               </dl>
               {c.acknowledged_at ? (
@@ -103,9 +120,9 @@ function PortalPointCardPage() {
                   Ciência em {dateTimeFmt(c.acknowledged_at)}
                 </p>
               ) : (
-                <Button className="mt-3 w-full" onClick={() => void confirm(c.id)}>
-                  Confirmar ciência
-                </Button>
+                <PortalButton block className="mt-4" onClick={() => void confirm(c.id)}>
+                  Confirmar
+                </PortalButton>
               )}
             </li>
           ))}
