@@ -18,6 +18,7 @@ import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedAppEmployeesRouteImport } from './routes/_authenticated/app.employees'
 import { Route as AuthenticatedAppRolesTeamsRouteImport } from './routes/_authenticated/app.roles-teams'
 import { Route as AuthenticatedAppScheduleComplianceRouteImport } from './routes/_authenticated/app.schedule-compliance'
+import { Route as AuthenticatedAppScheduleHistoryRouteImport } from './routes/_authenticated/app.schedule-history'
 import { Route as AuthenticatedAppScheduleTemplatesRouteImport } from './routes/_authenticated/app.schedule-templates'
 import { Route as AuthenticatedAppSchedulesRouteImport } from './routes/_authenticated/app.schedules'
 import { Route as AuthenticatedAppShiftsRouteImport } from './routes/_authenticated/app.shifts'
@@ -70,6 +71,12 @@ const AuthenticatedAppScheduleComplianceRoute =
     path: '/schedule-compliance',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppScheduleHistoryRoute =
+  AuthenticatedAppScheduleHistoryRouteImport.update({
+    id: '/schedule-history',
+    path: '/schedule-history',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppScheduleTemplatesRoute =
   AuthenticatedAppScheduleTemplatesRouteImport.update({
     id: '/schedule-templates',
@@ -101,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/app/employees': typeof AuthenticatedAppEmployeesRoute
   '/app/roles-teams': typeof AuthenticatedAppRolesTeamsRoute
   '/app/schedule-compliance': typeof AuthenticatedAppScheduleComplianceRoute
+  '/app/schedule-history': typeof AuthenticatedAppScheduleHistoryRoute
   '/app/schedule-templates': typeof AuthenticatedAppScheduleTemplatesRoute
   '/app/schedules': typeof AuthenticatedAppSchedulesRoute
   '/app/shifts': typeof AuthenticatedAppShiftsRoute
@@ -114,6 +122,7 @@ export interface FileRoutesByTo {
   '/app/employees': typeof AuthenticatedAppEmployeesRoute
   '/app/roles-teams': typeof AuthenticatedAppRolesTeamsRoute
   '/app/schedule-compliance': typeof AuthenticatedAppScheduleComplianceRoute
+  '/app/schedule-history': typeof AuthenticatedAppScheduleHistoryRoute
   '/app/schedule-templates': typeof AuthenticatedAppScheduleTemplatesRoute
   '/app/schedules': typeof AuthenticatedAppSchedulesRoute
   '/app/shifts': typeof AuthenticatedAppShiftsRoute
@@ -130,6 +139,7 @@ export interface FileRoutesById {
   '/_authenticated/app/employees': typeof AuthenticatedAppEmployeesRoute
   '/_authenticated/app/roles-teams': typeof AuthenticatedAppRolesTeamsRoute
   '/_authenticated/app/schedule-compliance': typeof AuthenticatedAppScheduleComplianceRoute
+  '/_authenticated/app/schedule-history': typeof AuthenticatedAppScheduleHistoryRoute
   '/_authenticated/app/schedule-templates': typeof AuthenticatedAppScheduleTemplatesRoute
   '/_authenticated/app/schedules': typeof AuthenticatedAppSchedulesRoute
   '/_authenticated/app/shifts': typeof AuthenticatedAppShiftsRoute
@@ -146,6 +156,7 @@ export interface FileRouteTypes {
     | '/app/employees'
     | '/app/roles-teams'
     | '/app/schedule-compliance'
+    | '/app/schedule-history'
     | '/app/schedule-templates'
     | '/app/schedules'
     | '/app/shifts'
@@ -159,6 +170,7 @@ export interface FileRouteTypes {
     | '/app/employees'
     | '/app/roles-teams'
     | '/app/schedule-compliance'
+    | '/app/schedule-history'
     | '/app/schedule-templates'
     | '/app/schedules'
     | '/app/shifts'
@@ -174,6 +186,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/employees'
     | '/_authenticated/app/roles-teams'
     | '/_authenticated/app/schedule-compliance'
+    | '/_authenticated/app/schedule-history'
     | '/_authenticated/app/schedule-templates'
     | '/_authenticated/app/schedules'
     | '/_authenticated/app/shifts'
@@ -252,6 +265,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppScheduleComplianceRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/schedule-history': {
+      id: '/_authenticated/app/schedule-history'
+      path: '/schedule-history'
+      fullPath: '/app/schedule-history'
+      preLoaderRoute: typeof AuthenticatedAppScheduleHistoryRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/schedule-templates': {
       id: '/_authenticated/app/schedule-templates'
       path: '/schedule-templates'
@@ -287,6 +307,7 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppEmployeesRoute: typeof AuthenticatedAppEmployeesRoute
   AuthenticatedAppRolesTeamsRoute: typeof AuthenticatedAppRolesTeamsRoute
   AuthenticatedAppScheduleComplianceRoute: typeof AuthenticatedAppScheduleComplianceRoute
+  AuthenticatedAppScheduleHistoryRoute: typeof AuthenticatedAppScheduleHistoryRoute
   AuthenticatedAppScheduleTemplatesRoute: typeof AuthenticatedAppScheduleTemplatesRoute
   AuthenticatedAppSchedulesRoute: typeof AuthenticatedAppSchedulesRoute
   AuthenticatedAppShiftsRoute: typeof AuthenticatedAppShiftsRoute
@@ -299,6 +320,7 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppRolesTeamsRoute: AuthenticatedAppRolesTeamsRoute,
   AuthenticatedAppScheduleComplianceRoute:
     AuthenticatedAppScheduleComplianceRoute,
+  AuthenticatedAppScheduleHistoryRoute: AuthenticatedAppScheduleHistoryRoute,
   AuthenticatedAppScheduleTemplatesRoute:
     AuthenticatedAppScheduleTemplatesRoute,
   AuthenticatedAppSchedulesRoute: AuthenticatedAppSchedulesRoute,
