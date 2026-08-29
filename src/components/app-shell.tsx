@@ -2,6 +2,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, type ReactNode } from "react";
 import {
+  Boxes,
   Building2,
   CalendarDays,
   CalendarRange,
@@ -10,8 +11,10 @@ import {
   FileSpreadsheet,
   History,
   LayoutDashboard,
+  LineChart,
   LogOut,
   Menu,
+  Package,
   ShieldAlert,
   Users,
 } from "lucide-react";
