@@ -5,17 +5,17 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design system — identidade laranja, acolhedora e operacional.
- * Todos os valores de cor, sombra e raio vivem aqui.
+ * Design system "Acid Operations" — neo-brutalismo funcional.
+ * Papel quente, tinta preta, bordas 2px, sombras duras e acid green.
  */
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 14px;
+  --radius-2xl: 16px;
+  --radius-3xl: 16px;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -38,6 +38,9 @@
   --color-success-foreground: var(--success-foreground);
   --color-warning: var(--warning);
   --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-ember: var(--ember);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -55,90 +58,84 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --shadow-soft: 0 1px 2px rgb(28 25 23 / 0.04), 0 8px 24px -12px rgb(28 25 23 / 0.12);
-  --shadow-lift: 0 2px 6px rgb(28 25 23 / 0.06), 0 18px 40px -18px rgb(194 65 12 / 0.28);
+  --font-display: "Dela Gothic One", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, monospace;
+  --shadow-soft: 2px 2px 0 var(--ink);
+  --shadow-hard: 4px 4px 0 var(--ink);
+  --shadow-lift: 8px 8px 0 var(--ink);
 }
 
 :root {
-  --radius: 0.875rem;
+  --radius: 12px;
 
   /* Tokens de marca (fonte única de verdade) */
-  --brand-primary: #f97316;
-  --brand-primary-dark: #c2410c;
-  --brand-primary-soft: #ffedd5;
-  --brand-accent: #fdba74;
+  --ink: #09090b;
+  --paper: #f8f4e8;
+  --acid: #d2e823;
+  --ember: #f26b38;
+  --brand-primary: #09090b;
+  --brand-primary-dark: #09090b;
+  --brand-primary-soft: #d2e823;
+  --brand-accent: #d2e823;
 
-  --background: #fff7ed;
-  --foreground: #1c1917;
-  --card: #ffffff;
-  --card-foreground: #1c1917;
-  --popover: #ffffff;
-  --popover-foreground: #1c1917;
-  --primary: var(--brand-primary);
-  --primary-foreground: #ffffff;
-  --secondary: #f5f5f4;
-  --secondary-foreground: #1c1917;
-  --muted: #f5f5f4;
-  --muted-foreground: #78716c;
-  --accent: var(--brand-primary-soft);
-  --accent-foreground: var(--brand-primary-dark);
-  --destructive: #dc2626;
-  --destructive-foreground: #ffffff;
-  --success: #16a34a;
-  --success-foreground: #ffffff;
-  --warning: #eab308;
-  --warning-foreground: #1c1917;
-  --border: #e7e5e4;
-  --input: #e7e5e4;
-  --ring: var(--brand-primary);
-  --chart-1: #f97316;
-  --chart-2: #16a34a;
-  --chart-3: #eab308;
-  --chart-4: #c2410c;
-  --chart-5: #78716c;
-  --sidebar: #ffffff;
-  --sidebar-foreground: #1c1917;
-  --sidebar-primary: var(--brand-primary);
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: var(--brand-primary-soft);
-  --sidebar-accent-foreground: var(--brand-primary-dark);
-  --sidebar-border: #e7e5e4;
-  --sidebar-ring: var(--brand-primary);
-}
-
-.dark {
-  --background: #1c1917;
-  --foreground: #fafaf9;
-  --card: #292524;
-  --card-foreground: #fafaf9;
-  --popover: #292524;
-  --popover-foreground: #fafaf9;
-  --primary: var(--brand-primary);
-  --primary-foreground: #1c1917;
-  --secondary: #292524;
-  --secondary-foreground: #fafaf9;
-  --muted: #292524;
-  --muted-foreground: #a8a29e;
-  --accent: #43302b;
-  --accent-foreground: #fdba74;
-  --border: #44403c;
-  --input: #44403c;
-  --sidebar: #292524;
-  --sidebar-foreground: #fafaf9;
-  --sidebar-border: #44403c;
-  --sidebar-accent: #43302b;
-  --sidebar-accent-foreground: #fdba74;
+  --background: #f8f4e8;
+  --foreground: #09090b;
+  --card: #fffdf6;
+  --card-foreground: #09090b;
+  --popover: #fffdf6;
+  --popover-foreground: #09090b;
+  --primary: #09090b;
+  --primary-foreground: #d2e823;
+  --secondary: #fffdf6;
+  --secondary-foreground: #09090b;
+  --muted: #efe9d8;
+  --muted-foreground: #5e5a50;
+  --accent: #d2e823;
+  --accent-foreground: #09090b;
+  --destructive: #ffb4a8;
+  --destructive-foreground: #09090b;
+  --success: #d2e823;
+  --success-foreground: #09090b;
+  --warning: #ffe28a;
+  --warning-foreground: #09090b;
+  --info: #c9e8ff;
+  --info-foreground: #09090b;
+  --border: #09090b;
+  --input: #09090b;
+  --ring: #d2e823;
+  --chart-1: #d2e823;
+  --chart-2: #09090b;
+  --chart-3: #f26b38;
+  --chart-4: #c9e8ff;
+  --chart-5: #5e5a50;
+  --sidebar: #fffdf6;
+  --sidebar-foreground: #09090b;
+  --sidebar-primary: #d2e823;
+  --sidebar-primary-foreground: #09090b;
+  --sidebar-accent: #d2e823;
+  --sidebar-accent-foreground: #09090b;
+  --sidebar-border: #09090b;
+  --sidebar-ring: #d2e823;
 }
 
 @layer base {
-  * {
-    border-color: var(--color-border);
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
   }
 
-  body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-    -webkit-font-smoothing: antialiased;
+  /* Textura de ruído global, discreta */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   h1,
@@ -146,36 +143,70 @@
   h3 {
     letter-spacing: -0.02em;
   }
+
+  :focus-visible {
+    outline: 3px solid var(--acid);
+    outline-offset: 2px;
+  }
 }
 
 @utility surface-card {
   background-color: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-soft);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+@utility display-type {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+@utility meta-mono {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+@utility brut-press {
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease;
+  &:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+  &:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0 0 0 var(--ink);
+  }
 }
 
 @layer utilities {
   .animate-rise {
-    animation: rise 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: rise 0.24s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
   .hover-lift {
     transition:
-      transform 0.18s ease,
-      box-shadow 0.18s ease;
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
   }
 
   .hover-lift:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lift);
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--ink);
   }
 }
 
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
@@ -191,7 +222,13 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+  .hover-lift:hover,
+  .brut-press:hover,
+  .brut-press:active {
+    transform: none;
+  }
 }
+
 
 /* ============================================================
    Landing — "Acid Operations" (neo-brutalismo)
