@@ -2,6 +2,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, type ReactNode } from "react";
 import {
+  Boxes,
   Building2,
   CalendarDays,
   CalendarRange,
@@ -10,8 +11,10 @@ import {
   FileSpreadsheet,
   History,
   LayoutDashboard,
+  LineChart,
   LogOut,
   Menu,
+  Package,
   ShieldAlert,
   Users,
 } from "lucide-react";
@@ -48,6 +51,17 @@ const NAV = [
   {
     label: "Ponto",
     items: [{ to: "/app/time-entries", label: "Registros de ponto", icon: Clock }],
+  },
+  {
+    label: "Itens e estoque",
+    items: [
+      { to: "/app/catalog", label: "Catálogo de itens", icon: Package },
+      { to: "/app/inventory", label: "Estoque por unidade", icon: Boxes },
+    ],
+  },
+  {
+    label: "Indicadores",
+    items: [{ to: "/app/sales", label: "Vendas", icon: LineChart }],
   },
 ] as const;
 
