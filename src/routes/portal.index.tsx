@@ -6,7 +6,8 @@ import { portalMe } from "@/lib/portal.functions";
 import { usePortalSession } from "@/hooks/use-portal-session";
 import { BRAND_NAME } from "@/config/brand";
 import { dateTimeFmt, timeFmt, dateFmt } from "@/lib/format";
-import { StatusBadge, EmptyState, LoadingState } from "@/components/ui-kit";
+import { StatusBadge, EmptyState, LoadingState, ErrorState } from "@/components/ui-kit";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/portal/")({
