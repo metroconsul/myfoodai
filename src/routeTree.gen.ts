@@ -45,6 +45,7 @@ import { Route as AuthenticatedAppDeliveriesIdRouteImport } from './routes/_auth
 import { Route as AuthenticatedAppPointCardsIndexRouteImport } from './routes/_authenticated/app.point-cards.index'
 import { Route as AuthenticatedAppPointCardsIdRouteImport } from './routes/_authenticated/app.point-cards.$id'
 import { Route as AuthenticatedAppConformidadeExamesIndexRouteImport } from './routes/_authenticated/app.conformidade.exames.index'
+import { Route as AuthenticatedAppConformidadeExamesNovoRouteImport } from './routes/_authenticated/app.conformidade.exames.novo'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -240,6 +241,12 @@ const AuthenticatedAppConformidadeExamesIndexRoute =
     path: '/conformidade/exames/',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppConformidadeExamesNovoRoute =
+  AuthenticatedAppConformidadeExamesNovoRouteImport.update({
+    id: '/conformidade/exames/novo',
+    path: '/conformidade/exames/novo',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -276,6 +283,7 @@ export interface FileRoutesByFullPath {
   '/app/conformidade/': typeof AuthenticatedAppConformidadeIndexRoute
   '/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
   '/app/point-cards/': typeof AuthenticatedAppPointCardsIndexRoute
+  '/app/conformidade/exames/novo': typeof AuthenticatedAppConformidadeExamesNovoRoute
   '/app/conformidade/exames/': typeof AuthenticatedAppConformidadeExamesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -311,6 +319,7 @@ export interface FileRoutesByTo {
   '/app/conformidade': typeof AuthenticatedAppConformidadeIndexRoute
   '/app/deliveries': typeof AuthenticatedAppDeliveriesIndexRoute
   '/app/point-cards': typeof AuthenticatedAppPointCardsIndexRoute
+  '/app/conformidade/exames/novo': typeof AuthenticatedAppConformidadeExamesNovoRoute
   '/app/conformidade/exames': typeof AuthenticatedAppConformidadeExamesIndexRoute
 }
 export interface FileRoutesById {
@@ -350,6 +359,7 @@ export interface FileRoutesById {
   '/_authenticated/app/conformidade/': typeof AuthenticatedAppConformidadeIndexRoute
   '/_authenticated/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
   '/_authenticated/app/point-cards/': typeof AuthenticatedAppPointCardsIndexRoute
+  '/_authenticated/app/conformidade/exames/novo': typeof AuthenticatedAppConformidadeExamesNovoRoute
   '/_authenticated/app/conformidade/exames/': typeof AuthenticatedAppConformidadeExamesIndexRoute
 }
 export interface FileRouteTypes {
@@ -389,6 +399,7 @@ export interface FileRouteTypes {
     | '/app/conformidade/'
     | '/app/deliveries/'
     | '/app/point-cards/'
+    | '/app/conformidade/exames/novo'
     | '/app/conformidade/exames/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -424,6 +435,7 @@ export interface FileRouteTypes {
     | '/app/conformidade'
     | '/app/deliveries'
     | '/app/point-cards'
+    | '/app/conformidade/exames/novo'
     | '/app/conformidade/exames'
   id:
     | '__root__'
@@ -462,6 +474,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/conformidade/'
     | '/_authenticated/app/deliveries/'
     | '/_authenticated/app/point-cards/'
+    | '/_authenticated/app/conformidade/exames/novo'
     | '/_authenticated/app/conformidade/exames/'
   fileRoutesById: FileRoutesById
 }
@@ -727,6 +740,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppConformidadeExamesIndexRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/conformidade/exames/novo': {
+      id: '/_authenticated/app/conformidade/exames/novo'
+      path: '/conformidade/exames/novo'
+      fullPath: '/app/conformidade/exames/novo'
+      preLoaderRoute: typeof AuthenticatedAppConformidadeExamesNovoRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
   }
 }
 
@@ -750,6 +770,7 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppConformidadeIndexRoute: typeof AuthenticatedAppConformidadeIndexRoute
   AuthenticatedAppDeliveriesIndexRoute: typeof AuthenticatedAppDeliveriesIndexRoute
   AuthenticatedAppPointCardsIndexRoute: typeof AuthenticatedAppPointCardsIndexRoute
+  AuthenticatedAppConformidadeExamesNovoRoute: typeof AuthenticatedAppConformidadeExamesNovoRoute
   AuthenticatedAppConformidadeExamesIndexRoute: typeof AuthenticatedAppConformidadeExamesIndexRoute
 }
 
@@ -776,6 +797,8 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
     AuthenticatedAppConformidadeIndexRoute,
   AuthenticatedAppDeliveriesIndexRoute: AuthenticatedAppDeliveriesIndexRoute,
   AuthenticatedAppPointCardsIndexRoute: AuthenticatedAppPointCardsIndexRoute,
+  AuthenticatedAppConformidadeExamesNovoRoute:
+    AuthenticatedAppConformidadeExamesNovoRoute,
   AuthenticatedAppConformidadeExamesIndexRoute:
     AuthenticatedAppConformidadeExamesIndexRoute,
 }
