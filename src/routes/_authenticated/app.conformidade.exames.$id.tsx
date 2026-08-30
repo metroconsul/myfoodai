@@ -41,7 +41,7 @@ function DocumentDetailPage() {
   const { isAdmin, roles } = useWorkspace();
   const queryClient = useQueryClient();
   const [notes, setNotes] = useState<string | null>(null);
-  const [status, setStatus] = useState<Enums<"document_status"> | null>(null);
+  const [status, setStatus] = useState<Enums<"occ_document_status"> | null>(null);
   const [expiresAt, setExpiresAt] = useState<string | null>(null);
 
   const canSeeFile = isAdmin || roles.includes("hr");
