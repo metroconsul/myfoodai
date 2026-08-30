@@ -41,6 +41,7 @@ import { Route as PortalItensIdRouteImport } from './routes/portal.itens.$id'
 import { Route as AuthenticatedAppDeliveriesIndexRouteImport } from './routes/_authenticated/app.deliveries.index'
 import { Route as AuthenticatedAppDeliveriesIdRouteImport } from './routes/_authenticated/app.deliveries.$id'
 import { Route as AuthenticatedAppPointCardsIndexRouteImport } from './routes/_authenticated/app.point-cards.index'
+import { Route as AuthenticatedAppPointCardsIdRouteImport } from './routes/_authenticated/app.point-cards.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -213,6 +214,12 @@ const AuthenticatedAppPointCardsIndexRoute =
     path: '/point-cards/',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppPointCardsIdRoute =
+  AuthenticatedAppPointCardsIdRouteImport.update({
+    id: '/point-cards/$id',
+    path: '/point-cards/$id',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -244,6 +251,7 @@ export interface FileRoutesByFullPath {
   '/app/': typeof AuthenticatedAppIndexRoute
   '/portal/itens/': typeof PortalItensIndexRoute
   '/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
+  '/app/point-cards/$id': typeof AuthenticatedAppPointCardsIdRoute
   '/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
   '/app/point-cards/': typeof AuthenticatedAppPointCardsIndexRoute
 }
@@ -275,6 +283,7 @@ export interface FileRoutesByTo {
   '/app': typeof AuthenticatedAppIndexRoute
   '/portal/itens': typeof PortalItensIndexRoute
   '/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
+  '/app/point-cards/$id': typeof AuthenticatedAppPointCardsIdRoute
   '/app/deliveries': typeof AuthenticatedAppDeliveriesIndexRoute
   '/app/point-cards': typeof AuthenticatedAppPointCardsIndexRoute
 }
@@ -310,6 +319,7 @@ export interface FileRoutesById {
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/portal/itens/': typeof PortalItensIndexRoute
   '/_authenticated/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
+  '/_authenticated/app/point-cards/$id': typeof AuthenticatedAppPointCardsIdRoute
   '/_authenticated/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
   '/_authenticated/app/point-cards/': typeof AuthenticatedAppPointCardsIndexRoute
 }
@@ -345,6 +355,7 @@ export interface FileRouteTypes {
     | '/app/'
     | '/portal/itens/'
     | '/app/deliveries/$id'
+    | '/app/point-cards/$id'
     | '/app/deliveries/'
     | '/app/point-cards/'
   fileRoutesByTo: FileRoutesByTo
@@ -376,6 +387,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/portal/itens'
     | '/app/deliveries/$id'
+    | '/app/point-cards/$id'
     | '/app/deliveries'
     | '/app/point-cards'
   id:
@@ -410,6 +422,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/'
     | '/portal/itens/'
     | '/_authenticated/app/deliveries/$id'
+    | '/_authenticated/app/point-cards/$id'
     | '/_authenticated/app/deliveries/'
     | '/_authenticated/app/point-cards/'
   fileRoutesById: FileRoutesById
@@ -648,6 +661,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppPointCardsIndexRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/point-cards/$id': {
+      id: '/_authenticated/app/point-cards/$id'
+      path: '/point-cards/$id'
+      fullPath: '/app/point-cards/$id'
+      preLoaderRoute: typeof AuthenticatedAppPointCardsIdRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
   }
 }
 
@@ -667,6 +687,7 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppUnitsRoute: typeof AuthenticatedAppUnitsRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
   AuthenticatedAppDeliveriesIdRoute: typeof AuthenticatedAppDeliveriesIdRoute
+  AuthenticatedAppPointCardsIdRoute: typeof AuthenticatedAppPointCardsIdRoute
   AuthenticatedAppDeliveriesIndexRoute: typeof AuthenticatedAppDeliveriesIndexRoute
   AuthenticatedAppPointCardsIndexRoute: typeof AuthenticatedAppPointCardsIndexRoute
 }
@@ -689,6 +710,7 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppUnitsRoute: AuthenticatedAppUnitsRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
   AuthenticatedAppDeliveriesIdRoute: AuthenticatedAppDeliveriesIdRoute,
+  AuthenticatedAppPointCardsIdRoute: AuthenticatedAppPointCardsIdRoute,
   AuthenticatedAppDeliveriesIndexRoute: AuthenticatedAppDeliveriesIndexRoute,
   AuthenticatedAppPointCardsIndexRoute: AuthenticatedAppPointCardsIndexRoute,
 }

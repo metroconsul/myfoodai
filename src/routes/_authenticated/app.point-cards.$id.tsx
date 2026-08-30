@@ -344,9 +344,9 @@ function PointCardDetailPage() {
                   <span className="text-xs text-muted-foreground">{dateTimeFmt(d.created_at)}</span>
                 </div>
                 <p className="mt-2 text-sm">{d.description}</p>
-                {d.response ? (
+                {d.manager_response ? (
                   <p className="mt-2 rounded-[8px] border-2 border-foreground bg-secondary p-2 text-sm">
-                    Resposta: {d.response}
+                    Resposta: {d.manager_response}
                   </p>
                 ) : null}
                 {d.status !== "resolvida" ? (
