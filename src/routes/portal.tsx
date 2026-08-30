@@ -17,13 +17,14 @@ const CONTEXTS = [
   { to: "/portal/escala", label: "Minha escala" },
   { to: "/portal/ponto", label: "Meu ponto" },
   { to: "/portal/itens", label: "Meus itens" },
+  { to: "/portal/documentos", label: "Meus documentos" },
   { to: "/portal/cartao-ponto", label: "Cartão de ponto" },
 ] as const;
 
 const TABS = [
   { to: "/portal", label: "Início", icon: Home, exact: true },
   { to: "/portal/escala", label: "Escala", icon: CalendarDays },
-  { to: "/portal/ponto", label: "Ponto", icon: Clock },
+  { to: "/portal/pendencias", label: "Pendências", icon: ListChecks },
   { to: "/portal/itens", label: "Itens", icon: PackageCheck },
   { to: "/portal/perfil", label: "Perfil", icon: User },
 ] as const;
