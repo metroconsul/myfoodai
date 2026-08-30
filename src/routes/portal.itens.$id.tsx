@@ -119,6 +119,8 @@ function PortalItemAcceptPage() {
           deliveryId: id,
           imageDataUrl: selfie,
           ...geo,
+          consentBiometrics,
+          consentLocation,
           deviceInfo: navigator.userAgent.slice(0, 300),
         },
       });
@@ -149,6 +151,8 @@ function PortalItemAcceptPage() {
           signatureDataUrl: signatureMode === "desenhada" ? signature : null,
           typedName: signatureMode === "digitada" ? typedName : null,
           ...geo,
+          consentBiometrics,
+          consentLocation,
           deviceInfo: navigator.userAgent.slice(0, 300),
           faceSkipReason,
         },
@@ -285,8 +289,34 @@ function PortalItemAcceptPage() {
               <li key={t}>{t}</li>
             ))}
           </ul>
+          <div className="mt-5 space-y-3 rounded-[20px] border-2 border-foreground bg-secondary p-4">
+            <p className="display-type text-sm">Autorizações necessárias</p>
+            <label className="flex cursor-pointer items-start gap-3 text-sm">
+              <input
+                type="checkbox"
+                className="mt-0.5 size-5 shrink-0 accent-[var(--acid)]"
+                checked={consentBiometrics}
+                onChange={(e) => setConsentBiometrics(e.target.checked)}
+              />
+              <span>
+                Autorizo a captura de uma selfie para validação de identidade, usada apenas como
+                evidência deste recebimento e mantida sob sigilo.
+              </span>
+            </label>
+            <label className="flex cursor-pointer items-start gap-3 text-sm">
+              <input
+                type="checkbox"
+                className="mt-0.5 size-5 shrink-0 accent-[var(--acid)]"
+                checked={consentLocation}
+                onChange={(e) => setConsentLocation(e.target.checked)}
+              />
+              <span>
+                Autorizo o registro da minha localização aproximada no momento do aceite (opcional).
+              </span>
+            </label>
+          </div>
           <div className="mt-5 space-y-2">
-            <PortalButton block onClick={() => void startAccept()}>
+            <PortalButton block disabled={!consentBiometrics} onClick={() => void startAccept()}>
               <ShieldCheck className="size-4" aria-hidden />
               Recebi os itens — confirmar
             </PortalButton>
