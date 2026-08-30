@@ -368,7 +368,7 @@ function PortalTimesheetCardPage() {
           {disputeOpen ? (
             <PortalCard className="space-y-3 p-5">
               <PortalLabel>Nova divergência</PortalLabel>
-              <PortalField label="Tipo">
+              <PortalField id="dispute-cat" label="Tipo">
                 <select
                   className={portalInputClass}
                   value={disputeCategory}
@@ -381,7 +381,7 @@ function PortalTimesheetCardPage() {
                   ))}
                 </select>
               </PortalField>
-              <PortalField label="Dia (opcional)">
+              <PortalField id="dispute-date" label="Dia (opcional)">
                 <input
                   type="date"
                   className={portalInputClass}
@@ -389,7 +389,7 @@ function PortalTimesheetCardPage() {
                   onChange={(e) => setDisputeDate(e.target.value)}
                 />
               </PortalField>
-              <PortalField label="O que está diferente?">
+              <PortalField id="dispute-desc" label="O que está diferente?">
                 <textarea
                   className={portalInputClass}
                   rows={4}
@@ -426,7 +426,13 @@ function PortalTimesheetCardPage() {
             Localização: {geo.locationStatus}
             {geo.accuracy ? ` (±${Math.round(geo.accuracy)} m)` : ""}
           </div>
-          <SelfieCapture value={selfie} onChange={setSelfie} />
+          <SelfieCapture
+            onCapture={setSelfie}
+            onFallback={() => {
+              setFaceSkipReason("Sem câmera disponível no dispositivo.");
+              setStep("assinatura");
+            }}
+          />
           <PortalButton block onClick={() => validate.mutate()} loading={validate.isPending} disabled={!selfie}>
             Validar identidade
           </PortalButton>
@@ -465,9 +471,9 @@ function PortalTimesheetCardPage() {
           </div>
 
           {signatureMode === "desenhada" ? (
-            <SignaturePad value={signature} onChange={setSignature} />
+            <SignaturePad onChange={setSignature} />
           ) : (
-            <PortalField label="Nome completo">
+            <PortalField id="typed-name" label="Nome completo">
               <input
                 className={portalInputClass}
                 value={typedName}
