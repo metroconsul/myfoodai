@@ -107,9 +107,14 @@ async function upsertEvidence(
     .eq("delivery_id", deliveryId)
     .maybeSingle();
   if (existing) {
-    await supabaseAdmin.from("item_delivery_evidence").update(patch).eq("id", existing.id);
+    await supabaseAdmin
+      .from("item_delivery_evidence")
+      .update(patch as never)
+      .eq("id", existing.id);
   } else {
-    await supabaseAdmin.from("item_delivery_evidence").insert({ delivery_id: deliveryId, ...patch });
+    await supabaseAdmin
+      .from("item_delivery_evidence")
+      .insert({ delivery_id: deliveryId, ...patch } as never);
   }
 }
 
