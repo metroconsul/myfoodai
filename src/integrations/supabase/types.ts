@@ -1147,62 +1147,265 @@ export type Database = {
           },
         ]
       }
-      point_cards: {
+      point_card_events: {
         Row: {
-          acknowledged_at: string | null
+          actor_id: string | null
+          actor_label: string | null
+          actor_type: string
+          batch_id: string | null
+          card_id: string | null
           company_id: string
           created_at: string
+          event_type: string
+          id: string
+          metadata: Json
+          period_id: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          actor_label?: string | null
+          actor_type?: string
+          batch_id?: string | null
+          card_id?: string | null
+          company_id: string
+          created_at?: string
+          event_type: string
+          id?: string
+          metadata?: Json
+          period_id?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          actor_label?: string | null
+          actor_type?: string
+          batch_id?: string | null
+          card_id?: string | null
+          company_id?: string
+          created_at?: string
+          event_type?: string
+          id?: string
+          metadata?: Json
+          period_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "point_card_events_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "timesheet_batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "point_card_events_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "point_cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "point_card_events_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "point_card_events_period_id_fkey"
+            columns: ["period_id"]
+            isOneToOne: false
+            referencedRelation: "timesheet_periods"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      point_card_evidence: {
+        Row: {
+          accuracy_meters: number | null
+          card_id: string
+          card_version: number
+          company_id: string
+          consent_version: string | null
+          created_at: string
+          device_metadata: Json
+          face_provider: string | null
+          face_provider_reference: string | null
+          face_status: string
+          face_validated_at: string | null
+          id: string
+          integrity_hash: string | null
+          ip_masked: string | null
+          latitude: number | null
+          liveness_status: string | null
+          location_captured_at: string | null
+          location_status: string
+          longitude: number | null
+          signature_path: string | null
+          signature_typed_name: string | null
+          signed_at: string
+          terms_version: string | null
+        }
+        Insert: {
+          accuracy_meters?: number | null
+          card_id: string
+          card_version?: number
+          company_id: string
+          consent_version?: string | null
+          created_at?: string
+          device_metadata?: Json
+          face_provider?: string | null
+          face_provider_reference?: string | null
+          face_status?: string
+          face_validated_at?: string | null
+          id?: string
+          integrity_hash?: string | null
+          ip_masked?: string | null
+          latitude?: number | null
+          liveness_status?: string | null
+          location_captured_at?: string | null
+          location_status?: string
+          longitude?: number | null
+          signature_path?: string | null
+          signature_typed_name?: string | null
+          signed_at?: string
+          terms_version?: string | null
+        }
+        Update: {
+          accuracy_meters?: number | null
+          card_id?: string
+          card_version?: number
+          company_id?: string
+          consent_version?: string | null
+          created_at?: string
+          device_metadata?: Json
+          face_provider?: string | null
+          face_provider_reference?: string | null
+          face_status?: string
+          face_validated_at?: string | null
+          id?: string
+          integrity_hash?: string | null
+          ip_masked?: string | null
+          latitude?: number | null
+          liveness_status?: string | null
+          location_captured_at?: string | null
+          location_status?: string
+          longitude?: number | null
+          signature_path?: string | null
+          signature_typed_name?: string | null
+          signed_at?: string
+          terms_version?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "point_card_evidence_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "point_cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "point_card_evidence_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      point_cards: {
+        Row: {
+          absence_days: number
+          acknowledged_at: string | null
+          balance_minutes: number
+          batch_id: string | null
+          company_id: string
+          created_at: string
+          deadline_at: string | null
           employee_id: string
           generated_by: string | null
           id: string
           late_minutes: number
           missing_punches: number
+          overtime_minutes: number
           period_end: string
+          period_id: string | null
           period_start: string
           planned_minutes: number
+          publish_error: string | null
+          published_at: string | null
+          reopen_reason: string | null
+          reopened_at: string | null
           signature_url: string | null
+          signed_at: string | null
           status: string
           summary: Json
           unit_id: string
           updated_at: string
+          version: number
+          viewed_at: string | null
           worked_minutes: number
         }
         Insert: {
+          absence_days?: number
           acknowledged_at?: string | null
+          balance_minutes?: number
+          batch_id?: string | null
           company_id: string
           created_at?: string
+          deadline_at?: string | null
           employee_id: string
           generated_by?: string | null
           id?: string
           late_minutes?: number
           missing_punches?: number
+          overtime_minutes?: number
           period_end: string
+          period_id?: string | null
           period_start: string
           planned_minutes?: number
+          publish_error?: string | null
+          published_at?: string | null
+          reopen_reason?: string | null
+          reopened_at?: string | null
           signature_url?: string | null
+          signed_at?: string | null
           status?: string
           summary?: Json
           unit_id: string
           updated_at?: string
+          version?: number
+          viewed_at?: string | null
           worked_minutes?: number
         }
         Update: {
+          absence_days?: number
           acknowledged_at?: string | null
+          balance_minutes?: number
+          batch_id?: string | null
           company_id?: string
           created_at?: string
+          deadline_at?: string | null
           employee_id?: string
           generated_by?: string | null
           id?: string
           late_minutes?: number
           missing_punches?: number
+          overtime_minutes?: number
           period_end?: string
+          period_id?: string | null
           period_start?: string
           planned_minutes?: number
+          publish_error?: string | null
+          published_at?: string | null
+          reopen_reason?: string | null
+          reopened_at?: string | null
           signature_url?: string | null
+          signed_at?: string | null
           status?: string
           summary?: Json
           unit_id?: string
           updated_at?: string
+          version?: number
+          viewed_at?: string | null
           worked_minutes?: number
         }
         Relationships: [
@@ -1218,6 +1421,13 @@ export type Database = {
             columns: ["employee_id"]
             isOneToOne: false
             referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "point_cards_period_id_fkey"
+            columns: ["period_id"]
+            isOneToOne: false
+            referencedRelation: "timesheet_periods"
             referencedColumns: ["id"]
           },
           {
@@ -2646,6 +2856,318 @@ export type Database = {
           },
           {
             foreignKeyName: "time_entry_reviews_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      timesheet_batches: {
+        Row: {
+          company_id: string
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          error_summary: string | null
+          failed_cards: number
+          id: string
+          period_id: string | null
+          published_cards: number
+          results: Json
+          skipped_cards: number
+          started_at: string | null
+          status: string
+          total_cards: number
+          unit_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          error_summary?: string | null
+          failed_cards?: number
+          id?: string
+          period_id?: string | null
+          published_cards?: number
+          results?: Json
+          skipped_cards?: number
+          started_at?: string | null
+          status?: string
+          total_cards?: number
+          unit_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          error_summary?: string | null
+          failed_cards?: number
+          id?: string
+          period_id?: string | null
+          published_cards?: number
+          results?: Json
+          skipped_cards?: number
+          started_at?: string | null
+          status?: string
+          total_cards?: number
+          unit_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "timesheet_batches_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "timesheet_batches_period_id_fkey"
+            columns: ["period_id"]
+            isOneToOne: false
+            referencedRelation: "timesheet_periods"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "timesheet_batches_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      timesheet_disputes: {
+        Row: {
+          attachment_path: string | null
+          card_id: string
+          card_version: number
+          category: string
+          company_id: string
+          created_at: string
+          description: string
+          employee_id: string
+          id: string
+          manager_response: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          status: string
+          unit_id: string | null
+          updated_at: string
+          work_date: string | null
+        }
+        Insert: {
+          attachment_path?: string | null
+          card_id: string
+          card_version?: number
+          category?: string
+          company_id: string
+          created_at?: string
+          description: string
+          employee_id: string
+          id?: string
+          manager_response?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string
+          unit_id?: string | null
+          updated_at?: string
+          work_date?: string | null
+        }
+        Update: {
+          attachment_path?: string | null
+          card_id?: string
+          card_version?: number
+          category?: string
+          company_id?: string
+          created_at?: string
+          description?: string
+          employee_id?: string
+          id?: string
+          manager_response?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string
+          unit_id?: string | null
+          updated_at?: string
+          work_date?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "timesheet_disputes_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "point_cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "timesheet_disputes_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "timesheet_disputes_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "timesheet_disputes_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      timesheet_entries: {
+        Row: {
+          absence_status: string | null
+          alerts: string[]
+          break_end: string | null
+          break_start: string | null
+          card_id: string
+          clock_in: string | null
+          clock_out: string | null
+          company_id: string
+          created_at: string
+          delay_minutes: number
+          id: string
+          justification: string | null
+          notes: string | null
+          overtime_minutes: number
+          planned_minutes: number
+          source: string
+          updated_at: string
+          work_date: string
+          worked_minutes: number
+        }
+        Insert: {
+          absence_status?: string | null
+          alerts?: string[]
+          break_end?: string | null
+          break_start?: string | null
+          card_id: string
+          clock_in?: string | null
+          clock_out?: string | null
+          company_id: string
+          created_at?: string
+          delay_minutes?: number
+          id?: string
+          justification?: string | null
+          notes?: string | null
+          overtime_minutes?: number
+          planned_minutes?: number
+          source?: string
+          updated_at?: string
+          work_date: string
+          worked_minutes?: number
+        }
+        Update: {
+          absence_status?: string | null
+          alerts?: string[]
+          break_end?: string | null
+          break_start?: string | null
+          card_id?: string
+          clock_in?: string | null
+          clock_out?: string | null
+          company_id?: string
+          created_at?: string
+          delay_minutes?: number
+          id?: string
+          justification?: string | null
+          notes?: string | null
+          overtime_minutes?: number
+          planned_minutes?: number
+          source?: string
+          updated_at?: string
+          work_date?: string
+          worked_minutes?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "timesheet_entries_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "point_cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "timesheet_entries_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      timesheet_periods: {
+        Row: {
+          closed_at: string | null
+          closed_by: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          deadline_at: string | null
+          id: string
+          name: string | null
+          period_end: string
+          period_start: string
+          status: string
+          timezone: string
+          unit_id: string
+          updated_at: string
+        }
+        Insert: {
+          closed_at?: string | null
+          closed_by?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          deadline_at?: string | null
+          id?: string
+          name?: string | null
+          period_end: string
+          period_start: string
+          status?: string
+          timezone?: string
+          unit_id: string
+          updated_at?: string
+        }
+        Update: {
+          closed_at?: string | null
+          closed_by?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          deadline_at?: string | null
+          id?: string
+          name?: string | null
+          period_end?: string
+          period_start?: string
+          status?: string
+          timezone?: string
+          unit_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "timesheet_periods_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "timesheet_periods_unit_id_fkey"
             columns: ["unit_id"]
             isOneToOne: false
             referencedRelation: "units"
