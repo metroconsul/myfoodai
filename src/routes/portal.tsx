@@ -1,7 +1,7 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Bell, CalendarDays, Clock, Home, PackageCheck, User } from "lucide-react";
+import { Bell, CalendarDays, Clock, Home, ListChecks, PackageCheck, User } from "lucide-react";
 import { BRAND_NAME } from "@/config/brand";
 import { portalMe } from "@/lib/portal.functions";
 import { usePortalSession } from "@/hooks/use-portal-session";
