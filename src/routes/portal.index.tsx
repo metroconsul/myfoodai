@@ -179,6 +179,20 @@ function PortalHome() {
         )}
       </PortalSection>
 
+      <PortalSection title="Meus cartões de ponto">
+        <PortalTile className="p-4">
+          <p className="text-sm">
+            Confira o fechamento de cada período, aponte divergências e assine digitalmente.
+          </p>
+          <Link
+            to="/portal/cartao-ponto"
+            className="portal-press mt-3 inline-flex min-h-[48px] w-full items-center justify-center rounded-[16px] border-2 border-foreground bg-accent px-5 text-sm font-bold text-accent-foreground"
+          >
+            Abrir meus cartões
+          </Link>
+        </PortalTile>
+      </PortalSection>
+
       <PortalSection
         title="Últimos registros"
         action={
