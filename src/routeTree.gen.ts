@@ -38,6 +38,7 @@ import { Route as ApiPublicSalesIngestRouteImport } from './routes/api/public/sa
 import { Route as PortalCartaoPontoIndexRouteImport } from './routes/portal.cartao-ponto.index'
 import { Route as PortalCartaoPontoIdRouteImport } from './routes/portal.cartao-ponto.$id'
 import { Route as PortalDocumentosIndexRouteImport } from './routes/portal.documentos.index'
+import { Route as PortalDocumentosIdRouteImport } from './routes/portal.documentos.$id'
 import { Route as PortalItensIndexRouteImport } from './routes/portal.itens.index'
 import { Route as PortalItensIdRouteImport } from './routes/portal.itens.$id'
 import { Route as AuthenticatedAppConformidadeIndexRouteImport } from './routes/_authenticated/app.conformidade.index'
@@ -204,6 +205,11 @@ const PortalDocumentosIndexRoute = PortalDocumentosIndexRouteImport.update({
   path: '/documentos/',
   getParentRoute: () => PortalRoute,
 } as any)
+const PortalDocumentosIdRoute = PortalDocumentosIdRouteImport.update({
+  id: '/documentos/$id',
+  path: '/documentos/$id',
+  getParentRoute: () => PortalRoute,
+} as any)
 const PortalItensIndexRoute = PortalItensIndexRouteImport.update({
   id: '/itens/',
   path: '/itens/',
@@ -301,6 +307,7 @@ export interface FileRoutesByFullPath {
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/portal/cartao-ponto/$id': typeof PortalCartaoPontoIdRoute
+  '/portal/documentos/$id': typeof PortalDocumentosIdRoute
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/portal/cartao-ponto/': typeof PortalCartaoPontoIndexRoute
@@ -341,6 +348,7 @@ export interface FileRoutesByTo {
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/portal/cartao-ponto/$id': typeof PortalCartaoPontoIdRoute
+  '/portal/documentos/$id': typeof PortalDocumentosIdRoute
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/portal/cartao-ponto': typeof PortalCartaoPontoIndexRoute
@@ -385,6 +393,7 @@ export interface FileRoutesById {
   '/_authenticated/app/units': typeof AuthenticatedAppUnitsRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/portal/cartao-ponto/$id': typeof PortalCartaoPontoIdRoute
+  '/portal/documentos/$id': typeof PortalDocumentosIdRoute
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/portal/cartao-ponto/': typeof PortalCartaoPontoIndexRoute
@@ -429,6 +438,7 @@ export interface FileRouteTypes {
     | '/app/units'
     | '/api/public/sales-ingest'
     | '/portal/cartao-ponto/$id'
+    | '/portal/documentos/$id'
     | '/portal/itens/$id'
     | '/app/'
     | '/portal/cartao-ponto/'
@@ -469,6 +479,7 @@ export interface FileRouteTypes {
     | '/app/units'
     | '/api/public/sales-ingest'
     | '/portal/cartao-ponto/$id'
+    | '/portal/documentos/$id'
     | '/portal/itens/$id'
     | '/app'
     | '/portal/cartao-ponto'
@@ -512,6 +523,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/units'
     | '/api/public/sales-ingest'
     | '/portal/cartao-ponto/$id'
+    | '/portal/documentos/$id'
     | '/portal/itens/$id'
     | '/_authenticated/app/'
     | '/portal/cartao-ponto/'
@@ -742,6 +754,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalDocumentosIndexRouteImport
       parentRoute: typeof PortalRoute
     }
+    '/portal/documentos/$id': {
+      id: '/portal/documentos/$id'
+      path: '/documentos/$id'
+      fullPath: '/portal/documentos/$id'
+      preLoaderRoute: typeof PortalDocumentosIdRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/portal/itens/': {
       id: '/portal/itens/'
       path: '/itens'
@@ -913,6 +932,7 @@ interface PortalRouteChildren {
   PortalPontoRoute: typeof PortalPontoRoute
   PortalIndexRoute: typeof PortalIndexRoute
   PortalCartaoPontoIdRoute: typeof PortalCartaoPontoIdRoute
+  PortalDocumentosIdRoute: typeof PortalDocumentosIdRoute
   PortalItensIdRoute: typeof PortalItensIdRoute
   PortalCartaoPontoIndexRoute: typeof PortalCartaoPontoIndexRoute
   PortalDocumentosIndexRoute: typeof PortalDocumentosIndexRoute
@@ -926,6 +946,7 @@ const PortalRouteChildren: PortalRouteChildren = {
   PortalPontoRoute: PortalPontoRoute,
   PortalIndexRoute: PortalIndexRoute,
   PortalCartaoPontoIdRoute: PortalCartaoPontoIdRoute,
+  PortalDocumentosIdRoute: PortalDocumentosIdRoute,
   PortalItensIdRoute: PortalItensIdRoute,
   PortalCartaoPontoIndexRoute: PortalCartaoPontoIndexRoute,
   PortalDocumentosIndexRoute: PortalDocumentosIndexRoute,

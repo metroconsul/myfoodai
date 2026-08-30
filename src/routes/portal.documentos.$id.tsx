@@ -27,7 +27,7 @@ import { dateFmt, dateTimeFmt, numberFmt } from "@/lib/format";
 import {
   DOCUMENT_STATUS_LABEL,
   DOCUMENT_TYPE_LABEL,
-  DOC_ACK_TERMS,
+  DOC_TERMS,
   effectiveDocumentStatus,
 } from "@/lib/compliance.shared";
 
@@ -223,7 +223,7 @@ function PortalDocumentDetailPage() {
             {needsSignature ? "Assine para confirmar" : "Confirme sua ciência"}
           </p>
           <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-muted-foreground">
-            {DOC_ACK_TERMS.map((t) => (
+            {DOC_TERMS.map((t) => (
               <li key={t}>{t}</li>
             ))}
           </ul>
@@ -300,9 +300,9 @@ function PortalDocumentDetailPage() {
         </PortalCard>
       )}
 
-      {data?.acknowledgement?.accuracy ? (
+      {data?.acknowledgement?.accuracy_meters ? (
         <p className="meta-mono">
-          Precisão da localização registrada: ±{numberFmt(Number(data.acknowledgement.accuracy), 0)} m
+          Precisão da localização registrada: ±{numberFmt(Number(data.acknowledgement.accuracy_meters), 0)} m
         </p>
       ) : null}
     </div>
