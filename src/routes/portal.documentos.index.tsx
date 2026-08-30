@@ -27,7 +27,10 @@ export const Route = createFileRoute("/portal/documentos/")({
   head: () => ({
     meta: [
       { title: `Meus documentos — ${BRAND_NAME}` },
-      { name: "description", content: "Consulte exames, atestados e documentos ocupacionais publicados para você." },
+      {
+        name: "description",
+        content: "Consulte exames, atestados e documentos ocupacionais publicados para você.",
+      },
       { property: "og:title", content: `Meus documentos — ${BRAND_NAME}` },
       { property: "og:description", content: "Documentos ocupacionais e solicitações abertas." },
       { name: "robots", content: "noindex" },
@@ -74,7 +77,9 @@ function PortalDocumentsPage() {
   const ackDone = new Set(acks.filter((a) => a.acknowledged_at).map((a) => a.document_id));
 
   const pending = documents.filter(
-    (d) => (d.request_mode === "confirmar_ciencia" || d.request_mode === "assinar") && !ackDone.has(d.id),
+    (d) =>
+      (d.request_mode === "confirmar_ciencia" || d.request_mode === "assinar") &&
+      !ackDone.has(d.id),
   );
   const history = documents.filter((d) => !pending.includes(d));
 
@@ -106,7 +111,9 @@ function PortalDocumentsPage() {
                   <Upload className="size-5" aria-hidden />
                 </PortalIconBox>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate font-bold">{DOCUMENT_TYPE_LABEL[r.document_type] ?? r.document_type}</p>
+                  <p className="truncate font-bold">
+                    {DOCUMENT_TYPE_LABEL[r.document_type] ?? r.document_type}
+                  </p>
                   <p className="mt-1 text-xs text-muted-foreground">
                     {r.message ?? "Envie o documento solicitado."}
                     {r.due_at ? ` · prazo ${dateFmt(r.due_at)}` : ""}
@@ -167,7 +174,8 @@ function PortalDocumentsPage() {
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-bold">{d.title}</p>
                       <p className="mt-1 text-xs text-muted-foreground">
-                        {DOCUMENT_TYPE_LABEL[d.document_type] ?? d.document_type} · {dateFmt(d.performed_at)}
+                        {DOCUMENT_TYPE_LABEL[d.document_type] ?? d.document_type} ·{" "}
+                        {dateFmt(d.performed_at)}
                       </p>
                     </div>
                     <PortalChip tone={CHIP_TONE[effective] ?? "card"}>

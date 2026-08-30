@@ -10,7 +10,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   ACCESS_LEVELS,
   ACCESS_LEVEL_LABEL,
@@ -27,7 +33,10 @@ export const Route = createFileRoute("/_authenticated/app/conformidade/exames/no
   head: () => ({
     meta: [
       { title: `Novo documento ocupacional — ${BRAND_NAME}` },
-      { name: "description", content: "Cadastre ASO, exames e documentos ocupacionais com prazos e arquivo." },
+      {
+        name: "description",
+        content: "Cadastre ASO, exames e documentos ocupacionais com prazos e arquivo.",
+      },
       { property: "og:title", content: `Novo documento ocupacional — ${BRAND_NAME}` },
       { property: "og:description", content: "Cadastro de documentos ocupacionais." },
       { name: "robots", content: "noindex" },
@@ -86,7 +95,9 @@ function NewDocumentPage() {
       if (file) {
         const ext = file.name.split(".").pop()?.toLowerCase() ?? "pdf";
         filePath = `${company.id}/documentos/${form.employeeId}/${crypto.randomUUID()}.${ext}`;
-        const { error } = await supabase.storage.from("documents").upload(filePath, file, { upsert: false });
+        const { error } = await supabase.storage
+          .from("documents")
+          .upload(filePath, file, { upsert: false });
         if (error) throw new Error("Não foi possível enviar o arquivo.");
       }
 
@@ -129,7 +140,8 @@ function NewDocumentPage() {
     onError: (e: Error) => toast.error(e.message),
   });
 
-  const set = (key: keyof typeof form) => (value: string) => setForm((f) => ({ ...f, [key]: value }));
+  const set = (key: keyof typeof form) => (value: string) =>
+    setForm((f) => ({ ...f, [key]: value }));
 
   return (
     <div className="space-y-6">
@@ -144,10 +156,14 @@ function NewDocumentPage() {
           <div>
             <Label>Colaborador</Label>
             <Select value={form.employeeId} onValueChange={set("employeeId")}>
-              <SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue placeholder="Selecione" />
+              </SelectTrigger>
               <SelectContent>
                 {(employees.data ?? []).map((e) => (
-                  <SelectItem key={e.id} value={e.id}>{e.full_name}</SelectItem>
+                  <SelectItem key={e.id} value={e.id}>
+                    {e.full_name}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -155,24 +171,41 @@ function NewDocumentPage() {
           <div>
             <Label>Unidade</Label>
             <Select value={form.unitId} onValueChange={set("unitId")}>
-              <SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue placeholder="Selecione" />
+              </SelectTrigger>
               <SelectContent>
-                {units.map((u) => (<SelectItem key={u.id} value={u.id}>{u.name}</SelectItem>))}
+                {units.map((u) => (
+                  <SelectItem key={u.id} value={u.id}>
+                    {u.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
           <div>
             <Label>Tipo de documento</Label>
             <Select value={form.documentType} onValueChange={set("documentType")}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
-                {DOCUMENT_TYPES.map((t) => (<SelectItem key={t} value={t}>{DOCUMENT_TYPE_LABEL[t]}</SelectItem>))}
+                {DOCUMENT_TYPES.map((t) => (
+                  <SelectItem key={t} value={t}>
+                    {DOCUMENT_TYPE_LABEL[t]}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
           <div>
             <Label htmlFor="title">Título</Label>
-            <Input id="title" value={form.title} maxLength={160} onChange={(e) => set("title")(e.target.value)} />
+            <Input
+              id="title"
+              value={form.title}
+              maxLength={160}
+              onChange={(e) => set("title")(e.target.value)}
+            />
           </div>
         </div>
       </SectionCard>
@@ -181,30 +214,61 @@ function NewDocumentPage() {
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           <div>
             <Label htmlFor="performed">Data de realização</Label>
-            <Input id="performed" type="date" value={form.performedAt} onChange={(e) => set("performedAt")(e.target.value)} />
+            <Input
+              id="performed"
+              type="date"
+              value={form.performedAt}
+              onChange={(e) => set("performedAt")(e.target.value)}
+            />
           </div>
           <div>
             <Label htmlFor="expires">Data de validade</Label>
-            <Input id="expires" type="date" value={form.expiresAt} onChange={(e) => set("expiresAt")(e.target.value)} />
+            <Input
+              id="expires"
+              type="date"
+              value={form.expiresAt}
+              onChange={(e) => set("expiresAt")(e.target.value)}
+            />
           </div>
           <div>
             <Label htmlFor="review">Próxima revisão</Label>
-            <Input id="review" type="date" value={form.nextReviewAt} onChange={(e) => set("nextReviewAt")(e.target.value)} />
+            <Input
+              id="review"
+              type="date"
+              value={form.nextReviewAt}
+              onChange={(e) => set("nextReviewAt")(e.target.value)}
+            />
           </div>
           <div>
             <Label htmlFor="provider">Clínica, laboratório ou responsável</Label>
-            <Input id="provider" value={form.providerName} maxLength={160} onChange={(e) => set("providerName")(e.target.value)} />
+            <Input
+              id="provider"
+              value={form.providerName}
+              maxLength={160}
+              onChange={(e) => set("providerName")(e.target.value)}
+            />
           </div>
           <div>
             <Label htmlFor="ref">Número ou referência</Label>
-            <Input id="ref" value={form.providerReference} maxLength={120} onChange={(e) => set("providerReference")(e.target.value)} />
+            <Input
+              id="ref"
+              value={form.providerReference}
+              maxLength={120}
+              onChange={(e) => set("providerReference")(e.target.value)}
+            />
           </div>
           <div>
             <Label>Status administrativo</Label>
             <Select value={form.status} onValueChange={set("status")}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
-                {DOCUMENT_STATUSES.map((s) => (<SelectItem key={s} value={s}>{DOCUMENT_STATUS_LABEL[s]}</SelectItem>))}
+                {DOCUMENT_STATUSES.map((s) => (
+                  <SelectItem key={s} value={s}>
+                    {DOCUMENT_STATUS_LABEL[s]}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -230,14 +294,21 @@ function NewDocumentPage() {
           <div>
             <Label>Classificação de acesso</Label>
             <Select value={form.accessLevel} onValueChange={set("accessLevel")} disabled={!health}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
-                {ACCESS_LEVELS.map((a) => (<SelectItem key={a} value={a}>{ACCESS_LEVEL_LABEL[a]}</SelectItem>))}
+                {ACCESS_LEVELS.map((a) => (
+                  <SelectItem key={a} value={a}>
+                    {ACCESS_LEVEL_LABEL[a]}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             {health ? (
               <p className="mt-1 text-xs text-muted-foreground">
-                Documento de saúde: o conteúdo não aparece em listas, dashboards ou exportações gerais.
+                Documento de saúde: o conteúdo não aparece em listas, dashboards ou exportações
+                gerais.
               </p>
             ) : null}
           </div>
@@ -254,9 +325,15 @@ function NewDocumentPage() {
           <div>
             <Label>Ação exigida no portal</Label>
             <Select value={form.requestMode} onValueChange={set("requestMode")}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
-                {REQUEST_MODES.map((m) => (<SelectItem key={m} value={m}>{REQUEST_MODE_LABEL[m]}</SelectItem>))}
+                {REQUEST_MODES.map((m) => (
+                  <SelectItem key={m} value={m}>
+                    {REQUEST_MODE_LABEL[m]}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -267,11 +344,21 @@ function NewDocumentPage() {
         <div className="grid gap-3 sm:grid-cols-2">
           <div>
             <Label htmlFor="action">Próxima ação</Label>
-            <Input id="action" value={form.nextAction} maxLength={160} onChange={(e) => set("nextAction")(e.target.value)} />
+            <Input
+              id="action"
+              value={form.nextAction}
+              maxLength={160}
+              onChange={(e) => set("nextAction")(e.target.value)}
+            />
           </div>
           <div>
             <Label htmlFor="actionDue">Data limite da ação</Label>
-            <Input id="actionDue" type="date" value={form.nextActionDueAt} onChange={(e) => set("nextActionDueAt")(e.target.value)} />
+            <Input
+              id="actionDue"
+              type="date"
+              value={form.nextActionDueAt}
+              onChange={(e) => set("nextActionDueAt")(e.target.value)}
+            />
           </div>
           <div className="sm:col-span-2">
             <Label htmlFor="notes">Observação administrativa</Label>
@@ -287,7 +374,9 @@ function NewDocumentPage() {
       </SectionCard>
 
       <div className="flex flex-wrap justify-end gap-2">
-        <Button variant="outline" onClick={() => navigate({ to: "/app/conformidade/exames" })}>Cancelar</Button>
+        <Button variant="outline" onClick={() => navigate({ to: "/app/conformidade/exames" })}>
+          Cancelar
+        </Button>
         <Button variant="secondary" disabled={save.isPending} onClick={() => save.mutate(false)}>
           Salvar como rascunho
         </Button>

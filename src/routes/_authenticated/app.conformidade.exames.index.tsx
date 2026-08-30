@@ -6,12 +6,25 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/use-workspace";
 import { BRAND_NAME } from "@/config/brand";
-import { PageHeader, SectionCard, EmptyState, LoadingState, ErrorState, StatusBadge } from "@/components/ui-kit";
+import {
+  PageHeader,
+  SectionCard,
+  EmptyState,
+  LoadingState,
+  ErrorState,
+  StatusBadge,
+} from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { dateFmt } from "@/lib/format";
 import {
@@ -29,7 +42,10 @@ export const Route = createFileRoute("/_authenticated/app/conformidade/exames/")
   head: () => ({
     meta: [
       { title: `Exames e aptidão — ${BRAND_NAME}` },
-      { name: "description", content: "Controle documentos ocupacionais, prazos e pendências da equipe." },
+      {
+        name: "description",
+        content: "Controle documentos ocupacionais, prazos e pendências da equipe.",
+      },
       { property: "og:title", content: `Exames e aptidão — ${BRAND_NAME}` },
       { property: "og:description", content: "Documentos ocupacionais, prazos e pendências." },
       { name: "robots", content: "noindex" },
@@ -103,7 +119,16 @@ function ExamsPage() {
         }
         return true;
       });
-  }, [docsQuery.data, search, unitFilter, typeFilter, statusFilter, fileFilter, windowDays, employeeMap]);
+  }, [
+    docsQuery.data,
+    search,
+    unitFilter,
+    typeFilter,
+    statusFilter,
+    fileFilter,
+    windowDays,
+    employeeMap,
+  ]);
 
   if (docsQuery.isLoading) return <LoadingState rows={6} label="Carregando documentos…" />;
   if (docsQuery.isError)
@@ -140,7 +165,10 @@ function ExamsPage() {
       <SectionCard title="Filtros">
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           <div className="relative">
-            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
+            <Search
+              className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+              aria-hidden
+            />
             <Input
               className="pl-9"
               placeholder="Buscar colaborador ou documento"
@@ -150,43 +178,61 @@ function ExamsPage() {
             />
           </div>
           <Select value={unitFilter} onValueChange={setUnitFilter}>
-            <SelectTrigger aria-label="Unidade"><SelectValue /></SelectTrigger>
+            <SelectTrigger aria-label="Unidade">
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="todas">Todas as unidades</SelectItem>
               {units.map((u) => (
-                <SelectItem key={u.id} value={u.id}>{u.name}</SelectItem>
+                <SelectItem key={u.id} value={u.id}>
+                  {u.name}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
           <Select value={typeFilter} onValueChange={setTypeFilter}>
-            <SelectTrigger aria-label="Tipo de documento"><SelectValue /></SelectTrigger>
+            <SelectTrigger aria-label="Tipo de documento">
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="todos">Todos os tipos</SelectItem>
               {DOCUMENT_TYPES.map((t) => (
-                <SelectItem key={t} value={t}>{DOCUMENT_TYPE_LABEL[t]}</SelectItem>
+                <SelectItem key={t} value={t}>
+                  {DOCUMENT_TYPE_LABEL[t]}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger aria-label="Status"><SelectValue /></SelectTrigger>
+            <SelectTrigger aria-label="Status">
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="todos">Todos os status</SelectItem>
               {DOCUMENT_STATUSES.map((s) => (
-                <SelectItem key={s} value={s}>{DOCUMENT_STATUS_LABEL[s]}</SelectItem>
+                <SelectItem key={s} value={s}>
+                  {DOCUMENT_STATUS_LABEL[s]}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
           <Select value={windowDays} onValueChange={setWindowDays}>
-            <SelectTrigger aria-label="Vencimento"><SelectValue /></SelectTrigger>
+            <SelectTrigger aria-label="Vencimento">
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="todos">Qualquer prazo</SelectItem>
               {[7, 30, 60, 90].map((d) => (
-                <SelectItem key={d} value={String(d)}>Vence em até {d} dias</SelectItem>
+                <SelectItem key={d} value={String(d)}>
+                  Vence em até {d} dias
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
           <Select value={fileFilter} onValueChange={setFileFilter}>
-            <SelectTrigger aria-label="Arquivo"><SelectValue /></SelectTrigger>
+            <SelectTrigger aria-label="Arquivo">
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="todos">Com ou sem arquivo</SelectItem>
               <SelectItem value="com">Com arquivo</SelectItem>
@@ -207,16 +253,32 @@ function ExamsPage() {
             <table className="w-full min-w-[860px] text-sm">
               <thead>
                 <tr className="text-left">
-                  {["Colaborador", "Unidade", "Tipo", "Realização", "Validade", "Status", "Arquivo", "Atualizado", ""].map((h) => (
-                    <th key={h} className="meta-mono pb-2 pr-3">{h}</th>
+                  {[
+                    "Colaborador",
+                    "Unidade",
+                    "Tipo",
+                    "Realização",
+                    "Validade",
+                    "Status",
+                    "Arquivo",
+                    "Atualizado",
+                    "",
+                  ].map((h) => (
+                    <th key={h} className="meta-mono pb-2 pr-3">
+                      {h}
+                    </th>
                   ))}
                 </tr>
               </thead>
               <tbody className="divide-y-2 divide-foreground/10">
                 {rows.map((doc) => (
                   <tr key={doc.id}>
-                    <td className="py-3 pr-3 font-semibold">{employeeMap.get(doc.employee_id)?.full_name ?? "—"}</td>
-                    <td className="py-3 pr-3">{doc.unit_id ? unitMap.get(doc.unit_id) ?? "—" : "—"}</td>
+                    <td className="py-3 pr-3 font-semibold">
+                      {employeeMap.get(doc.employee_id)?.full_name ?? "—"}
+                    </td>
+                    <td className="py-3 pr-3">
+                      {doc.unit_id ? (unitMap.get(doc.unit_id) ?? "—") : "—"}
+                    </td>
                     <td className="py-3 pr-3">{DOCUMENT_TYPE_LABEL[doc.document_type]}</td>
                     <td className="py-3 pr-3">{dateFmt(doc.performed_at)}</td>
                     <td className="py-3 pr-3">{dateFmt(doc.expires_at ?? doc.next_review_at)}</td>
@@ -229,7 +291,9 @@ function ExamsPage() {
                     <td className="py-3 pr-3">{dateFmt(doc.updated_at)}</td>
                     <td className="py-3">
                       <Link to="/app/conformidade/exames/$id" params={{ id: doc.id }}>
-                        <Button variant="outline" size="sm">Abrir</Button>
+                        <Button variant="outline" size="sm">
+                          Abrir
+                        </Button>
                       </Link>
                     </td>
                   </tr>
@@ -241,8 +305,8 @@ function ExamsPage() {
       )}
 
       <p className="text-xs text-muted-foreground">
-        Gestores comuns visualizam apenas o status administrativo. O sistema não interpreta resultados nem calcula
-        aptidão médica.
+        Gestores comuns visualizam apenas o status administrativo. O sistema não interpreta
+        resultados nem calcula aptidão médica.
       </p>
 
       <RequestDialog
@@ -318,52 +382,85 @@ function RequestDialog({
             <div>
               <Label>Unidade</Label>
               <Select value={unitId} onValueChange={setUnitId}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="todas">Todas as unidades</SelectItem>
-                  {units.map((u) => (<SelectItem key={u.id} value={u.id}>{u.name}</SelectItem>))}
+                  {units.map((u) => (
+                    <SelectItem key={u.id} value={u.id}>
+                      {u.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
             <div>
               <Label>Tipo de documento</Label>
               <Select value={documentType} onValueChange={setDocumentType}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
-                  {DOCUMENT_TYPES.map((t) => (<SelectItem key={t} value={t}>{DOCUMENT_TYPE_LABEL[t]}</SelectItem>))}
+                  {DOCUMENT_TYPES.map((t) => (
+                    <SelectItem key={t} value={t}>
+                      {DOCUMENT_TYPE_LABEL[t]}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
             <div>
               <Label>O colaborador deve</Label>
               <Select value={mode} onValueChange={setMode}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
-                  {REQUEST_MODES.map((m) => (<SelectItem key={m} value={m}>{REQUEST_MODE_LABEL[m]}</SelectItem>))}
+                  {REQUEST_MODES.map((m) => (
+                    <SelectItem key={m} value={m}>
+                      {REQUEST_MODE_LABEL[m]}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
             <div>
               <Label htmlFor="due">Prazo para envio</Label>
-              <Input id="due" type="date" value={dueAt} onChange={(e) => setDueAt(e.target.value)} />
+              <Input
+                id="due"
+                type="date"
+                value={dueAt}
+                onChange={(e) => setDueAt(e.target.value)}
+              />
             </div>
           </div>
 
           <div>
             <Label htmlFor="msg">Mensagem administrativa</Label>
-            <Textarea id="msg" value={message} maxLength={600} onChange={(e) => setMessage(e.target.value)} />
+            <Textarea
+              id="msg"
+              value={message}
+              maxLength={600}
+              onChange={(e) => setMessage(e.target.value)}
+            />
           </div>
 
           <div>
             <Label>Colaboradores ({selected.length} selecionado(s))</Label>
             <div className="mt-2 max-h-56 space-y-1 overflow-y-auto rounded-[10px] border-2 border-foreground p-2">
               {visible.map((e) => (
-                <label key={e.id} className="flex cursor-pointer items-center gap-2 rounded-[8px] px-2 py-1 text-sm hover:bg-secondary">
+                <label
+                  key={e.id}
+                  className="flex cursor-pointer items-center gap-2 rounded-[8px] px-2 py-1 text-sm hover:bg-secondary"
+                >
                   <input
                     type="checkbox"
                     checked={selected.includes(e.id)}
                     onChange={(ev) =>
-                      setSelected((prev) => (ev.target.checked ? [...prev, e.id] : prev.filter((id) => id !== e.id)))
+                      setSelected((prev) =>
+                        ev.target.checked ? [...prev, e.id] : prev.filter((id) => id !== e.id),
+                      )
                     }
                   />
                   {e.full_name}
@@ -373,12 +470,14 @@ function RequestDialog({
           </div>
 
           <p className="text-xs text-muted-foreground">
-            As solicitações aparecem no Portal do Colaborador. Nesta versão nenhum envio automático por WhatsApp é
-            realizado.
+            As solicitações aparecem no Portal do Colaborador. Nesta versão nenhum envio automático
+            por WhatsApp é realizado.
           </p>
 
           <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => onOpenChange(false)}>Cancelar</Button>
+            <Button variant="outline" onClick={() => onOpenChange(false)}>
+              Cancelar
+            </Button>
             <Button onClick={() => mutation.mutate()} disabled={mutation.isPending}>
               Publicar solicitações
             </Button>

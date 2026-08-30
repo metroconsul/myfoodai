@@ -18,6 +18,7 @@ import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authentic
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
 import { Route as PortalEscalaRouteImport } from './routes/portal.escala'
 import { Route as PortalLoginRouteImport } from './routes/portal.login'
+import { Route as PortalPendenciasRouteImport } from './routes/portal.pendencias'
 import { Route as PortalPerfilRouteImport } from './routes/portal.perfil'
 import { Route as PortalPontoRouteImport } from './routes/portal.ponto'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
@@ -38,10 +39,12 @@ import { Route as ApiPublicSalesIngestRouteImport } from './routes/api/public/sa
 import { Route as PortalCartaoPontoIndexRouteImport } from './routes/portal.cartao-ponto.index'
 import { Route as PortalCartaoPontoIdRouteImport } from './routes/portal.cartao-ponto.$id'
 import { Route as PortalDocumentosIndexRouteImport } from './routes/portal.documentos.index'
+import { Route as PortalDocumentosIdRouteImport } from './routes/portal.documentos.$id'
 import { Route as PortalItensIndexRouteImport } from './routes/portal.itens.index'
 import { Route as PortalItensIdRouteImport } from './routes/portal.itens.$id'
 import { Route as AuthenticatedAppConformidadeIndexRouteImport } from './routes/_authenticated/app.conformidade.index'
 import { Route as AuthenticatedAppConformidadeKitsRouteImport } from './routes/_authenticated/app.conformidade.kits'
+import { Route as AuthenticatedAppConformidadePendenciasRouteImport } from './routes/_authenticated/app.conformidade.pendencias'
 import { Route as AuthenticatedAppConformidadeTrocasRouteImport } from './routes/_authenticated/app.conformidade.trocas'
 import { Route as AuthenticatedAppDeliveriesIndexRouteImport } from './routes/_authenticated/app.deliveries.index'
 import { Route as AuthenticatedAppDeliveriesIdRouteImport } from './routes/_authenticated/app.deliveries.$id'
@@ -93,6 +96,11 @@ const PortalEscalaRoute = PortalEscalaRouteImport.update({
 const PortalLoginRoute = PortalLoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalPendenciasRoute = PortalPendenciasRouteImport.update({
+  id: '/pendencias',
+  path: '/pendencias',
   getParentRoute: () => PortalRoute,
 } as any)
 const PortalPerfilRoute = PortalPerfilRouteImport.update({
@@ -204,6 +212,11 @@ const PortalDocumentosIndexRoute = PortalDocumentosIndexRouteImport.update({
   path: '/documentos/',
   getParentRoute: () => PortalRoute,
 } as any)
+const PortalDocumentosIdRoute = PortalDocumentosIdRouteImport.update({
+  id: '/documentos/$id',
+  path: '/documentos/$id',
+  getParentRoute: () => PortalRoute,
+} as any)
 const PortalItensIndexRoute = PortalItensIndexRouteImport.update({
   id: '/itens/',
   path: '/itens/',
@@ -224,6 +237,12 @@ const AuthenticatedAppConformidadeKitsRoute =
   AuthenticatedAppConformidadeKitsRouteImport.update({
     id: '/conformidade/kits',
     path: '/conformidade/kits',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppConformidadePendenciasRoute =
+  AuthenticatedAppConformidadePendenciasRouteImport.update({
+    id: '/conformidade/pendencias',
+    path: '/conformidade/pendencias',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
 const AuthenticatedAppConformidadeTrocasRoute =
@@ -283,6 +302,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/portal/escala': typeof PortalEscalaRoute
   '/portal/login': typeof PortalLoginRoute
+  '/portal/pendencias': typeof PortalPendenciasRoute
   '/portal/perfil': typeof PortalPerfilRoute
   '/portal/ponto': typeof PortalPontoRoute
   '/portal/': typeof PortalIndexRoute
@@ -301,12 +321,14 @@ export interface FileRoutesByFullPath {
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/portal/cartao-ponto/$id': typeof PortalCartaoPontoIdRoute
+  '/portal/documentos/$id': typeof PortalDocumentosIdRoute
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/portal/cartao-ponto/': typeof PortalCartaoPontoIndexRoute
   '/portal/documentos/': typeof PortalDocumentosIndexRoute
   '/portal/itens/': typeof PortalItensIndexRoute
   '/app/conformidade/kits': typeof AuthenticatedAppConformidadeKitsRoute
+  '/app/conformidade/pendencias': typeof AuthenticatedAppConformidadePendenciasRoute
   '/app/conformidade/trocas': typeof AuthenticatedAppConformidadeTrocasRoute
   '/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/app/point-cards/$id': typeof AuthenticatedAppPointCardsIdRoute
@@ -323,6 +345,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/portal/escala': typeof PortalEscalaRoute
   '/portal/login': typeof PortalLoginRoute
+  '/portal/pendencias': typeof PortalPendenciasRoute
   '/portal/perfil': typeof PortalPerfilRoute
   '/portal/ponto': typeof PortalPontoRoute
   '/portal': typeof PortalIndexRoute
@@ -341,12 +364,14 @@ export interface FileRoutesByTo {
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/portal/cartao-ponto/$id': typeof PortalCartaoPontoIdRoute
+  '/portal/documentos/$id': typeof PortalDocumentosIdRoute
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/portal/cartao-ponto': typeof PortalCartaoPontoIndexRoute
   '/portal/documentos': typeof PortalDocumentosIndexRoute
   '/portal/itens': typeof PortalItensIndexRoute
   '/app/conformidade/kits': typeof AuthenticatedAppConformidadeKitsRoute
+  '/app/conformidade/pendencias': typeof AuthenticatedAppConformidadePendenciasRoute
   '/app/conformidade/trocas': typeof AuthenticatedAppConformidadeTrocasRoute
   '/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/app/point-cards/$id': typeof AuthenticatedAppPointCardsIdRoute
@@ -367,6 +392,7 @@ export interface FileRoutesById {
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/portal/escala': typeof PortalEscalaRoute
   '/portal/login': typeof PortalLoginRoute
+  '/portal/pendencias': typeof PortalPendenciasRoute
   '/portal/perfil': typeof PortalPerfilRoute
   '/portal/ponto': typeof PortalPontoRoute
   '/portal/': typeof PortalIndexRoute
@@ -385,12 +411,14 @@ export interface FileRoutesById {
   '/_authenticated/app/units': typeof AuthenticatedAppUnitsRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/portal/cartao-ponto/$id': typeof PortalCartaoPontoIdRoute
+  '/portal/documentos/$id': typeof PortalDocumentosIdRoute
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/portal/cartao-ponto/': typeof PortalCartaoPontoIndexRoute
   '/portal/documentos/': typeof PortalDocumentosIndexRoute
   '/portal/itens/': typeof PortalItensIndexRoute
   '/_authenticated/app/conformidade/kits': typeof AuthenticatedAppConformidadeKitsRoute
+  '/_authenticated/app/conformidade/pendencias': typeof AuthenticatedAppConformidadePendenciasRoute
   '/_authenticated/app/conformidade/trocas': typeof AuthenticatedAppConformidadeTrocasRoute
   '/_authenticated/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/_authenticated/app/point-cards/$id': typeof AuthenticatedAppPointCardsIdRoute
@@ -411,6 +439,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/portal/escala'
     | '/portal/login'
+    | '/portal/pendencias'
     | '/portal/perfil'
     | '/portal/ponto'
     | '/portal/'
@@ -429,12 +458,14 @@ export interface FileRouteTypes {
     | '/app/units'
     | '/api/public/sales-ingest'
     | '/portal/cartao-ponto/$id'
+    | '/portal/documentos/$id'
     | '/portal/itens/$id'
     | '/app/'
     | '/portal/cartao-ponto/'
     | '/portal/documentos/'
     | '/portal/itens/'
     | '/app/conformidade/kits'
+    | '/app/conformidade/pendencias'
     | '/app/conformidade/trocas'
     | '/app/deliveries/$id'
     | '/app/point-cards/$id'
@@ -451,6 +482,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/portal/escala'
     | '/portal/login'
+    | '/portal/pendencias'
     | '/portal/perfil'
     | '/portal/ponto'
     | '/portal'
@@ -469,12 +501,14 @@ export interface FileRouteTypes {
     | '/app/units'
     | '/api/public/sales-ingest'
     | '/portal/cartao-ponto/$id'
+    | '/portal/documentos/$id'
     | '/portal/itens/$id'
     | '/app'
     | '/portal/cartao-ponto'
     | '/portal/documentos'
     | '/portal/itens'
     | '/app/conformidade/kits'
+    | '/app/conformidade/pendencias'
     | '/app/conformidade/trocas'
     | '/app/deliveries/$id'
     | '/app/point-cards/$id'
@@ -494,6 +528,7 @@ export interface FileRouteTypes {
     | '/_authenticated/onboarding'
     | '/portal/escala'
     | '/portal/login'
+    | '/portal/pendencias'
     | '/portal/perfil'
     | '/portal/ponto'
     | '/portal/'
@@ -512,12 +547,14 @@ export interface FileRouteTypes {
     | '/_authenticated/app/units'
     | '/api/public/sales-ingest'
     | '/portal/cartao-ponto/$id'
+    | '/portal/documentos/$id'
     | '/portal/itens/$id'
     | '/_authenticated/app/'
     | '/portal/cartao-ponto/'
     | '/portal/documentos/'
     | '/portal/itens/'
     | '/_authenticated/app/conformidade/kits'
+    | '/_authenticated/app/conformidade/pendencias'
     | '/_authenticated/app/conformidade/trocas'
     | '/_authenticated/app/deliveries/$id'
     | '/_authenticated/app/point-cards/$id'
@@ -600,6 +637,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/portal/login'
       preLoaderRoute: typeof PortalLoginRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/pendencias': {
+      id: '/portal/pendencias'
+      path: '/pendencias'
+      fullPath: '/portal/pendencias'
+      preLoaderRoute: typeof PortalPendenciasRouteImport
       parentRoute: typeof PortalRoute
     }
     '/portal/perfil': {
@@ -742,6 +786,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalDocumentosIndexRouteImport
       parentRoute: typeof PortalRoute
     }
+    '/portal/documentos/$id': {
+      id: '/portal/documentos/$id'
+      path: '/documentos/$id'
+      fullPath: '/portal/documentos/$id'
+      preLoaderRoute: typeof PortalDocumentosIdRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/portal/itens/': {
       id: '/portal/itens/'
       path: '/itens'
@@ -768,6 +819,13 @@ declare module '@tanstack/react-router' {
       path: '/conformidade/kits'
       fullPath: '/app/conformidade/kits'
       preLoaderRoute: typeof AuthenticatedAppConformidadeKitsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/conformidade/pendencias': {
+      id: '/_authenticated/app/conformidade/pendencias'
+      path: '/conformidade/pendencias'
+      fullPath: '/app/conformidade/pendencias'
+      preLoaderRoute: typeof AuthenticatedAppConformidadePendenciasRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
     '/_authenticated/app/conformidade/trocas': {
@@ -845,6 +903,7 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppUnitsRoute: typeof AuthenticatedAppUnitsRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
   AuthenticatedAppConformidadeKitsRoute: typeof AuthenticatedAppConformidadeKitsRoute
+  AuthenticatedAppConformidadePendenciasRoute: typeof AuthenticatedAppConformidadePendenciasRoute
   AuthenticatedAppConformidadeTrocasRoute: typeof AuthenticatedAppConformidadeTrocasRoute
   AuthenticatedAppDeliveriesIdRoute: typeof AuthenticatedAppDeliveriesIdRoute
   AuthenticatedAppPointCardsIdRoute: typeof AuthenticatedAppPointCardsIdRoute
@@ -874,6 +933,8 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppUnitsRoute: AuthenticatedAppUnitsRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
   AuthenticatedAppConformidadeKitsRoute: AuthenticatedAppConformidadeKitsRoute,
+  AuthenticatedAppConformidadePendenciasRoute:
+    AuthenticatedAppConformidadePendenciasRoute,
   AuthenticatedAppConformidadeTrocasRoute:
     AuthenticatedAppConformidadeTrocasRoute,
   AuthenticatedAppDeliveriesIdRoute: AuthenticatedAppDeliveriesIdRoute,
@@ -909,10 +970,12 @@ const AuthenticatedRouteRouteWithChildren =
 interface PortalRouteChildren {
   PortalEscalaRoute: typeof PortalEscalaRoute
   PortalLoginRoute: typeof PortalLoginRoute
+  PortalPendenciasRoute: typeof PortalPendenciasRoute
   PortalPerfilRoute: typeof PortalPerfilRoute
   PortalPontoRoute: typeof PortalPontoRoute
   PortalIndexRoute: typeof PortalIndexRoute
   PortalCartaoPontoIdRoute: typeof PortalCartaoPontoIdRoute
+  PortalDocumentosIdRoute: typeof PortalDocumentosIdRoute
   PortalItensIdRoute: typeof PortalItensIdRoute
   PortalCartaoPontoIndexRoute: typeof PortalCartaoPontoIndexRoute
   PortalDocumentosIndexRoute: typeof PortalDocumentosIndexRoute
@@ -922,10 +985,12 @@ interface PortalRouteChildren {
 const PortalRouteChildren: PortalRouteChildren = {
   PortalEscalaRoute: PortalEscalaRoute,
   PortalLoginRoute: PortalLoginRoute,
+  PortalPendenciasRoute: PortalPendenciasRoute,
   PortalPerfilRoute: PortalPerfilRoute,
   PortalPontoRoute: PortalPontoRoute,
   PortalIndexRoute: PortalIndexRoute,
   PortalCartaoPontoIdRoute: PortalCartaoPontoIdRoute,
+  PortalDocumentosIdRoute: PortalDocumentosIdRoute,
   PortalItensIdRoute: PortalItensIdRoute,
   PortalCartaoPontoIndexRoute: PortalCartaoPontoIndexRoute,
   PortalDocumentosIndexRoute: PortalDocumentosIndexRoute,

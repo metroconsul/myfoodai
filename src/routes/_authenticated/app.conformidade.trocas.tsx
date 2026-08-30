@@ -6,18 +6,34 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Enums } from "@/integrations/supabase/types";
 import { useWorkspace } from "@/hooks/use-workspace";
 import { BRAND_NAME } from "@/config/brand";
-import { PageHeader, SectionCard, EmptyState, LoadingState, ErrorState, StatusBadge } from "@/components/ui-kit";
+import {
+  PageHeader,
+  SectionCard,
+  EmptyState,
+  LoadingState,
+  ErrorState,
+  StatusBadge,
+} from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { dateTimeFmt } from "@/lib/format";
 
 export const Route = createFileRoute("/_authenticated/app/conformidade/trocas")({
   head: () => ({
     meta: [
       { title: `Trocas e devoluções — ${BRAND_NAME}` },
-      { name: "description", content: "Analise solicitações de troca, devolução e reposição de uniformes e itens." },
+      {
+        name: "description",
+        content: "Analise solicitações de troca, devolução e reposição de uniformes e itens.",
+      },
       { property: "og:title", content: `Trocas e devoluções — ${BRAND_NAME}` },
       { property: "og:description", content: "Fila de trocas e devoluções da equipe." },
       { name: "robots", content: "noindex" },
@@ -94,11 +110,20 @@ function ExchangesPage() {
     () => new Map((query.data?.employees ?? []).map((e) => [e.id, e.full_name])),
     [query.data],
   );
-  const itemMap = useMemo(() => new Map((query.data?.items ?? []).map((i) => [i.id, i.name])), [query.data]);
+  const itemMap = useMemo(
+    () => new Map((query.data?.items ?? []).map((i) => [i.id, i.name])),
+    [query.data],
+  );
   const unitMap = useMemo(() => new Map(units.map((u) => [u.id, u.name])), [units]);
 
   const review = useMutation({
-    mutationFn: async ({ id, status }: { id: string; status: Enums<"uniform_exchange_status"> }) => {
+    mutationFn: async ({
+      id,
+      status,
+    }: {
+      id: string;
+      status: Enums<"uniform_exchange_status">;
+    }) => {
       const { data: session } = await supabase.auth.getUser();
       const { error } = await supabase
         .from("uniform_exchange_requests")
@@ -120,7 +145,15 @@ function ExchangesPage() {
 
   if (query.isLoading) return <LoadingState rows={4} label="Carregando solicitações…" />;
   if (query.isError)
-    return <ErrorState action={<Button variant="outline" onClick={() => query.refetch()}>Tentar novamente</Button>} />;
+    return (
+      <ErrorState
+        action={
+          <Button variant="outline" onClick={() => query.refetch()}>
+            Tentar novamente
+          </Button>
+        }
+      />
+    );
 
   const rows = (query.data?.requests ?? []).filter((r) => {
     if (activeUnitId && r.unit_id && r.unit_id !== activeUnitId) return false;
@@ -144,7 +177,9 @@ function ExchangesPage() {
               <SelectItem value="abertas">Somente abertas</SelectItem>
               <SelectItem value="todas">Todas</SelectItem>
               {STATUSES.map((s) => (
-                <SelectItem key={s} value={s}>{STATUS_LABEL[s]}</SelectItem>
+                <SelectItem key={s} value={s}>
+                  {STATUS_LABEL[s]}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -169,21 +204,38 @@ function ExchangesPage() {
               }
             >
               <p className="meta-mono mb-2">
-                {request.item_id ? itemMap.get(request.item_id) ?? "Item" : "Item não informado"} ·{" "}
-                {request.unit_id ? unitMap.get(request.unit_id) ?? "Unidade" : "Sem unidade"} ·{" "}
+                {request.item_id ? (itemMap.get(request.item_id) ?? "Item") : "Item não informado"}{" "}
+                · {request.unit_id ? (unitMap.get(request.unit_id) ?? "Unidade") : "Sem unidade"} ·{" "}
                 {dateTimeFmt(request.created_at)}
               </p>
               <dl className="grid gap-2 text-sm sm:grid-cols-2">
-                <div><dt className="meta-mono">Motivo</dt><dd>{request.reason}</dd></div>
-                <div><dt className="meta-mono">Tamanho / cor pedidos</dt><dd>{request.requested_size ?? "—"} · {request.requested_color ?? "—"}</dd></div>
-                <div className="sm:col-span-2"><dt className="meta-mono">Descrição</dt><dd>{request.description ?? "—"}</dd></div>
+                <div>
+                  <dt className="meta-mono">Motivo</dt>
+                  <dd>{request.reason}</dd>
+                </div>
+                <div>
+                  <dt className="meta-mono">Tamanho / cor pedidos</dt>
+                  <dd>
+                    {request.requested_size ?? "—"} · {request.requested_color ?? "—"}
+                  </dd>
+                </div>
+                <div className="sm:col-span-2">
+                  <dt className="meta-mono">Descrição</dt>
+                  <dd>{request.description ?? "—"}</dd>
+                </div>
                 {request.returned_condition ? (
-                  <div className="sm:col-span-2"><dt className="meta-mono">Condição na devolução</dt><dd>{request.returned_condition}</dd></div>
+                  <div className="sm:col-span-2">
+                    <dt className="meta-mono">Condição na devolução</dt>
+                    <dd>{request.returned_condition}</dd>
+                  </div>
                 ) : null}
                 {request.reviewed_at ? (
                   <div className="sm:col-span-2">
                     <dt className="meta-mono">Análise</dt>
-                    <dd>{request.review_notes ?? "Sem observação"} · {dateTimeFmt(request.reviewed_at)}</dd>
+                    <dd>
+                      {request.review_notes ?? "Sem observação"} ·{" "}
+                      {dateTimeFmt(request.reviewed_at)}
+                    </dd>
                   </div>
                 ) : null}
               </dl>
@@ -195,22 +247,50 @@ function ExchangesPage() {
                     id={`note-${request.id}`}
                     maxLength={600}
                     value={notes[request.id] ?? ""}
-                    onChange={(e) => setNotes((prev) => ({ ...prev, [request.id]: e.target.value }))}
+                    onChange={(e) =>
+                      setNotes((prev) => ({ ...prev, [request.id]: e.target.value }))
+                    }
                   />
                   <div className="flex flex-wrap gap-2">
-                    <Button size="sm" disabled={review.isPending} onClick={() => review.mutate({ id: request.id, status: "aprovada" })}>
+                    <Button
+                      size="sm"
+                      disabled={review.isPending}
+                      onClick={() => review.mutate({ id: request.id, status: "aprovada" })}
+                    >
                       Aprovar
                     </Button>
-                    <Button size="sm" variant="secondary" disabled={review.isPending} onClick={() => review.mutate({ id: request.id, status: "aguardando_devolucao" })}>
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      disabled={review.isPending}
+                      onClick={() =>
+                        review.mutate({ id: request.id, status: "aguardando_devolucao" })
+                      }
+                    >
                       Aguardar devolução
                     </Button>
-                    <Button size="sm" variant="secondary" disabled={review.isPending} onClick={() => review.mutate({ id: request.id, status: "entregue" })}>
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      disabled={review.isPending}
+                      onClick={() => review.mutate({ id: request.id, status: "entregue" })}
+                    >
                       Marcar entregue
                     </Button>
-                    <Button size="sm" variant="outline" disabled={review.isPending} onClick={() => review.mutate({ id: request.id, status: "recusada" })}>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={review.isPending}
+                      onClick={() => review.mutate({ id: request.id, status: "recusada" })}
+                    >
                       Recusar
                     </Button>
-                    <Button size="sm" variant="outline" disabled={review.isPending} onClick={() => review.mutate({ id: request.id, status: "concluida" })}>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={review.isPending}
+                      onClick={() => review.mutate({ id: request.id, status: "concluida" })}
+                    >
                       Concluir
                     </Button>
                   </div>

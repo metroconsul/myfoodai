@@ -14,11 +14,16 @@ import {
   LayoutDashboard,
   LineChart,
   ListChecks,
+  ListTodo,
   LogOut,
   Menu,
   Package,
   PackageCheck,
+  Repeat,
   ShieldAlert,
+  ShieldCheck,
+  Shirt,
+  Stethoscope,
   Users,
   X,
 } from "lucide-react";
@@ -26,7 +31,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/use-workspace";
 import { BRAND_NAME } from "@/config/brand";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -68,6 +79,16 @@ const NAV = [
     ],
   },
   {
+    label: "Conformidade e equipe",
+    items: [
+      { to: "/app/conformidade", label: "Visão de conformidade", icon: ShieldCheck, exact: true },
+      { to: "/app/conformidade/exames", label: "Exames e aptidão", icon: Stethoscope },
+      { to: "/app/conformidade/kits", label: "Kits por função", icon: Shirt },
+      { to: "/app/conformidade/trocas", label: "Trocas e devoluções", icon: Repeat },
+      { to: "/app/conformidade/pendencias", label: "Pendências da equipe", icon: ListTodo },
+    ],
+  },
+  {
     label: "Estoque",
     items: [{ to: "/app/inventory", label: "Estoque por unidade", icon: Boxes }],
   },
@@ -80,7 +101,8 @@ const NAV = [
 function currentPageLabel(pathname: string) {
   for (const group of NAV) {
     for (const item of group.items) {
-      const active = "exact" in item && item.exact ? pathname === item.to : pathname.startsWith(item.to);
+      const active =
+        "exact" in item && item.exact ? pathname === item.to : pathname.startsWith(item.to);
       if (active) return item.label;
     }
   }
@@ -116,7 +138,9 @@ export function AppShell({ children }: { children: ReactNode }) {
           <span className="flex size-9 items-center justify-center rounded-[8px] border-2 border-foreground bg-accent text-sm font-bold shadow-[2px_2px_0_var(--ink)]">
             {brandLabel.slice(0, 1).toUpperCase()}
           </span>
-          <span className="display-type truncate text-[13px] uppercase leading-tight">{brandLabel}</span>
+          <span className="display-type truncate text-[13px] uppercase leading-tight">
+            {brandLabel}
+          </span>
           <Button
             variant="ghost"
             size="icon"
@@ -154,7 +178,9 @@ export function AppShell({ children }: { children: ReactNode }) {
               <ul className="space-y-1">
                 {group.items.map((item) => {
                   const active =
-                    "exact" in item && item.exact ? pathname === item.to : pathname.startsWith(item.to);
+                    "exact" in item && item.exact
+                      ? pathname === item.to
+                      : pathname.startsWith(item.to);
                   const Icon = item.icon;
                   return (
                     <li key={item.to}>
