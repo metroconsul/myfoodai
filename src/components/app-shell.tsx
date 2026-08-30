@@ -1,4 +1,5 @@
-import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import {
+  FileSignature, Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, type ReactNode } from "react";
 import {
@@ -53,7 +54,10 @@ const NAV = [
   },
   {
     label: "Ponto",
-    items: [{ to: "/app/time-entries", label: "Registros de ponto", icon: Clock }],
+    items: [
+      { to: "/app/time-entries", label: "Registros de ponto", icon: Clock },
+      { to: "/app/point-cards", label: "Cartões de ponto", icon: FileSignature },
+    ],
   },
   {
     label: "Itens e entregas",
