@@ -298,6 +298,249 @@ export type Database = {
           },
         ]
       }
+      document_access_logs: {
+        Row: {
+          actor_id: string | null
+          actor_type: string
+          company_id: string
+          created_at: string
+          document_id: string
+          event_type: string
+          id: string
+          metadata: Json
+        }
+        Insert: {
+          actor_id?: string | null
+          actor_type: string
+          company_id: string
+          created_at?: string
+          document_id: string
+          event_type: string
+          id?: string
+          metadata?: Json
+        }
+        Update: {
+          actor_id?: string | null
+          actor_type?: string
+          company_id?: string
+          created_at?: string
+          document_id?: string
+          event_type?: string
+          id?: string
+          metadata?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_access_logs_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_access_logs_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "occupational_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document_acknowledgements: {
+        Row: {
+          accuracy_meters: number | null
+          acknowledged_at: string | null
+          company_id: string
+          consent_version: string | null
+          created_at: string
+          device_metadata: Json
+          document_id: string
+          document_version: number
+          employee_id: string
+          face_provider_reference: string | null
+          face_status: string
+          id: string
+          integrity_hash: string | null
+          latitude: number | null
+          liveness_status: string | null
+          location_captured_at: string | null
+          location_status: string
+          longitude: number | null
+          masked_ip: string | null
+          signature_path: string | null
+          signed_at: string | null
+          term_version: string | null
+          updated_at: string
+          viewed_at: string | null
+        }
+        Insert: {
+          accuracy_meters?: number | null
+          acknowledged_at?: string | null
+          company_id: string
+          consent_version?: string | null
+          created_at?: string
+          device_metadata?: Json
+          document_id: string
+          document_version?: number
+          employee_id: string
+          face_provider_reference?: string | null
+          face_status?: string
+          id?: string
+          integrity_hash?: string | null
+          latitude?: number | null
+          liveness_status?: string | null
+          location_captured_at?: string | null
+          location_status?: string
+          longitude?: number | null
+          masked_ip?: string | null
+          signature_path?: string | null
+          signed_at?: string | null
+          term_version?: string | null
+          updated_at?: string
+          viewed_at?: string | null
+        }
+        Update: {
+          accuracy_meters?: number | null
+          acknowledged_at?: string | null
+          company_id?: string
+          consent_version?: string | null
+          created_at?: string
+          device_metadata?: Json
+          document_id?: string
+          document_version?: number
+          employee_id?: string
+          face_provider_reference?: string | null
+          face_status?: string
+          id?: string
+          integrity_hash?: string | null
+          latitude?: number | null
+          liveness_status?: string | null
+          location_captured_at?: string | null
+          location_status?: string
+          longitude?: number | null
+          masked_ip?: string | null
+          signature_path?: string | null
+          signed_at?: string | null
+          term_version?: string | null
+          updated_at?: string
+          viewed_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_acknowledgements_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_acknowledgements_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "occupational_documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_acknowledgements_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document_requests: {
+        Row: {
+          batch_id: string | null
+          company_id: string
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          document_id: string | null
+          document_type: Database["public"]["Enums"]["occ_document_type"]
+          due_at: string | null
+          employee_id: string
+          id: string
+          message: string | null
+          request_mode: Database["public"]["Enums"]["doc_request_mode"]
+          requires_acknowledgement: boolean
+          requires_signature: boolean
+          requires_upload: boolean
+          status: Database["public"]["Enums"]["doc_request_status"]
+          unit_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          batch_id?: string | null
+          company_id: string
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          document_id?: string | null
+          document_type: Database["public"]["Enums"]["occ_document_type"]
+          due_at?: string | null
+          employee_id: string
+          id?: string
+          message?: string | null
+          request_mode?: Database["public"]["Enums"]["doc_request_mode"]
+          requires_acknowledgement?: boolean
+          requires_signature?: boolean
+          requires_upload?: boolean
+          status?: Database["public"]["Enums"]["doc_request_status"]
+          unit_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          batch_id?: string | null
+          company_id?: string
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          document_id?: string | null
+          document_type?: Database["public"]["Enums"]["occ_document_type"]
+          due_at?: string | null
+          employee_id?: string
+          id?: string
+          message?: string | null
+          request_mode?: Database["public"]["Enums"]["doc_request_mode"]
+          requires_acknowledgement?: boolean
+          requires_signature?: boolean
+          requires_upload?: boolean
+          status?: Database["public"]["Enums"]["doc_request_status"]
+          unit_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_requests_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_requests_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "occupational_documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_requests_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_requests_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       employee_item_deliveries: {
         Row: {
           catalog_item_id: string
@@ -1077,6 +1320,124 @@ export type Database = {
           },
           {
             foreignKeyName: "notifications_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      occupational_documents: {
+        Row: {
+          administrative_notes: string | null
+          archived_at: string | null
+          clinical_access_level: Database["public"]["Enums"]["clinical_access_level"]
+          company_id: string
+          created_at: string
+          created_by: string | null
+          document_type: Database["public"]["Enums"]["occ_document_type"]
+          employee_id: string
+          expires_at: string | null
+          file_hash: string | null
+          file_name: string | null
+          file_path: string | null
+          file_size: number | null
+          id: string
+          is_draft: boolean
+          next_action: string | null
+          next_action_due_at: string | null
+          next_review_at: string | null
+          performed_at: string | null
+          provider_name: string | null
+          provider_reference: string | null
+          published_to_portal_at: string | null
+          reported_status: string | null
+          request_mode: Database["public"]["Enums"]["doc_request_mode"]
+          status: Database["public"]["Enums"]["occ_document_status"]
+          title: string
+          unit_id: string | null
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          administrative_notes?: string | null
+          archived_at?: string | null
+          clinical_access_level?: Database["public"]["Enums"]["clinical_access_level"]
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          document_type: Database["public"]["Enums"]["occ_document_type"]
+          employee_id: string
+          expires_at?: string | null
+          file_hash?: string | null
+          file_name?: string | null
+          file_path?: string | null
+          file_size?: number | null
+          id?: string
+          is_draft?: boolean
+          next_action?: string | null
+          next_action_due_at?: string | null
+          next_review_at?: string | null
+          performed_at?: string | null
+          provider_name?: string | null
+          provider_reference?: string | null
+          published_to_portal_at?: string | null
+          reported_status?: string | null
+          request_mode?: Database["public"]["Enums"]["doc_request_mode"]
+          status?: Database["public"]["Enums"]["occ_document_status"]
+          title: string
+          unit_id?: string | null
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          administrative_notes?: string | null
+          archived_at?: string | null
+          clinical_access_level?: Database["public"]["Enums"]["clinical_access_level"]
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          document_type?: Database["public"]["Enums"]["occ_document_type"]
+          employee_id?: string
+          expires_at?: string | null
+          file_hash?: string | null
+          file_name?: string | null
+          file_path?: string | null
+          file_size?: number | null
+          id?: string
+          is_draft?: boolean
+          next_action?: string | null
+          next_action_due_at?: string | null
+          next_review_at?: string | null
+          performed_at?: string | null
+          provider_name?: string | null
+          provider_reference?: string | null
+          published_to_portal_at?: string | null
+          reported_status?: string | null
+          request_mode?: Database["public"]["Enums"]["doc_request_mode"]
+          status?: Database["public"]["Enums"]["occ_document_status"]
+          title?: string
+          unit_id?: string | null
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "occupational_documents_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "occupational_documents_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "occupational_documents_unit_id_fkey"
             columns: ["unit_id"]
             isOneToOne: false
             referencedRelation: "units"
@@ -3175,6 +3536,230 @@ export type Database = {
           },
         ]
       }
+      uniform_exchange_requests: {
+        Row: {
+          attachment_path: string | null
+          company_id: string
+          created_at: string
+          description: string | null
+          employee_id: string
+          id: string
+          item_id: string | null
+          original_delivery_id: string | null
+          reason: string
+          requested_color: string | null
+          requested_size: string | null
+          returned_condition: string | null
+          review_notes: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: Database["public"]["Enums"]["uniform_exchange_status"]
+          unit_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          attachment_path?: string | null
+          company_id: string
+          created_at?: string
+          description?: string | null
+          employee_id: string
+          id?: string
+          item_id?: string | null
+          original_delivery_id?: string | null
+          reason: string
+          requested_color?: string | null
+          requested_size?: string | null
+          returned_condition?: string | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["uniform_exchange_status"]
+          unit_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          attachment_path?: string | null
+          company_id?: string
+          created_at?: string
+          description?: string | null
+          employee_id?: string
+          id?: string
+          item_id?: string | null
+          original_delivery_id?: string | null
+          reason?: string
+          requested_color?: string | null
+          requested_size?: string | null
+          returned_condition?: string | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["uniform_exchange_status"]
+          unit_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "uniform_exchange_requests_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "uniform_exchange_requests_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "uniform_exchange_requests_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "uniform_exchange_requests_original_delivery_id_fkey"
+            columns: ["original_delivery_id"]
+            isOneToOne: false
+            referencedRelation: "item_deliveries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "uniform_exchange_requests_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      uniform_kit_items: {
+        Row: {
+          company_id: string
+          created_at: string
+          default_color: string | null
+          default_size: string | null
+          id: string
+          item_id: string
+          kit_id: string
+          quantity: number
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          default_color?: string | null
+          default_size?: string | null
+          id?: string
+          item_id: string
+          kit_id: string
+          quantity?: number
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          default_color?: string | null
+          default_size?: string | null
+          id?: string
+          item_id?: string
+          kit_id?: string
+          quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "uniform_kit_items_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "uniform_kit_items_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "uniform_kit_items_kit_id_fkey"
+            columns: ["kit_id"]
+            isOneToOne: false
+            referencedRelation: "uniform_kits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      uniform_kits: {
+        Row: {
+          active: boolean
+          company_id: string
+          created_at: string
+          department: string | null
+          effective_from: string | null
+          effective_until: string | null
+          id: string
+          name: string
+          replacement_period: string
+          required: boolean
+          role_id: string | null
+          unit_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          company_id: string
+          created_at?: string
+          department?: string | null
+          effective_from?: string | null
+          effective_until?: string | null
+          id?: string
+          name: string
+          replacement_period?: string
+          required?: boolean
+          role_id?: string | null
+          unit_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          company_id?: string
+          created_at?: string
+          department?: string | null
+          effective_from?: string | null
+          effective_until?: string | null
+          id?: string
+          name?: string
+          replacement_period?: string
+          required?: boolean
+          role_id?: string | null
+          unit_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "uniform_kits_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "uniform_kits_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "roles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "uniform_kits_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       units: {
         Row: {
           active: boolean
@@ -3369,6 +3954,11 @@ export type Database = {
         | "stock_manager"
         | "supervisor"
         | "staff"
+      clinical_access_level:
+        | "saude_ocupacional"
+        | "rh_autorizado"
+        | "gestor_autorizado"
+        | "administrativo"
       delivery_channel: "whatsapp" | "email" | "link"
       delivery_status:
         | "pendente"
@@ -3376,6 +3966,12 @@ export type Database = {
         | "enviado"
         | "erro"
         | "cancelado"
+      doc_request_mode:
+        | "visualizar"
+        | "confirmar_ciencia"
+        | "enviar_documento"
+        | "assinar"
+      doc_request_status: "aberta" | "concluida" | "vencida" | "cancelada"
       employment_status: "ativo" | "afastado" | "ferias" | "desligado"
       geo_status:
         | "dentro_do_raio"
@@ -3414,6 +4010,26 @@ export type Database = {
         | "perda"
         | "transferencia"
         | "inventario"
+      occ_document_status:
+        | "regular"
+        | "vence_em_breve"
+        | "vencido"
+        | "agendado"
+        | "aguardando_documento"
+        | "em_revisao"
+        | "nao_aplicavel"
+        | "cancelado"
+      occ_document_type:
+        | "aso_admissional"
+        | "aso_periodico"
+        | "aso_retorno"
+        | "aso_mudanca_funcao"
+        | "aso_demissional"
+        | "exame_sangue"
+        | "exame_clinico"
+        | "exame_complementar"
+        | "atestado_ocupacional"
+        | "outro"
       regime_type: "6x1" | "5x2" | "12x36" | "custom"
       schedule_status: "rascunho" | "publicada" | "arquivada"
       time_entry_type:
@@ -3421,6 +4037,15 @@ export type Database = {
         | "intervalo_saida"
         | "intervalo_retorno"
         | "saida"
+      uniform_exchange_status:
+        | "solicitada"
+        | "em_analise"
+        | "aprovada"
+        | "aguardando_devolucao"
+        | "entregue"
+        | "recusada"
+        | "cancelada"
+        | "concluida"
       unit_type:
         | "restaurante"
         | "bar"
@@ -3566,8 +4191,21 @@ export const Constants = {
         "supervisor",
         "staff",
       ],
+      clinical_access_level: [
+        "saude_ocupacional",
+        "rh_autorizado",
+        "gestor_autorizado",
+        "administrativo",
+      ],
       delivery_channel: ["whatsapp", "email", "link"],
       delivery_status: ["pendente", "enviando", "enviado", "erro", "cancelado"],
+      doc_request_mode: [
+        "visualizar",
+        "confirmar_ciencia",
+        "enviar_documento",
+        "assinar",
+      ],
+      doc_request_status: ["aberta", "concluida", "vencida", "cancelada"],
       employment_status: ["ativo", "afastado", "ferias", "desligado"],
       geo_status: [
         "dentro_do_raio",
@@ -3611,6 +4249,28 @@ export const Constants = {
         "transferencia",
         "inventario",
       ],
+      occ_document_status: [
+        "regular",
+        "vence_em_breve",
+        "vencido",
+        "agendado",
+        "aguardando_documento",
+        "em_revisao",
+        "nao_aplicavel",
+        "cancelado",
+      ],
+      occ_document_type: [
+        "aso_admissional",
+        "aso_periodico",
+        "aso_retorno",
+        "aso_mudanca_funcao",
+        "aso_demissional",
+        "exame_sangue",
+        "exame_clinico",
+        "exame_complementar",
+        "atestado_ocupacional",
+        "outro",
+      ],
       regime_type: ["6x1", "5x2", "12x36", "custom"],
       schedule_status: ["rascunho", "publicada", "arquivada"],
       time_entry_type: [
@@ -3618,6 +4278,16 @@ export const Constants = {
         "intervalo_saida",
         "intervalo_retorno",
         "saida",
+      ],
+      uniform_exchange_status: [
+        "solicitada",
+        "em_analise",
+        "aprovada",
+        "aguardando_devolucao",
+        "entregue",
+        "recusada",
+        "cancelada",
+        "concluida",
       ],
       unit_type: [
         "restaurante",
