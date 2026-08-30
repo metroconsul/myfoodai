@@ -316,16 +316,45 @@ export const portalAcceptDelivery = createServerFn({ method: "POST" })
       termsVersion: TERMS_VERSION,
     });
 
+    const { data: unit } = delivery.unit_id
+      ? await supabaseAdmin
+          .from("units")
+          .select("latitude, longitude, point_radius_meters")
+          .eq("id", delivery.unit_id)
+          .maybeSingle()
+      : { data: null };
+
+    const geoAudit = data.consentLocation
+      ? await (await import("./geo-validation.server")).resolveGeoAudit({
+          latitude: data.latitude ?? null,
+          longitude: data.longitude ?? null,
+          unit,
+        })
+      : null;
+
+    const consent = {
+      biometrics: data.consentBiometrics,
+      location: data.consentLocation,
+      version: CONSENT_VERSION,
+      registeredAt: acceptedAt,
+    };
+
     await upsertEvidence(supabaseAdmin, delivery.id, {
       signature_type: data.signatureType,
       signature_path: signaturePath,
       signature_typed_name: data.typedName ?? null,
-      location_status: data.locationStatus,
-      latitude: data.latitude ?? null,
-      longitude: data.longitude ?? null,
-      accuracy_meters: data.accuracy ?? null,
-      location_captured_at: data.latitude != null ? acceptedAt : null,
-      device_metadata: { userAgent: data.deviceInfo ?? null, faceSkipReason: data.faceSkipReason ?? null },
+      location_status: data.consentLocation ? data.locationStatus : "negada",
+      latitude: data.consentLocation ? (data.latitude ?? null) : null,
+      longitude: data.consentLocation ? (data.longitude ?? null) : null,
+      accuracy_meters: data.consentLocation ? (data.accuracy ?? null) : null,
+      location_captured_at: data.consentLocation && data.latitude != null ? acceptedAt : null,
+      ip_masked: maskIp(await clientIp()),
+      device_metadata: {
+        userAgent: data.deviceInfo ?? null,
+        faceSkipReason: data.faceSkipReason ?? null,
+        consent,
+        geo: geoAudit,
+      },
       terms_version: TERMS_VERSION,
       consent_version: CONSENT_VERSION,
       integrity_hash: hash,
@@ -344,8 +373,15 @@ export const portalAcceptDelivery = createServerFn({ method: "POST" })
       actor_id: employee.id,
       actor_label: employee.full_name,
       event_type: "entrega_assinada",
-      metadata: { signature_type: data.signatureType, integrity_hash: hash, face_dispensada: !faceOk },
+      metadata: {
+        signature_type: data.signatureType,
+        integrity_hash: hash,
+        face_dispensada: !faceOk,
+        consent,
+        geo: geoAudit,
+      },
     });
+
 
     return { ok: true, hash, acceptedAt };
   });
