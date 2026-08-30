@@ -12,9 +12,11 @@ import {
   History,
   LayoutDashboard,
   LineChart,
+  ListChecks,
   LogOut,
   Menu,
   Package,
+  PackageCheck,
   ShieldAlert,
   Users,
   X,
@@ -54,11 +56,16 @@ const NAV = [
     items: [{ to: "/app/time-entries", label: "Registros de ponto", icon: Clock }],
   },
   {
-    label: "Estoque",
+    label: "Itens e entregas",
     items: [
-      { to: "/app/catalog", label: "Catálogo de itens", icon: Package },
-      { to: "/app/inventory", label: "Estoque por unidade", icon: Boxes },
+      { to: "/app/items", label: "Itens operacionais", icon: Package },
+      { to: "/app/deliveries", label: "Entrega de itens", icon: PackageCheck },
+      { to: "/app/delivery-rules", label: "Regras por função", icon: ListChecks },
     ],
+  },
+  {
+    label: "Estoque",
+    items: [{ to: "/app/inventory", label: "Estoque por unidade", icon: Boxes }],
   },
   {
     label: "Vendas",
