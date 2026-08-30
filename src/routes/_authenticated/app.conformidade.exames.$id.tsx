@@ -76,7 +76,7 @@ function DocumentDetailPage() {
   });
 
   const update = useMutation({
-    mutationFn: async (patch: Record<string, unknown>) => {
+    mutationFn: async (patch: TablesUpdate<"occupational_documents">) => {
       const { error } = await supabase.from("occupational_documents").update(patch).eq("id", id);
       if (error) throw error;
     },
