@@ -128,9 +128,9 @@ function PointCardDetailPage() {
   });
 
   const respond = useMutation({
-    mutationFn: async ({ disputeId, status }: { disputeId: string; status: "respondida" | "resolvida" }) => {
+    mutationFn: async ({ disputeId, resolve }: { disputeId: string; resolve: boolean }) => {
       const res = await respondFn({
-        data: { disputeId, status, response: (answers[disputeId] ?? "").trim() },
+        data: { disputeId, resolve, response: (answers[disputeId] ?? "").trim() },
       });
       if ("error" in res && res.error) throw new Error(res.error);
     },
@@ -362,14 +362,14 @@ function PointCardDetailPage() {
                       <Button
                         size="sm"
                         variant="secondary"
-                        onClick={() => respond.mutate({ disputeId: d.id, status: "respondida" })}
+                        onClick={() => respond.mutate({ disputeId: d.id, resolve: false })}
                         disabled={respond.isPending}
                       >
                         Responder
                       </Button>
                       <Button
                         size="sm"
-                        onClick={() => respond.mutate({ disputeId: d.id, status: "resolvida" })}
+                        onClick={() => respond.mutate({ disputeId: d.id, resolve: true })}
                         disabled={respond.isPending}
                       >
                         Resolver
