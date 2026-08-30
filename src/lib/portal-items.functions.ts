@@ -233,7 +233,14 @@ export const portalValidateIdentity = createServerFn({ method: "POST" })
       actor_id: employee.id,
       actor_label: employee.full_name,
       event_type: "validacao_identidade",
-      metadata: { status: result.status, provider: result.provider, liveness: result.liveness },
+      metadata: {
+        status: result.status,
+        provider: result.provider,
+        liveness: result.liveness,
+        consent,
+        geo: geoAudit,
+      },
+
     });
 
     return {
