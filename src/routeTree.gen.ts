@@ -44,6 +44,7 @@ import { Route as PortalItensIndexRouteImport } from './routes/portal.itens.inde
 import { Route as PortalItensIdRouteImport } from './routes/portal.itens.$id'
 import { Route as AuthenticatedAppConformidadeIndexRouteImport } from './routes/_authenticated/app.conformidade.index'
 import { Route as AuthenticatedAppConformidadeKitsRouteImport } from './routes/_authenticated/app.conformidade.kits'
+import { Route as AuthenticatedAppConformidadePendenciasRouteImport } from './routes/_authenticated/app.conformidade.pendencias'
 import { Route as AuthenticatedAppConformidadeTrocasRouteImport } from './routes/_authenticated/app.conformidade.trocas'
 import { Route as AuthenticatedAppDeliveriesIndexRouteImport } from './routes/_authenticated/app.deliveries.index'
 import { Route as AuthenticatedAppDeliveriesIdRouteImport } from './routes/_authenticated/app.deliveries.$id'
@@ -238,6 +239,12 @@ const AuthenticatedAppConformidadeKitsRoute =
     path: '/conformidade/kits',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppConformidadePendenciasRoute =
+  AuthenticatedAppConformidadePendenciasRouteImport.update({
+    id: '/conformidade/pendencias',
+    path: '/conformidade/pendencias',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppConformidadeTrocasRoute =
   AuthenticatedAppConformidadeTrocasRouteImport.update({
     id: '/conformidade/trocas',
@@ -321,6 +328,7 @@ export interface FileRoutesByFullPath {
   '/portal/documentos/': typeof PortalDocumentosIndexRoute
   '/portal/itens/': typeof PortalItensIndexRoute
   '/app/conformidade/kits': typeof AuthenticatedAppConformidadeKitsRoute
+  '/app/conformidade/pendencias': typeof AuthenticatedAppConformidadePendenciasRoute
   '/app/conformidade/trocas': typeof AuthenticatedAppConformidadeTrocasRoute
   '/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/app/point-cards/$id': typeof AuthenticatedAppPointCardsIdRoute
@@ -363,6 +371,7 @@ export interface FileRoutesByTo {
   '/portal/documentos': typeof PortalDocumentosIndexRoute
   '/portal/itens': typeof PortalItensIndexRoute
   '/app/conformidade/kits': typeof AuthenticatedAppConformidadeKitsRoute
+  '/app/conformidade/pendencias': typeof AuthenticatedAppConformidadePendenciasRoute
   '/app/conformidade/trocas': typeof AuthenticatedAppConformidadeTrocasRoute
   '/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/app/point-cards/$id': typeof AuthenticatedAppPointCardsIdRoute
@@ -409,6 +418,7 @@ export interface FileRoutesById {
   '/portal/documentos/': typeof PortalDocumentosIndexRoute
   '/portal/itens/': typeof PortalItensIndexRoute
   '/_authenticated/app/conformidade/kits': typeof AuthenticatedAppConformidadeKitsRoute
+  '/_authenticated/app/conformidade/pendencias': typeof AuthenticatedAppConformidadePendenciasRoute
   '/_authenticated/app/conformidade/trocas': typeof AuthenticatedAppConformidadeTrocasRoute
   '/_authenticated/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/_authenticated/app/point-cards/$id': typeof AuthenticatedAppPointCardsIdRoute
@@ -455,6 +465,7 @@ export interface FileRouteTypes {
     | '/portal/documentos/'
     | '/portal/itens/'
     | '/app/conformidade/kits'
+    | '/app/conformidade/pendencias'
     | '/app/conformidade/trocas'
     | '/app/deliveries/$id'
     | '/app/point-cards/$id'
@@ -497,6 +508,7 @@ export interface FileRouteTypes {
     | '/portal/documentos'
     | '/portal/itens'
     | '/app/conformidade/kits'
+    | '/app/conformidade/pendencias'
     | '/app/conformidade/trocas'
     | '/app/deliveries/$id'
     | '/app/point-cards/$id'
@@ -542,6 +554,7 @@ export interface FileRouteTypes {
     | '/portal/documentos/'
     | '/portal/itens/'
     | '/_authenticated/app/conformidade/kits'
+    | '/_authenticated/app/conformidade/pendencias'
     | '/_authenticated/app/conformidade/trocas'
     | '/_authenticated/app/deliveries/$id'
     | '/_authenticated/app/point-cards/$id'
@@ -808,6 +821,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppConformidadeKitsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/conformidade/pendencias': {
+      id: '/_authenticated/app/conformidade/pendencias'
+      path: '/conformidade/pendencias'
+      fullPath: '/app/conformidade/pendencias'
+      preLoaderRoute: typeof AuthenticatedAppConformidadePendenciasRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/conformidade/trocas': {
       id: '/_authenticated/app/conformidade/trocas'
       path: '/conformidade/trocas'
@@ -883,6 +903,7 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppUnitsRoute: typeof AuthenticatedAppUnitsRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
   AuthenticatedAppConformidadeKitsRoute: typeof AuthenticatedAppConformidadeKitsRoute
+  AuthenticatedAppConformidadePendenciasRoute: typeof AuthenticatedAppConformidadePendenciasRoute
   AuthenticatedAppConformidadeTrocasRoute: typeof AuthenticatedAppConformidadeTrocasRoute
   AuthenticatedAppDeliveriesIdRoute: typeof AuthenticatedAppDeliveriesIdRoute
   AuthenticatedAppPointCardsIdRoute: typeof AuthenticatedAppPointCardsIdRoute
@@ -912,6 +933,8 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppUnitsRoute: AuthenticatedAppUnitsRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
   AuthenticatedAppConformidadeKitsRoute: AuthenticatedAppConformidadeKitsRoute,
+  AuthenticatedAppConformidadePendenciasRoute:
+    AuthenticatedAppConformidadePendenciasRoute,
   AuthenticatedAppConformidadeTrocasRoute:
     AuthenticatedAppConformidadeTrocasRoute,
   AuthenticatedAppDeliveriesIdRoute: AuthenticatedAppDeliveriesIdRoute,
