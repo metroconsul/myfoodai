@@ -37,7 +37,9 @@ import { Route as AuthenticatedAppShiftsRouteImport } from './routes/_authentica
 import { Route as AuthenticatedAppTimeEntriesRouteImport } from './routes/_authenticated/app.time-entries'
 import { Route as AuthenticatedAppUnitsRouteImport } from './routes/_authenticated/app.units'
 import { Route as ApiPublicSalesIngestRouteImport } from './routes/api/public/sales-ingest'
+import { Route as PortalItensIndexRouteImport } from './routes/portal.itens.index'
 import { Route as AuthenticatedAppDeliveriesIndexRouteImport } from './routes/_authenticated/app.deliveries.index'
+import { Route as AuthenticatedAppDeliveriesIdRouteImport } from './routes/_authenticated/app.deliveries.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -187,10 +189,21 @@ const ApiPublicSalesIngestRoute = ApiPublicSalesIngestRouteImport.update({
   path: '/api/public/sales-ingest',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalItensIndexRoute = PortalItensIndexRouteImport.update({
+  id: '/itens/',
+  path: '/itens/',
+  getParentRoute: () => PortalRoute,
+} as any)
 const AuthenticatedAppDeliveriesIndexRoute =
   AuthenticatedAppDeliveriesIndexRouteImport.update({
     id: '/deliveries/',
     path: '/deliveries/',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppDeliveriesIdRoute =
+  AuthenticatedAppDeliveriesIdRouteImport.update({
+    id: '/deliveries/$id',
+    path: '/deliveries/$id',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
 
@@ -222,6 +235,8 @@ export interface FileRoutesByFullPath {
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/app/': typeof AuthenticatedAppIndexRoute
+  '/portal/itens/': typeof PortalItensIndexRoute
+  '/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -250,6 +265,8 @@ export interface FileRoutesByTo {
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/app': typeof AuthenticatedAppIndexRoute
+  '/portal/itens': typeof PortalItensIndexRoute
+  '/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/app/deliveries': typeof AuthenticatedAppDeliveriesIndexRoute
 }
 export interface FileRoutesById {
@@ -282,6 +299,8 @@ export interface FileRoutesById {
   '/_authenticated/app/units': typeof AuthenticatedAppUnitsRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
+  '/portal/itens/': typeof PortalItensIndexRoute
+  '/_authenticated/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/_authenticated/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
 }
 export interface FileRouteTypes {
@@ -314,6 +333,8 @@ export interface FileRouteTypes {
     | '/app/units'
     | '/api/public/sales-ingest'
     | '/app/'
+    | '/portal/itens/'
+    | '/app/deliveries/$id'
     | '/app/deliveries/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -342,6 +363,8 @@ export interface FileRouteTypes {
     | '/app/units'
     | '/api/public/sales-ingest'
     | '/app'
+    | '/portal/itens'
+    | '/app/deliveries/$id'
     | '/app/deliveries'
   id:
     | '__root__'
@@ -373,6 +396,8 @@ export interface FileRouteTypes {
     | '/_authenticated/app/units'
     | '/api/public/sales-ingest'
     | '/_authenticated/app/'
+    | '/portal/itens/'
+    | '/_authenticated/app/deliveries/$id'
     | '/_authenticated/app/deliveries/'
   fileRoutesById: FileRoutesById
 }
@@ -582,11 +607,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicSalesIngestRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portal/itens/': {
+      id: '/portal/itens/'
+      path: '/itens'
+      fullPath: '/portal/itens/'
+      preLoaderRoute: typeof PortalItensIndexRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/_authenticated/app/deliveries/': {
       id: '/_authenticated/app/deliveries/'
       path: '/deliveries'
       fullPath: '/app/deliveries/'
       preLoaderRoute: typeof AuthenticatedAppDeliveriesIndexRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/deliveries/$id': {
+      id: '/_authenticated/app/deliveries/$id'
+      path: '/deliveries/$id'
+      fullPath: '/app/deliveries/$id'
+      preLoaderRoute: typeof AuthenticatedAppDeliveriesIdRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
   }
@@ -608,6 +647,7 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppTimeEntriesRoute: typeof AuthenticatedAppTimeEntriesRoute
   AuthenticatedAppUnitsRoute: typeof AuthenticatedAppUnitsRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
+  AuthenticatedAppDeliveriesIdRoute: typeof AuthenticatedAppDeliveriesIdRoute
   AuthenticatedAppDeliveriesIndexRoute: typeof AuthenticatedAppDeliveriesIndexRoute
 }
 
@@ -629,6 +669,7 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppTimeEntriesRoute: AuthenticatedAppTimeEntriesRoute,
   AuthenticatedAppUnitsRoute: AuthenticatedAppUnitsRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
+  AuthenticatedAppDeliveriesIdRoute: AuthenticatedAppDeliveriesIdRoute,
   AuthenticatedAppDeliveriesIndexRoute: AuthenticatedAppDeliveriesIndexRoute,
 }
 
@@ -655,6 +696,7 @@ interface PortalRouteChildren {
   PortalPerfilRoute: typeof PortalPerfilRoute
   PortalPontoRoute: typeof PortalPontoRoute
   PortalIndexRoute: typeof PortalIndexRoute
+  PortalItensIndexRoute: typeof PortalItensIndexRoute
 }
 
 const PortalRouteChildren: PortalRouteChildren = {
@@ -664,6 +706,7 @@ const PortalRouteChildren: PortalRouteChildren = {
   PortalPerfilRoute: PortalPerfilRoute,
   PortalPontoRoute: PortalPontoRoute,
   PortalIndexRoute: PortalIndexRoute,
+  PortalItensIndexRoute: PortalItensIndexRoute,
 }
 
 const PortalRouteWithChildren =

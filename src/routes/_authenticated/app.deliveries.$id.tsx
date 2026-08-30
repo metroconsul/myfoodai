@@ -84,7 +84,7 @@ function DeliveryDetailPage() {
   });
 
   const delivery = detail.data;
-  const evidence = delivery?.item_delivery_evidence?.[0] ?? null;
+  const evidence = delivery?.item_delivery_evidence ?? null;
   const signatureUrl = useSignedUrl("signatures", evidence?.signature_path);
   const selfieUrl = useSignedUrl("signatures", evidence?.face_asset_path);
 
