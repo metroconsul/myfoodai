@@ -185,7 +185,7 @@ function ComparisonTable() {
                     key={vi}
                     className={[
                       "p-4",
-                      PLANS[vi].highlighted ? "bg-[#d2e823]/40" : "",
+                      PLANS[vi]?.highlighted ? "bg-[#d2e823]/40" : "",
                     ].join(" ")}
                   >
                     <CellValue value={v} />
@@ -216,7 +216,7 @@ function ComparisonTable() {
                 >
                   <span className="text-[#5e5a50]">{row.feature}</span>
                   <span className="text-right font-bold">
-                    <CellValue value={row.values[pi]} />
+                    <CellValue value={row.values[pi] ?? "—"} />
                   </span>
                 </li>
               ))}
