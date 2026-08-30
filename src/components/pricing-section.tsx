@@ -102,15 +102,6 @@ function PlanCard({ plan, cycle }: { plan: Plan; cycle: BillingCycle }) {
         ))}
       </ul>
 
-      <ul className="mt-4 flex-1 space-y-2">
-        {plan.features.map((f) => (
-          <li key={f} className="flex items-start gap-2 text-sm">
-            <Check className="mt-0.5 size-4 shrink-0" aria-hidden />
-            <span>{f}</span>
-          </li>
-        ))}
-      </ul>
-
       <Link
         to="/auth"
         className="gh-btn gh-btn-primary gh-press mt-6 w-full justify-center"
