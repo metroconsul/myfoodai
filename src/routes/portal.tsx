@@ -17,7 +17,7 @@ const CONTEXTS = [
   { to: "/portal/escala", label: "Minha escala" },
   { to: "/portal/ponto", label: "Meu ponto" },
   { to: "/portal/itens", label: "Meus itens" },
-  { to: "/portal/cartao-ponto", label: "Avisos" },
+  { to: "/portal/cartao-ponto", label: "Cartão de ponto" },
 ] as const;
 
 const TABS = [

@@ -223,3 +223,30 @@ export async function recalcCardTotals(supabase: any, cardId: string) {
     })
     .eq("id", cardId);
 }
+
+/**
+ * Cria ou atualiza a evidência de um cartão (por card_id + card_version).
+ * Retorna true quando a linha foi persistida.
+ */
+export async function upsertCardEvidence(
+  supabase: any,
+  cardId: string,
+  cardVersion: number,
+  patch: Record<string, unknown>,
+): Promise<boolean> {
+  const { data: existing } = await supabase
+    .from("point_card_evidence")
+    .select("id")
+    .eq("card_id", cardId)
+    .eq("card_version", cardVersion)
+    .maybeSingle();
+
+  if (existing?.id) {
+    const { error } = await supabase.from("point_card_evidence").update(patch).eq("id", existing.id);
+    return !error;
+  }
+  const { error } = await supabase
+    .from("point_card_evidence")
+    .insert({ card_id: cardId, card_version: cardVersion, ...patch });
+  return !error;
+}

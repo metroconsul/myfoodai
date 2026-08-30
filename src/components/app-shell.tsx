@@ -8,6 +8,7 @@ import {
   CalendarRange,
   ClipboardList,
   Clock,
+  FileSignature,
   FileSpreadsheet,
   History,
   LayoutDashboard,
@@ -53,7 +54,10 @@ const NAV = [
   },
   {
     label: "Ponto",
-    items: [{ to: "/app/time-entries", label: "Registros de ponto", icon: Clock }],
+    items: [
+      { to: "/app/time-entries", label: "Registros de ponto", icon: Clock },
+      { to: "/app/point-cards", label: "Cartões de ponto", icon: FileSignature },
+    ],
   },
   {
     label: "Itens e entregas",

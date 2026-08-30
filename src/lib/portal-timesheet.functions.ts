@@ -322,7 +322,7 @@ export const portalSignTimesheet = createServerFn({ method: "POST" })
     });
 
     const forwarded =
-      (context as { request?: Request })?.request?.headers?.get("x-forwarded-for")?.split(",")[0] ?? null;
+      (context as unknown as { request?: Request } | undefined)?.request?.headers?.get("x-forwarded-for")?.split(",")[0] ?? null;
 
     const saved = await upsertCardEvidence(supabaseAdmin, card.id, version, {
       company_id: card.company_id,
