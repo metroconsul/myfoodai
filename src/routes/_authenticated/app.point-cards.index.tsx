@@ -96,7 +96,7 @@ function PointCardsPage() {
           periodEnd: range.end,
           employeeIds,
           deadlineAt: deadline ? new Date(deadline).toISOString() : null,
-          timezone: activeUnit?.timezone ?? "America/Sao_Paulo",
+          timezone: "America/Sao_Paulo",
         },
       });
       if ("error" in res && res.error) throw new Error(res.error);

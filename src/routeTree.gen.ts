@@ -40,6 +40,7 @@ import { Route as PortalItensIndexRouteImport } from './routes/portal.itens.inde
 import { Route as PortalItensIdRouteImport } from './routes/portal.itens.$id'
 import { Route as AuthenticatedAppDeliveriesIndexRouteImport } from './routes/_authenticated/app.deliveries.index'
 import { Route as AuthenticatedAppDeliveriesIdRouteImport } from './routes/_authenticated/app.deliveries.$id'
+import { Route as AuthenticatedAppPointCardsIndexRouteImport } from './routes/_authenticated/app.point-cards.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -206,6 +207,12 @@ const AuthenticatedAppDeliveriesIdRoute =
     path: '/deliveries/$id',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppPointCardsIndexRoute =
+  AuthenticatedAppPointCardsIndexRouteImport.update({
+    id: '/point-cards/',
+    path: '/point-cards/',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -238,6 +245,7 @@ export interface FileRoutesByFullPath {
   '/portal/itens/': typeof PortalItensIndexRoute
   '/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
+  '/app/point-cards/': typeof AuthenticatedAppPointCardsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -268,6 +276,7 @@ export interface FileRoutesByTo {
   '/portal/itens': typeof PortalItensIndexRoute
   '/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/app/deliveries': typeof AuthenticatedAppDeliveriesIndexRoute
+  '/app/point-cards': typeof AuthenticatedAppPointCardsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -302,6 +311,7 @@ export interface FileRoutesById {
   '/portal/itens/': typeof PortalItensIndexRoute
   '/_authenticated/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/_authenticated/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
+  '/_authenticated/app/point-cards/': typeof AuthenticatedAppPointCardsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -336,6 +346,7 @@ export interface FileRouteTypes {
     | '/portal/itens/'
     | '/app/deliveries/$id'
     | '/app/deliveries/'
+    | '/app/point-cards/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -366,6 +377,7 @@ export interface FileRouteTypes {
     | '/portal/itens'
     | '/app/deliveries/$id'
     | '/app/deliveries'
+    | '/app/point-cards'
   id:
     | '__root__'
     | '/'
@@ -399,6 +411,7 @@ export interface FileRouteTypes {
     | '/portal/itens/'
     | '/_authenticated/app/deliveries/$id'
     | '/_authenticated/app/deliveries/'
+    | '/_authenticated/app/point-cards/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -628,6 +641,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppDeliveriesIdRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/point-cards/': {
+      id: '/_authenticated/app/point-cards/'
+      path: '/point-cards'
+      fullPath: '/app/point-cards/'
+      preLoaderRoute: typeof AuthenticatedAppPointCardsIndexRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
   }
 }
 
@@ -648,6 +668,7 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
   AuthenticatedAppDeliveriesIdRoute: typeof AuthenticatedAppDeliveriesIdRoute
   AuthenticatedAppDeliveriesIndexRoute: typeof AuthenticatedAppDeliveriesIndexRoute
+  AuthenticatedAppPointCardsIndexRoute: typeof AuthenticatedAppPointCardsIndexRoute
 }
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
@@ -669,6 +690,7 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
   AuthenticatedAppDeliveriesIdRoute: AuthenticatedAppDeliveriesIdRoute,
   AuthenticatedAppDeliveriesIndexRoute: AuthenticatedAppDeliveriesIndexRoute,
+  AuthenticatedAppPointCardsIndexRoute: AuthenticatedAppPointCardsIndexRoute,
 }
 
 const AuthenticatedAppRouteWithChildren =
