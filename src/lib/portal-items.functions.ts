@@ -35,10 +35,16 @@ const acceptSchema = deliverySchema.extend({
 });
 
 /** IP do cliente mascarado para a trilha de auditoria. */
-function clientIp() {
-  const forwarded = getRequestHeader("x-forwarded-for") ?? getRequestHeader("cf-connecting-ip");
-  return forwarded?.split(",")[0]?.trim() ?? null;
+async function clientIp() {
+  try {
+    const { getRequestHeader } = await import("@tanstack/react-start-server");
+    const forwarded = getRequestHeader("x-forwarded-for") ?? getRequestHeader("cf-connecting-ip");
+    return forwarded?.split(",")[0]?.trim() ?? null;
+  } catch {
+    return null;
+  }
 }
+
 
 
 const refuseSchema = deliverySchema.extend({
