@@ -25,6 +25,7 @@ import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedAppCatalogRouteImport } from './routes/_authenticated/app.catalog'
 import { Route as AuthenticatedAppEmployeesRouteImport } from './routes/_authenticated/app.employees'
 import { Route as AuthenticatedAppInventoryRouteImport } from './routes/_authenticated/app.inventory'
+import { Route as AuthenticatedAppItemsRouteImport } from './routes/_authenticated/app.items'
 import { Route as AuthenticatedAppRolesTeamsRouteImport } from './routes/_authenticated/app.roles-teams'
 import { Route as AuthenticatedAppSalesRouteImport } from './routes/_authenticated/app.sales'
 import { Route as AuthenticatedAppScheduleComplianceRouteImport } from './routes/_authenticated/app.schedule-compliance'
@@ -117,6 +118,11 @@ const AuthenticatedAppInventoryRoute =
     path: '/inventory',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppItemsRoute = AuthenticatedAppItemsRouteImport.update({
+  id: '/items',
+  path: '/items',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
 const AuthenticatedAppRolesTeamsRoute =
   AuthenticatedAppRolesTeamsRouteImport.update({
     id: '/roles-teams',
@@ -189,6 +195,7 @@ export interface FileRoutesByFullPath {
   '/app/catalog': typeof AuthenticatedAppCatalogRoute
   '/app/employees': typeof AuthenticatedAppEmployeesRoute
   '/app/inventory': typeof AuthenticatedAppInventoryRoute
+  '/app/items': typeof AuthenticatedAppItemsRoute
   '/app/roles-teams': typeof AuthenticatedAppRolesTeamsRoute
   '/app/sales': typeof AuthenticatedAppSalesRoute
   '/app/schedule-compliance': typeof AuthenticatedAppScheduleComplianceRoute
@@ -214,6 +221,7 @@ export interface FileRoutesByTo {
   '/app/catalog': typeof AuthenticatedAppCatalogRoute
   '/app/employees': typeof AuthenticatedAppEmployeesRoute
   '/app/inventory': typeof AuthenticatedAppInventoryRoute
+  '/app/items': typeof AuthenticatedAppItemsRoute
   '/app/roles-teams': typeof AuthenticatedAppRolesTeamsRoute
   '/app/sales': typeof AuthenticatedAppSalesRoute
   '/app/schedule-compliance': typeof AuthenticatedAppScheduleComplianceRoute
@@ -243,6 +251,7 @@ export interface FileRoutesById {
   '/_authenticated/app/catalog': typeof AuthenticatedAppCatalogRoute
   '/_authenticated/app/employees': typeof AuthenticatedAppEmployeesRoute
   '/_authenticated/app/inventory': typeof AuthenticatedAppInventoryRoute
+  '/_authenticated/app/items': typeof AuthenticatedAppItemsRoute
   '/_authenticated/app/roles-teams': typeof AuthenticatedAppRolesTeamsRoute
   '/_authenticated/app/sales': typeof AuthenticatedAppSalesRoute
   '/_authenticated/app/schedule-compliance': typeof AuthenticatedAppScheduleComplianceRoute
@@ -272,6 +281,7 @@ export interface FileRouteTypes {
     | '/app/catalog'
     | '/app/employees'
     | '/app/inventory'
+    | '/app/items'
     | '/app/roles-teams'
     | '/app/sales'
     | '/app/schedule-compliance'
@@ -297,6 +307,7 @@ export interface FileRouteTypes {
     | '/app/catalog'
     | '/app/employees'
     | '/app/inventory'
+    | '/app/items'
     | '/app/roles-teams'
     | '/app/sales'
     | '/app/schedule-compliance'
@@ -325,6 +336,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/catalog'
     | '/_authenticated/app/employees'
     | '/_authenticated/app/inventory'
+    | '/_authenticated/app/items'
     | '/_authenticated/app/roles-teams'
     | '/_authenticated/app/sales'
     | '/_authenticated/app/schedule-compliance'
@@ -460,6 +472,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppInventoryRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/items': {
+      id: '/_authenticated/app/items'
+      path: '/items'
+      fullPath: '/app/items'
+      preLoaderRoute: typeof AuthenticatedAppItemsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/roles-teams': {
       id: '/_authenticated/app/roles-teams'
       path: '/roles-teams'
@@ -537,6 +556,7 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppCatalogRoute: typeof AuthenticatedAppCatalogRoute
   AuthenticatedAppEmployeesRoute: typeof AuthenticatedAppEmployeesRoute
   AuthenticatedAppInventoryRoute: typeof AuthenticatedAppInventoryRoute
+  AuthenticatedAppItemsRoute: typeof AuthenticatedAppItemsRoute
   AuthenticatedAppRolesTeamsRoute: typeof AuthenticatedAppRolesTeamsRoute
   AuthenticatedAppSalesRoute: typeof AuthenticatedAppSalesRoute
   AuthenticatedAppScheduleComplianceRoute: typeof AuthenticatedAppScheduleComplianceRoute
@@ -553,6 +573,7 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppCatalogRoute: AuthenticatedAppCatalogRoute,
   AuthenticatedAppEmployeesRoute: AuthenticatedAppEmployeesRoute,
   AuthenticatedAppInventoryRoute: AuthenticatedAppInventoryRoute,
+  AuthenticatedAppItemsRoute: AuthenticatedAppItemsRoute,
   AuthenticatedAppRolesTeamsRoute: AuthenticatedAppRolesTeamsRoute,
   AuthenticatedAppSalesRoute: AuthenticatedAppSalesRoute,
   AuthenticatedAppScheduleComplianceRoute:
