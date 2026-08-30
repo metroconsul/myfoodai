@@ -68,6 +68,16 @@ const NAV = [
     ],
   },
   {
+    label: "Conformidade e equipe",
+    items: [
+      { to: "/app/conformidade", label: "Visão de conformidade", icon: ShieldCheck, exact: true },
+      { to: "/app/conformidade/exames", label: "Exames e aptidão", icon: Stethoscope },
+      { to: "/app/conformidade/kits", label: "Kits por função", icon: Shirt },
+      { to: "/app/conformidade/trocas", label: "Trocas e devoluções", icon: Repeat },
+      { to: "/app/conformidade/pendencias", label: "Pendências da equipe", icon: ListTodo },
+    ],
+  },
+  {
     label: "Estoque",
     items: [{ to: "/app/inventory", label: "Estoque por unidade", icon: Boxes }],
   },
