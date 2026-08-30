@@ -145,12 +145,16 @@ export const portalValidateIdentity = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const employee = await (await import("./portal-session.server")).resolveSession(data.token);
     if (!employee) return { error: "Sessão expirada." as const };
+    if (!data.consentBiometrics) {
+      return { error: "É necessário autorizar a validação de identidade para continuar." as const };
+    }
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { validateFace } = await import("./face-validation.server");
+    const { validateFace, maskIp } = await import("./face-validation.server");
+    const { resolveGeoAudit } = await import("./geo-validation.server");
 
     const { data: delivery } = await supabaseAdmin
       .from("item_deliveries")
-      .select("id, company_id, status")
+      .select("id, company_id, unit_id, status")
       .eq("id", data.deliveryId)
       .eq("employee_id", employee.id)
       .maybeSingle();
@@ -159,11 +163,24 @@ export const portalValidateIdentity = createServerFn({ method: "POST" })
       return { error: "Esta entrega não está disponível para aceite." as const };
     }
 
-    const { result, bytes } = await validateFace({
-      imageDataUrl: data.imageDataUrl,
-      employeeId: employee.id,
-      deliveryId: delivery.id,
-    });
+    const { data: unit } = delivery.unit_id
+      ? await supabaseAdmin
+          .from("units")
+          .select("latitude, longitude, point_radius_meters")
+          .eq("id", delivery.unit_id)
+          .maybeSingle()
+      : { data: null };
+
+    const [{ result, bytes }, geoAudit] = await Promise.all([
+      validateFace({
+        imageDataUrl: data.imageDataUrl,
+        employeeId: employee.id,
+        deliveryId: delivery.id,
+      }),
+      data.consentLocation
+        ? resolveGeoAudit({ latitude: data.latitude, longitude: data.longitude, unit })
+        : Promise.resolve(null),
+    ]);
 
     let assetPath: string | null = null;
     if (bytes) {
@@ -174,20 +191,36 @@ export const portalValidateIdentity = createServerFn({ method: "POST" })
       if (!error) assetPath = path;
     }
 
+    const nowIso = new Date().toISOString();
+    const consent = {
+      biometrics: data.consentBiometrics,
+      location: data.consentLocation,
+      version: (await import("./items.shared")).CONSENT_VERSION,
+      registeredAt: nowIso,
+    };
+
     await upsertEvidence(supabaseAdmin, delivery.id, {
       face_status: result.status,
       face_provider: result.provider,
       face_provider_reference: result.reference,
       face_asset_path: assetPath,
       liveness_status: result.liveness,
-      face_validated_at: new Date().toISOString(),
-      location_status: data.locationStatus,
-      latitude: data.latitude ?? null,
-      longitude: data.longitude ?? null,
-      accuracy_meters: data.accuracy ?? null,
-      location_captured_at: data.latitude != null ? new Date().toISOString() : null,
-      device_metadata: { userAgent: data.deviceInfo ?? null },
+      face_validated_at: nowIso,
+      location_status: data.consentLocation ? data.locationStatus : "negada",
+      latitude: data.consentLocation ? (data.latitude ?? null) : null,
+      longitude: data.consentLocation ? (data.longitude ?? null) : null,
+      accuracy_meters: data.consentLocation ? (data.accuracy ?? null) : null,
+      location_captured_at: data.consentLocation && data.latitude != null ? nowIso : null,
+      ip_masked: maskIp(await clientIp()),
+      consent_version: consent.version,
+      device_metadata: {
+        userAgent: data.deviceInfo ?? null,
+        consent,
+        faceAnalysis: result.details ?? null,
+        geo: geoAudit,
+      },
     });
+
 
     if (result.status === "aprovado" && delivery.status === "aguardando_aceite") {
       await supabaseAdmin.from("item_deliveries").update({ status: "em_validacao" }).eq("id", delivery.id);
