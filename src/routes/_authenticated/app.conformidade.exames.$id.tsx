@@ -190,7 +190,10 @@ function DocumentDetailPage() {
         <div className="grid gap-3 sm:grid-cols-3">
           <div>
             <Label>Status</Label>
-            <Select value={status ?? doc.status} onValueChange={setStatus}>
+            <Select
+              value={status ?? doc.status}
+              onValueChange={(v) => setStatus(v as Enums<"occ_document_status">)}
+            >
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
                 {DOCUMENT_STATUSES.map((s) => (<SelectItem key={s} value={s}>{DOCUMENT_STATUS_LABEL[s]}</SelectItem>))}
