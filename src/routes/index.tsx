@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BRAND_NAME } from "@/config/brand";
+import { PricingSection } from "@/components/pricing-section";
 import {
   CalendarDays,
   MapPin,
@@ -202,6 +203,7 @@ function Landing() {
 
             <div className="gh-mono mx-auto hidden gap-6 text-xs lg:flex">
               <a href="#recursos" className="hover:text-[#f26b38]">Recursos</a>
+              <a href="#planos" className="hover:text-[#f26b38]">Planos</a>
               <a href="#como-funciona" className="hover:text-[#f26b38]">Como funciona</a>
               <a href="#para-quem" className="hover:text-[#f26b38]">Para quem é</a>
             </div>
@@ -378,6 +380,9 @@ function Landing() {
               ))}
             </ol>
           </section>
+
+          {/* PLANOS */}
+          <PricingSection />
 
           {/* MULTIUNIDADE */}
           <section id="para-quem" className="border-y-2 border-[#09090b] bg-[#d2e823]">
