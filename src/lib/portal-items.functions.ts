@@ -178,7 +178,7 @@ export const portalValidateIdentity = createServerFn({ method: "POST" })
         deliveryId: delivery.id,
       }),
       data.consentLocation
-        ? resolveGeoAudit({ latitude: data.latitude, longitude: data.longitude, unit })
+        ? resolveGeoAudit({ latitude: data.latitude ?? null, longitude: data.longitude ?? null, unit })
         : Promise.resolve(null),
     ]);
 
