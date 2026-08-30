@@ -313,6 +313,7 @@ export const updateTimesheetEntry = createServerFn({ method: "POST" })
       })
       .eq("id", entry.id);
 
+    const { recalcCardTotals } = await import("./timesheet.server");
     await recalcCardTotals(supabase, entry.card_id);
     await logCardEvent(supabase, {
       company_id: entry.company_id,
@@ -547,48 +548,3 @@ export const respondTimesheetDispute = createServerFn({ method: "POST" })
 
     return { ok: true };
   });
-
-/** Recalcula os totais do cartão a partir dos lançamentos. */
-async function recalcCardTotals(supabase: any, cardId: string) {
-  const { data: entries } = await supabase.from("timesheet_entries").select("*").eq("card_id", cardId);
-  const rows = (entries ?? []) as {
-    planned_minutes: number;
-    worked_minutes: number;
-    overtime_minutes: number;
-    delay_minutes: number;
-    absence_status: string | null;
-    alerts: string[];
-    clock_in: string | null;
-    clock_out: string | null;
-  }[];
-  const sum = (k: "planned_minutes" | "worked_minutes" | "overtime_minutes" | "delay_minutes") =>
-    rows.reduce((acc, r) => acc + Number(r[k] ?? 0), 0);
-  const alerts = Array.from(new Set(rows.flatMap((r) => r.alerts ?? [])));
-  const missing = rows.reduce(
-    (acc, r) => acc + (r.clock_in && !r.clock_out ? 1 : !r.clock_in && r.clock_out ? 1 : 0),
-    0,
-  );
-  const summary = {
-    planned_minutes: sum("planned_minutes"),
-    worked_minutes: sum("worked_minutes"),
-    overtime_minutes: sum("overtime_minutes"),
-    late_minutes: sum("delay_minutes"),
-    absence_days: rows.filter((r) => r.absence_status === "falta").length,
-    balance_minutes: sum("worked_minutes") - sum("planned_minutes"),
-    missing_punches: missing,
-    alerts,
-  };
-  await supabase
-    .from("point_cards")
-    .update({
-      summary: summary as never,
-      planned_minutes: summary.planned_minutes,
-      worked_minutes: summary.worked_minutes,
-      overtime_minutes: summary.overtime_minutes,
-      late_minutes: summary.late_minutes,
-      absence_days: summary.absence_days,
-      balance_minutes: summary.balance_minutes,
-      missing_punches: summary.missing_punches,
-    })
-    .eq("id", cardId);
-}
