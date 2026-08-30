@@ -71,43 +71,82 @@ export type Database = {
       catalog_items: {
         Row: {
           active: boolean
+          brand: string | null
           category: string | null
+          colors: string[]
           company_id: string
           created_at: string
+          description: string | null
           id: string
           item_type: Database["public"]["Enums"]["item_type"]
           maximum_stock: number | null
           minimum_stock: number
           name: string
           photo_url: string | null
+          quantity_per_delivery: number
+          replacement_period: string
+          requires_color: boolean
+          requires_return: boolean
+          requires_size: boolean
+          sizes: string[]
+          sku: string | null
+          status: string
+          storage_location: string | null
+          unit_cost: number | null
           unit_of_measure: string
           updated_at: string
         }
         Insert: {
           active?: boolean
+          brand?: string | null
           category?: string | null
+          colors?: string[]
           company_id: string
           created_at?: string
+          description?: string | null
           id?: string
           item_type?: Database["public"]["Enums"]["item_type"]
           maximum_stock?: number | null
           minimum_stock?: number
           name: string
           photo_url?: string | null
+          quantity_per_delivery?: number
+          replacement_period?: string
+          requires_color?: boolean
+          requires_return?: boolean
+          requires_size?: boolean
+          sizes?: string[]
+          sku?: string | null
+          status?: string
+          storage_location?: string | null
+          unit_cost?: number | null
           unit_of_measure?: string
           updated_at?: string
         }
         Update: {
           active?: boolean
+          brand?: string | null
           category?: string | null
+          colors?: string[]
           company_id?: string
           created_at?: string
+          description?: string | null
           id?: string
           item_type?: Database["public"]["Enums"]["item_type"]
           maximum_stock?: number | null
           minimum_stock?: number
           name?: string
           photo_url?: string | null
+          quantity_per_delivery?: number
+          replacement_period?: string
+          requires_color?: boolean
+          requires_return?: boolean
+          requires_size?: boolean
+          sizes?: string[]
+          sku?: string | null
+          status?: string
+          storage_location?: string | null
+          unit_cost?: number | null
           unit_of_measure?: string
           updated_at?: string
         }
@@ -165,6 +204,99 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      delivery_rules: {
+        Row: {
+          active: boolean
+          catalog_item_id: string
+          company_id: string
+          created_at: string
+          default_color: string | null
+          default_size: string | null
+          employee_id: string | null
+          ends_on: string | null
+          id: string
+          mandatory: boolean
+          quantity: number
+          replacement_period: string
+          role_id: string | null
+          starts_on: string
+          unit_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          catalog_item_id: string
+          company_id: string
+          created_at?: string
+          default_color?: string | null
+          default_size?: string | null
+          employee_id?: string | null
+          ends_on?: string | null
+          id?: string
+          mandatory?: boolean
+          quantity?: number
+          replacement_period?: string
+          role_id?: string | null
+          starts_on?: string
+          unit_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          catalog_item_id?: string
+          company_id?: string
+          created_at?: string
+          default_color?: string | null
+          default_size?: string | null
+          employee_id?: string | null
+          ends_on?: string | null
+          id?: string
+          mandatory?: boolean
+          quantity?: number
+          replacement_period?: string
+          role_id?: string | null
+          starts_on?: string
+          unit_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "delivery_rules_catalog_item_id_fkey"
+            columns: ["catalog_item_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_rules_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_rules_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_rules_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "roles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_rules_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       employee_item_deliveries: {
         Row: {
@@ -562,6 +694,310 @@ export type Database = {
             columns: ["unit_id"]
             isOneToOne: false
             referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      item_deliveries: {
+        Row: {
+          accepted_at: string | null
+          attachment_path: string | null
+          batch_id: string | null
+          cancel_reason: string | null
+          cancelled_at: string | null
+          company_id: string
+          created_at: string
+          delivered_at: string
+          divergence_notes: string | null
+          employee_id: string
+          expires_at: string | null
+          id: string
+          notes: string | null
+          published_at: string | null
+          reason: Database["public"]["Enums"]["item_delivery_reason"]
+          refusal_reason: string | null
+          refused_at: string | null
+          responsible_label: string | null
+          responsible_user_id: string | null
+          status: Database["public"]["Enums"]["item_delivery_status"]
+          unit_id: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          accepted_at?: string | null
+          attachment_path?: string | null
+          batch_id?: string | null
+          cancel_reason?: string | null
+          cancelled_at?: string | null
+          company_id: string
+          created_at?: string
+          delivered_at?: string
+          divergence_notes?: string | null
+          employee_id: string
+          expires_at?: string | null
+          id?: string
+          notes?: string | null
+          published_at?: string | null
+          reason?: Database["public"]["Enums"]["item_delivery_reason"]
+          refusal_reason?: string | null
+          refused_at?: string | null
+          responsible_label?: string | null
+          responsible_user_id?: string | null
+          status?: Database["public"]["Enums"]["item_delivery_status"]
+          unit_id: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          accepted_at?: string | null
+          attachment_path?: string | null
+          batch_id?: string | null
+          cancel_reason?: string | null
+          cancelled_at?: string | null
+          company_id?: string
+          created_at?: string
+          delivered_at?: string
+          divergence_notes?: string | null
+          employee_id?: string
+          expires_at?: string | null
+          id?: string
+          notes?: string | null
+          published_at?: string | null
+          reason?: Database["public"]["Enums"]["item_delivery_reason"]
+          refusal_reason?: string | null
+          refused_at?: string | null
+          responsible_label?: string | null
+          responsible_user_id?: string | null
+          status?: Database["public"]["Enums"]["item_delivery_status"]
+          unit_id?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "item_deliveries_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "item_deliveries_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "item_deliveries_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      item_delivery_events: {
+        Row: {
+          actor_id: string | null
+          actor_label: string | null
+          actor_type: string
+          company_id: string
+          created_at: string
+          delivery_id: string | null
+          event_type: string
+          id: string
+          metadata: Json
+        }
+        Insert: {
+          actor_id?: string | null
+          actor_label?: string | null
+          actor_type?: string
+          company_id: string
+          created_at?: string
+          delivery_id?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json
+        }
+        Update: {
+          actor_id?: string | null
+          actor_label?: string | null
+          actor_type?: string
+          company_id?: string
+          created_at?: string
+          delivery_id?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "item_delivery_events_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "item_delivery_events_delivery_id_fkey"
+            columns: ["delivery_id"]
+            isOneToOne: false
+            referencedRelation: "item_deliveries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      item_delivery_evidence: {
+        Row: {
+          accuracy_meters: number | null
+          consent_version: string | null
+          created_at: string
+          delivery_id: string
+          device_metadata: Json
+          face_asset_path: string | null
+          face_provider: string | null
+          face_provider_reference: string | null
+          face_status: string
+          face_validated_at: string | null
+          id: string
+          integrity_hash: string | null
+          ip_masked: string | null
+          latitude: number | null
+          liveness_status: string | null
+          location_captured_at: string | null
+          location_status: string
+          longitude: number | null
+          signature_path: string | null
+          signature_type: string | null
+          signature_typed_name: string | null
+          terms_version: string | null
+          updated_at: string
+        }
+        Insert: {
+          accuracy_meters?: number | null
+          consent_version?: string | null
+          created_at?: string
+          delivery_id: string
+          device_metadata?: Json
+          face_asset_path?: string | null
+          face_provider?: string | null
+          face_provider_reference?: string | null
+          face_status?: string
+          face_validated_at?: string | null
+          id?: string
+          integrity_hash?: string | null
+          ip_masked?: string | null
+          latitude?: number | null
+          liveness_status?: string | null
+          location_captured_at?: string | null
+          location_status?: string
+          longitude?: number | null
+          signature_path?: string | null
+          signature_type?: string | null
+          signature_typed_name?: string | null
+          terms_version?: string | null
+          updated_at?: string
+        }
+        Update: {
+          accuracy_meters?: number | null
+          consent_version?: string | null
+          created_at?: string
+          delivery_id?: string
+          device_metadata?: Json
+          face_asset_path?: string | null
+          face_provider?: string | null
+          face_provider_reference?: string | null
+          face_status?: string
+          face_validated_at?: string | null
+          id?: string
+          integrity_hash?: string | null
+          ip_masked?: string | null
+          latitude?: number | null
+          liveness_status?: string | null
+          location_captured_at?: string | null
+          location_status?: string
+          longitude?: number | null
+          signature_path?: string | null
+          signature_type?: string | null
+          signature_typed_name?: string | null
+          terms_version?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "item_delivery_evidence_delivery_id_fkey"
+            columns: ["delivery_id"]
+            isOneToOne: true
+            referencedRelation: "item_deliveries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      item_delivery_items: {
+        Row: {
+          catalog_item_id: string
+          color: string | null
+          created_at: string
+          delivery_id: string
+          id: string
+          inventory_item_id: string | null
+          item_name: string
+          lot: string | null
+          quantity: number
+          returned_quantity: number
+          size: string | null
+          unit_cost_snapshot: number | null
+        }
+        Insert: {
+          catalog_item_id: string
+          color?: string | null
+          created_at?: string
+          delivery_id: string
+          id?: string
+          inventory_item_id?: string | null
+          item_name: string
+          lot?: string | null
+          quantity?: number
+          returned_quantity?: number
+          size?: string | null
+          unit_cost_snapshot?: number | null
+        }
+        Update: {
+          catalog_item_id?: string
+          color?: string | null
+          created_at?: string
+          delivery_id?: string
+          id?: string
+          inventory_item_id?: string | null
+          item_name?: string
+          lot?: string | null
+          quantity?: number
+          returned_quantity?: number
+          size?: string | null
+          unit_cost_snapshot?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "item_delivery_items_catalog_item_id_fkey"
+            columns: ["catalog_item_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "item_delivery_items_delivery_id_fkey"
+            columns: ["delivery_id"]
+            isOneToOne: false
+            referencedRelation: "item_deliveries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "item_delivery_items_inventory_item_id_fkey"
+            columns: ["inventory_item_id"]
+            isOneToOne: false
+            referencedRelation: "inventory_items"
             referencedColumns: ["id"]
           },
         ]
@@ -2424,6 +2860,24 @@ export type Database = {
         | "fora_do_raio"
         | "localizacao_indisponivel"
         | "revisao_necessaria"
+      item_delivery_reason:
+        | "admissao"
+        | "troca"
+        | "reposicao"
+        | "perda"
+        | "dano"
+        | "mudanca_funcao"
+        | "retorno"
+        | "outro"
+      item_delivery_status:
+        | "rascunho"
+        | "aguardando_aceite"
+        | "em_validacao"
+        | "assinado"
+        | "recusado"
+        | "divergente"
+        | "expirado"
+        | "cancelado"
       item_type:
         | "protecao_individual"
         | "uniforme"
@@ -2598,6 +3052,26 @@ export const Constants = {
         "fora_do_raio",
         "localizacao_indisponivel",
         "revisao_necessaria",
+      ],
+      item_delivery_reason: [
+        "admissao",
+        "troca",
+        "reposicao",
+        "perda",
+        "dano",
+        "mudanca_funcao",
+        "retorno",
+        "outro",
+      ],
+      item_delivery_status: [
+        "rascunho",
+        "aguardando_aceite",
+        "em_validacao",
+        "assinado",
+        "recusado",
+        "divergente",
+        "expirado",
+        "cancelado",
       ],
       item_type: [
         "protecao_individual",
