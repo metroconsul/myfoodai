@@ -92,6 +92,9 @@ function PortalItemAcceptPage() {
   const [signature, setSignature] = useState<string | null>(null);
   const [typedName, setTypedName] = useState("");
   const [agreed, setAgreed] = useState(false);
+  const [consentBiometrics, setConsentBiometrics] = useState(false);
+  const [consentLocation, setConsentLocation] = useState(false);
+
   const [refuseMode, setRefuseMode] = useState<"recusado" | "divergente" | null>(null);
   const [refuseReason, setRefuseReason] = useState("");
 
