@@ -127,7 +127,6 @@ function CellValue({ value }: { value: string }) {
       <span className="inline-flex items-center gap-1 text-[#5e5a50]">
         <Minus className="size-4" aria-hidden />
         <span className="sr-only">Não incluído</span>
-        <span aria-hidden>—</span>
       </span>
     );
   }
@@ -254,7 +253,11 @@ export function PricingSection() {
   const [cycle, setCycle] = useState<BillingCycle>("monthly");
 
   return (
-    <section id="planos" aria-labelledby="planos-title" className="mx-auto max-w-6xl px-6 py-16">
+    <section
+      id="planos"
+      aria-labelledby="planos-title"
+      className="mx-auto max-w-6xl scroll-mt-28 px-6 py-16"
+    >
       <div className="flex flex-col items-start gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div className="max-w-2xl">
           <h2 id="planos-title" className="gh-display gh-glitch text-3xl uppercase sm:text-4xl">
