@@ -38,6 +38,7 @@ import { Route as AuthenticatedAppTimeEntriesRouteImport } from './routes/_authe
 import { Route as AuthenticatedAppUnitsRouteImport } from './routes/_authenticated/app.units'
 import { Route as ApiPublicSalesIngestRouteImport } from './routes/api/public/sales-ingest'
 import { Route as PortalItensIndexRouteImport } from './routes/portal.itens.index'
+import { Route as PortalItensIdRouteImport } from './routes/portal.itens.$id'
 import { Route as AuthenticatedAppDeliveriesIndexRouteImport } from './routes/_authenticated/app.deliveries.index'
 import { Route as AuthenticatedAppDeliveriesIdRouteImport } from './routes/_authenticated/app.deliveries.$id'
 
@@ -194,6 +195,11 @@ const PortalItensIndexRoute = PortalItensIndexRouteImport.update({
   path: '/itens/',
   getParentRoute: () => PortalRoute,
 } as any)
+const PortalItensIdRoute = PortalItensIdRouteImport.update({
+  id: '/itens/$id',
+  path: '/itens/$id',
+  getParentRoute: () => PortalRoute,
+} as any)
 const AuthenticatedAppDeliveriesIndexRoute =
   AuthenticatedAppDeliveriesIndexRouteImport.update({
     id: '/deliveries/',
@@ -234,6 +240,7 @@ export interface FileRoutesByFullPath {
   '/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
+  '/portal/itens/$id': typeof PortalItensIdRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/portal/itens/': typeof PortalItensIndexRoute
   '/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
@@ -264,6 +271,7 @@ export interface FileRoutesByTo {
   '/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
+  '/portal/itens/$id': typeof PortalItensIdRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/portal/itens': typeof PortalItensIndexRoute
   '/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
@@ -298,6 +306,7 @@ export interface FileRoutesById {
   '/_authenticated/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/_authenticated/app/units': typeof AuthenticatedAppUnitsRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
+  '/portal/itens/$id': typeof PortalItensIdRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/portal/itens/': typeof PortalItensIndexRoute
   '/_authenticated/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
@@ -332,6 +341,7 @@ export interface FileRouteTypes {
     | '/app/time-entries'
     | '/app/units'
     | '/api/public/sales-ingest'
+    | '/portal/itens/$id'
     | '/app/'
     | '/portal/itens/'
     | '/app/deliveries/$id'
@@ -362,6 +372,7 @@ export interface FileRouteTypes {
     | '/app/time-entries'
     | '/app/units'
     | '/api/public/sales-ingest'
+    | '/portal/itens/$id'
     | '/app'
     | '/portal/itens'
     | '/app/deliveries/$id'
@@ -395,6 +406,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/time-entries'
     | '/_authenticated/app/units'
     | '/api/public/sales-ingest'
+    | '/portal/itens/$id'
     | '/_authenticated/app/'
     | '/portal/itens/'
     | '/_authenticated/app/deliveries/$id'
@@ -614,6 +626,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalItensIndexRouteImport
       parentRoute: typeof PortalRoute
     }
+    '/portal/itens/$id': {
+      id: '/portal/itens/$id'
+      path: '/itens/$id'
+      fullPath: '/portal/itens/$id'
+      preLoaderRoute: typeof PortalItensIdRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/_authenticated/app/deliveries/': {
       id: '/_authenticated/app/deliveries/'
       path: '/deliveries'
@@ -696,6 +715,7 @@ interface PortalRouteChildren {
   PortalPerfilRoute: typeof PortalPerfilRoute
   PortalPontoRoute: typeof PortalPontoRoute
   PortalIndexRoute: typeof PortalIndexRoute
+  PortalItensIdRoute: typeof PortalItensIdRoute
   PortalItensIndexRoute: typeof PortalItensIndexRoute
 }
 
@@ -706,6 +726,7 @@ const PortalRouteChildren: PortalRouteChildren = {
   PortalPerfilRoute: PortalPerfilRoute,
   PortalPontoRoute: PortalPontoRoute,
   PortalIndexRoute: PortalIndexRoute,
+  PortalItensIdRoute: PortalItensIdRoute,
   PortalItensIndexRoute: PortalItensIndexRoute,
 }
 
