@@ -242,8 +242,8 @@ function CompliancePage() {
                           {days != null ? ` · ${days < 0 ? `${Math.abs(days)} dias em atraso` : `faltam ${days} dias`}` : ""}
                         </p>
                       </div>
-                      <StatusBadge tone={DOCUMENT_STATUS_TONE[doc.effective]}>
-                        {DOCUMENT_STATUS_LABEL[doc.effective]}
+                      <StatusBadge tone={DOCUMENT_STATUS_TONE[doc.effective] ?? "neutral"}>
+                        {DOCUMENT_STATUS_LABEL[doc.effective] ?? doc.effective}
                       </StatusBadge>
                     </Link>
                   </li>
