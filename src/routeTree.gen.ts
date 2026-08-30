@@ -22,7 +22,6 @@ import { Route as PortalLoginRouteImport } from './routes/portal.login'
 import { Route as PortalPerfilRouteImport } from './routes/portal.perfil'
 import { Route as PortalPontoRouteImport } from './routes/portal.ponto'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
-import { Route as AuthenticatedAppCatalogRouteImport } from './routes/_authenticated/app.catalog'
 import { Route as AuthenticatedAppDeliveryRulesRouteImport } from './routes/_authenticated/app.delivery-rules'
 import { Route as AuthenticatedAppEmployeesRouteImport } from './routes/_authenticated/app.employees'
 import { Route as AuthenticatedAppInventoryRouteImport } from './routes/_authenticated/app.inventory'
@@ -104,11 +103,6 @@ const PortalPontoRoute = PortalPontoRouteImport.update({
 const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AuthenticatedAppRoute,
-} as any)
-const AuthenticatedAppCatalogRoute = AuthenticatedAppCatalogRouteImport.update({
-  id: '/catalog',
-  path: '/catalog',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
 const AuthenticatedAppDeliveryRulesRoute =
@@ -225,7 +219,6 @@ export interface FileRoutesByFullPath {
   '/portal/perfil': typeof PortalPerfilRoute
   '/portal/ponto': typeof PortalPontoRoute
   '/portal/': typeof PortalIndexRoute
-  '/app/catalog': typeof AuthenticatedAppCatalogRoute
   '/app/delivery-rules': typeof AuthenticatedAppDeliveryRulesRoute
   '/app/employees': typeof AuthenticatedAppEmployeesRoute
   '/app/inventory': typeof AuthenticatedAppInventoryRoute
@@ -256,7 +249,6 @@ export interface FileRoutesByTo {
   '/portal/perfil': typeof PortalPerfilRoute
   '/portal/ponto': typeof PortalPontoRoute
   '/portal': typeof PortalIndexRoute
-  '/app/catalog': typeof AuthenticatedAppCatalogRoute
   '/app/delivery-rules': typeof AuthenticatedAppDeliveryRulesRoute
   '/app/employees': typeof AuthenticatedAppEmployeesRoute
   '/app/inventory': typeof AuthenticatedAppInventoryRoute
@@ -291,7 +283,6 @@ export interface FileRoutesById {
   '/portal/perfil': typeof PortalPerfilRoute
   '/portal/ponto': typeof PortalPontoRoute
   '/portal/': typeof PortalIndexRoute
-  '/_authenticated/app/catalog': typeof AuthenticatedAppCatalogRoute
   '/_authenticated/app/delivery-rules': typeof AuthenticatedAppDeliveryRulesRoute
   '/_authenticated/app/employees': typeof AuthenticatedAppEmployeesRoute
   '/_authenticated/app/inventory': typeof AuthenticatedAppInventoryRoute
@@ -326,7 +317,6 @@ export interface FileRouteTypes {
     | '/portal/perfil'
     | '/portal/ponto'
     | '/portal/'
-    | '/app/catalog'
     | '/app/delivery-rules'
     | '/app/employees'
     | '/app/inventory'
@@ -357,7 +347,6 @@ export interface FileRouteTypes {
     | '/portal/perfil'
     | '/portal/ponto'
     | '/portal'
-    | '/app/catalog'
     | '/app/delivery-rules'
     | '/app/employees'
     | '/app/inventory'
@@ -391,7 +380,6 @@ export interface FileRouteTypes {
     | '/portal/perfil'
     | '/portal/ponto'
     | '/portal/'
-    | '/_authenticated/app/catalog'
     | '/_authenticated/app/delivery-rules'
     | '/_authenticated/app/employees'
     | '/_authenticated/app/inventory'
@@ -512,13 +500,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/app/'
       preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
-      parentRoute: typeof AuthenticatedAppRoute
-    }
-    '/_authenticated/app/catalog': {
-      id: '/_authenticated/app/catalog'
-      path: '/catalog'
-      fullPath: '/app/catalog'
-      preLoaderRoute: typeof AuthenticatedAppCatalogRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
     '/_authenticated/app/delivery-rules': {
@@ -651,7 +632,6 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAppRouteChildren {
-  AuthenticatedAppCatalogRoute: typeof AuthenticatedAppCatalogRoute
   AuthenticatedAppDeliveryRulesRoute: typeof AuthenticatedAppDeliveryRulesRoute
   AuthenticatedAppEmployeesRoute: typeof AuthenticatedAppEmployeesRoute
   AuthenticatedAppInventoryRoute: typeof AuthenticatedAppInventoryRoute
@@ -671,7 +651,6 @@ interface AuthenticatedAppRouteChildren {
 }
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
-  AuthenticatedAppCatalogRoute: AuthenticatedAppCatalogRoute,
   AuthenticatedAppDeliveryRulesRoute: AuthenticatedAppDeliveryRulesRoute,
   AuthenticatedAppEmployeesRoute: AuthenticatedAppEmployeesRoute,
   AuthenticatedAppInventoryRoute: AuthenticatedAppInventoryRoute,
