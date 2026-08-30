@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ArrowLeft, Download, ShieldAlert } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import type { TablesUpdate } from "@/integrations/supabase/types";
 import { useWorkspace } from "@/hooks/use-workspace";
 import { BRAND_NAME } from "@/config/brand";
 import { PageHeader, SectionCard, StatusBadge, LoadingState, ErrorState, EmptyState } from "@/components/ui-kit";
