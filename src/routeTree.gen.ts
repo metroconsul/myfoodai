@@ -18,6 +18,7 @@ import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authentic
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
 import { Route as PortalEscalaRouteImport } from './routes/portal.escala'
 import { Route as PortalLoginRouteImport } from './routes/portal.login'
+import { Route as PortalPendenciasRouteImport } from './routes/portal.pendencias'
 import { Route as PortalPerfilRouteImport } from './routes/portal.perfil'
 import { Route as PortalPontoRouteImport } from './routes/portal.ponto'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
@@ -94,6 +95,11 @@ const PortalEscalaRoute = PortalEscalaRouteImport.update({
 const PortalLoginRoute = PortalLoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalPendenciasRoute = PortalPendenciasRouteImport.update({
+  id: '/pendencias',
+  path: '/pendencias',
   getParentRoute: () => PortalRoute,
 } as any)
 const PortalPerfilRoute = PortalPerfilRouteImport.update({
@@ -289,6 +295,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/portal/escala': typeof PortalEscalaRoute
   '/portal/login': typeof PortalLoginRoute
+  '/portal/pendencias': typeof PortalPendenciasRoute
   '/portal/perfil': typeof PortalPerfilRoute
   '/portal/ponto': typeof PortalPontoRoute
   '/portal/': typeof PortalIndexRoute
@@ -330,6 +337,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/portal/escala': typeof PortalEscalaRoute
   '/portal/login': typeof PortalLoginRoute
+  '/portal/pendencias': typeof PortalPendenciasRoute
   '/portal/perfil': typeof PortalPerfilRoute
   '/portal/ponto': typeof PortalPontoRoute
   '/portal': typeof PortalIndexRoute
@@ -375,6 +383,7 @@ export interface FileRoutesById {
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/portal/escala': typeof PortalEscalaRoute
   '/portal/login': typeof PortalLoginRoute
+  '/portal/pendencias': typeof PortalPendenciasRoute
   '/portal/perfil': typeof PortalPerfilRoute
   '/portal/ponto': typeof PortalPontoRoute
   '/portal/': typeof PortalIndexRoute
@@ -420,6 +429,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/portal/escala'
     | '/portal/login'
+    | '/portal/pendencias'
     | '/portal/perfil'
     | '/portal/ponto'
     | '/portal/'
@@ -461,6 +471,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/portal/escala'
     | '/portal/login'
+    | '/portal/pendencias'
     | '/portal/perfil'
     | '/portal/ponto'
     | '/portal'
@@ -505,6 +516,7 @@ export interface FileRouteTypes {
     | '/_authenticated/onboarding'
     | '/portal/escala'
     | '/portal/login'
+    | '/portal/pendencias'
     | '/portal/perfil'
     | '/portal/ponto'
     | '/portal/'
@@ -612,6 +624,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/portal/login'
       preLoaderRoute: typeof PortalLoginRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/pendencias': {
+      id: '/portal/pendencias'
+      path: '/pendencias'
+      fullPath: '/portal/pendencias'
+      preLoaderRoute: typeof PortalPendenciasRouteImport
       parentRoute: typeof PortalRoute
     }
     '/portal/perfil': {
@@ -928,6 +947,7 @@ const AuthenticatedRouteRouteWithChildren =
 interface PortalRouteChildren {
   PortalEscalaRoute: typeof PortalEscalaRoute
   PortalLoginRoute: typeof PortalLoginRoute
+  PortalPendenciasRoute: typeof PortalPendenciasRoute
   PortalPerfilRoute: typeof PortalPerfilRoute
   PortalPontoRoute: typeof PortalPontoRoute
   PortalIndexRoute: typeof PortalIndexRoute
@@ -942,6 +962,7 @@ interface PortalRouteChildren {
 const PortalRouteChildren: PortalRouteChildren = {
   PortalEscalaRoute: PortalEscalaRoute,
   PortalLoginRoute: PortalLoginRoute,
+  PortalPendenciasRoute: PortalPendenciasRoute,
   PortalPerfilRoute: PortalPerfilRoute,
   PortalPontoRoute: PortalPontoRoute,
   PortalIndexRoute: PortalIndexRoute,
