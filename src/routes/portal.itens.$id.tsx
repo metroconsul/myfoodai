@@ -102,9 +102,10 @@ function PortalItemAcceptPage() {
   });
 
   const startAccept = async () => {
-    setGeo(await readLocation());
+    setGeo(consentLocation ? await readLocation() : NO_GEO);
     setStep("identidade");
   };
+
 
   const validate = useMutation({
     mutationFn: async () => {
