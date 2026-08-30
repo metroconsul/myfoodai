@@ -6,11 +6,24 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/use-workspace";
 import { BRAND_NAME } from "@/config/brand";
-import { PageHeader, SectionCard, EmptyState, LoadingState, ErrorState, StatusBadge } from "@/components/ui-kit";
+import {
+  PageHeader,
+  SectionCard,
+  EmptyState,
+  LoadingState,
+  ErrorState,
+  StatusBadge,
+} from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PERIOD_LABEL, REPLACEMENT_PERIODS } from "@/lib/items.shared";
 import { dateFmt } from "@/lib/format";
@@ -19,7 +32,10 @@ export const Route = createFileRoute("/_authenticated/app/conformidade/kits")({
   head: () => ({
     meta: [
       { title: `Kits por função — ${BRAND_NAME}` },
-      { name: "description", content: "Monte kits de uniformes e materiais por função, setor e unidade." },
+      {
+        name: "description",
+        content: "Monte kits de uniformes e materiais por função, setor e unidade.",
+      },
       { property: "og:title", content: `Kits por função — ${BRAND_NAME}` },
       { property: "og:description", content: "Kits de uniformes e materiais por função." },
       { name: "robots", content: "noindex" },
@@ -149,7 +165,15 @@ function KitsPage() {
 
   if (kitsQuery.isLoading) return <LoadingState rows={4} label="Carregando kits…" />;
   if (kitsQuery.isError)
-    return <ErrorState action={<Button variant="outline" onClick={() => kitsQuery.refetch()}>Tentar novamente</Button>} />;
+    return (
+      <ErrorState
+        action={
+          <Button variant="outline" onClick={() => kitsQuery.refetch()}>
+            Tentar novamente
+          </Button>
+        }
+      />
+    );
 
   return (
     <div className="space-y-6">
@@ -177,13 +201,16 @@ function KitsPage() {
               key={kit.id}
               title={kit.name}
               action={
-                <StatusBadge tone={kit.active ? "ok" : "neutral"}>{kit.active ? "Ativo" : "Inativo"}</StatusBadge>
+                <StatusBadge tone={kit.active ? "ok" : "neutral"}>
+                  {kit.active ? "Ativo" : "Inativo"}
+                </StatusBadge>
               }
             >
               <p className="meta-mono mb-3">
-                {kit.role_id ? roleMap.get(kit.role_id) ?? "Função" : "Todas as funções"} ·{" "}
-                {kit.unit_id ? unitMap.get(kit.unit_id) ?? "Unidade" : "Todas as unidades"} ·{" "}
-                {kit.required ? "Obrigatório" : "Recomendado"} · {PERIOD_LABEL[kit.replacement_period] ?? "—"}
+                {kit.role_id ? (roleMap.get(kit.role_id) ?? "Função") : "Todas as funções"} ·{" "}
+                {kit.unit_id ? (unitMap.get(kit.unit_id) ?? "Unidade") : "Todas as unidades"} ·{" "}
+                {kit.required ? "Obrigatório" : "Recomendado"} ·{" "}
+                {PERIOD_LABEL[kit.replacement_period] ?? "—"}
               </p>
               <ul className="space-y-1 text-sm">
                 {(kit.uniform_kit_items ?? []).map((line) => (
@@ -217,8 +244,8 @@ function KitsPage() {
       )}
 
       <p className="text-xs text-muted-foreground">
-        Os kits sugerem itens na admissão ou mudança de função. A entrega continua sendo criada manualmente pelo
-        gestor em Entrega de itens.
+        Os kits sugerem itens na admissão ou mudança de função. A entrega continua sendo criada
+        manualmente pelo gestor em Entrega de itens.
       </p>
 
       <Dialog open={open} onOpenChange={setOpen}>
@@ -230,34 +257,67 @@ function KitsPage() {
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
                 <Label htmlFor="kitName">Nome</Label>
-                <Input id="kitName" value={form.name} maxLength={120} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} />
+                <Input
+                  id="kitName"
+                  value={form.name}
+                  maxLength={120}
+                  onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                />
               </div>
               <div>
                 <Label htmlFor="dep">Setor</Label>
-                <Input id="dep" value={form.department} maxLength={80} onChange={(e) => setForm((f) => ({ ...f, department: e.target.value }))} />
+                <Input
+                  id="dep"
+                  value={form.department}
+                  maxLength={80}
+                  onChange={(e) => setForm((f) => ({ ...f, department: e.target.value }))}
+                />
               </div>
               <div>
                 <Label>Função</Label>
-                <Select value={form.roleId} onValueChange={(v) => setForm((f) => ({ ...f, roleId: v }))}>
-                  <SelectTrigger><SelectValue placeholder="Todas as funções" /></SelectTrigger>
+                <Select
+                  value={form.roleId}
+                  onValueChange={(v) => setForm((f) => ({ ...f, roleId: v }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Todas as funções" />
+                  </SelectTrigger>
                   <SelectContent>
-                    {(rolesQuery.data ?? []).map((r) => (<SelectItem key={r.id} value={r.id}>{r.name}</SelectItem>))}
+                    {(rolesQuery.data ?? []).map((r) => (
+                      <SelectItem key={r.id} value={r.id}>
+                        {r.name}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
               <div>
                 <Label>Unidade</Label>
-                <Select value={form.unitId} onValueChange={(v) => setForm((f) => ({ ...f, unitId: v }))}>
-                  <SelectTrigger><SelectValue placeholder="Todas as unidades" /></SelectTrigger>
+                <Select
+                  value={form.unitId}
+                  onValueChange={(v) => setForm((f) => ({ ...f, unitId: v }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Todas as unidades" />
+                  </SelectTrigger>
                   <SelectContent>
-                    {units.map((u) => (<SelectItem key={u.id} value={u.id}>{u.name}</SelectItem>))}
+                    {units.map((u) => (
+                      <SelectItem key={u.id} value={u.id}>
+                        {u.name}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
               <div>
                 <Label>Obrigatoriedade</Label>
-                <Select value={form.required} onValueChange={(v) => setForm((f) => ({ ...f, required: v }))}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
+                <Select
+                  value={form.required}
+                  onValueChange={(v) => setForm((f) => ({ ...f, required: v }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="true">Obrigatório</SelectItem>
                     <SelectItem value="false">Recomendado</SelectItem>
@@ -266,20 +326,39 @@ function KitsPage() {
               </div>
               <div>
                 <Label>Periodicidade</Label>
-                <Select value={form.replacementPeriod} onValueChange={(v) => setForm((f) => ({ ...f, replacementPeriod: v }))}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
+                <Select
+                  value={form.replacementPeriod}
+                  onValueChange={(v) => setForm((f) => ({ ...f, replacementPeriod: v }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
                   <SelectContent>
-                    {REPLACEMENT_PERIODS.map((p) => (<SelectItem key={p} value={p}>{PERIOD_LABEL[p]}</SelectItem>))}
+                    {REPLACEMENT_PERIODS.map((p) => (
+                      <SelectItem key={p} value={p}>
+                        {PERIOD_LABEL[p]}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
               <div>
                 <Label htmlFor="from">Vigência inicial</Label>
-                <Input id="from" type="date" value={form.effectiveFrom} onChange={(e) => setForm((f) => ({ ...f, effectiveFrom: e.target.value }))} />
+                <Input
+                  id="from"
+                  type="date"
+                  value={form.effectiveFrom}
+                  onChange={(e) => setForm((f) => ({ ...f, effectiveFrom: e.target.value }))}
+                />
               </div>
               <div>
                 <Label htmlFor="until">Vigência final</Label>
-                <Input id="until" type="date" value={form.effectiveUntil} onChange={(e) => setForm((f) => ({ ...f, effectiveUntil: e.target.value }))} />
+                <Input
+                  id="until"
+                  type="date"
+                  value={form.effectiveUntil}
+                  onChange={(e) => setForm((f) => ({ ...f, effectiveUntil: e.target.value }))}
+                />
               </div>
             </div>
 
@@ -290,30 +369,50 @@ function KitsPage() {
                   <Select
                     value={line.itemId}
                     onValueChange={(v) =>
-                      setLines((prev) => prev.map((l, i) => (i === index ? { ...l, itemId: v } : l)))
+                      setLines((prev) =>
+                        prev.map((l, i) => (i === index ? { ...l, itemId: v } : l)),
+                      )
                     }
                   >
-                    <SelectTrigger><SelectValue placeholder="Item" /></SelectTrigger>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Item" />
+                    </SelectTrigger>
                     <SelectContent>
-                      {(catalog.data ?? []).map((c) => (<SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>))}
+                      {(catalog.data ?? []).map((c) => (
+                        <SelectItem key={c.id} value={c.id}>
+                          {c.name}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   <Input
                     aria-label="Quantidade"
                     value={line.quantity}
-                    onChange={(e) => setLines((prev) => prev.map((l, i) => (i === index ? { ...l, quantity: e.target.value } : l)))}
+                    onChange={(e) =>
+                      setLines((prev) =>
+                        prev.map((l, i) => (i === index ? { ...l, quantity: e.target.value } : l)),
+                      )
+                    }
                   />
                   <Input
                     aria-label="Tamanho padrão"
                     placeholder="Tamanho"
                     value={line.size}
-                    onChange={(e) => setLines((prev) => prev.map((l, i) => (i === index ? { ...l, size: e.target.value } : l)))}
+                    onChange={(e) =>
+                      setLines((prev) =>
+                        prev.map((l, i) => (i === index ? { ...l, size: e.target.value } : l)),
+                      )
+                    }
                   />
                   <Input
                     aria-label="Cor padrão"
                     placeholder="Cor"
                     value={line.color}
-                    onChange={(e) => setLines((prev) => prev.map((l, i) => (i === index ? { ...l, color: e.target.value } : l)))}
+                    onChange={(e) =>
+                      setLines((prev) =>
+                        prev.map((l, i) => (i === index ? { ...l, color: e.target.value } : l)),
+                      )
+                    }
                   />
                   <Button
                     variant="outline"
@@ -328,15 +427,21 @@ function KitsPage() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setLines((prev) => [...prev, { itemId: "", quantity: "1", size: "", color: "" }])}
+                onClick={() =>
+                  setLines((prev) => [...prev, { itemId: "", quantity: "1", size: "", color: "" }])
+                }
               >
                 Adicionar item
               </Button>
             </div>
 
             <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setOpen(false)}>Cancelar</Button>
-              <Button onClick={() => create.mutate()} disabled={create.isPending}>Salvar kit</Button>
+              <Button variant="outline" onClick={() => setOpen(false)}>
+                Cancelar
+              </Button>
+              <Button onClick={() => create.mutate()} disabled={create.isPending}>
+                Salvar kit
+              </Button>
             </div>
           </div>
         </DialogContent>

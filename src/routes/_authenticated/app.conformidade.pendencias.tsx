@@ -4,10 +4,23 @@ import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/use-workspace";
 import { BRAND_NAME } from "@/config/brand";
-import { PageHeader, SectionCard, EmptyState, LoadingState, ErrorState, StatusBadge } from "@/components/ui-kit";
+import {
+  PageHeader,
+  SectionCard,
+  EmptyState,
+  LoadingState,
+  ErrorState,
+  StatusBadge,
+} from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { dateFmt } from "@/lib/format";
 import { DOCUMENT_TYPE_LABEL, daysUntil, effectiveDocumentStatus } from "@/lib/compliance.shared";
 
@@ -15,7 +28,10 @@ export const Route = createFileRoute("/_authenticated/app/conformidade/pendencia
   head: () => ({
     meta: [
       { title: `Pendências da equipe — ${BRAND_NAME}` },
-      { name: "description", content: "Visão por colaborador de documentos, itens e cartões de ponto pendentes." },
+      {
+        name: "description",
+        content: "Visão por colaborador de documentos, itens e cartões de ponto pendentes.",
+      },
       { property: "og:title", content: `Pendências da equipe — ${BRAND_NAME}` },
       { property: "og:description", content: "Pendências consolidadas por colaborador." },
       { name: "robots", content: "noindex" },
@@ -35,12 +51,18 @@ function TeamPendenciesPage() {
     queryKey: ["team-pendencies"],
     queryFn: async () => {
       const [employees, documents, requests, deliveries, cards, exchanges] = await Promise.all([
-        supabase.from("employees").select("id, full_name, unit_id, employment_status").eq("employment_status", "ativo"),
+        supabase
+          .from("employees")
+          .select("id, full_name, unit_id, employment_status")
+          .eq("employment_status", "ativo"),
         supabase
           .from("occupational_documents")
           .select("id, employee_id, title, document_type, status, expires_at")
           .is("archived_at", null),
-        supabase.from("document_requests").select("id, employee_id, document_type, due_at").eq("status", "aberta"),
+        supabase
+          .from("document_requests")
+          .select("id, employee_id, document_type, due_at")
+          .eq("status", "aberta"),
         supabase
           .from("item_deliveries")
           .select("id, employee_id, delivered_at, expires_at")
@@ -81,7 +103,11 @@ function TeamPendenciesPage() {
 
     for (const doc of d.documents) {
       const effective = effectiveDocumentStatus(doc.status, doc.expires_at);
-      if (effective === "vencido" || effective === "vence_em_breve" || effective === "aguardando_documento") {
+      if (
+        effective === "vencido" ||
+        effective === "vence_em_breve" ||
+        effective === "aguardando_documento"
+      ) {
         push(doc.employee_id, {
           kind: "documento",
           label: `${DOCUMENT_TYPE_LABEL[doc.document_type] ?? doc.document_type}: ${doc.title}`,
@@ -116,21 +142,36 @@ function TeamPendenciesPage() {
       });
     }
     for (const x of d.exchanges) {
-      push(x.employee_id, { kind: "troca", label: `Troca: ${x.reason}`, due: null, critical: false });
+      push(x.employee_id, {
+        kind: "troca",
+        label: `Troca: ${x.reason}`,
+        due: null,
+        critical: false,
+      });
     }
 
     return d.employees
       .map((e) => ({ employee: e, pendencies: byEmployee.get(e.id) ?? [] }))
       .filter((row) => row.pendencies.length > 0)
       .filter((row) => (activeUnitId ? row.employee.unit_id === activeUnitId : true))
-      .filter((row) => (search ? row.employee.full_name.toLowerCase().includes(search.toLowerCase()) : true))
+      .filter((row) =>
+        search ? row.employee.full_name.toLowerCase().includes(search.toLowerCase()) : true,
+      )
       .filter((row) => (kind === "todas" ? true : row.pendencies.some((p) => p.kind === kind)))
       .sort((a, b) => b.pendencies.length - a.pendencies.length);
   }, [query.data, activeUnitId, search, kind]);
 
   if (query.isLoading) return <LoadingState rows={5} label="Carregando pendências…" />;
   if (query.isError)
-    return <ErrorState action={<Button variant="outline" onClick={() => query.refetch()}>Tentar novamente</Button>} />;
+    return (
+      <ErrorState
+        action={
+          <Button variant="outline" onClick={() => query.refetch()}>
+            Tentar novamente
+          </Button>
+        }
+      />
+    );
 
   return (
     <div className="space-y-6">
@@ -164,7 +205,10 @@ function TeamPendenciesPage() {
       </div>
 
       {rows.length === 0 ? (
-        <EmptyState title="Nenhuma pendência" description="Toda a equipe está em dia com os filtros selecionados." />
+        <EmptyState
+          title="Nenhuma pendência"
+          description="Toda a equipe está em dia com os filtros selecionados."
+        />
       ) : (
         <div className="space-y-4">
           {rows.map((row) => (
@@ -178,7 +222,9 @@ function TeamPendenciesPage() {
               }
             >
               <p className="meta-mono mb-3">
-                {row.employee.unit_id ? unitMap.get(row.employee.unit_id) ?? "Unidade" : "Sem unidade"}
+                {row.employee.unit_id
+                  ? (unitMap.get(row.employee.unit_id) ?? "Unidade")
+                  : "Sem unidade"}
               </p>
               <ul className="space-y-2">
                 {row.pendencies.map((p, index) => (
@@ -196,13 +242,19 @@ function TeamPendenciesPage() {
               </ul>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Link to="/app/conformidade/exames" search={{ search: row.employee.full_name }}>
-                  <Button variant="outline" size="sm">Ver documentos</Button>
+                  <Button variant="outline" size="sm">
+                    Ver documentos
+                  </Button>
                 </Link>
                 <Link to="/app/deliveries">
-                  <Button variant="outline" size="sm">Ver entregas</Button>
+                  <Button variant="outline" size="sm">
+                    Ver entregas
+                  </Button>
                 </Link>
                 <Link to="/app/point-cards">
-                  <Button variant="outline" size="sm">Ver cartões de ponto</Button>
+                  <Button variant="outline" size="sm">
+                    Ver cartões de ponto
+                  </Button>
                 </Link>
               </div>
             </SectionCard>

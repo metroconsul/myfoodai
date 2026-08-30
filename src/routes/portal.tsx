@@ -85,7 +85,10 @@ function PortalLayout() {
               >
                 {initials}
                 <span className="sr-only">Meu perfil</span>
-                <Bell className="absolute -right-1 -top-1 size-4 rounded-full border-2 border-foreground bg-accent p-[1px]" aria-hidden />
+                <Bell
+                  className="absolute -right-1 -top-1 size-4 rounded-full border-2 border-foreground bg-accent p-[1px]"
+                  aria-hidden
+                />
               </Link>
             </div>
           </header>
@@ -95,7 +98,8 @@ function PortalLayout() {
             className="no-scrollbar flex snap-x snap-mandatory gap-2 overflow-x-auto px-6 py-4"
           >
             {CONTEXTS.map((c) => {
-              const active = "exact" in c && c.exact ? pathname === c.to : pathname.startsWith(c.to);
+              const active =
+                "exact" in c && c.exact ? pathname === c.to : pathname.startsWith(c.to);
               return (
                 <Link
                   key={c.to}
@@ -109,7 +113,10 @@ function PortalLayout() {
                   )}
                 >
                   {active ? (
-                    <span className="grid size-5 place-items-center rounded-full bg-accent" aria-hidden>
+                    <span
+                      className="grid size-5 place-items-center rounded-full bg-accent"
+                      aria-hidden
+                    >
                       <span className="size-2 rounded-full bg-foreground" />
                     </span>
                   ) : null}
@@ -129,7 +136,8 @@ function PortalLayout() {
           >
             <ul className="flex h-16 items-center justify-around rounded-[24px] border-2 border-foreground bg-foreground px-2 shadow-[4px_4px_0_var(--ink)]">
               {TABS.map((tab) => {
-                const active = "exact" in tab && tab.exact ? pathname === tab.to : pathname.startsWith(tab.to);
+                const active =
+                  "exact" in tab && tab.exact ? pathname === tab.to : pathname.startsWith(tab.to);
                 const Icon = tab.icon;
                 return (
                   <li key={tab.to}>

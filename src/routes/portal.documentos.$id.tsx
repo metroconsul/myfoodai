@@ -36,9 +36,15 @@ export const Route = createFileRoute("/portal/documentos/$id")({
   head: () => ({
     meta: [
       { title: `Documento — ${BRAND_NAME}` },
-      { name: "description", content: "Confira o documento, baixe o arquivo e confirme sua ciência." },
+      {
+        name: "description",
+        content: "Confira o documento, baixe o arquivo e confirme sua ciência.",
+      },
       { property: "og:title", content: `Documento — ${BRAND_NAME}` },
-      { property: "og:description", content: "Confirmação e assinatura de documentos ocupacionais." },
+      {
+        property: "og:description",
+        content: "Confirmação e assinatura de documentos ocupacionais.",
+      },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -52,7 +58,12 @@ type Geo = {
   locationStatus: "obtida" | "negada" | "imprecisa" | "indisponivel" | "nao_disponivel";
 };
 
-const NO_GEO: Geo = { latitude: null, longitude: null, accuracy: null, locationStatus: "nao_disponivel" };
+const NO_GEO: Geo = {
+  latitude: null,
+  longitude: null,
+  accuracy: null,
+  locationStatus: "nao_disponivel",
+};
 
 async function readLocation(): Promise<Geo> {
   if (typeof navigator === "undefined" || !navigator.geolocation) {
@@ -168,7 +179,9 @@ function PortalDocumentDetailPage() {
       <PortalCard>
         <div className="flex flex-wrap items-center justify-between gap-2">
           <PortalLabel>{DOCUMENT_TYPE_LABEL[doc.document_type] ?? doc.document_type}</PortalLabel>
-          <PortalChip tone={effective === "regular" ? "acid" : effective === "vencido" ? "danger" : "warn"}>
+          <PortalChip
+            tone={effective === "regular" ? "acid" : effective === "vencido" ? "danger" : "warn"}
+          >
             {DOCUMENT_STATUS_LABEL[effective] ?? effective}
           </PortalChip>
         </div>
@@ -193,7 +206,13 @@ function PortalDocumentDetailPage() {
         ) : null}
 
         {doc.file_path ? (
-          <PortalButton className="mt-4" block variant="secondary" loading={openFile.isPending} onClick={() => openFile.mutate()}>
+          <PortalButton
+            className="mt-4"
+            block
+            variant="secondary"
+            loading={openFile.isPending}
+            onClick={() => openFile.mutate()}
+          >
             <Download className="size-4" aria-hidden />
             Abrir arquivo
           </PortalButton>
@@ -213,7 +232,12 @@ function PortalDocumentDetailPage() {
               </p>
             </div>
           </div>
-          <PortalButton className="mt-4" variant="dark" block onClick={() => void navigate({ to: "/portal/documentos" })}>
+          <PortalButton
+            className="mt-4"
+            variant="dark"
+            block
+            onClick={() => void navigate({ to: "/portal/documentos" })}
+          >
             Voltar
           </PortalButton>
         </PortalCard>
@@ -275,8 +299,8 @@ function PortalDocumentDetailPage() {
           </label>
 
           <p className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
-            <MapPin className="size-4" aria-hidden />
-            A localização aproximada é registrada como evidência quando você permite.
+            <MapPin className="size-4" aria-hidden />A localização aproximada é registrada como
+            evidência quando você permite.
           </p>
 
           <PortalButton
@@ -285,7 +309,8 @@ function PortalDocumentDetailPage() {
             loading={confirm.isPending}
             disabled={
               !agreed ||
-              (needsSignature && (signMode === "desenhada" ? !signature : typedName.trim().length < 3))
+              (needsSignature &&
+                (signMode === "desenhada" ? !signature : typedName.trim().length < 3))
             }
             onClick={() => confirm.mutate(needsSignature ? "assinatura" : "ciencia")}
           >
@@ -302,7 +327,8 @@ function PortalDocumentDetailPage() {
 
       {data?.acknowledgement?.accuracy_meters ? (
         <p className="meta-mono">
-          Precisão da localização registrada: ±{numberFmt(Number(data.acknowledgement.accuracy_meters), 0)} m
+          Precisão da localização registrada: ±
+          {numberFmt(Number(data.acknowledgement.accuracy_meters), 0)} m
         </p>
       ) : null}
     </div>

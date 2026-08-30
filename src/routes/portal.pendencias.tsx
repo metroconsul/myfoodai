@@ -2,7 +2,15 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useRef, useState } from "react";
-import { CalendarCheck, ChevronRight, FileSignature, ListChecks, PackageCheck, Repeat, Upload } from "lucide-react";
+import {
+  CalendarCheck,
+  ChevronRight,
+  FileSignature,
+  ListChecks,
+  PackageCheck,
+  Repeat,
+  Upload,
+} from "lucide-react";
 import { toast } from "sonner";
 import { BRAND_NAME } from "@/config/brand";
 import { usePortalSession } from "@/hooks/use-portal-session";
@@ -26,7 +34,11 @@ export const Route = createFileRoute("/portal/pendencias")({
   head: () => ({
     meta: [
       { title: `Minhas pendências — ${BRAND_NAME}` },
-      { name: "description", content: "Tudo que precisa da sua confirmação: documentos, itens, cartões de ponto e trocas." },
+      {
+        name: "description",
+        content:
+          "Tudo que precisa da sua confirmação: documentos, itens, cartões de ponto e trocas.",
+      },
       { property: "og:title", content: `Minhas pendências — ${BRAND_NAME}` },
       { property: "og:description", content: "Fila única de pendências do colaborador." },
       { name: "robots", content: "noindex" },
@@ -60,7 +72,9 @@ function PortalPendenciesPage() {
         reader.onerror = () => reject(new Error("Não foi possível ler o arquivo."));
         reader.readAsDataURL(file);
       });
-      const res = await uploadFn({ data: { token: token!, requestId, fileName: file.name, fileDataUrl: dataUrl } });
+      const res = await uploadFn({
+        data: { token: token!, requestId, fileName: file.name, fileDataUrl: dataUrl },
+      });
       if ("error" in res && res.error) throw new Error(res.error);
     },
     onSuccess: () => {
@@ -73,7 +87,12 @@ function PortalPendenciesPage() {
 
   if (query.isLoading) return <PortalLoading label="Carregando pendências…" />;
   if (query.isError || (query.data && "error" in query.data)) {
-    return <PortalError title="Não foi possível carregar suas pendências" description="Tente novamente em instantes." />;
+    return (
+      <PortalError
+        title="Não foi possível carregar suas pendências"
+        description="Tente novamente em instantes."
+      />
+    );
   }
 
   const data = query.data && !("error" in query.data) ? query.data : null;
@@ -106,7 +125,9 @@ function PortalPendenciesPage() {
           </PortalIconBox>
           <div>
             <PortalLabel>Minhas pendências</PortalLabel>
-            <p className="display-type text-xl">{total > 0 ? `${total} para resolver` : "Nada pendente"}</p>
+            <p className="display-type text-xl">
+              {total > 0 ? `${total} para resolver` : "Nada pendente"}
+            </p>
           </div>
         </div>
         <p className="mt-3 text-sm text-muted-foreground">
@@ -128,7 +149,9 @@ function PortalPendenciesPage() {
                     <Upload className="size-5" aria-hidden />
                   </PortalIconBox>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate font-bold">{DOCUMENT_TYPE_LABEL[r.document_type] ?? r.document_type}</p>
+                    <p className="truncate font-bold">
+                      {DOCUMENT_TYPE_LABEL[r.document_type] ?? r.document_type}
+                    </p>
                     <p className="mt-1 text-xs text-muted-foreground">
                       {r.message ?? "Envie o documento solicitado."}
                       {r.due_at ? ` · prazo ${dateFmt(r.due_at)}` : ""}
@@ -226,7 +249,9 @@ function PortalPendenciesPage() {
                       {dateFmt(c.period_start)} — {dateFmt(c.period_end)}
                     </p>
                     <p className="mt-1 text-xs text-muted-foreground">
-                      {c.deadline_at ? `Prazo ${dateFmt(c.deadline_at)}` : "Aguardando sua assinatura"}
+                      {c.deadline_at
+                        ? `Prazo ${dateFmt(c.deadline_at)}`
+                        : "Aguardando sua assinatura"}
                     </p>
                   </div>
                   <ChevronRight className="size-5 shrink-0" aria-hidden />
@@ -247,7 +272,9 @@ function PortalPendenciesPage() {
                 </PortalIconBox>
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-bold">{x.reason}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">Solicitado em {dateFmt(x.created_at)}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Solicitado em {dateFmt(x.created_at)}
+                  </p>
                 </div>
                 <PortalChip tone="info">Em andamento</PortalChip>
               </li>
