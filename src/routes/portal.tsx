@@ -1,7 +1,7 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Bell, CalendarDays, Clock, Home, User } from "lucide-react";
+import { Bell, CalendarDays, Clock, Home, PackageCheck, User } from "lucide-react";
 import { BRAND_NAME } from "@/config/brand";
 import { portalMe } from "@/lib/portal.functions";
 import { usePortalSession } from "@/hooks/use-portal-session";
@@ -16,6 +16,7 @@ const CONTEXTS = [
   { to: "/portal", label: "Hoje", exact: true },
   { to: "/portal/escala", label: "Minha escala" },
   { to: "/portal/ponto", label: "Meu ponto" },
+  { to: "/portal/itens", label: "Meus itens" },
   { to: "/portal/cartao-ponto", label: "Avisos" },
 ] as const;
 
@@ -23,6 +24,7 @@ const TABS = [
   { to: "/portal", label: "Início", icon: Home, exact: true },
   { to: "/portal/escala", label: "Escala", icon: CalendarDays },
   { to: "/portal/ponto", label: "Ponto", icon: Clock },
+  { to: "/portal/itens", label: "Itens", icon: PackageCheck },
   { to: "/portal/perfil", label: "Perfil", icon: User },
 ] as const;
 
