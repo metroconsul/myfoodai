@@ -1,4 +1,4 @@
-import { createServerFn } from "@tanstack/react-start";
+import { createServerFn, getRequestHeader } from "@tanstack/react-start";
 import { z } from "zod";
 
 const tokenSchema = z.object({ token: z.string().min(10).max(200) });
@@ -11,9 +11,16 @@ const geoSchema = {
   locationStatus: z.enum(["obtida", "negada", "imprecisa", "indisponivel", "nao_disponivel"]),
 };
 
+/** Consentimento explícito (LGPD) para biometria e localização. */
+const consentSchema = {
+  consentBiometrics: z.boolean(),
+  consentLocation: z.boolean(),
+};
+
 const validateSchema = deliverySchema.extend({
   imageDataUrl: z.string().min(64).max(4_000_000),
   ...geoSchema,
+  ...consentSchema,
   deviceInfo: z.string().max(400).nullable().optional(),
 });
 
@@ -22,9 +29,17 @@ const acceptSchema = deliverySchema.extend({
   signatureDataUrl: z.string().max(4_000_000).nullable().optional(),
   typedName: z.string().trim().max(160).nullable().optional(),
   ...geoSchema,
+  ...consentSchema,
   deviceInfo: z.string().max(400).nullable().optional(),
   faceSkipReason: z.string().trim().max(300).nullable().optional(),
 });
+
+/** IP do cliente mascarado para a trilha de auditoria. */
+function clientIp() {
+  const forwarded = getRequestHeader("x-forwarded-for") ?? getRequestHeader("cf-connecting-ip");
+  return forwarded?.split(",")[0]?.trim() ?? null;
+}
+
 
 const refuseSchema = deliverySchema.extend({
   mode: z.enum(["recusado", "divergente"]),
