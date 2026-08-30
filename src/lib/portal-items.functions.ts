@@ -257,7 +257,7 @@ export const portalAcceptDelivery = createServerFn({ method: "POST" })
     const employee = await (await import("./portal-session.server")).resolveSession(data.token);
     if (!employee) return { error: "Sessão expirada." as const };
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { integrityHash, decodeImageDataUrl } = await import("./face-validation.server");
+    const { integrityHash, decodeImageDataUrl, maskIp } = await import("./face-validation.server");
     const { TERMS_VERSION, CONSENT_VERSION } = await import("./items.shared");
 
     const { data: delivery } = await supabaseAdmin
