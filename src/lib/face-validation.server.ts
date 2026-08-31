@@ -255,6 +255,37 @@ export async function validateFace(input: {
     };
   }
 
+  if (provider === "externo" && policy.faceProviderEndpoint) {
+    let external: Awaited<ReturnType<typeof analyzeWithExternalProvider>> = null;
+    try {
+      external = await analyzeWithExternalProvider(policy.faceProviderEndpoint, input.imageDataUrl);
+    } catch {
+      external = null;
+    }
+    if (!external) {
+      return {
+        result: {
+          status: "indisponivel",
+          liveness: "nao_avaliado",
+          provider,
+          reference,
+          message: "Provedor de validação facial indisponível. Tente novamente em instantes.",
+        },
+        bytes,
+      };
+    }
+    return {
+      result: {
+        status: external.status,
+        liveness: external.liveness,
+        provider,
+        reference: external.reference ?? reference,
+        ...(external.message ? { message: external.message } : {}),
+      },
+      bytes,
+    };
+  }
+
   if (provider !== "selfie_evidence") {
     return {
       result: {
