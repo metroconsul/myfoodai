@@ -7,6 +7,7 @@ import {
   LGPD_NOTICE,
   type LgpdConsent as Consent,
 } from "@/lib/lgpd.shared";
+import { usePortalPolicies } from "@/hooks/use-portal-policies";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -41,6 +42,11 @@ function Item({
 
 /** Bloco de consentimento LGPD usado em todos os aceites/assinaturas do colaborador. */
 export function LgpdConsent({ value, onChange, withBiometrics = false, className }: Props) {
+  const { privacy } = usePortalPolicies();
+  const dataText = privacy.dataText ?? LGPD_DATA_TEXT;
+  const biometricsText = privacy.biometricsText ?? LGPD_BIOMETRICS_TEXT;
+  const locationText = privacy.locationText ?? LGPD_LOCATION_TEXT;
+  const noticeText = privacy.noticeText ?? LGPD_NOTICE;
   return (
     <div
       className={cn(
@@ -53,17 +59,17 @@ export function LgpdConsent({ value, onChange, withBiometrics = false, className
         {LGPD_CONSENT_TITLE}
       </p>
       <Item checked={value.data} onChange={(v) => onChange({ ...value, data: v })}>
-        {LGPD_DATA_TEXT}
+        {dataText}
       </Item>
       {withBiometrics ? (
         <Item checked={value.biometrics} onChange={(v) => onChange({ ...value, biometrics: v })}>
-          {LGPD_BIOMETRICS_TEXT}
+          {biometricsText}
         </Item>
       ) : null}
       <Item checked={value.location} onChange={(v) => onChange({ ...value, location: v })}>
-        {LGPD_LOCATION_TEXT}
+        {locationText}
       </Item>
-      <p className="text-xs text-muted-foreground">{LGPD_NOTICE}</p>
+      <p className="text-xs text-muted-foreground">{noticeText}</p>
     </div>
   );
 }

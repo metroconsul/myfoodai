@@ -184,6 +184,7 @@ export const portalPayslipFaceCheck = createServerFn({ method: "POST" })
       imageDataUrl: data.imageDataUrl,
       employeeId: employee.id,
       deliveryId: payslip.id,
+      companyId: payslip.company_id,
     });
 
     const mapped =
@@ -279,7 +280,7 @@ export const portalSignPayslip = createServerFn({ method: "POST" })
       : { data: null };
 
     const geoAudit = data.consentLocation
-      ? await resolveGeoAudit({ latitude: data.latitude ?? null, longitude: data.longitude ?? null, unit })
+      ? await resolveGeoAudit({ latitude: data.latitude ?? null, longitude: data.longitude ?? null, unit, companyId: payslip.company_id })
       : null;
 
     let signatureKey: string | null = null;

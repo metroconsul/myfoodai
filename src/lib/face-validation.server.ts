@@ -91,13 +91,44 @@ const OCCLUSION_MESSAGE: Record<string, string> = {
   outra: "Deixe o rosto totalmente visível e capture novamente.",
 };
 
+/** Provedor externo configurado pela empresa (endpoint HTTPS próprio). */
+async function analyzeWithExternalProvider(endpoint: string, imageDataUrl: string) {
+  const res = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(process.env["FACE_PROVIDER_API_KEY"]
+        ? { Authorization: `Bearer ${process.env["FACE_PROVIDER_API_KEY"]}` }
+        : {}),
+    },
+    body: JSON.stringify({ image: imageDataUrl }),
+  });
+  if (!res.ok) return null;
+  const body = (await res.json()) as {
+    status?: string;
+    liveness?: string;
+    reference?: string;
+    message?: string;
+  };
+  const status =
+    body.status === "aprovado" || body.status === "reprovado" ? body.status : "indisponivel";
+  const liveness =
+    body.liveness === "aprovado" || body.liveness === "reprovado" ? body.liveness : "nao_avaliado";
+  return { status, liveness, reference: body.reference, message: body.message } as const;
+}
+
 export async function validateFace(input: {
   imageDataUrl: string;
   employeeId: string;
   deliveryId: string;
+  companyId?: string | null;
 }): Promise<{ result: FaceValidationResult; bytes: Uint8Array | null }> {
   const apiKey = process.env["LOVABLE_API_KEY"];
-  const provider = process.env["FACE_VALIDATION_PROVIDER"] ?? (apiKey ? "lovable_ai" : "selfie_evidence");
+  const policy = await (await import("./policies.server")).getAcceptancePolicy(input.companyId);
+  const provider =
+    process.env["FACE_VALIDATION_PROVIDER"] ??
+    policy.faceProvider ??
+    (apiKey ? "lovable_ai" : "selfie_evidence");
   const bytes = decodeImageDataUrl(input.imageDataUrl);
   const reference = `${provider}:${crypto.randomUUID()}`;
 
@@ -220,6 +251,37 @@ export async function validateFace(input: {
 
     return {
       result: { status: "aprovado", liveness, provider, reference, details },
+      bytes,
+    };
+  }
+
+  if (provider === "externo" && policy.faceProviderEndpoint) {
+    let external: Awaited<ReturnType<typeof analyzeWithExternalProvider>> = null;
+    try {
+      external = await analyzeWithExternalProvider(policy.faceProviderEndpoint, input.imageDataUrl);
+    } catch {
+      external = null;
+    }
+    if (!external) {
+      return {
+        result: {
+          status: "indisponivel",
+          liveness: "nao_avaliado",
+          provider,
+          reference,
+          message: "Provedor de validação facial indisponível. Tente novamente em instantes.",
+        },
+        bytes,
+      };
+    }
+    return {
+      result: {
+        status: external.status,
+        liveness: external.liveness,
+        provider,
+        reference: external.reference ?? reference,
+        ...(external.message ? { message: external.message } : {}),
+      },
       bytes,
     };
   }

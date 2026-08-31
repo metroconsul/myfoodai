@@ -177,9 +177,10 @@ export const portalValidateIdentity = createServerFn({ method: "POST" })
         imageDataUrl: data.imageDataUrl,
         employeeId: employee.id,
         deliveryId: delivery.id,
+        companyId: delivery.company_id,
       }),
       data.consentLocation
-        ? resolveGeoAudit({ latitude: data.latitude ?? null, longitude: data.longitude ?? null, unit })
+        ? resolveGeoAudit({ latitude: data.latitude ?? null, longitude: data.longitude ?? null, unit, companyId: delivery.company_id })
         : Promise.resolve(null),
     ]);
 
@@ -334,6 +335,7 @@ export const portalAcceptDelivery = createServerFn({ method: "POST" })
           latitude: data.latitude ?? null,
           longitude: data.longitude ?? null,
           unit,
+          companyId: delivery.company_id,
         })
       : null;
 

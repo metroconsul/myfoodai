@@ -26,8 +26,13 @@ export function haversineMeters(lat1: number, lon1: number, lat2: number, lon2: 
   return Math.round(2 * R * Math.asin(Math.sqrt(a)));
 }
 
-async function reverseGeocode(latitude: number, longitude: number): Promise<string | null> {
-  const endpoint = process.env["GEOCODING_ENDPOINT"] ?? "https://nominatim.openstreetmap.org/reverse";
+async function reverseGeocode(
+  latitude: number,
+  longitude: number,
+  customEndpoint?: string | null,
+): Promise<string | null> {
+  const endpoint =
+    customEndpoint ?? process.env["GEOCODING_ENDPOINT"] ?? "https://nominatim.openstreetmap.org/reverse";
   const url = `${endpoint}?format=jsonv2&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
   try {
     const res = await fetch(url, {
@@ -49,8 +54,18 @@ export async function resolveGeoAudit(input: {
   latitude?: number | null;
   longitude?: number | null;
   unit?: { latitude: number | null; longitude: number | null; point_radius_meters?: number | null } | null;
+  companyId?: string | null;
 }): Promise<GeoAudit> {
-  const provider = process.env["GEOCODING_ENDPOINT"] ? "custom" : "nominatim";
+  const policy = await (await import("./policies.server")).getAcceptancePolicy(input.companyId);
+  const customEndpoint =
+    policy.geocodingProvider === "custom" ? policy.geocodingEndpoint : null;
+  const provider =
+    policy.geocodingProvider === "desativado"
+      ? "desativado"
+      : customEndpoint || process.env["GEOCODING_ENDPOINT"]
+        ? "custom"
+        : "nominatim";
+
   if (input.latitude == null || input.longitude == null) {
     return {
       provider,
@@ -61,7 +76,10 @@ export async function resolveGeoAudit(input: {
     };
   }
 
-  const address = await reverseGeocode(input.latitude, input.longitude);
+  const address =
+    policy.geocodingProvider === "desativado"
+      ? null
+      : await reverseGeocode(input.latitude, input.longitude, customEndpoint);
 
   let distanceMeters: number | null = null;
   let geofence: GeoAudit["geofence"] = "sem_referencia";
@@ -72,7 +90,9 @@ export async function resolveGeoAudit(input: {
       input.unit.latitude,
       input.unit.longitude,
     );
-    const radius = input.unit.point_radius_meters ?? 200;
+    const radius = policy.geofenceEnabled
+      ? policy.geofenceRadiusMeters
+      : (input.unit.point_radius_meters ?? policy.geofenceRadiusMeters);
     geofence = distanceMeters <= radius ? "dentro_do_raio" : "fora_do_raio";
   }
 
