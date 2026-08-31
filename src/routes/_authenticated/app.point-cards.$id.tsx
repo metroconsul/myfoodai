@@ -31,6 +31,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { dateFmt, dateTimeFmt, minutesToHours } from "@/lib/format";
 import { toast } from "sonner";
 
@@ -64,6 +74,7 @@ function PointCardDetailPage() {
   const [draft, setDraft] = useState({ clockIn: "", breakStart: "", breakEnd: "", clockOut: "", justification: "" });
   const [reopenReason, setReopenReason] = useState("");
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [confirmForcePublish, setConfirmForcePublish] = useState(false);
 
   const query = useQuery({
     queryKey: ["point-card", id],
@@ -106,8 +117,10 @@ function PointCardDetailPage() {
     onSuccess: (res) => {
       if ("failed" in res && res.failed > 0) {
         toast.warning(res.results[0]?.message ?? "Cartão com inconsistências.");
+        setConfirmForcePublish(true);
       } else {
         toast.success("Cartão publicado no Portal do Colaborador.");
+        setConfirmForcePublish(false);
       }
       invalidate();
     },
@@ -190,6 +203,27 @@ function PointCardDetailPage() {
           </>
         }
       />
+
+      <AlertDialog open={confirmForcePublish} onOpenChange={setConfirmForcePublish}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Publicar cartão com inconsistências?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Este cartão possui batidas faltantes ou dados que precisam de revisão. Você pode voltar para corrigir os
+              lançamentos ou confirmar a publicação mesmo assim. A decisão ficará registrada na auditoria.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Voltar e revisar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => publish.mutate(true)}
+              disabled={publish.isPending}
+            >
+              {publish.isPending ? "Publicando…" : "Publicar mesmo assim"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <div className="flex flex-wrap items-center gap-2">
         <StatusBadge tone={CARD_STATUS_TONE[card.status] ?? "neutral"}>
