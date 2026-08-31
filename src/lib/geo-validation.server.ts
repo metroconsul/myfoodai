@@ -26,8 +26,13 @@ export function haversineMeters(lat1: number, lon1: number, lat2: number, lon2: 
   return Math.round(2 * R * Math.asin(Math.sqrt(a)));
 }
 
-async function reverseGeocode(latitude: number, longitude: number): Promise<string | null> {
-  const endpoint = process.env["GEOCODING_ENDPOINT"] ?? "https://nominatim.openstreetmap.org/reverse";
+async function reverseGeocode(
+  latitude: number,
+  longitude: number,
+  customEndpoint?: string | null,
+): Promise<string | null> {
+  const endpoint =
+    customEndpoint ?? process.env["GEOCODING_ENDPOINT"] ?? "https://nominatim.openstreetmap.org/reverse";
   const url = `${endpoint}?format=jsonv2&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
   try {
     const res = await fetch(url, {
