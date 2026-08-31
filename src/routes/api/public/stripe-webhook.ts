@@ -100,7 +100,16 @@ export const Route = createFileRoute("/api/public/stripe-webhook")({
 
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-        const upsertByUser = async (fields: Record<string, unknown>, userId?: string | null, customerId?: string | null) => {
+        type SubFields = {
+          stripe_customer_id?: string | null;
+          stripe_subscription_id?: string | null;
+          plan?: string | null;
+          status?: string;
+          current_period_end?: string | null;
+          cancel_at_period_end?: boolean;
+        };
+
+        const upsertByUser = async (fields: SubFields, userId?: string | null, customerId?: string | null) => {
           if (userId) {
             const { error } = await supabaseAdmin
               .from("subscriptions")
@@ -121,9 +130,9 @@ export const Route = createFileRoute("/api/public/stripe-webhook")({
         switch (event.type) {
           case "checkout.session.completed": {
             const session = event.data.object;
-            const userId = (session.metadata as Record<string, string> | undefined)?.["user_id"] ?? null;
-            const customerId = (session.customer as string | null) ?? null;
-            const subscriptionId = (session.subscription as string | null) ?? null;
+            const userId = (session["metadata"] as Record<string, string> | undefined)?.["user_id"] ?? null;
+            const customerId = (session["customer"] as string | null) ?? null;
+            const subscriptionId = (session["subscription"] as string | null) ?? null;
             await upsertByUser(
               {
                 stripe_customer_id: customerId,
@@ -138,19 +147,19 @@ export const Route = createFileRoute("/api/public/stripe-webhook")({
           case "customer.subscription.created":
           case "customer.subscription.updated": {
             const sub = event.data.object;
-            const userId = (sub.metadata as Record<string, string> | undefined)?.["user_id"] ?? null;
-            const customerId = (sub.customer as string | null) ?? null;
-            const periodEnd = (sub.current_period_end as number | undefined) ?? null;
+            const userId = (sub["metadata"] as Record<string, string> | undefined)?.["user_id"] ?? null;
+            const customerId = (sub["customer"] as string | null) ?? null;
+            const periodEnd = (sub["current_period_end"] as number | undefined) ?? null;
             const priceId =
-              ((sub.items as { data?: { price?: { id?: string } }[] } | undefined)?.data?.[0]?.price?.id) ?? null;
+              ((sub["items"] as { data?: { price?: { id?: string } }[] } | undefined)?.data?.[0]?.price?.id) ?? null;
             await upsertByUser(
               {
                 stripe_customer_id: customerId,
-                stripe_subscription_id: sub.id as string,
+                stripe_subscription_id: sub["id"] as string,
                 plan: priceId,
-                status: subStatusFromStripe(sub.status as string | undefined),
+                status: subStatusFromStripe(sub["status"] as string | undefined),
                 current_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
-                cancel_at_period_end: Boolean(sub.cancel_at_period_end),
+                cancel_at_period_end: Boolean(sub["cancel_at_period_end"]),
               },
               userId,
               customerId,
@@ -159,11 +168,11 @@ export const Route = createFileRoute("/api/public/stripe-webhook")({
           }
           case "customer.subscription.deleted": {
             const sub = event.data.object;
-            const customerId = (sub.customer as string | null) ?? null;
+            const customerId = (sub["customer"] as string | null) ?? null;
             await supabaseAdmin
               .from("subscriptions")
               .update({ status: "canceled", cancel_at_period_end: false })
-              .eq("stripe_subscription_id", sub.id as string);
+              .eq("stripe_subscription_id", sub["id"] as string);
             void customerId;
             break;
           }
