@@ -93,7 +93,12 @@ const GEOFENCE_LABEL: Record<string, string> = {
   const delivery = detail.data;
   const evidence = delivery?.item_delivery_evidence ?? null;
   const deviceMeta = (evidence?.device_metadata ?? null) as {
-    consent?: { biometrics?: boolean; location?: boolean; version?: string } | null;
+    consent?: {
+      data?: boolean;
+      biometrics?: boolean;
+      location?: boolean;
+      version?: string;
+    } | null;
     geo?: {
       address?: string | null;
       distanceMeters?: number | null;
@@ -289,7 +294,7 @@ const GEOFENCE_LABEL: Record<string, string> = {
                     <dt className="meta-mono">Consentimento (LGPD)</dt>
                     <dd>
                       {consent
-                        ? `Biometria: ${consent.biometrics ? "autorizada" : "não autorizada"} · Localização: ${consent.location ? "autorizada" : "não autorizada"}${consent.version ? ` · v${consent.version}` : ""}`
+                        ? `Dados: ${consent.data ? "autorizado" : "não autorizado"} · Biometria: ${consent.biometrics ? "autorizada" : "não autorizada"} · Localização: ${consent.location ? "autorizada" : "não autorizada"}${consent.version ? ` · v${consent.version}` : ""}`
                         : "—"}
                     </dd>
                   </div>
