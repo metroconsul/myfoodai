@@ -25,6 +25,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { minutesToHours } from "@/lib/format";
 import { toast } from "sonner";
 
@@ -60,6 +70,7 @@ function PointCardsPage() {
   const [month, setMonth] = useState(currentMonth());
   const [deadline, setDeadline] = useState("");
   const [selected, setSelected] = useState<string[]>([]);
+  const [blockedCardIds, setBlockedCardIds] = useState<string[]>([]);
 
   const range = useMemo(() => monthRange(month), [month]);
 
@@ -122,10 +133,13 @@ function PointCardsPage() {
     onSuccess: (res) => {
       if ("published" in res) {
         if (res.failed > 0) {
+          const blocked = res.results.filter((result) => result.status === "erro").map((result) => result.cardId);
+          setBlockedCardIds(blocked);
           toast.warning(
             `${res.published} publicado(s), ${res.failed} com inconsistências. Revise ou publique mesmo assim.`,
           );
         } else {
+          setBlockedCardIds([]);
           toast.success(`${res.published} cartão(ões) publicado(s). ${res.skipped} ignorado(s).`);
         }
       }
@@ -177,6 +191,28 @@ function PointCardsPage() {
           </>
         }
       />
+
+      <AlertDialog open={blockedCardIds.length > 0} onOpenChange={(open) => !open && setBlockedCardIds([])}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Publicar cartões com inconsistências?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {blockedCardIds.length} cartão(ões) possuem batidas faltantes ou dados que precisam de revisão. Você pode
+              voltar para corrigir ou confirmar a publicação desses cartões mesmo assim. A decisão ficará registrada na
+              auditoria.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Voltar e revisar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => publish.mutate({ cardIds: blockedCardIds, force: true })}
+              disabled={publish.isPending}
+            >
+              {publish.isPending ? "Publicando…" : "Publicar mesmo assim"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard label="Cartões preparados" value={totals.prepared} icon={<Users className="size-5" />} />
