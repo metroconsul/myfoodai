@@ -1445,6 +1445,512 @@ export type Database = {
           },
         ]
       }
+      payslip_audit_events: {
+        Row: {
+          actor_id: string | null
+          actor_role: string | null
+          actor_type: string
+          company_id: string
+          created_at: string
+          event_hash: string
+          event_result: string
+          event_type: string
+          id: string
+          ip_hash: string | null
+          metadata: Json
+          occurred_at: string
+          permission_snapshot: Json | null
+          previous_event_hash: string | null
+          request_id: string | null
+          session_id_hash: string | null
+          subject_id: string
+          subject_type: string
+          subject_version: number | null
+          unit_id: string | null
+          user_agent_hash: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          actor_role?: string | null
+          actor_type: string
+          company_id: string
+          created_at?: string
+          event_hash: string
+          event_result?: string
+          event_type: string
+          id?: string
+          ip_hash?: string | null
+          metadata?: Json
+          occurred_at?: string
+          permission_snapshot?: Json | null
+          previous_event_hash?: string | null
+          request_id?: string | null
+          session_id_hash?: string | null
+          subject_id: string
+          subject_type?: string
+          subject_version?: number | null
+          unit_id?: string | null
+          user_agent_hash?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          actor_role?: string | null
+          actor_type?: string
+          company_id?: string
+          created_at?: string
+          event_hash?: string
+          event_result?: string
+          event_type?: string
+          id?: string
+          ip_hash?: string | null
+          metadata?: Json
+          occurred_at?: string
+          permission_snapshot?: Json | null
+          previous_event_hash?: string | null
+          request_id?: string | null
+          session_id_hash?: string | null
+          subject_id?: string
+          subject_type?: string
+          subject_version?: number | null
+          unit_id?: string | null
+          user_agent_hash?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payslip_audit_events_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payslip_audit_events_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payslip_disputes: {
+        Row: {
+          attachment_object_key: string | null
+          category: string
+          company_id: string
+          created_at: string
+          description: string
+          employee_id: string
+          hr_response: string | null
+          id: string
+          payslip_id: string
+          resolved_at: string | null
+          resolved_by: string | null
+          status: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          attachment_object_key?: string | null
+          category: string
+          company_id: string
+          created_at?: string
+          description: string
+          employee_id: string
+          hr_response?: string | null
+          id?: string
+          payslip_id: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string
+          updated_at?: string
+          version: number
+        }
+        Update: {
+          attachment_object_key?: string | null
+          category?: string
+          company_id?: string
+          created_at?: string
+          description?: string
+          employee_id?: string
+          hr_response?: string | null
+          id?: string
+          payslip_id?: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payslip_disputes_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payslip_disputes_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payslip_disputes_payslip_id_fkey"
+            columns: ["payslip_id"]
+            isOneToOne: false
+            referencedRelation: "payslips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payslip_settings: {
+        Row: {
+          allow_location_fallback: boolean
+          company_id: string
+          created_at: string
+          face_provider_name: string | null
+          legal_hold_default: boolean
+          require_face_validation: boolean
+          require_location: boolean
+          retention_months: number
+          retention_start_event: string
+          salary_visible_roles: string[]
+          term_text: string | null
+          term_version: string
+          updated_at: string
+        }
+        Insert: {
+          allow_location_fallback?: boolean
+          company_id: string
+          created_at?: string
+          face_provider_name?: string | null
+          legal_hold_default?: boolean
+          require_face_validation?: boolean
+          require_location?: boolean
+          retention_months?: number
+          retention_start_event?: string
+          salary_visible_roles?: string[]
+          term_text?: string | null
+          term_version?: string
+          updated_at?: string
+        }
+        Update: {
+          allow_location_fallback?: boolean
+          company_id?: string
+          created_at?: string
+          face_provider_name?: string | null
+          legal_hold_default?: boolean
+          require_face_validation?: boolean
+          require_location?: boolean
+          retention_months?: number
+          retention_start_event?: string
+          salary_visible_roles?: string[]
+          term_text?: string | null
+          term_version?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payslip_settings_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: true
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payslip_signatures: {
+        Row: {
+          accuracy_meters: number | null
+          company_id: string
+          consent: Json | null
+          created_at: string
+          device_metadata: Json | null
+          employee_id: string
+          face_provider_ref: string | null
+          face_status: string | null
+          file_sha256: string | null
+          geo_address: string | null
+          geo_distance_meters: number | null
+          id: string
+          integrity_hash: string
+          ip_hash: string | null
+          ip_masked: string | null
+          latitude: number | null
+          liveness_status: string | null
+          location_captured_at: string | null
+          location_status: string | null
+          longitude: number | null
+          payslip_id: string
+          provider_name: string | null
+          provider_transaction_ref: string | null
+          signature_method: string
+          signature_object_key: string | null
+          signature_reference: string
+          signed_at: string
+          term_text: string | null
+          term_version: string
+          version: number
+        }
+        Insert: {
+          accuracy_meters?: number | null
+          company_id: string
+          consent?: Json | null
+          created_at?: string
+          device_metadata?: Json | null
+          employee_id: string
+          face_provider_ref?: string | null
+          face_status?: string | null
+          file_sha256?: string | null
+          geo_address?: string | null
+          geo_distance_meters?: number | null
+          id?: string
+          integrity_hash: string
+          ip_hash?: string | null
+          ip_masked?: string | null
+          latitude?: number | null
+          liveness_status?: string | null
+          location_captured_at?: string | null
+          location_status?: string | null
+          longitude?: number | null
+          payslip_id: string
+          provider_name?: string | null
+          provider_transaction_ref?: string | null
+          signature_method: string
+          signature_object_key?: string | null
+          signature_reference: string
+          signed_at?: string
+          term_text?: string | null
+          term_version: string
+          version: number
+        }
+        Update: {
+          accuracy_meters?: number | null
+          company_id?: string
+          consent?: Json | null
+          created_at?: string
+          device_metadata?: Json | null
+          employee_id?: string
+          face_provider_ref?: string | null
+          face_status?: string | null
+          file_sha256?: string | null
+          geo_address?: string | null
+          geo_distance_meters?: number | null
+          id?: string
+          integrity_hash?: string
+          ip_hash?: string | null
+          ip_masked?: string | null
+          latitude?: number | null
+          liveness_status?: string | null
+          location_captured_at?: string | null
+          location_status?: string | null
+          longitude?: number | null
+          payslip_id?: string
+          provider_name?: string | null
+          provider_transaction_ref?: string | null
+          signature_method?: string
+          signature_object_key?: string | null
+          signature_reference?: string
+          signed_at?: string
+          term_text?: string | null
+          term_version?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payslip_signatures_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payslip_signatures_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payslip_signatures_payslip_id_fkey"
+            columns: ["payslip_id"]
+            isOneToOne: false
+            referencedRelation: "payslips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payslip_versions: {
+        Row: {
+          company_id: string
+          correction_reason: string | null
+          created_at: string
+          file_sha256: string
+          file_size_bytes: number
+          id: string
+          is_current: boolean
+          mime_type: string
+          original_file_name: string | null
+          payslip_id: string
+          storage_object_key: string
+          superseded_at: string | null
+          updated_at: string
+          uploaded_at: string
+          uploaded_by: string | null
+          version: number
+        }
+        Insert: {
+          company_id: string
+          correction_reason?: string | null
+          created_at?: string
+          file_sha256: string
+          file_size_bytes: number
+          id?: string
+          is_current?: boolean
+          mime_type: string
+          original_file_name?: string | null
+          payslip_id: string
+          storage_object_key: string
+          superseded_at?: string | null
+          updated_at?: string
+          uploaded_at?: string
+          uploaded_by?: string | null
+          version: number
+        }
+        Update: {
+          company_id?: string
+          correction_reason?: string | null
+          created_at?: string
+          file_sha256?: string
+          file_size_bytes?: number
+          id?: string
+          is_current?: boolean
+          mime_type?: string
+          original_file_name?: string | null
+          payslip_id?: string
+          storage_object_key?: string
+          superseded_at?: string | null
+          updated_at?: string
+          uploaded_at?: string
+          uploaded_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payslip_versions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payslip_versions_payslip_id_fkey"
+            columns: ["payslip_id"]
+            isOneToOne: false
+            referencedRelation: "payslips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payslips: {
+        Row: {
+          acceptance_policy: string
+          archived_at: string | null
+          cancelled_at: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          current_version: number
+          due_at: string | null
+          employee_id: string
+          id: string
+          import_batch_id: string | null
+          legal_hold: boolean
+          payroll_period: string
+          published_at: string | null
+          reference_label: string | null
+          retention_until: string | null
+          signed_at: string | null
+          status: string
+          unit_id: string | null
+          updated_at: string
+          validation_error: string | null
+          viewed_at: string | null
+        }
+        Insert: {
+          acceptance_policy?: string
+          archived_at?: string | null
+          cancelled_at?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          current_version?: number
+          due_at?: string | null
+          employee_id: string
+          id?: string
+          import_batch_id?: string | null
+          legal_hold?: boolean
+          payroll_period: string
+          published_at?: string | null
+          reference_label?: string | null
+          retention_until?: string | null
+          signed_at?: string | null
+          status?: string
+          unit_id?: string | null
+          updated_at?: string
+          validation_error?: string | null
+          viewed_at?: string | null
+        }
+        Update: {
+          acceptance_policy?: string
+          archived_at?: string | null
+          cancelled_at?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          current_version?: number
+          due_at?: string | null
+          employee_id?: string
+          id?: string
+          import_batch_id?: string | null
+          legal_hold?: boolean
+          payroll_period?: string
+          published_at?: string | null
+          reference_label?: string | null
+          retention_until?: string | null
+          signed_at?: string | null
+          status?: string
+          unit_id?: string | null
+          updated_at?: string
+          validation_error?: string | null
+          viewed_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payslips_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payslips_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payslips_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       point_card_deliveries: {
         Row: {
           attempt: number
