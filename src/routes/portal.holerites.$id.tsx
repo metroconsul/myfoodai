@@ -336,6 +336,7 @@ function PayslipDetail() {
                 <SignaturePad onChange={setSignatureDataUrl} />
                 <PortalField id="payslip-typed-name" label="Ou digite seu nome completo">
                   <input
+                    id="payslip-typed-name"
                     className={portalInputClass}
                     value={typedName}
                     onChange={(e) => setTypedName(e.target.value)}
@@ -382,6 +383,7 @@ function PayslipDetail() {
           <PortalCard className="space-y-3 p-4">
             <PortalField id="dispute-category" label="Categoria">
               <select
+                id="dispute-category"
                 className={portalInputClass}
                 value={disputeCategory}
                 onChange={(e) => setDisputeCategory(e.target.value)}
@@ -395,6 +397,7 @@ function PayslipDetail() {
             </PortalField>
             <PortalField id="dispute-description" label="Descreva a divergência">
               <textarea
+                id="dispute-description"
                 className={`${portalInputClass} min-h-28 py-3`}
                 value={disputeText}
                 onChange={(e) => setDisputeText(e.target.value)}
