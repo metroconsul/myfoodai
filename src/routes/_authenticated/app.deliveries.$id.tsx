@@ -83,6 +83,13 @@ function DeliveryDetailPage() {
     },
   });
 
+const GEOFENCE_LABEL: Record<string, string> = {
+  dentro_do_raio: "Dentro do raio da unidade",
+  fora_do_raio: "Fora do raio da unidade",
+  sem_referencia: "Unidade sem coordenadas cadastradas",
+  sem_localizacao: "Localização não informada",
+};
+
   const delivery = detail.data;
   const evidence = delivery?.item_delivery_evidence ?? null;
   const deviceMeta = (evidence?.device_metadata ?? null) as {
