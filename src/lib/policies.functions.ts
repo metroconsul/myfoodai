@@ -33,6 +33,14 @@ const privacySchema = z.object({
   noticeText: z.string().trim().max(2000).nullable().optional(),
 });
 
+async function isCompanyAdmin(context: { supabase: any; userId: string }) {
+  const { data } = await context.supabase
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", context.userId);
+  return (data ?? []).some((r: { role: string }) => r.role === "owner" || r.role === "admin");
+}
+
 async function requireAdminCompany(context: { supabase: any; userId: string }) {
   const { data: profile } = await context.supabase
     .from("profiles")
@@ -40,7 +48,7 @@ async function requireAdminCompany(context: { supabase: any; userId: string }) {
     .eq("id", context.userId)
     .maybeSingle();
   if (!profile?.company_id) throw new Error("Empresa não encontrada.");
-  const { data: isAdmin } = await context.supabase.rpc("is_company_admin");
+  const isAdmin = await isCompanyAdmin(context);
   if (!isAdmin) throw new Error("Apenas administradores podem alterar estas políticas.");
   return profile.company_id as string;
 }
@@ -56,7 +64,7 @@ export const getCompanyPolicies = createServerFn({ method: "POST" })
       .maybeSingle();
     const { getAcceptancePolicy, getPrivacyPolicy } = await import("./policies.server");
     const companyId = profile?.company_id ?? null;
-    const { data: isAdmin } = await context.supabase.rpc("is_company_admin");
+    const isAdmin = await isCompanyAdmin(context);
     const [acceptance, privacy] = await Promise.all([
       getAcceptancePolicy(companyId),
       getPrivacyPolicy(companyId),
