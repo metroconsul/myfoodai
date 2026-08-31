@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { LGPD_CONSENT_VERSION } from "./lgpd.shared";
 
 const tokenSchema = z.object({ token: z.string().min(10).max(200) });
 const cardSchema = tokenSchema.extend({ cardId: z.string().uuid() });
@@ -205,6 +206,9 @@ export const portalValidateTimesheetIdentity = createServerFn({ method: "POST" }
   .handler(async ({ data }) => {
     const employee = await (await import("./portal-session.server")).resolveSession(data.token);
     if (!employee) return { error: "Sessão expirada." as const };
+    if (!data.consentBiometrics) {
+      return { error: "Autorize a validação de identidade (LGPD) para continuar." as const };
+    }
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { validateFace } = await import("./face-validation.server");
     const { upsertCardEvidence } = await import("./timesheet.server");
@@ -234,12 +238,21 @@ export const portalValidateTimesheetIdentity = createServerFn({ method: "POST" }
       face_provider_reference: result.reference,
       liveness_status: result.liveness,
       face_validated_at: new Date().toISOString(),
-      location_status: data.locationStatus,
-      latitude: data.latitude ?? null,
-      longitude: data.longitude ?? null,
-      accuracy_meters: data.accuracy ?? null,
-      location_captured_at: data.latitude != null ? new Date().toISOString() : null,
-      device_metadata: { userAgent: data.deviceInfo ?? null },
+      location_status: data.consentLocation ? data.locationStatus : "negada",
+      latitude: data.consentLocation ? (data.latitude ?? null) : null,
+      longitude: data.consentLocation ? (data.longitude ?? null) : null,
+      accuracy_meters: data.consentLocation ? (data.accuracy ?? null) : null,
+      location_captured_at:
+        data.consentLocation && data.latitude != null ? new Date().toISOString() : null,
+      device_metadata: {
+        userAgent: data.deviceInfo ?? null,
+        consent: {
+          version: LGPD_CONSENT_VERSION,
+          data: data.consentData,
+          biometrics: data.consentBiometrics,
+          location: data.consentLocation,
+        },
+      },
     });
 
     if (result.status === "aprovado" && card.status !== "em_validacao") {
@@ -266,6 +279,9 @@ export const portalSignTimesheet = createServerFn({ method: "POST" })
     const employee = await (await import("./portal-session.server")).resolveSession(data.token);
     if (!employee) return { error: "Sessão expirada." as const };
     if (!data.agreed) return { error: "Confirme a leitura do termo para assinar." as const };
+    if (!data.consentData) {
+      return { error: "Autorize o tratamento dos dados (LGPD) para assinar." as const };
+    }
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { integrityHash, decodeImageDataUrl, maskIp } = await import("./face-validation.server");
@@ -336,13 +352,23 @@ export const portalSignTimesheet = createServerFn({ method: "POST" })
       company_id: card.company_id,
       signature_path: signaturePath,
       signature_typed_name: data.signatureType === "digitada" ? (data.typedName ?? null) : null,
-      location_status: data.locationStatus,
-      latitude: data.latitude ?? null,
-      longitude: data.longitude ?? null,
-      accuracy_meters: data.accuracy ?? null,
-      location_captured_at: data.latitude != null ? signedAt : null,
+      location_status: data.consentLocation ? data.locationStatus : "negada",
+      latitude: data.consentLocation ? (data.latitude ?? null) : null,
+      longitude: data.consentLocation ? (data.longitude ?? null) : null,
+      accuracy_meters: data.consentLocation ? (data.accuracy ?? null) : null,
+      location_captured_at: data.consentLocation && data.latitude != null ? signedAt : null,
       ip_masked: maskIp(forwarded),
-      device_metadata: { userAgent: data.deviceInfo ?? null, faceSkipReason: data.faceSkipReason ?? null },
+      device_metadata: {
+        userAgent: data.deviceInfo ?? null,
+        faceSkipReason: data.faceSkipReason ?? null,
+        consent: {
+          version: LGPD_CONSENT_VERSION,
+          data: data.consentData,
+          biometrics: data.consentBiometrics,
+          location: data.consentLocation,
+          acceptedAt: signedAt,
+        },
+      },
       terms_version: TIMESHEET_TERMS_VERSION,
       consent_version: TIMESHEET_CONSENT_VERSION,
       integrity_hash: hash,
