@@ -83,8 +83,26 @@ function DeliveryDetailPage() {
     },
   });
 
+const GEOFENCE_LABEL: Record<string, string> = {
+  dentro_do_raio: "Dentro do raio da unidade",
+  fora_do_raio: "Fora do raio da unidade",
+  sem_referencia: "Unidade sem coordenadas cadastradas",
+  sem_localizacao: "Localização não informada",
+};
+
   const delivery = detail.data;
   const evidence = delivery?.item_delivery_evidence ?? null;
+  const deviceMeta = (evidence?.device_metadata ?? null) as {
+    consent?: { biometrics?: boolean; location?: boolean; version?: string } | null;
+    geo?: {
+      address?: string | null;
+      distanceMeters?: number | null;
+      geofence?: string | null;
+    } | null;
+  } | null;
+  const consent = deviceMeta?.consent ?? null;
+  const geoAudit = deviceMeta?.geo ?? null;
+
   const signatureUrl = useSignedUrl("signatures", evidence?.signature_path);
   const selfieUrl = useSignedUrl("signatures", evidence?.face_asset_path);
 
@@ -251,6 +269,35 @@ function DeliveryDetailPage() {
                         : "—"}
                     </dd>
                   </div>
+                  <div>
+                    <dt className="meta-mono">Endereço aproximado</dt>
+                    <dd>{geoAudit?.address ?? "—"}</dd>
+                  </div>
+                  <div>
+                    <dt className="meta-mono">Cerca da unidade</dt>
+                    <dd>
+                      {geoAudit?.geofence
+                        ? `${GEOFENCE_LABEL[geoAudit.geofence] ?? geoAudit.geofence}${
+                            geoAudit.distanceMeters != null
+                              ? ` · ${numberFmt(geoAudit.distanceMeters, 0)} m da unidade`
+                              : ""
+                          }`
+                        : "—"}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="meta-mono">Consentimento (LGPD)</dt>
+                    <dd>
+                      {consent
+                        ? `Biometria: ${consent.biometrics ? "autorizada" : "não autorizada"} · Localização: ${consent.location ? "autorizada" : "não autorizada"}${consent.version ? ` · v${consent.version}` : ""}`
+                        : "—"}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="meta-mono">Origem (IP mascarado)</dt>
+                    <dd>{evidence.ip_masked ?? "—"}</dd>
+                  </div>
+
                   <div>
                     <dt className="meta-mono">Assinatura</dt>
                     <dd>
