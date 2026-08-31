@@ -44,6 +44,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { dateFmt, dateTimeFmt, minutesToHours } from "@/lib/format";
 import { toast } from "sonner";
+import { LgpdConsentSummary } from "@/components/lgpd-consent";
 
 export const Route = createFileRoute("/_authenticated/app/point-cards/$id")({
   head: () => ({
