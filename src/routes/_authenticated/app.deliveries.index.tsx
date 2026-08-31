@@ -10,6 +10,7 @@ import { PageHeader, SectionCard, EmptyState, StatusBadge, LoadingState, ErrorSt
 import { BRAND_NAME } from "@/config/brand";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { BrDateTimeInput } from "@/components/ui/br-inputs";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -546,12 +547,7 @@ function DeliveriesPage() {
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="delivery-date">Data e hora da entrega</Label>
-                <Input
-                  id="delivery-date"
-                  type="datetime-local"
-                  value={deliveredAt}
-                  onChange={(e) => setDeliveredAt(e.target.value)}
-                />
+                <BrDateTimeInput id="delivery-date" value={deliveredAt} onChange={setDeliveredAt} />
               </div>
               <div className="space-y-1.5 sm:col-span-2">
                 <Label htmlFor="delivery-notes">Observações</Label>

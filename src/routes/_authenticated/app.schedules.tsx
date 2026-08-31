@@ -8,6 +8,7 @@ import { BRAND_NAME } from "@/config/brand";
 import { WEEKDAYS, addDays, isoDate, startOfWeek, minutesToHours } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { BrTimeInput } from "@/components/ui/br-inputs";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -323,21 +324,17 @@ function SchedulesPage() {
             <div className="grid grid-cols-2 gap-2">
               <div className="space-y-1.5">
                 <Label htmlFor="bstart">Início</Label>
-                <Input
+                <BrTimeInput
                   id="bstart"
-                  type="time"
                   value={blockForm.start}
-                  onChange={(e) => setBlockForm({ ...blockForm, start: e.target.value })}
+                  onChange={(v) => setBlockForm({ ...blockForm, start: v })}
                   required
                 />
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="bend">Fim</Label>
-                <Input
+...
+                <BrTimeInput
                   id="bend"
-                  type="time"
                   value={blockForm.end}
-                  onChange={(e) => setBlockForm({ ...blockForm, end: e.target.value })}
+                  onChange={(v) => setBlockForm({ ...blockForm, end: v })}
                   required
                 />
               </div>

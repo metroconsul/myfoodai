@@ -273,29 +273,25 @@ function PointCardDetailPage() {
                     {isEditing ? (
                       <>
                         <td className="py-2">
-                          <Input
-                            type="datetime-local"
+                          <BrDateTimeInput
                             value={draft.clockIn}
-                            onChange={(ev) => setDraft({ ...draft, clockIn: ev.target.value })}
+                            onChange={(v) => setDraft({ ...draft, clockIn: v })}
                           />
                         </td>
                         <td className="space-y-1 py-2">
-                          <Input
-                            type="datetime-local"
+                          <BrDateTimeInput
                             value={draft.breakStart}
-                            onChange={(ev) => setDraft({ ...draft, breakStart: ev.target.value })}
+                            onChange={(v) => setDraft({ ...draft, breakStart: v })}
                           />
-                          <Input
-                            type="datetime-local"
+                          <BrDateTimeInput
                             value={draft.breakEnd}
-                            onChange={(ev) => setDraft({ ...draft, breakEnd: ev.target.value })}
+                            onChange={(v) => setDraft({ ...draft, breakEnd: v })}
                           />
                         </td>
                         <td className="py-2">
-                          <Input
-                            type="datetime-local"
+                          <BrDateTimeInput
                             value={draft.clockOut}
-                            onChange={(ev) => setDraft({ ...draft, clockOut: ev.target.value })}
+                            onChange={(v) => setDraft({ ...draft, clockOut: v })}
                           />
                         </td>
                         <td className="py-2" colSpan={2}>

@@ -25,6 +25,7 @@ import {
   portalInputClass,
 } from "@/components/portal-ui";
 import { dateFmt, dateTimeFmt, minutesToHours } from "@/lib/format";
+import { BrDateInput } from "@/components/ui/br-inputs";
 import {
   ALERT_LABEL,
   CARD_STATUS_LABEL,
@@ -382,11 +383,10 @@ function PortalTimesheetCardPage() {
                 </select>
               </PortalField>
               <PortalField id="dispute-date" label="Dia (opcional)">
-                <input
-                  type="date"
+                <BrDateInput
                   className={portalInputClass}
                   value={disputeDate}
-                  onChange={(e) => setDisputeDate(e.target.value)}
+                  onChange={setDisputeDate}
                 />
               </PortalField>
               <PortalField id="dispute-desc" label="O que está diferente?">
