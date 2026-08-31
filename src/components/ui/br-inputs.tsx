@@ -47,13 +47,13 @@ const normalizeTime = (t: string): string | null => {
 };
 
 type CommonProps = {
-  id?: string;
+  id?: string | undefined;
   value: string;
   onChange: (value: string) => void;
-  required?: boolean;
-  disabled?: boolean;
-  className?: string;
-  "aria-label"?: string;
+  required?: boolean | undefined;
+  disabled?: boolean | undefined;
+  className?: string | undefined;
+  "aria-label"?: string | undefined;
 };
 
 export function BrDateInput({ value, onChange, className, ...props }: CommonProps) {
