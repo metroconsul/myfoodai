@@ -54,8 +54,18 @@ export async function resolveGeoAudit(input: {
   latitude?: number | null;
   longitude?: number | null;
   unit?: { latitude: number | null; longitude: number | null; point_radius_meters?: number | null } | null;
+  companyId?: string | null;
 }): Promise<GeoAudit> {
-  const provider = process.env["GEOCODING_ENDPOINT"] ? "custom" : "nominatim";
+  const policy = await (await import("./policies.server")).getAcceptancePolicy(input.companyId);
+  const customEndpoint =
+    policy.geocodingProvider === "custom" ? policy.geocodingEndpoint : null;
+  const provider =
+    policy.geocodingProvider === "desativado"
+      ? "desativado"
+      : customEndpoint || process.env["GEOCODING_ENDPOINT"]
+        ? "custom"
+        : "nominatim";
+
   if (input.latitude == null || input.longitude == null) {
     return {
       provider,
@@ -66,7 +76,10 @@ export async function resolveGeoAudit(input: {
     };
   }
 
-  const address = await reverseGeocode(input.latitude, input.longitude);
+  const address =
+    policy.geocodingProvider === "desativado"
+      ? null
+      : await reverseGeocode(input.latitude, input.longitude, customEndpoint);
 
   let distanceMeters: number | null = null;
   let geofence: GeoAudit["geofence"] = "sem_referencia";
@@ -77,7 +90,9 @@ export async function resolveGeoAudit(input: {
       input.unit.latitude,
       input.unit.longitude,
     );
-    const radius = input.unit.point_radius_meters ?? 200;
+    const radius = policy.geofenceEnabled
+      ? policy.geofenceRadiusMeters
+      : (input.unit.point_radius_meters ?? policy.geofenceRadiusMeters);
     geofence = distanceMeters <= radius ? "dentro_do_raio" : "fora_do_raio";
   }
 
