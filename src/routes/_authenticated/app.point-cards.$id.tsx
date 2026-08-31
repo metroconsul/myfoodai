@@ -447,6 +447,25 @@ function PointCardDetailPage() {
                       <dd>{ev.signed_at ? dateTimeFmt(ev.signed_at) : "—"}</dd>
                     </div>
                     <div className="col-span-2">
+                      <dt className="text-muted-foreground">Consentimento (LGPD)</dt>
+                      <dd>
+                        <LgpdConsentSummary
+                          consent={
+                            (
+                              (ev.device_metadata ?? null) as {
+                                consent?: {
+                                  data?: boolean;
+                                  biometrics?: boolean;
+                                  location?: boolean;
+                                  version?: string;
+                                } | null;
+                              } | null
+                            )?.consent ?? null
+                          }
+                        />
+                      </dd>
+                    </div>
+                    <div className="col-span-2">
                       <dt className="text-muted-foreground">Hash de integridade</dt>
                       <dd className="break-all font-mono text-[11px]">{ev.integrity_hash ?? "—"}</dd>
                     </div>
