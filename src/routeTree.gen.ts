@@ -40,6 +40,8 @@ import { Route as PortalCartaoPontoIndexRouteImport } from './routes/portal.cart
 import { Route as PortalCartaoPontoIdRouteImport } from './routes/portal.cartao-ponto.$id'
 import { Route as PortalDocumentosIndexRouteImport } from './routes/portal.documentos.index'
 import { Route as PortalDocumentosIdRouteImport } from './routes/portal.documentos.$id'
+import { Route as PortalHoleritesIndexRouteImport } from './routes/portal.holerites.index'
+import { Route as PortalHoleritesIdRouteImport } from './routes/portal.holerites.$id'
 import { Route as PortalItensIndexRouteImport } from './routes/portal.itens.index'
 import { Route as PortalItensIdRouteImport } from './routes/portal.itens.$id'
 import { Route as AuthenticatedAppConformidadeIndexRouteImport } from './routes/_authenticated/app.conformidade.index'
@@ -50,6 +52,7 @@ import { Route as AuthenticatedAppDeliveriesIndexRouteImport } from './routes/_a
 import { Route as AuthenticatedAppDeliveriesIdRouteImport } from './routes/_authenticated/app.deliveries.$id'
 import { Route as AuthenticatedAppPointCardsIndexRouteImport } from './routes/_authenticated/app.point-cards.index'
 import { Route as AuthenticatedAppPointCardsIdRouteImport } from './routes/_authenticated/app.point-cards.$id'
+import { Route as PortalHoleritesIdComprovanteRouteImport } from './routes/portal.holerites.$id.comprovante'
 import { Route as AuthenticatedAppConformidadeExamesIndexRouteImport } from './routes/_authenticated/app.conformidade.exames.index'
 import { Route as AuthenticatedAppConformidadeExamesIdRouteImport } from './routes/_authenticated/app.conformidade.exames.$id'
 import { Route as AuthenticatedAppConformidadeExamesNovoRouteImport } from './routes/_authenticated/app.conformidade.exames.novo'
@@ -217,6 +220,16 @@ const PortalDocumentosIdRoute = PortalDocumentosIdRouteImport.update({
   path: '/documentos/$id',
   getParentRoute: () => PortalRoute,
 } as any)
+const PortalHoleritesIndexRoute = PortalHoleritesIndexRouteImport.update({
+  id: '/holerites/',
+  path: '/holerites/',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalHoleritesIdRoute = PortalHoleritesIdRouteImport.update({
+  id: '/holerites/$id',
+  path: '/holerites/$id',
+  getParentRoute: () => PortalRoute,
+} as any)
 const PortalItensIndexRoute = PortalItensIndexRouteImport.update({
   id: '/itens/',
   path: '/itens/',
@@ -275,6 +288,12 @@ const AuthenticatedAppPointCardsIdRoute =
     path: '/point-cards/$id',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const PortalHoleritesIdComprovanteRoute =
+  PortalHoleritesIdComprovanteRouteImport.update({
+    id: '/comprovante',
+    path: '/comprovante',
+    getParentRoute: () => PortalHoleritesIdRoute,
+  } as any)
 const AuthenticatedAppConformidadeExamesIndexRoute =
   AuthenticatedAppConformidadeExamesIndexRouteImport.update({
     id: '/conformidade/exames/',
@@ -322,16 +341,19 @@ export interface FileRoutesByFullPath {
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/portal/cartao-ponto/$id': typeof PortalCartaoPontoIdRoute
   '/portal/documentos/$id': typeof PortalDocumentosIdRoute
+  '/portal/holerites/$id': typeof PortalHoleritesIdRouteWithChildren
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/portal/cartao-ponto/': typeof PortalCartaoPontoIndexRoute
   '/portal/documentos/': typeof PortalDocumentosIndexRoute
+  '/portal/holerites/': typeof PortalHoleritesIndexRoute
   '/portal/itens/': typeof PortalItensIndexRoute
   '/app/conformidade/kits': typeof AuthenticatedAppConformidadeKitsRoute
   '/app/conformidade/pendencias': typeof AuthenticatedAppConformidadePendenciasRoute
   '/app/conformidade/trocas': typeof AuthenticatedAppConformidadeTrocasRoute
   '/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/app/point-cards/$id': typeof AuthenticatedAppPointCardsIdRoute
+  '/portal/holerites/$id/comprovante': typeof PortalHoleritesIdComprovanteRoute
   '/app/conformidade/': typeof AuthenticatedAppConformidadeIndexRoute
   '/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
   '/app/point-cards/': typeof AuthenticatedAppPointCardsIndexRoute
@@ -365,16 +387,19 @@ export interface FileRoutesByTo {
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/portal/cartao-ponto/$id': typeof PortalCartaoPontoIdRoute
   '/portal/documentos/$id': typeof PortalDocumentosIdRoute
+  '/portal/holerites/$id': typeof PortalHoleritesIdRouteWithChildren
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/portal/cartao-ponto': typeof PortalCartaoPontoIndexRoute
   '/portal/documentos': typeof PortalDocumentosIndexRoute
+  '/portal/holerites': typeof PortalHoleritesIndexRoute
   '/portal/itens': typeof PortalItensIndexRoute
   '/app/conformidade/kits': typeof AuthenticatedAppConformidadeKitsRoute
   '/app/conformidade/pendencias': typeof AuthenticatedAppConformidadePendenciasRoute
   '/app/conformidade/trocas': typeof AuthenticatedAppConformidadeTrocasRoute
   '/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/app/point-cards/$id': typeof AuthenticatedAppPointCardsIdRoute
+  '/portal/holerites/$id/comprovante': typeof PortalHoleritesIdComprovanteRoute
   '/app/conformidade': typeof AuthenticatedAppConformidadeIndexRoute
   '/app/deliveries': typeof AuthenticatedAppDeliveriesIndexRoute
   '/app/point-cards': typeof AuthenticatedAppPointCardsIndexRoute
@@ -412,16 +437,19 @@ export interface FileRoutesById {
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/portal/cartao-ponto/$id': typeof PortalCartaoPontoIdRoute
   '/portal/documentos/$id': typeof PortalDocumentosIdRoute
+  '/portal/holerites/$id': typeof PortalHoleritesIdRouteWithChildren
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/portal/cartao-ponto/': typeof PortalCartaoPontoIndexRoute
   '/portal/documentos/': typeof PortalDocumentosIndexRoute
+  '/portal/holerites/': typeof PortalHoleritesIndexRoute
   '/portal/itens/': typeof PortalItensIndexRoute
   '/_authenticated/app/conformidade/kits': typeof AuthenticatedAppConformidadeKitsRoute
   '/_authenticated/app/conformidade/pendencias': typeof AuthenticatedAppConformidadePendenciasRoute
   '/_authenticated/app/conformidade/trocas': typeof AuthenticatedAppConformidadeTrocasRoute
   '/_authenticated/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/_authenticated/app/point-cards/$id': typeof AuthenticatedAppPointCardsIdRoute
+  '/portal/holerites/$id/comprovante': typeof PortalHoleritesIdComprovanteRoute
   '/_authenticated/app/conformidade/': typeof AuthenticatedAppConformidadeIndexRoute
   '/_authenticated/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
   '/_authenticated/app/point-cards/': typeof AuthenticatedAppPointCardsIndexRoute
@@ -459,16 +487,19 @@ export interface FileRouteTypes {
     | '/api/public/sales-ingest'
     | '/portal/cartao-ponto/$id'
     | '/portal/documentos/$id'
+    | '/portal/holerites/$id'
     | '/portal/itens/$id'
     | '/app/'
     | '/portal/cartao-ponto/'
     | '/portal/documentos/'
+    | '/portal/holerites/'
     | '/portal/itens/'
     | '/app/conformidade/kits'
     | '/app/conformidade/pendencias'
     | '/app/conformidade/trocas'
     | '/app/deliveries/$id'
     | '/app/point-cards/$id'
+    | '/portal/holerites/$id/comprovante'
     | '/app/conformidade/'
     | '/app/deliveries/'
     | '/app/point-cards/'
@@ -502,16 +533,19 @@ export interface FileRouteTypes {
     | '/api/public/sales-ingest'
     | '/portal/cartao-ponto/$id'
     | '/portal/documentos/$id'
+    | '/portal/holerites/$id'
     | '/portal/itens/$id'
     | '/app'
     | '/portal/cartao-ponto'
     | '/portal/documentos'
+    | '/portal/holerites'
     | '/portal/itens'
     | '/app/conformidade/kits'
     | '/app/conformidade/pendencias'
     | '/app/conformidade/trocas'
     | '/app/deliveries/$id'
     | '/app/point-cards/$id'
+    | '/portal/holerites/$id/comprovante'
     | '/app/conformidade'
     | '/app/deliveries'
     | '/app/point-cards'
@@ -548,16 +582,19 @@ export interface FileRouteTypes {
     | '/api/public/sales-ingest'
     | '/portal/cartao-ponto/$id'
     | '/portal/documentos/$id'
+    | '/portal/holerites/$id'
     | '/portal/itens/$id'
     | '/_authenticated/app/'
     | '/portal/cartao-ponto/'
     | '/portal/documentos/'
+    | '/portal/holerites/'
     | '/portal/itens/'
     | '/_authenticated/app/conformidade/kits'
     | '/_authenticated/app/conformidade/pendencias'
     | '/_authenticated/app/conformidade/trocas'
     | '/_authenticated/app/deliveries/$id'
     | '/_authenticated/app/point-cards/$id'
+    | '/portal/holerites/$id/comprovante'
     | '/_authenticated/app/conformidade/'
     | '/_authenticated/app/deliveries/'
     | '/_authenticated/app/point-cards/'
@@ -793,6 +830,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalDocumentosIdRouteImport
       parentRoute: typeof PortalRoute
     }
+    '/portal/holerites/': {
+      id: '/portal/holerites/'
+      path: '/holerites'
+      fullPath: '/portal/holerites/'
+      preLoaderRoute: typeof PortalHoleritesIndexRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/holerites/$id': {
+      id: '/portal/holerites/$id'
+      path: '/holerites/$id'
+      fullPath: '/portal/holerites/$id'
+      preLoaderRoute: typeof PortalHoleritesIdRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/portal/itens/': {
       id: '/portal/itens/'
       path: '/itens'
@@ -862,6 +913,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/point-cards/$id'
       preLoaderRoute: typeof AuthenticatedAppPointCardsIdRouteImport
       parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/portal/holerites/$id/comprovante': {
+      id: '/portal/holerites/$id/comprovante'
+      path: '/comprovante'
+      fullPath: '/portal/holerites/$id/comprovante'
+      preLoaderRoute: typeof PortalHoleritesIdComprovanteRouteImport
+      parentRoute: typeof PortalHoleritesIdRoute
     }
     '/_authenticated/app/conformidade/exames/': {
       id: '/_authenticated/app/conformidade/exames/'
@@ -967,6 +1025,17 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface PortalHoleritesIdRouteChildren {
+  PortalHoleritesIdComprovanteRoute: typeof PortalHoleritesIdComprovanteRoute
+}
+
+const PortalHoleritesIdRouteChildren: PortalHoleritesIdRouteChildren = {
+  PortalHoleritesIdComprovanteRoute: PortalHoleritesIdComprovanteRoute,
+}
+
+const PortalHoleritesIdRouteWithChildren =
+  PortalHoleritesIdRoute._addFileChildren(PortalHoleritesIdRouteChildren)
+
 interface PortalRouteChildren {
   PortalEscalaRoute: typeof PortalEscalaRoute
   PortalLoginRoute: typeof PortalLoginRoute
@@ -976,9 +1045,11 @@ interface PortalRouteChildren {
   PortalIndexRoute: typeof PortalIndexRoute
   PortalCartaoPontoIdRoute: typeof PortalCartaoPontoIdRoute
   PortalDocumentosIdRoute: typeof PortalDocumentosIdRoute
+  PortalHoleritesIdRoute: typeof PortalHoleritesIdRouteWithChildren
   PortalItensIdRoute: typeof PortalItensIdRoute
   PortalCartaoPontoIndexRoute: typeof PortalCartaoPontoIndexRoute
   PortalDocumentosIndexRoute: typeof PortalDocumentosIndexRoute
+  PortalHoleritesIndexRoute: typeof PortalHoleritesIndexRoute
   PortalItensIndexRoute: typeof PortalItensIndexRoute
 }
 
@@ -991,9 +1062,11 @@ const PortalRouteChildren: PortalRouteChildren = {
   PortalIndexRoute: PortalIndexRoute,
   PortalCartaoPontoIdRoute: PortalCartaoPontoIdRoute,
   PortalDocumentosIdRoute: PortalDocumentosIdRoute,
+  PortalHoleritesIdRoute: PortalHoleritesIdRouteWithChildren,
   PortalItensIdRoute: PortalItensIdRoute,
   PortalCartaoPontoIndexRoute: PortalCartaoPontoIndexRoute,
   PortalDocumentosIndexRoute: PortalDocumentosIndexRoute,
+  PortalHoleritesIndexRoute: PortalHoleritesIndexRoute,
   PortalItensIndexRoute: PortalItensIndexRoute,
 }
 
