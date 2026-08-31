@@ -19,6 +19,7 @@ const CONTEXTS = [
   { to: "/portal/itens", label: "Meus itens" },
   { to: "/portal/documentos", label: "Meus documentos" },
   { to: "/portal/cartao-ponto", label: "Cartão de ponto" },
+  { to: "/portal/holerites", label: "Holerites" },
 ] as const;
 
 const TABS = [

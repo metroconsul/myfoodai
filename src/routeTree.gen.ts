@@ -57,6 +57,7 @@ import { Route as AuthenticatedAppConformidadeExamesIndexRouteImport } from './r
 import { Route as AuthenticatedAppConformidadeExamesIdRouteImport } from './routes/_authenticated/app.conformidade.exames.$id'
 import { Route as AuthenticatedAppConformidadeExamesNovoRouteImport } from './routes/_authenticated/app.conformidade.exames.novo'
 import { Route as AuthenticatedAppDocumentosHoleritesIndexRouteImport } from './routes/_authenticated/app.documentos.holerites.index'
+import { Route as AuthenticatedAppDocumentosHoleritesIdRouteImport } from './routes/_authenticated/app.documentos.holerites.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -319,6 +320,12 @@ const AuthenticatedAppDocumentosHoleritesIndexRoute =
     path: '/documentos/holerites/',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppDocumentosHoleritesIdRoute =
+  AuthenticatedAppDocumentosHoleritesIdRouteImport.update({
+    id: '/documentos/holerites/$id',
+    path: '/documentos/holerites/$id',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -366,6 +373,7 @@ export interface FileRoutesByFullPath {
   '/app/point-cards/': typeof AuthenticatedAppPointCardsIndexRoute
   '/app/conformidade/exames/$id': typeof AuthenticatedAppConformidadeExamesIdRoute
   '/app/conformidade/exames/novo': typeof AuthenticatedAppConformidadeExamesNovoRoute
+  '/app/documentos/holerites/$id': typeof AuthenticatedAppDocumentosHoleritesIdRoute
   '/app/conformidade/exames/': typeof AuthenticatedAppConformidadeExamesIndexRoute
   '/app/documentos/holerites/': typeof AuthenticatedAppDocumentosHoleritesIndexRoute
 }
@@ -413,6 +421,7 @@ export interface FileRoutesByTo {
   '/app/point-cards': typeof AuthenticatedAppPointCardsIndexRoute
   '/app/conformidade/exames/$id': typeof AuthenticatedAppConformidadeExamesIdRoute
   '/app/conformidade/exames/novo': typeof AuthenticatedAppConformidadeExamesNovoRoute
+  '/app/documentos/holerites/$id': typeof AuthenticatedAppDocumentosHoleritesIdRoute
   '/app/conformidade/exames': typeof AuthenticatedAppConformidadeExamesIndexRoute
   '/app/documentos/holerites': typeof AuthenticatedAppDocumentosHoleritesIndexRoute
 }
@@ -464,6 +473,7 @@ export interface FileRoutesById {
   '/_authenticated/app/point-cards/': typeof AuthenticatedAppPointCardsIndexRoute
   '/_authenticated/app/conformidade/exames/$id': typeof AuthenticatedAppConformidadeExamesIdRoute
   '/_authenticated/app/conformidade/exames/novo': typeof AuthenticatedAppConformidadeExamesNovoRoute
+  '/_authenticated/app/documentos/holerites/$id': typeof AuthenticatedAppDocumentosHoleritesIdRoute
   '/_authenticated/app/conformidade/exames/': typeof AuthenticatedAppConformidadeExamesIndexRoute
   '/_authenticated/app/documentos/holerites/': typeof AuthenticatedAppDocumentosHoleritesIndexRoute
 }
@@ -515,6 +525,7 @@ export interface FileRouteTypes {
     | '/app/point-cards/'
     | '/app/conformidade/exames/$id'
     | '/app/conformidade/exames/novo'
+    | '/app/documentos/holerites/$id'
     | '/app/conformidade/exames/'
     | '/app/documentos/holerites/'
   fileRoutesByTo: FileRoutesByTo
@@ -562,6 +573,7 @@ export interface FileRouteTypes {
     | '/app/point-cards'
     | '/app/conformidade/exames/$id'
     | '/app/conformidade/exames/novo'
+    | '/app/documentos/holerites/$id'
     | '/app/conformidade/exames'
     | '/app/documentos/holerites'
   id:
@@ -612,6 +624,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/point-cards/'
     | '/_authenticated/app/conformidade/exames/$id'
     | '/_authenticated/app/conformidade/exames/novo'
+    | '/_authenticated/app/documentos/holerites/$id'
     | '/_authenticated/app/conformidade/exames/'
     | '/_authenticated/app/documentos/holerites/'
   fileRoutesById: FileRoutesById
@@ -962,6 +975,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppDocumentosHoleritesIndexRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/documentos/holerites/$id': {
+      id: '/_authenticated/app/documentos/holerites/$id'
+      path: '/documentos/holerites/$id'
+      fullPath: '/app/documentos/holerites/$id'
+      preLoaderRoute: typeof AuthenticatedAppDocumentosHoleritesIdRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
   }
 }
 
@@ -990,6 +1010,7 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppPointCardsIndexRoute: typeof AuthenticatedAppPointCardsIndexRoute
   AuthenticatedAppConformidadeExamesIdRoute: typeof AuthenticatedAppConformidadeExamesIdRoute
   AuthenticatedAppConformidadeExamesNovoRoute: typeof AuthenticatedAppConformidadeExamesNovoRoute
+  AuthenticatedAppDocumentosHoleritesIdRoute: typeof AuthenticatedAppDocumentosHoleritesIdRoute
   AuthenticatedAppConformidadeExamesIndexRoute: typeof AuthenticatedAppConformidadeExamesIndexRoute
   AuthenticatedAppDocumentosHoleritesIndexRoute: typeof AuthenticatedAppDocumentosHoleritesIndexRoute
 }
@@ -1026,6 +1047,8 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
     AuthenticatedAppConformidadeExamesIdRoute,
   AuthenticatedAppConformidadeExamesNovoRoute:
     AuthenticatedAppConformidadeExamesNovoRoute,
+  AuthenticatedAppDocumentosHoleritesIdRoute:
+    AuthenticatedAppDocumentosHoleritesIdRoute,
   AuthenticatedAppConformidadeExamesIndexRoute:
     AuthenticatedAppConformidadeExamesIndexRoute,
   AuthenticatedAppDocumentosHoleritesIndexRoute:

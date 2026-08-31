@@ -212,7 +212,7 @@ function PayslipDetailPage() {
       <PageHeader
         eyebrow={`Holerite ${competenceLabel(payslip.payroll_period)}`}
         title={employeeQuery.data?.full_name ?? "Colaborador"}
-        description={POLICY_LABEL[payslip.acceptance_policy]}
+        description={POLICY_LABEL[payslip.acceptance_policy] ?? "Holerite"}
         actions={
           <>
             <Button asChild variant="ghost">
