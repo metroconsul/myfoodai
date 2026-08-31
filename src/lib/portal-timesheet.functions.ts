@@ -11,9 +11,16 @@ const geoSchema = {
   locationStatus: z.enum(["obtida", "negada", "imprecisa", "indisponivel", "nao_disponivel"]),
 };
 
+const consentSchema = {
+  consentData: z.boolean().default(false),
+  consentBiometrics: z.boolean().default(false),
+  consentLocation: z.boolean().default(false),
+};
+
 const validateSchema = cardSchema.extend({
   imageDataUrl: z.string().min(64).max(4_000_000),
   ...geoSchema,
+  ...consentSchema,
   deviceInfo: z.string().max(400).nullable().optional(),
 });
 
@@ -23,6 +30,7 @@ const signSchema = cardSchema.extend({
   signatureType: z.enum(["desenhada", "digitada"]),
   agreed: z.boolean(),
   ...geoSchema,
+  ...consentSchema,
   deviceInfo: z.string().max(400).nullable().optional(),
   faceSkipReason: z.string().trim().max(300).nullable().optional(),
 });
