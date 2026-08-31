@@ -16,6 +16,7 @@ import {
 } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { BrDateInput } from "@/components/ui/br-inputs";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -344,20 +345,16 @@ function KitsPage() {
               </div>
               <div>
                 <Label htmlFor="from">Vigência inicial</Label>
-                <Input
+                <BrDateInput
                   id="from"
-                  type="date"
                   value={form.effectiveFrom}
-                  onChange={(e) => setForm((f) => ({ ...f, effectiveFrom: e.target.value }))}
+                  onChange={(v) => setForm((f) => ({ ...f, effectiveFrom: v }))}
                 />
-              </div>
-              <div>
-                <Label htmlFor="until">Vigência final</Label>
-                <Input
+...
+                <BrDateInput
                   id="until"
-                  type="date"
                   value={form.effectiveUntil}
-                  onChange={(e) => setForm((f) => ({ ...f, effectiveUntil: e.target.value }))}
+                  onChange={(v) => setForm((f) => ({ ...f, effectiveUntil: v }))}
                 />
               </div>
             </div>

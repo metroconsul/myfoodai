@@ -8,6 +8,7 @@ import { BRAND_NAME } from "@/config/brand";
 import { PageHeader, SectionCard } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { BrDateInput } from "@/components/ui/br-inputs";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -214,29 +215,22 @@ function NewDocumentPage() {
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           <div>
             <Label htmlFor="performed">Data de realização</Label>
-            <Input
+            <BrDateInput
               id="performed"
-              type="date"
               value={form.performedAt}
-              onChange={(e) => set("performedAt")(e.target.value)}
+              onChange={(v) => set("performedAt")(v)}
             />
-          </div>
-          <div>
-            <Label htmlFor="expires">Data de validade</Label>
-            <Input
+...
+            <BrDateInput
               id="expires"
-              type="date"
               value={form.expiresAt}
-              onChange={(e) => set("expiresAt")(e.target.value)}
+              onChange={(v) => set("expiresAt")(v)}
             />
-          </div>
-          <div>
-            <Label htmlFor="review">Próxima revisão</Label>
-            <Input
+...
+            <BrDateInput
               id="review"
-              type="date"
               value={form.nextReviewAt}
-              onChange={(e) => set("nextReviewAt")(e.target.value)}
+              onChange={(v) => set("nextReviewAt")(v)}
             />
           </div>
           <div>
@@ -353,11 +347,10 @@ function NewDocumentPage() {
           </div>
           <div>
             <Label htmlFor="actionDue">Data limite da ação</Label>
-            <Input
+            <BrDateInput
               id="actionDue"
-              type="date"
               value={form.nextActionDueAt}
-              onChange={(e) => set("nextActionDueAt")(e.target.value)}
+              onChange={(v) => set("nextActionDueAt")(v)}
             />
           </div>
           <div className="sm:col-span-2">

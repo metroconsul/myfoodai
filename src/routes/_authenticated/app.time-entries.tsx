@@ -7,6 +7,7 @@ import { PageHeader, SectionCard, EmptyState, StatusBadge, StatCard, LoadingStat
 import { BRAND_NAME } from "@/config/brand";
 import { dateTimeFmt, isoDate } from "@/lib/format";
 import { Input } from "@/components/ui/input";
+import { BrDateInput } from "@/components/ui/br-inputs";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -84,7 +85,7 @@ function TimeEntriesPage() {
               <Label htmlFor="day" className="sr-only">
                 Dia
               </Label>
-              <Input id="day" type="date" value={day} onChange={(e) => setDay(e.target.value)} />
+              <BrDateInput id="day" value={day} onChange={setDay} />
             </div>
           </div>
         }

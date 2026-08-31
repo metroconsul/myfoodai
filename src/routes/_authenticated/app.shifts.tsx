@@ -7,6 +7,7 @@ import { PageHeader, SectionCard, EmptyState, StatusBadge } from "@/components/u
 import { BRAND_NAME } from "@/config/brand";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { BrTimeInput } from "@/components/ui/br-inputs";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 
@@ -83,21 +84,17 @@ function ShiftsPage() {
             <div className="grid grid-cols-2 gap-2">
               <div className="space-y-1.5">
                 <Label htmlFor="start">Início</Label>
-                <Input
+                <BrTimeInput
                   id="start"
-                  type="time"
                   value={form.start_time}
-                  onChange={(e) => setForm({ ...form, start_time: e.target.value })}
+                  onChange={(v) => setForm({ ...form, start_time: v })}
                   required
                 />
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="end">Fim</Label>
-                <Input
+...
+                <BrTimeInput
                   id="end"
-                  type="time"
                   value={form.end_time}
-                  onChange={(e) => setForm({ ...form, end_time: e.target.value })}
+                  onChange={(v) => setForm({ ...form, end_time: v })}
                   required
                 />
               </div>
