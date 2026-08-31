@@ -41,6 +41,11 @@ function Item({
 
 /** Bloco de consentimento LGPD usado em todos os aceites/assinaturas do colaborador. */
 export function LgpdConsent({ value, onChange, withBiometrics = false, className }: Props) {
+  const { privacy } = usePortalPolicies();
+  const dataText = privacy.dataText ?? LGPD_DATA_TEXT;
+  const biometricsText = privacy.biometricsText ?? LGPD_BIOMETRICS_TEXT;
+  const locationText = privacy.locationText ?? LGPD_LOCATION_TEXT;
+  const noticeText = privacy.noticeText ?? LGPD_NOTICE;
   return (
     <div
       className={cn(
