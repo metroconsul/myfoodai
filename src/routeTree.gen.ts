@@ -36,6 +36,7 @@ import { Route as AuthenticatedAppShiftsRouteImport } from './routes/_authentica
 import { Route as AuthenticatedAppTimeEntriesRouteImport } from './routes/_authenticated/app.time-entries'
 import { Route as AuthenticatedAppUnitsRouteImport } from './routes/_authenticated/app.units'
 import { Route as ApiPublicSalesIngestRouteImport } from './routes/api/public/sales-ingest'
+import { Route as ApiPublicStripeWebhookRouteImport } from './routes/api/public/stripe-webhook'
 import { Route as PortalCartaoPontoIndexRouteImport } from './routes/portal.cartao-ponto.index'
 import { Route as PortalCartaoPontoIdRouteImport } from './routes/portal.cartao-ponto.$id'
 import { Route as PortalDocumentosIndexRouteImport } from './routes/portal.documentos.index'
@@ -204,6 +205,11 @@ const ApiPublicSalesIngestRoute = ApiPublicSalesIngestRouteImport.update({
   path: '/api/public/sales-ingest',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicStripeWebhookRoute = ApiPublicStripeWebhookRouteImport.update({
+  id: '/api/public/stripe-webhook',
+  path: '/api/public/stripe-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PortalCartaoPontoIndexRoute = PortalCartaoPontoIndexRouteImport.update({
   id: '/cartao-ponto/',
   path: '/cartao-ponto/',
@@ -367,6 +373,7 @@ export interface FileRoutesByFullPath {
   '/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
+  '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/portal/cartao-ponto/$id': typeof PortalCartaoPontoIdRoute
   '/portal/documentos/$id': typeof PortalDocumentosIdRoute
   '/portal/holerites/$id': typeof PortalHoleritesIdRouteWithChildren
@@ -417,6 +424,7 @@ export interface FileRoutesByTo {
   '/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
+  '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/portal/cartao-ponto/$id': typeof PortalCartaoPontoIdRoute
   '/portal/documentos/$id': typeof PortalDocumentosIdRoute
   '/portal/holerites/$id': typeof PortalHoleritesIdRouteWithChildren
@@ -471,6 +479,7 @@ export interface FileRoutesById {
   '/_authenticated/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/_authenticated/app/units': typeof AuthenticatedAppUnitsRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
+  '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/portal/cartao-ponto/$id': typeof PortalCartaoPontoIdRoute
   '/portal/documentos/$id': typeof PortalDocumentosIdRoute
   '/portal/holerites/$id': typeof PortalHoleritesIdRouteWithChildren
@@ -525,6 +534,7 @@ export interface FileRouteTypes {
     | '/app/time-entries'
     | '/app/units'
     | '/api/public/sales-ingest'
+    | '/api/public/stripe-webhook'
     | '/portal/cartao-ponto/$id'
     | '/portal/documentos/$id'
     | '/portal/holerites/$id'
@@ -575,6 +585,7 @@ export interface FileRouteTypes {
     | '/app/time-entries'
     | '/app/units'
     | '/api/public/sales-ingest'
+    | '/api/public/stripe-webhook'
     | '/portal/cartao-ponto/$id'
     | '/portal/documentos/$id'
     | '/portal/holerites/$id'
@@ -628,6 +639,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/time-entries'
     | '/_authenticated/app/units'
     | '/api/public/sales-ingest'
+    | '/api/public/stripe-webhook'
     | '/portal/cartao-ponto/$id'
     | '/portal/documentos/$id'
     | '/portal/holerites/$id'
@@ -661,6 +673,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   PortalRoute: typeof PortalRouteWithChildren
   ApiPublicSalesIngestRoute: typeof ApiPublicSalesIngestRoute
+  ApiPublicStripeWebhookRoute: typeof ApiPublicStripeWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -852,6 +865,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/sales-ingest'
       fullPath: '/api/public/sales-ingest'
       preLoaderRoute: typeof ApiPublicSalesIngestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/stripe-webhook': {
+      id: '/api/public/stripe-webhook'
+      path: '/api/public/stripe-webhook'
+      fullPath: '/api/public/stripe-webhook'
+      preLoaderRoute: typeof ApiPublicStripeWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/portal/cartao-ponto/': {
@@ -1169,6 +1189,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   PortalRoute: PortalRouteWithChildren,
   ApiPublicSalesIngestRoute: ApiPublicSalesIngestRoute,
+  ApiPublicStripeWebhookRoute: ApiPublicStripeWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
