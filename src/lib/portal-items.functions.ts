@@ -13,6 +13,7 @@ const geoSchema = {
 
 /** Consentimento explícito (LGPD) para biometria e localização. */
 const consentSchema = {
+  consentData: z.boolean().default(false),
   consentBiometrics: z.boolean(),
   consentLocation: z.boolean(),
 };
@@ -193,6 +194,7 @@ export const portalValidateIdentity = createServerFn({ method: "POST" })
 
     const nowIso = new Date().toISOString();
     const consent = {
+      data: data.consentData,
       biometrics: data.consentBiometrics,
       location: data.consentLocation,
       version: (await import("./items.shared")).CONSENT_VERSION,
@@ -259,6 +261,9 @@ export const portalAcceptDelivery = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { integrityHash, decodeImageDataUrl, maskIp } = await import("./face-validation.server");
     const { TERMS_VERSION, CONSENT_VERSION } = await import("./items.shared");
+    if (!data.consentData) {
+      return { error: "Autorize o tratamento dos dados (LGPD) para assinar." as const };
+    }
 
     const { data: delivery } = await supabaseAdmin
       .from("item_deliveries")
@@ -333,6 +338,7 @@ export const portalAcceptDelivery = createServerFn({ method: "POST" })
       : null;
 
     const consent = {
+      data: data.consentData,
       biometrics: data.consentBiometrics,
       location: data.consentLocation,
       version: CONSENT_VERSION,
