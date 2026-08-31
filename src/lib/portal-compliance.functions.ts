@@ -108,9 +108,6 @@ export const portalDocumentDetail = createServerFn({ method: "POST" })
       .not("published_to_portal_at", "is", null)
       .maybeSingle();
     if (!document) return { error: "Documento não encontrado." as const };
-    if (!data.consentData) {
-      return { error: "Autorize o tratamento dos dados (LGPD) para confirmar." as const };
-    }
 
     const { data: ack } = await supabaseAdmin
       .from("document_acknowledgements")
@@ -198,6 +195,9 @@ export const portalAcknowledgeDocument = createServerFn({ method: "POST" })
       .not("published_to_portal_at", "is", null)
       .maybeSingle();
     if (!document) return { error: "Documento não encontrado." as const };
+    if (!data.consentData) {
+      return { error: "Autorize o tratamento dos dados (LGPD) para confirmar." as const };
+    }
 
     if (data.mode === "assinatura" && !data.signatureDataUrl && (data.typedName ?? "").trim().length < 3) {
       return { error: "Assine ou digite seu nome completo para confirmar." as const };
