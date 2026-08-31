@@ -12,6 +12,8 @@ import {
   portalDocumentFileUrl,
 } from "@/lib/portal-compliance.functions";
 import { SignaturePad } from "@/components/signature-pad";
+import { LgpdConsent } from "@/components/lgpd-consent";
+import { EMPTY_LGPD_CONSENT, type LgpdConsent as Consent } from "@/lib/lgpd.shared";
 import {
   PortalButton,
   PortalCard,
@@ -98,6 +100,7 @@ function PortalDocumentDetailPage() {
   const [signature, setSignature] = useState<string | null>(null);
   const [typedName, setTypedName] = useState("");
   const [agreed, setAgreed] = useState(false);
+  const [consent, setConsent] = useState<Consent>(EMPTY_LGPD_CONSENT);
   const [done, setDone] = useState(false);
 
   const query = useQuery({
@@ -117,7 +120,7 @@ function PortalDocumentDetailPage() {
 
   const confirm = useMutation({
     mutationFn: async (mode: "ciencia" | "assinatura") => {
-      const geo = await readLocation();
+      const geo = consent.location ? await readLocation() : NO_GEO;
       const res = await ackFn({
         data: {
           token: token!,
@@ -126,6 +129,8 @@ function PortalDocumentDetailPage() {
           signatureDataUrl: mode === "assinatura" && signMode === "desenhada" ? signature : null,
           typedName: mode === "assinatura" && signMode === "digitada" ? typedName : null,
           ...geo,
+          consentData: consent.data,
+          consentLocation: consent.location,
           deviceInfo: navigator.userAgent.slice(0, 300),
         },
       });
@@ -298,9 +303,11 @@ function PortalDocumentDetailPage() {
             <span>Li o documento e confirmo o registro eletrônico desta confirmação.</span>
           </label>
 
+          <LgpdConsent className="mt-4" value={consent} onChange={setConsent} />
+
           <p className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
-            <MapPin className="size-4" aria-hidden />A localização aproximada é registrada como
-            evidência quando você permite.
+            <MapPin className="size-4" aria-hidden />A localização aproximada só é registrada quando
+            você autoriza acima.
           </p>
 
           <PortalButton
@@ -309,6 +316,7 @@ function PortalDocumentDetailPage() {
             loading={confirm.isPending}
             disabled={
               !agreed ||
+              !consent.data ||
               (needsSignature &&
                 (signMode === "desenhada" ? !signature : typedName.trim().length < 3))
             }

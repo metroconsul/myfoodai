@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { LGPD_CONSENT_VERSION } from "./lgpd.shared";
 
 const tokenSchema = z.object({ token: z.string().min(10).max(200) });
 const docSchema = tokenSchema.extend({ documentId: z.string().uuid() });
@@ -15,6 +16,8 @@ const geoFields = {
 
 const ackSchema = docSchema.extend({
   mode: z.enum(["ciencia", "assinatura"]),
+  consentData: z.boolean().default(false),
+  consentLocation: z.boolean().default(false),
   signatureDataUrl: z.string().max(4_000_000).nullable().optional(),
   typedName: z.string().trim().max(160).nullable().optional(),
   ...geoFields,
@@ -192,6 +195,9 @@ export const portalAcknowledgeDocument = createServerFn({ method: "POST" })
       .not("published_to_portal_at", "is", null)
       .maybeSingle();
     if (!document) return { error: "Documento não encontrado." as const };
+    if (!data.consentData) {
+      return { error: "Autorize o tratamento dos dados (LGPD) para confirmar." as const };
+    }
 
     if (data.mode === "assinatura" && !data.signatureDataUrl && (data.typedName ?? "").trim().length < 3) {
       return { error: "Assine ou digite seu nome completo para confirmar." as const };
@@ -223,12 +229,21 @@ export const portalAcknowledgeDocument = createServerFn({ method: "POST" })
       acknowledged_at: now,
       signed_at: data.mode === "assinatura" ? now : null,
       signature_path: signaturePath,
-      location_status: data.locationStatus,
-      latitude: data.latitude ?? null,
-      longitude: data.longitude ?? null,
-      accuracy_meters: data.accuracy ?? null,
-      location_captured_at: data.latitude != null ? now : null,
-      device_metadata: { userAgent: data.deviceInfo ?? null, typedName: data.typedName ?? null },
+      location_status: data.consentLocation ? data.locationStatus : "negada",
+      latitude: data.consentLocation ? (data.latitude ?? null) : null,
+      longitude: data.consentLocation ? (data.longitude ?? null) : null,
+      accuracy_meters: data.consentLocation ? (data.accuracy ?? null) : null,
+      location_captured_at: data.consentLocation && data.latitude != null ? now : null,
+      device_metadata: {
+        userAgent: data.deviceInfo ?? null,
+        typedName: data.typedName ?? null,
+        consent: {
+          version: LGPD_CONSENT_VERSION,
+          data: data.consentData,
+          location: data.consentLocation,
+          acceptedAt: now,
+        },
+      },
       term_version: DOC_TERMS_VERSION,
       consent_version: DOC_CONSENT_VERSION,
       integrity_hash: hash,

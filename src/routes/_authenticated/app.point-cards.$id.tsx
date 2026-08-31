@@ -44,6 +44,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { dateFmt, dateTimeFmt, minutesToHours } from "@/lib/format";
 import { toast } from "sonner";
+import { LgpdConsentSummary } from "@/components/lgpd-consent";
 
 export const Route = createFileRoute("/_authenticated/app/point-cards/$id")({
   head: () => ({
@@ -445,6 +446,25 @@ function PointCardDetailPage() {
                     <div>
                       <dt className="text-muted-foreground">Assinado em</dt>
                       <dd>{ev.signed_at ? dateTimeFmt(ev.signed_at) : "—"}</dd>
+                    </div>
+                    <div className="col-span-2">
+                      <dt className="text-muted-foreground">Consentimento (LGPD)</dt>
+                      <dd>
+                        <LgpdConsentSummary
+                          consent={
+                            (
+                              (ev.device_metadata ?? null) as {
+                                consent?: {
+                                  data?: boolean;
+                                  biometrics?: boolean;
+                                  location?: boolean;
+                                  version?: string;
+                                } | null;
+                              } | null
+                            )?.consent ?? null
+                          }
+                        />
+                      </dd>
                     </div>
                     <div className="col-span-2">
                       <dt className="text-muted-foreground">Hash de integridade</dt>
