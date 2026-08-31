@@ -16,6 +16,7 @@ import {
 } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { BrDateInput } from "@/components/ui/br-inputs";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -427,12 +428,7 @@ function RequestDialog({
             </div>
             <div>
               <Label htmlFor="due">Prazo para envio</Label>
-              <Input
-                id="due"
-                type="date"
-                value={dueAt}
-                onChange={(e) => setDueAt(e.target.value)}
-              />
+              <BrDateInput id="due" value={dueAt} onChange={setDueAt} />
             </div>
           </div>
 

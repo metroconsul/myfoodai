@@ -7,6 +7,7 @@ import { PageHeader, SectionCard, EmptyState, StatusBadge, LoadingState, ErrorSt
 import { BRAND_NAME } from "@/config/brand";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { BrDateInput } from "@/components/ui/br-inputs";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -327,20 +328,16 @@ function DeliveryRulesPage() {
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="rule-start">Início da vigência</Label>
-                <Input
+                <BrDateInput
                   id="rule-start"
-                  type="date"
                   value={form.startsOn}
-                  onChange={(e) => setForm({ ...form, startsOn: e.target.value })}
+                  onChange={(v) => setForm({ ...form, startsOn: v })}
                 />
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="rule-end">Fim da vigência</Label>
-                <Input
+...
+                <BrDateInput
                   id="rule-end"
-                  type="date"
                   value={form.endsOn}
-                  onChange={(e) => setForm({ ...form, endsOn: e.target.value })}
+                  onChange={(v) => setForm({ ...form, endsOn: v })}
                 />
               </div>
             </div>

@@ -17,6 +17,7 @@ import {
 } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { BrDateInput } from "@/components/ui/br-inputs";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -261,11 +262,10 @@ function DocumentDetailPage() {
           </div>
           <div>
             <Label htmlFor="exp">Validade</Label>
-            <Input
+            <BrDateInput
               id="exp"
-              type="date"
               value={expiresAt ?? doc.expires_at ?? ""}
-              onChange={(e) => setExpiresAt(e.target.value)}
+              onChange={setExpiresAt}
             />
           </div>
           <div className="sm:col-span-3">

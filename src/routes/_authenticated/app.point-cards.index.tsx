@@ -23,6 +23,7 @@ import {
 } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { BrDateTimeInput } from "@/components/ui/br-inputs";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -230,12 +231,7 @@ function PointCardsPage() {
           </div>
           <div>
             <Label htmlFor="deadline">Prazo para conferência</Label>
-            <Input
-              id="deadline"
-              type="datetime-local"
-              value={deadline}
-              onChange={(e) => setDeadline(e.target.value)}
-            />
+            <BrDateTimeInput id="deadline" value={deadline} onChange={setDeadline} />
           </div>
           <div className="flex items-end gap-2">
             <Button
