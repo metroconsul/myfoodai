@@ -85,6 +85,17 @@ function DeliveryDetailPage() {
 
   const delivery = detail.data;
   const evidence = delivery?.item_delivery_evidence ?? null;
+  const deviceMeta = (evidence?.device_metadata ?? null) as {
+    consent?: { biometrics?: boolean; location?: boolean; version?: string } | null;
+    geo?: {
+      address?: string | null;
+      distanceMeters?: number | null;
+      geofence?: string | null;
+    } | null;
+  } | null;
+  const consent = deviceMeta?.consent ?? null;
+  const geoAudit = deviceMeta?.geo ?? null;
+
   const signatureUrl = useSignedUrl("signatures", evidence?.signature_path);
   const selfieUrl = useSignedUrl("signatures", evidence?.face_asset_path);
 
