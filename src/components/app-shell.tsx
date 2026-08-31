@@ -94,6 +94,13 @@ const NAV = [
     items: [{ to: "/app/documentos/holerites", label: "Holerites", icon: Receipt }],
   },
   {
+    label: "Configurações",
+    items: [
+      { to: "/app/settings/aceite", label: "Políticas de aceite", icon: ShieldCheck },
+      { to: "/app/settings/lgpd", label: "Privacidade e LGPD", icon: Lock },
+    ],
+  },
+  {
     label: "Estoque",
     items: [{ to: "/app/inventory", label: "Estoque por unidade", icon: Boxes }],
   },
