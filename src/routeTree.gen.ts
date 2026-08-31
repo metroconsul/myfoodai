@@ -56,6 +56,7 @@ import { Route as PortalHoleritesIdComprovanteRouteImport } from './routes/porta
 import { Route as AuthenticatedAppConformidadeExamesIndexRouteImport } from './routes/_authenticated/app.conformidade.exames.index'
 import { Route as AuthenticatedAppConformidadeExamesIdRouteImport } from './routes/_authenticated/app.conformidade.exames.$id'
 import { Route as AuthenticatedAppConformidadeExamesNovoRouteImport } from './routes/_authenticated/app.conformidade.exames.novo'
+import { Route as AuthenticatedAppDocumentosHoleritesIndexRouteImport } from './routes/_authenticated/app.documentos.holerites.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -312,6 +313,12 @@ const AuthenticatedAppConformidadeExamesNovoRoute =
     path: '/conformidade/exames/novo',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppDocumentosHoleritesIndexRoute =
+  AuthenticatedAppDocumentosHoleritesIndexRouteImport.update({
+    id: '/documentos/holerites/',
+    path: '/documentos/holerites/',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -360,6 +367,7 @@ export interface FileRoutesByFullPath {
   '/app/conformidade/exames/$id': typeof AuthenticatedAppConformidadeExamesIdRoute
   '/app/conformidade/exames/novo': typeof AuthenticatedAppConformidadeExamesNovoRoute
   '/app/conformidade/exames/': typeof AuthenticatedAppConformidadeExamesIndexRoute
+  '/app/documentos/holerites/': typeof AuthenticatedAppDocumentosHoleritesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -406,6 +414,7 @@ export interface FileRoutesByTo {
   '/app/conformidade/exames/$id': typeof AuthenticatedAppConformidadeExamesIdRoute
   '/app/conformidade/exames/novo': typeof AuthenticatedAppConformidadeExamesNovoRoute
   '/app/conformidade/exames': typeof AuthenticatedAppConformidadeExamesIndexRoute
+  '/app/documentos/holerites': typeof AuthenticatedAppDocumentosHoleritesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -456,6 +465,7 @@ export interface FileRoutesById {
   '/_authenticated/app/conformidade/exames/$id': typeof AuthenticatedAppConformidadeExamesIdRoute
   '/_authenticated/app/conformidade/exames/novo': typeof AuthenticatedAppConformidadeExamesNovoRoute
   '/_authenticated/app/conformidade/exames/': typeof AuthenticatedAppConformidadeExamesIndexRoute
+  '/_authenticated/app/documentos/holerites/': typeof AuthenticatedAppDocumentosHoleritesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -506,6 +516,7 @@ export interface FileRouteTypes {
     | '/app/conformidade/exames/$id'
     | '/app/conformidade/exames/novo'
     | '/app/conformidade/exames/'
+    | '/app/documentos/holerites/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -552,6 +563,7 @@ export interface FileRouteTypes {
     | '/app/conformidade/exames/$id'
     | '/app/conformidade/exames/novo'
     | '/app/conformidade/exames'
+    | '/app/documentos/holerites'
   id:
     | '__root__'
     | '/'
@@ -601,6 +613,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/conformidade/exames/$id'
     | '/_authenticated/app/conformidade/exames/novo'
     | '/_authenticated/app/conformidade/exames/'
+    | '/_authenticated/app/documentos/holerites/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -942,6 +955,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppConformidadeExamesNovoRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/documentos/holerites/': {
+      id: '/_authenticated/app/documentos/holerites/'
+      path: '/documentos/holerites'
+      fullPath: '/app/documentos/holerites/'
+      preLoaderRoute: typeof AuthenticatedAppDocumentosHoleritesIndexRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
   }
 }
 
@@ -971,6 +991,7 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppConformidadeExamesIdRoute: typeof AuthenticatedAppConformidadeExamesIdRoute
   AuthenticatedAppConformidadeExamesNovoRoute: typeof AuthenticatedAppConformidadeExamesNovoRoute
   AuthenticatedAppConformidadeExamesIndexRoute: typeof AuthenticatedAppConformidadeExamesIndexRoute
+  AuthenticatedAppDocumentosHoleritesIndexRoute: typeof AuthenticatedAppDocumentosHoleritesIndexRoute
 }
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
@@ -1007,6 +1028,8 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
     AuthenticatedAppConformidadeExamesNovoRoute,
   AuthenticatedAppConformidadeExamesIndexRoute:
     AuthenticatedAppConformidadeExamesIndexRoute,
+  AuthenticatedAppDocumentosHoleritesIndexRoute:
+    AuthenticatedAppDocumentosHoleritesIndexRoute,
 }
 
 const AuthenticatedAppRouteWithChildren =
