@@ -4577,18 +4577,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      can_see_all_units: { Args: never; Returns: boolean }
-      current_company_id: { Args: never; Returns: string }
-      has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
-      }
-      has_unit_access: { Args: { _unit_id: string }; Returns: boolean }
-      in_company: { Args: { _company_id: string }; Returns: boolean }
-      is_company_admin: { Args: never; Returns: boolean }
+      [_ in never]: never
     }
     Enums: {
       app_role:
