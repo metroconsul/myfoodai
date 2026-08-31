@@ -14,6 +14,74 @@ export type Database = {
   }
   public: {
     Tables: {
+      acceptance_policies: {
+        Row: {
+          allow_typed_signature: boolean
+          company_id: string
+          created_at: string
+          deadline_days: number
+          face_provider: string
+          face_provider_endpoint: string | null
+          geocoding_endpoint: string | null
+          geocoding_provider: string
+          geofence_block_outside: boolean
+          geofence_enabled: boolean
+          geofence_radius_meters: number
+          id: string
+          require_face: boolean
+          require_location: boolean
+          signature_method: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          allow_typed_signature?: boolean
+          company_id: string
+          created_at?: string
+          deadline_days?: number
+          face_provider?: string
+          face_provider_endpoint?: string | null
+          geocoding_endpoint?: string | null
+          geocoding_provider?: string
+          geofence_block_outside?: boolean
+          geofence_enabled?: boolean
+          geofence_radius_meters?: number
+          id?: string
+          require_face?: boolean
+          require_location?: boolean
+          signature_method?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          allow_typed_signature?: boolean
+          company_id?: string
+          created_at?: string
+          deadline_days?: number
+          face_provider?: string
+          face_provider_endpoint?: string | null
+          geocoding_endpoint?: string | null
+          geocoding_provider?: string
+          geofence_block_outside?: boolean
+          geofence_enabled?: boolean
+          geofence_radius_meters?: number
+          id?: string
+          require_face?: boolean
+          require_location?: boolean
+          signature_method?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "acceptance_policies_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: true
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_logs: {
         Row: {
           action: string
@@ -2400,6 +2468,77 @@ export type Database = {
             columns: ["employee_id"]
             isOneToOne: false
             referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      privacy_policies: {
+        Row: {
+          biometrics_text: string | null
+          company_id: string
+          consent_version: string
+          controller_name: string | null
+          created_at: string
+          data_text: string | null
+          dpo_email: string | null
+          dpo_name: string | null
+          id: string
+          legal_bases: Json
+          location_text: string | null
+          notice_text: string | null
+          privacy_url: string | null
+          purposes: Json
+          retention_months: number
+          retention_notes: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          biometrics_text?: string | null
+          company_id: string
+          consent_version?: string
+          controller_name?: string | null
+          created_at?: string
+          data_text?: string | null
+          dpo_email?: string | null
+          dpo_name?: string | null
+          id?: string
+          legal_bases?: Json
+          location_text?: string | null
+          notice_text?: string | null
+          privacy_url?: string | null
+          purposes?: Json
+          retention_months?: number
+          retention_notes?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          biometrics_text?: string | null
+          company_id?: string
+          consent_version?: string
+          controller_name?: string | null
+          created_at?: string
+          data_text?: string | null
+          dpo_email?: string | null
+          dpo_name?: string | null
+          id?: string
+          legal_bases?: Json
+          location_text?: string | null
+          notice_text?: string | null
+          privacy_url?: string | null
+          purposes?: Json
+          retention_months?: number
+          retention_notes?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "privacy_policies_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: true
+            referencedRelation: "companies"
             referencedColumns: ["id"]
           },
         ]
