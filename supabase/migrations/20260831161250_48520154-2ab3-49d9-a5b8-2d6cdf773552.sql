@@ -1,0 +1,12 @@
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.payslips TO authenticated;
+GRANT ALL ON public.payslips TO service_role;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.payslip_versions TO authenticated;
+GRANT ALL ON public.payslip_versions TO service_role;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.payslip_signatures TO authenticated;
+GRANT ALL ON public.payslip_signatures TO service_role;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.payslip_disputes TO authenticated;
+GRANT ALL ON public.payslip_disputes TO service_role;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.payslip_settings TO authenticated;
+GRANT ALL ON public.payslip_settings TO service_role;
+GRANT SELECT ON public.payslip_audit_events TO authenticated;
+GRANT ALL ON public.payslip_audit_events TO service_role;
