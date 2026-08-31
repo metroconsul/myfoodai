@@ -252,6 +252,35 @@ function DeliveryDetailPage() {
                     </dd>
                   </div>
                   <div>
+                    <dt className="meta-mono">Endereço aproximado</dt>
+                    <dd>{geoAudit?.address ?? "—"}</dd>
+                  </div>
+                  <div>
+                    <dt className="meta-mono">Cerca da unidade</dt>
+                    <dd>
+                      {geoAudit?.geofence
+                        ? `${GEOFENCE_LABEL[geoAudit.geofence] ?? geoAudit.geofence}${
+                            geoAudit.distanceMeters != null
+                              ? ` · ${numberFmt(geoAudit.distanceMeters, 0)} m da unidade`
+                              : ""
+                          }`
+                        : "—"}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="meta-mono">Consentimento (LGPD)</dt>
+                    <dd>
+                      {consent
+                        ? `Biometria: ${consent.biometrics ? "autorizada" : "não autorizada"} · Localização: ${consent.location ? "autorizada" : "não autorizada"}${consent.version ? ` · v${consent.version}` : ""}`
+                        : "—"}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="meta-mono">Origem (IP mascarado)</dt>
+                    <dd>{evidence.ip_masked ?? "—"}</dd>
+                  </div>
+
+                  <div>
                     <dt className="meta-mono">Assinatura</dt>
                     <dd>
                       {evidence.signature_type === "digitada"
