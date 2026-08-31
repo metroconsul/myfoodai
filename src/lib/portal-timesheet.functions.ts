@@ -228,6 +228,7 @@ export const portalValidateTimesheetIdentity = createServerFn({ method: "POST" }
       imageDataUrl: data.imageDataUrl,
       employeeId: employee.id,
       deliveryId: card.id,
+      companyId: card.company_id,
     });
 
     // Não guardamos a imagem facial: apenas o resultado e a referência segura.
