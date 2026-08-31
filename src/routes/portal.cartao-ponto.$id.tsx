@@ -12,6 +12,8 @@ import {
   portalValidateTimesheetIdentity,
 } from "@/lib/portal-timesheet.functions";
 import { SelfieCapture } from "@/components/selfie-capture";
+import { LgpdConsent } from "@/components/lgpd-consent";
+import { EMPTY_LGPD_CONSENT, type LgpdConsent as Consent } from "@/lib/lgpd.shared";
 import { SignaturePad } from "@/components/signature-pad";
 import {
   PortalButton,
@@ -103,6 +105,7 @@ function PortalTimesheetCardPage() {
   const [signature, setSignature] = useState<string | null>(null);
   const [typedName, setTypedName] = useState("");
   const [agreed, setAgreed] = useState(false);
+  const [consent, setConsent] = useState<Consent>(EMPTY_LGPD_CONSENT);
   const [disputeOpen, setDisputeOpen] = useState(false);
   const [disputeCategory, setDisputeCategory] = useState<string>("entrada");
   const [disputeDate, setDisputeDate] = useState("");
@@ -115,7 +118,7 @@ function PortalTimesheetCardPage() {
   });
 
   const startSign = async () => {
-    setGeo(await readLocation());
+    setGeo(consent.location ? await readLocation() : NO_GEO);
     setStep("identidade");
   };
 
@@ -128,6 +131,9 @@ function PortalTimesheetCardPage() {
           cardId: id,
           imageDataUrl: selfie,
           ...geo,
+          consentData: consent.data,
+          consentBiometrics: consent.biometrics,
+          consentLocation: consent.location,
           deviceInfo: navigator.userAgent.slice(0, 300),
         },
       });
@@ -156,6 +162,9 @@ function PortalTimesheetCardPage() {
           typedName: signatureMode === "digitada" ? typedName : null,
           agreed,
           ...geo,
+          consentData: consent.data,
+          consentBiometrics: consent.biometrics,
+          consentLocation: consent.location,
           deviceInfo: navigator.userAgent.slice(0, 300),
           faceSkipReason,
         },
@@ -357,7 +366,12 @@ function PortalTimesheetCardPage() {
 
           {canSign ? (
             <div className="space-y-3">
-              <PortalButton block onClick={() => void startSign()}>
+              <LgpdConsent value={consent} onChange={setConsent} withBiometrics />
+              <PortalButton
+                block
+                disabled={!consent.data || !consent.biometrics}
+                onClick={() => void startSign()}
+              >
                 Está correto — assinar
               </PortalButton>
               <PortalButton block variant="secondary" onClick={() => setDisputeOpen((v) => !v)}>
