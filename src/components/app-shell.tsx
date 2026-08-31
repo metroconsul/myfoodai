@@ -22,6 +22,7 @@ import {
   Repeat,
   ShieldAlert,
   ShieldCheck,
+  Lock,
   Receipt,
   Shirt,
   Stethoscope,
