@@ -22,6 +22,7 @@ import {
   Repeat,
   ShieldAlert,
   ShieldCheck,
+  Receipt,
   Shirt,
   Stethoscope,
   Users,
@@ -87,6 +88,10 @@ const NAV = [
       { to: "/app/conformidade/trocas", label: "Trocas e devoluções", icon: Repeat },
       { to: "/app/conformidade/pendencias", label: "Pendências da equipe", icon: ListTodo },
     ],
+  },
+  {
+    label: "Documentos do colaborador",
+    items: [{ to: "/app/documentos/holerites", label: "Holerites", icon: Receipt }],
   },
   {
     label: "Estoque",
