@@ -105,8 +105,14 @@ function PilotAdminPage() {
   });
 
   const resend = useMutation({
-    mutationFn: async () => resendPilotInvite({ data: { email } }),
-    onSuccess: () => toast.success("Novo link de acesso gerado e enviado."),
+    mutationFn: async () =>
+      resendPilotInvite({ data: { email, redirectOrigin: window.location.origin } }),
+    onSuccess: (res) =>
+      toast.success(
+        res.mode === "invite"
+          ? "Este e-mail ainda não tinha conta: o convite foi enviado agora."
+          : "Novo link de acesso gerado e enviado.",
+      ),
     onError: (e) => toast.error(e instanceof Error ? e.message : "Não foi possível reenviar."),
   });
 
