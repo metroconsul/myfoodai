@@ -1,0 +1,65 @@
+import { createServerFn } from "@tanstack/react-start";
+import { z } from "zod";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { PLAN_PRICES } from "@/config/billing";
+
+const inputSchema = z.object({
+  planId: z.enum(["comeco", "essencial", "equipe"]),
+  cycle: z.enum(["monthly", "yearly"]),
+  origin: z.string().url().max(200),
+});
+
+/**
+ * Cria uma sessão de Checkout da Stripe para assinatura do plano escolhido.
+ * Roda apenas no servidor: a chave secreta nunca chega ao navegador.
+ * O user_id vai em metadata para o webhook vincular a assinatura ao usuário.
+ */
+export const createCheckoutSession = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) => inputSchema.parse(data))
+  .handler(async ({ data, context }) => {
+    const secretKey = process.env["STRIPE_TEST_API_KEY"] ?? process.env["STRIPE_API_KEY"];
+    if (!secretKey) {
+      throw new Error("Chave secreta da Stripe não configurada no servidor.");
+    }
+
+    const price = PLAN_PRICES[data.planId]?.[data.cycle];
+    if (!price) throw new Error("Plano inválido.");
+
+    const interval = data.cycle === "yearly" ? "year" : "month";
+    const params = new URLSearchParams({
+      mode: "subscription",
+      success_url: `${data.origin}/app?checkout=sucesso`,
+      cancel_url: `${data.origin}/?checkout=cancelado#planos`,
+      "line_items[0][quantity]": "1",
+      "line_items[0][price_data][currency]": "brl",
+      "line_items[0][price_data][unit_amount]": String(price.unitAmount),
+      "line_items[0][price_data][recurring][interval]": interval,
+      "line_items[0][price_data][product_data][name]": price.productName,
+      "metadata[user_id]": context.userId,
+      "metadata[plan_id]": data.planId,
+      "metadata[cycle]": data.cycle,
+      "subscription_data[metadata][user_id]": context.userId,
+      "subscription_data[metadata][plan_id]": data.planId,
+      "subscription_data[metadata][cycle]": data.cycle,
+    });
+
+    const email = (context as { claims?: { email?: string } }).claims?.email;
+    if (email) params.set("customer_email", email);
+
+    const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${secretKey}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: params.toString(),
+    });
+
+    const payload = (await res.json()) as { url?: string; error?: { message?: string } };
+    if (!res.ok || !payload.url) {
+      throw new Error(payload.error?.message ?? "Falha ao criar sessão de checkout.");
+    }
+
+    return { url: payload.url };
+  });
