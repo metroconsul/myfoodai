@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { planFromPriceId } from "@/config/billing";
 
 /**
  * Webhook público da Stripe.
@@ -114,10 +115,34 @@ export const Route = createFileRoute("/api/public/stripe-webhook")({
           return new Response("Erro interno", { status: 500 });
         }
 
+        /**
+         * Aplica plano e status na empresa. Os recursos liberados são
+         * recalculados pelo trigger `sync_plan_entitlements` no banco.
+         */
+        const applyCompanyPlan = async (
+          companyId: string | null,
+          planId: string | null,
+          status: string,
+          cycle: string | null,
+        ) => {
+          if (!companyId) return;
+          const patch: Record<string, unknown> = {
+            subscription_status: status,
+            access_source: "subscription",
+          };
+          if (planId) patch["plan_code"] = planId;
+          if (cycle) patch["billing_cycle"] = cycle === "yearly" ? "anual" : "mensal";
+          const { error } = await supabaseAdmin.from("companies").update(patch).eq("id", companyId);
+          if (error) console.error("Falha ao aplicar plano na empresa:", error.message);
+        };
+
         type SubFields = {
           stripe_customer_id?: string | null;
           stripe_subscription_id?: string | null;
           plan?: string | null;
+          stripe_price_id?: string | null;
+          billing_cycle?: string | null;
+          company_id?: string | null;
           status?: string;
           current_period_end?: string | null;
           cancel_at_period_end?: boolean;
@@ -147,15 +172,20 @@ export const Route = createFileRoute("/api/public/stripe-webhook")({
             const userId = (session["metadata"] as Record<string, string> | undefined)?.["user_id"] ?? null;
             const customerId = (session["customer"] as string | null) ?? null;
             const subscriptionId = (session["subscription"] as string | null) ?? null;
+            const meta = (session["metadata"] as Record<string, string> | undefined) ?? {};
+            const companyId = meta["company_id"] ?? null;
             await upsertByUser(
               {
                 stripe_customer_id: customerId,
                 stripe_subscription_id: subscriptionId,
                 status: "active",
+                company_id: companyId,
+                billing_cycle: meta["cycle"] ?? null,
               },
               userId,
               customerId,
             );
+            await applyCompanyPlan(companyId, meta["plan_id"] ?? null, "active", meta["cycle"] ?? null);
             break;
           }
           case "customer.subscription.created":
@@ -166,11 +196,18 @@ export const Route = createFileRoute("/api/public/stripe-webhook")({
             const periodEnd = (sub["current_period_end"] as number | undefined) ?? null;
             const priceId =
               ((sub["items"] as { data?: { price?: { id?: string } }[] } | undefined)?.data?.[0]?.price?.id) ?? null;
+            const meta = (sub["metadata"] as Record<string, string> | undefined) ?? {};
+            const companyId = meta["company_id"] ?? null;
+            const fromPrice = planFromPriceId(priceId);
+            const status = subStatusFromStripe(sub["status"] as string | undefined);
             await upsertByUser(
               {
                 stripe_customer_id: customerId,
                 stripe_subscription_id: sub["id"] as string,
                 plan: priceId,
+                stripe_price_id: priceId,
+                company_id: companyId,
+                billing_cycle: fromPrice?.cycle ?? meta["cycle"] ?? null,
                 status: subStatusFromStripe(sub["status"] as string | undefined),
                 current_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
                 cancel_at_period_end: Boolean(sub["cancel_at_period_end"]),
@@ -178,6 +215,36 @@ export const Route = createFileRoute("/api/public/stripe-webhook")({
               userId,
               customerId,
             );
+            await applyCompanyPlan(
+              companyId,
+              fromPrice?.planId ?? meta["plan_id"] ?? null,
+              status,
+              fromPrice?.cycle ?? meta["cycle"] ?? null,
+            );
+            break;
+          }
+          case "invoice.paid":
+          case "invoice.payment_failed": {
+            const invoice = event.data.object;
+            const customerId = (invoice["customer"] as string | null) ?? null;
+            const paid = event.type === "invoice.paid";
+            if (customerId) {
+              await supabaseAdmin
+                .from("subscriptions")
+                .update({ status: paid ? "active" : "past_due" })
+                .eq("stripe_customer_id", customerId);
+              const { data: subRow } = await supabaseAdmin
+                .from("subscriptions")
+                .select("company_id")
+                .eq("stripe_customer_id", customerId)
+                .maybeSingle();
+              if (subRow?.company_id) {
+                await supabaseAdmin
+                  .from("companies")
+                  .update({ subscription_status: paid ? "active" : "past_due" })
+                  .eq("id", subRow.company_id);
+              }
+            }
             break;
           }
           case "customer.subscription.deleted": {
@@ -187,6 +254,14 @@ export const Route = createFileRoute("/api/public/stripe-webhook")({
               .from("subscriptions")
               .update({ status: "canceled", cancel_at_period_end: false })
               .eq("stripe_subscription_id", sub["id"] as string);
+            const companyId =
+              ((sub["metadata"] as Record<string, string> | undefined)?.["company_id"]) ?? null;
+            if (companyId) {
+              await supabaseAdmin
+                .from("companies")
+                .update({ subscription_status: "canceled" })
+                .eq("id", companyId);
+            }
             void customerId;
             break;
           }
