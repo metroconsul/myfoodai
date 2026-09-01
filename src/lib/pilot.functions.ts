@@ -6,9 +6,19 @@ import { provisionSchema } from "./pilot.functions.schemas";
 /**
  * Provisionamento de contas piloto.
  * Apenas a conta administradora da plataforma pode executar.
- * Nenhuma senha é recebida, gravada ou registrada: o acesso é criado por
- * convite, e o próprio usuário define a senha pelo link enviado.
+ * A conta já é criada com e-mail confirmado e uma senha provisória gerada
+ * aleatoriamente no servidor. A senha é devolvida uma única vez ao fundador,
+ * junto com o link de acesso, e nunca é gravada em tabelas ou logs.
  */
+
+function generateTempPassword() {
+  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+  const bytes = new Uint8Array(14);
+  crypto.getRandomValues(bytes);
+  let out = "";
+  for (const b of bytes) out += alphabet[b % alphabet.length];
+  return `${out}!7`;
+}
 
 
 export const listPilotAccounts = createServerFn({ method: "POST" })
@@ -36,22 +46,40 @@ export const provisionPilotAccount = createServerFn({ method: "POST" })
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-    // 1) Convite: cria o usuário no Auth sem senha. O convidado define a dele.
-    const { data: invited, error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(
-      data.email,
-      { redirectTo: `${data.redirectOrigin}/auth?convite=1` },
-    );
+    // 1) Cria a conta já confirmada, com senha provisória gerada no servidor.
+    const tempPassword = generateTempPassword();
+    const { data: created, error: createError } = await supabaseAdmin.auth.admin.createUser({
+      email: data.email,
+      password: tempPassword,
+      email_confirm: true,
+      user_metadata: { full_name: data.responsibleName ?? null, pilot: true },
+    });
 
-    let userId = invited?.user?.id ?? null;
-    if (inviteError || !userId) {
-      // Usuário já existe: reaproveita a conta e envia recuperação de senha.
+    let userId = created?.user?.id ?? null;
+    let passwordIssued: string | null = userId ? tempPassword : null;
+
+    if (!userId) {
+      // Conta já existe: reaproveita e redefine a senha provisória.
       const { data: list } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 200 });
       const found = list?.users?.find(
         (u) => u.email?.toLowerCase() === data.email.toLowerCase(),
       );
-      if (!found) throw new Error("Não foi possível enviar o convite para este e-mail.");
+      if (!found) throw new Error(createError?.message ?? "Não foi possível criar a conta.");
       userId = found.id;
+      const { error: updErr } = await supabaseAdmin.auth.admin.updateUserById(userId, {
+        password: tempPassword,
+        email_confirm: true,
+      });
+      passwordIssued = updErr ? null : tempPassword;
     }
+
+    // Link de acesso (confirmação) para acompanhar a senha.
+    const { data: linkData } = await supabaseAdmin.auth.admin.generateLink({
+      type: "magiclink",
+      email: data.email,
+      options: { redirectTo: `${data.redirectOrigin}/auth?convite=1` },
+    });
+    const accessLink = linkData?.properties?.action_link ?? `${data.redirectOrigin}/auth`;
 
     // 2) Empresa piloto isolada, com plano Começo.
     const { data: profile } = await supabaseAdmin
@@ -60,7 +88,15 @@ export const provisionPilotAccount = createServerFn({ method: "POST" })
       .eq("id", userId)
       .maybeSingle();
     if (profile?.company_id) {
-      return { ok: true, alreadyProvisioned: true, companyId: profile.company_id, userId };
+      return {
+        ok: true,
+        alreadyProvisioned: true,
+        companyId: profile.company_id,
+        userId,
+        email: data.email,
+        password: passwordIssued,
+        accessLink,
+      };
     }
 
     const now = new Date();
@@ -153,10 +189,18 @@ export const provisionPilotAccount = createServerFn({ method: "POST" })
       },
     });
 
-    return { ok: true, alreadyProvisioned: false, companyId: company.id, userId };
+    return {
+      ok: true,
+      alreadyProvisioned: false,
+      companyId: company.id,
+      userId,
+      email: data.email,
+      password: passwordIssued,
+      accessLink,
+    };
   });
 
-/** Reenvia o link de acesso. Se o e-mail ainda não tem conta, envia o convite. */
+/** Reenvia o acesso: garante a conta, gera nova senha provisória e novo link. */
 export const resendPilotInvite = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) =>
@@ -169,22 +213,38 @@ export const resendPilotInvite = createServerFn({ method: "POST" })
     await requirePlatformAdmin(context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
+    const password = generateTempPassword();
     const { data: list } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 200 });
     const found = list?.users?.find((u) => u.email?.toLowerCase() === data.email.toLowerCase());
 
+    let mode: "invite" | "recovery" = "recovery";
     if (!found) {
-      const { error } = await supabaseAdmin.auth.admin.inviteUserByEmail(data.email, {
-        redirectTo: `${data.redirectOrigin}/auth?convite=1`,
+      const { error } = await supabaseAdmin.auth.admin.createUser({
+        email: data.email,
+        password,
+        email_confirm: true,
       });
-      if (error) throw new Error("Não foi possível enviar o convite para este e-mail.");
-      return { ok: true, mode: "invite" as const };
+      if (error) throw new Error("Não foi possível criar a conta para este e-mail.");
+      mode = "invite";
+    } else {
+      const { error } = await supabaseAdmin.auth.admin.updateUserById(found.id, {
+        password,
+        email_confirm: true,
+      });
+      if (error) throw new Error("Não foi possível redefinir a senha desta conta.");
     }
 
-    const { error } = await supabaseAdmin.auth.admin.generateLink({
-      type: "recovery",
+    const { data: linkData } = await supabaseAdmin.auth.admin.generateLink({
+      type: "magiclink",
       email: data.email,
+      options: { redirectTo: `${data.redirectOrigin}/auth?convite=1` },
     });
-    if (error) throw new Error("Não foi possível gerar o link de acesso.");
-    return { ok: true, mode: "recovery" as const };
-  });
 
+    return {
+      ok: true,
+      mode,
+      email: data.email,
+      password,
+      accessLink: linkData?.properties?.action_link ?? `${data.redirectOrigin}/auth`,
+    };
+  });

@@ -65,10 +65,17 @@ function PilotAdminPage() {
   const [breakStart, setBreakStart] = useState("");
   const [breakEnd, setBreakEnd] = useState("");
   const [accessMode, setAccessMode] = useState<"trial" | "admin_grant" | "subscription">(
-    "subscription",
+    "admin_grant",
   );
+  const [credentials, setCredentials] = useState<{
+    email: string;
+    password: string | null;
+    accessLink: string;
+  } | null>(null);
   const [trialDays, setTrialDays] = useState("30");
-  const [grantReason, setGrantReason] = useState("");
+  const [grantReason, setGrantReason] = useState(
+    "Plano Começo anual concedido pelo fundador (conta piloto).",
+  );
 
   const provision = useMutation({
     mutationFn: async () =>
@@ -93,10 +100,11 @@ function PilotAdminPage() {
         },
       }),
     onSuccess: (res) => {
+      setCredentials({ email: res.email, password: res.password, accessLink: res.accessLink });
       toast.success(
         res.alreadyProvisioned
-          ? "Este e-mail já possui uma organização vinculada."
-          : "Conta piloto criada. O convite foi enviado por e-mail.",
+          ? "Este e-mail já possui organização: senha e link atualizados."
+          : "Conta criada com senha provisória e link de acesso.",
       );
       queryClient.invalidateQueries({ queryKey: ["pilot-accounts"] });
     },
@@ -107,12 +115,14 @@ function PilotAdminPage() {
   const resend = useMutation({
     mutationFn: async () =>
       resendPilotInvite({ data: { email, redirectOrigin: window.location.origin } }),
-    onSuccess: (res) =>
+    onSuccess: (res) => {
+      setCredentials({ email: res.email, password: res.password, accessLink: res.accessLink });
       toast.success(
         res.mode === "invite"
-          ? "Este e-mail ainda não tinha conta: o convite foi enviado agora."
-          : "Novo link de acesso gerado e enviado.",
-      ),
+          ? "Conta criada agora com senha provisória."
+          : "Nova senha provisória e link de acesso gerados.",
+      );
+    },
     onError: (e) => toast.error(e instanceof Error ? e.message : "Não foi possível reenviar."),
   });
 
@@ -131,13 +141,39 @@ function PilotAdminPage() {
       <PageHeader
         eyebrow="Administração da plataforma"
         title="Contas piloto"
-        description="Crie a organização piloto com Plano Começo, unidade única e jornada fixa. A senha nunca passa por aqui: o responsável define a dele pelo link do convite."
+        description="Crie a organização piloto com Plano Começo, unidade única e jornada fixa. A conta já nasce ativa: a senha provisória e o link de acesso aparecem uma única vez aqui para você enviar junto com o convite."
         actions={
           <Button onClick={() => provision.mutate()} disabled={!valid || provision.isPending}>
             {provision.isPending ? "Provisionando…" : "Criar e enviar convite"}
           </Button>
         }
       />
+
+      {credentials ? (
+        <SectionCard title="Credenciais de acesso (mostradas uma única vez)">
+          <div className="space-y-3 text-sm">
+            <p className="font-medium">
+              Copie e envie ao responsável junto com o convite. Estes dados não voltam a aparecer.
+            </p>
+            <div className="space-y-1 border-2 border-foreground bg-background p-3 font-mono text-xs break-all">
+              <div>E-mail: {credentials.email}</div>
+              <div>Senha provisória: {credentials.password ?? "(não alterada)"}</div>
+              <div>Link de confirmação: {credentials.accessLink}</div>
+            </div>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => {
+                const text = `Acesso ${"MY FOOD'S AI"}\nE-mail: ${credentials.email}\nSenha provisória: ${credentials.password ?? ""}\nLink de confirmação: ${credentials.accessLink}`;
+                navigator.clipboard.writeText(text);
+                toast.success("Credenciais copiadas.");
+              }}
+            >
+              Copiar credenciais
+            </Button>
+          </div>
+        </SectionCard>
+      ) : null}
 
       <SectionCard title="Responsável e organização">
         <div className="grid gap-4 sm:grid-cols-2">
