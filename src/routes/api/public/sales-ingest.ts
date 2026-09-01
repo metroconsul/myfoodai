@@ -1,22 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { z } from "zod";
-
-const payloadSchema = z.object({
-  unitId: z.string().uuid(),
-  metrics: z
-    .array(
-      z.object({
-        date: z.string().min(10).max(10),
-        grossAmount: z.number().finite(),
-        netAmount: z.number().finite().nullable().optional(),
-        ordersCount: z.number().int().nonnegative().default(0),
-        cancellations: z.number().int().nonnegative().default(0),
-        discounts: z.number().finite().nullable().optional(),
-      }),
-    )
-    .min(1)
-    .max(500),
-});
+import { payloadSchema } from "@/lib/sales-ingest.schemas";
 
 /**
  * Endpoint de ingestão de vendas (adapter webhook).

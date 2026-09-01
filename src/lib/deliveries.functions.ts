@@ -1,34 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { z } from "zod";
-
-const itemSchema = z.object({
-  catalogItemId: z.string().uuid(),
-  quantity: z.number().positive().max(9999),
-  size: z.string().trim().max(40).nullable().optional(),
-  color: z.string().trim().max(40).nullable().optional(),
-  lot: z.string().trim().max(60).nullable().optional(),
-});
-
-const createSchema = z.object({
-  unitId: z.string().uuid(),
-  employeeIds: z.array(z.string().uuid()).min(1).max(200),
-  items: z.array(itemSchema).min(1).max(30),
-  reason: z.enum([
-    "admissao",
-    "troca",
-    "reposicao",
-    "perda",
-    "dano",
-    "mudanca_funcao",
-    "retorno",
-    "outro",
-  ]),
-  notes: z.string().trim().max(1000).nullable().optional(),
-  deliveredAt: z.string().min(10).max(40),
-  responsibleLabel: z.string().trim().max(160).nullable().optional(),
-  allowPartial: z.boolean().default(false),
-});
+import { itemSchema, createSchema, cancelSchema } from "./deliveries.functions.schemas";
 
 /**
  * Cria entregas (individual ou em lote), valida e baixa o estoque da unidade
@@ -216,12 +188,6 @@ export const createDeliveries = createServerFn({ method: "POST" })
 
     return { ok: true, createdCount: created.length, deliveryIds: created, skipped };
   });
-
-const cancelSchema = z.object({
-  deliveryId: z.string().uuid(),
-  reason: z.string().trim().min(3).max(500),
-  restoreStock: z.boolean().default(true),
-});
 
 /** Cancela uma entrega mantendo a trilha de auditoria. */
 export const cancelDelivery = createServerFn({ method: "POST" })
