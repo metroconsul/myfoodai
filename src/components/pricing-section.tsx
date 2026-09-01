@@ -135,12 +135,22 @@ function PlanCard({ plan, cycle }: { plan: Plan; cycle: BillingCycle }) {
         ))}
       </ul>
 
-      <Link
-        to="/auth"
-        className="gh-btn gh-btn-primary gh-press mt-6 w-full justify-center"
+      <button
+        type="button"
+        onClick={handleCta}
+        disabled={loading}
+        className="gh-btn gh-btn-primary gh-press mt-6 w-full justify-center disabled:opacity-60"
       >
-        {plan.cta} <ArrowRight className="size-4" aria-hidden />
-      </Link>
+        {loading ? (
+          <>
+            Redirecionando… <Loader2 className="size-4 animate-spin" aria-hidden />
+          </>
+        ) : (
+          <>
+            {plan.cta} <ArrowRight className="size-4" aria-hidden />
+          </>
+        )}
+      </button>
     </article>
   );
 }
