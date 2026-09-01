@@ -26,23 +26,39 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
     const price = PLAN_PRICES[data.planId]?.[data.cycle];
     if (!price) throw new Error("Plano inválido.");
 
+    // A empresa vem da sessão autenticada — o frontend não escolhe preço nem empresa.
+    const { data: profile } = await context.supabase
+      .from("profiles")
+      .select("company_id")
+      .eq("id", context.userId)
+      .maybeSingle();
+    const companyId = profile?.company_id ?? "";
+
     const interval = data.cycle === "yearly" ? "year" : "month";
     const params = new URLSearchParams({
       mode: "subscription",
       success_url: `${data.origin}/app?checkout=sucesso`,
       cancel_url: `${data.origin}/?checkout=cancelado#planos`,
       "line_items[0][quantity]": "1",
-      "line_items[0][price_data][currency]": "brl",
-      "line_items[0][price_data][unit_amount]": String(price.unitAmount),
-      "line_items[0][price_data][recurring][interval]": interval,
-      "line_items[0][price_data][product_data][name]": price.productName,
+      client_reference_id: companyId || context.userId,
       "metadata[user_id]": context.userId,
+      "metadata[company_id]": companyId,
       "metadata[plan_id]": data.planId,
       "metadata[cycle]": data.cycle,
       "subscription_data[metadata][user_id]": context.userId,
+      "subscription_data[metadata][company_id]": companyId,
       "subscription_data[metadata][plan_id]": data.planId,
       "subscription_data[metadata][cycle]": data.cycle,
     });
+
+    if (price.priceId) {
+      params.set("line_items[0][price]", price.priceId);
+    } else {
+      params.set("line_items[0][price_data][currency]", "brl");
+      params.set("line_items[0][price_data][unit_amount]", String(price.unitAmount));
+      params.set("line_items[0][price_data][recurring][interval]", interval);
+      params.set("line_items[0][price_data][product_data][name]", price.productName);
+    }
 
     const email = (context as { claims?: { email?: string } }).claims?.email;
     if (email) params.set("customer_email", email);

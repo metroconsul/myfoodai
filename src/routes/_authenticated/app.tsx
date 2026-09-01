@@ -2,6 +2,8 @@ import { createFileRoute, Outlet, useNavigate, useRouterState } from "@tanstack/
 import { useEffect } from "react";
 import { WorkspaceProvider, useWorkspace } from "@/hooks/use-workspace";
 import { AppShell } from "@/components/app-shell";
+import { FeatureBlocked } from "@/components/feature-blocked";
+import { featureForRoute } from "@/config/features";
 
 export const Route = createFileRoute("/_authenticated/app")({
   component: AppLayout,
@@ -48,7 +50,23 @@ function WorkspaceGate() {
 
   return (
     <AppShell>
-      <Outlet />
+      <RouteFeatureGate pathname={pathname}>
+        <Outlet />
+      </RouteFeatureGate>
     </AppShell>
   );
+}
+
+function RouteFeatureGate({ pathname, children }: { pathname: string; children: React.ReactNode }) {
+  const { hasFeature, planCode, isPlatformAdmin } = useWorkspace();
+
+  if (pathname.startsWith("/app/admin") && !isPlatformAdmin) {
+    return <FeatureBlocked planCode={planCode} title="Área exclusiva da administração" />;
+  }
+
+  const feature = featureForRoute(pathname);
+  if (feature && !hasFeature(feature)) {
+    return <FeatureBlocked planCode={planCode} />;
+  }
+  return <>{children}</>;
 }

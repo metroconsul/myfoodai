@@ -21,15 +21,32 @@ export const Route = createFileRoute("/_authenticated/app/")({
   component: Dashboard,
 });
 
+type InventoryRow = {
+  id: string;
+  name: string;
+  quantity: number;
+  minimum_stock: number;
+  unit_of_measure: string;
+};
+type SalesRow = {
+  gross_amount: number;
+  orders_count: number;
+  average_ticket: number;
+  metric_date: string;
+};
+
 function todayISO() {
   return new Date().toISOString().slice(0, 10);
 }
 
 function Dashboard() {
-  const { activeUnitId, activeUnit } = useWorkspace();
+  const { activeUnitId, activeUnit, hasFeature } = useWorkspace();
+  const showInventory = hasFeature("inventory");
+  const showSales = hasFeature("sales");
+  const advancedSchedules = hasFeature("schedules_advanced");
 
   const { data, isLoading } = useQuery({
-    queryKey: ["dashboard", activeUnitId],
+    queryKey: ["dashboard", activeUnitId, showInventory, showSales],
     enabled: !!activeUnitId,
     queryFn: async () => {
       const unitId = activeUnitId!;
@@ -55,24 +72,30 @@ function Dashboard() {
           .gte("server_time", dayStart)
           .order("server_time", { ascending: false })
           .limit(8),
-        supabase
-          .from("inventory_items")
-          .select("id, name, quantity, minimum_stock, unit_of_measure")
-          .eq("unit_id", unitId)
-          .eq("active", true)
-          .order("quantity")
-          .limit(50),
-        supabase
-          .from("stock_alerts")
-          .select("id", { count: "exact", head: true })
-          .eq("unit_id", unitId)
-          .is("resolved_at", null),
-        supabase
-          .from("sales_daily_metrics")
-          .select("gross_amount, orders_count, average_ticket, metric_date")
-          .eq("unit_id", unitId)
-          .order("metric_date", { ascending: false })
-          .limit(1),
+        showInventory
+          ? supabase
+              .from("inventory_items")
+              .select("id, name, quantity, minimum_stock, unit_of_measure")
+              .eq("unit_id", unitId)
+              .eq("active", true)
+              .order("quantity")
+              .limit(50)
+          : Promise.resolve({ data: [] as InventoryRow[], count: 0 }),
+        showInventory
+          ? supabase
+              .from("stock_alerts")
+              .select("id", { count: "exact", head: true })
+              .eq("unit_id", unitId)
+              .is("resolved_at", null)
+          : Promise.resolve({ count: 0 }),
+        showSales
+          ? supabase
+              .from("sales_daily_metrics")
+              .select("gross_amount, orders_count, average_ticket, metric_date")
+              .eq("unit_id", unitId)
+              .order("metric_date", { ascending: false })
+              .limit(1)
+          : Promise.resolve({ data: [] as SalesRow[] }),
       ]);
 
       const low = (lowStock.data ?? []).filter((i) => Number(i.quantity) <= Number(i.minimum_stock));
@@ -100,7 +123,11 @@ function Dashboard() {
         description={activeUnit ? `Operação de hoje em ${activeUnit.name}.` : "Selecione uma unidade."}
         actions={
           <Button asChild variant="outline">
-            <Link to="/app/schedules">Ver escalas</Link>
+            {advancedSchedules ? (
+              <Link to="/app/schedules">Ver escalas</Link>
+            ) : (
+              <Link to="/app/settings/jornada">Ver jornada fixa</Link>
+            )}
           </Button>
         }
       />
@@ -108,11 +135,12 @@ function Dashboard() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Colaboradores ativos" value={data?.employeeCount ?? "—"} icon={<Users className="size-5" />} />
         <StatCard
-          label="Horas planejadas hoje"
+          label={advancedSchedules ? "Horas planejadas hoje" : "Horas previstas hoje"}
           value={minutesToHours(plannedMinutes)}
           hint={`${data?.blocks.length ?? 0} blocos de escala`}
           icon={<CalendarDays className="size-5" />}
         />
+        {showInventory ? (
         <StatCard
           label="Itens abaixo do mínimo"
           value={data?.low.length ?? 0}
@@ -120,12 +148,15 @@ function Dashboard() {
           hint={`${data?.alertCount ?? 0} alertas abertos`}
           icon={<Boxes className="size-5" />}
         />
+        ) : null}
+        {showSales ? (
         <StatCard
           label="Vendas (último dia)"
           value={data?.sales ? currency(Number(data.sales.gross_amount)) : "—"}
           hint={data?.sales ? `${data.sales.orders_count} pedidos` : "Sem conexão de vendas"}
           icon={<ShoppingBag className="size-5" />}
         />
+        ) : null}
       </div>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
@@ -133,7 +164,14 @@ function Dashboard() {
           {isLoading ? (
             <LoadingState />
           ) : (data?.blocks.length ?? 0) === 0 ? (
-            <EmptyState title="Nenhum turno planejado para hoje" description="Crie uma escala para esta unidade." />
+            <EmptyState
+              title="Nenhum turno planejado para hoje"
+              description={
+                advancedSchedules
+                  ? "Crie uma escala para esta unidade."
+                  : "Confira a jornada fixa da unidade em Configurações."
+              }
+            />
           ) : (
             <ul className="divide-y-2 divide-foreground">
               {data!.blocks.map((b) => (
@@ -176,7 +214,7 @@ function Dashboard() {
         </SectionCard>
       </div>
 
-      {(data?.low.length ?? 0) > 0 ? (
+      {showInventory && (data?.low.length ?? 0) > 0 ? (
         <div className="mt-4">
           <SectionCard title="Reposição sugerida">
             <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">

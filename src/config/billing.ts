@@ -12,6 +12,8 @@ export interface PlanPrice {
   unitAmount: number;
   /** Nome exibido no checkout. */
   productName: string;
+  /** Price ID cadastrado na Stripe. Quando presente, é usado no checkout. */
+  priceId?: string;
 }
 
 /** Preços oficiais por plano e ciclo, em centavos. */
@@ -20,8 +22,16 @@ export const PLAN_PRICES: Record<
   { monthly: PlanPrice; yearly: PlanPrice }
 > = {
   comeco: {
-    monthly: { unitAmount: 7990, productName: "MY FOOD'S AI — Começo (mensal)" },
-    yearly: { unitAmount: 76704, productName: "MY FOOD'S AI — Começo (anual)" },
+    monthly: {
+      unitAmount: 7990,
+      productName: "MY FOOD'S AI — Começo (mensal)",
+      priceId: "price_1UAeTjRzTbFSBgbDKHq91ZYH",
+    },
+    yearly: {
+      unitAmount: 76704,
+      productName: "MY FOOD'S AI — Começo (anual)",
+      priceId: "price_1UAeTjRzTbFSBgbD2ASyogbe",
+    },
   },
   essencial: {
     monthly: { unitAmount: 14990, productName: "MY FOOD'S AI — Essencial (mensal)" },
@@ -32,3 +42,20 @@ export const PLAN_PRICES: Record<
     yearly: { unitAmount: 239904, productName: "MY FOOD'S AI — Equipe (anual)" },
   },
 };
+
+/** Price IDs aceitos pelo backend. O frontend nunca define preço. */
+export const ALLOWED_PRICE_IDS = Object.values(PLAN_PRICES)
+  .flatMap((p) => [p.monthly.priceId, p.yearly.priceId])
+  .filter((id): id is string => Boolean(id));
+
+/** Descobre plano e ciclo a partir de um Price ID da Stripe. */
+export function planFromPriceId(
+  priceId: string | null | undefined,
+): { planId: string; cycle: "monthly" | "yearly" } | null {
+  if (!priceId) return null;
+  for (const [planId, prices] of Object.entries(PLAN_PRICES)) {
+    if (prices.monthly.priceId === priceId) return { planId, cycle: "monthly" };
+    if (prices.yearly.priceId === priceId) return { planId, cycle: "yearly" };
+  }
+  return null;
+}

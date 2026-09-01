@@ -24,6 +24,7 @@ import {
   ShieldCheck,
   Lock,
   Receipt,
+  Rocket,
   Shirt,
   Stethoscope,
   Users,
@@ -40,9 +41,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import type { FeatureCode } from "@/config/features";
 import { cn } from "@/lib/utils";
 
-const NAV = [
+type NavItem = {
+  to: string;
+  label: string;
+  icon: typeof LayoutDashboard;
+  exact?: boolean;
+  feature?: FeatureCode;
+  platformOnly?: boolean;
+};
+
+const NAV: { label: string; items: NavItem[] }[] = [
   {
     label: "Operação",
     items: [{ to: "/app", label: "Visão geral", icon: LayoutDashboard, exact: true }],
@@ -50,66 +61,68 @@ const NAV = [
   {
     label: "Pessoas",
     items: [
-      { to: "/app/employees", label: "Colaboradores", icon: Users },
-      { to: "/app/roles-teams", label: "Cargos e equipes", icon: ClipboardList },
-      { to: "/app/units", label: "Unidades", icon: Building2 },
+      { to: "/app/employees", label: "Colaboradores", icon: Users, feature: "employees" },
+      { to: "/app/roles-teams", label: "Cargos e equipes", icon: ClipboardList, feature: "roles_teams" },
+      { to: "/app/units", label: "Unidades", icon: Building2, feature: "units" },
     ],
   },
   {
     label: "Escalas e turnos",
     items: [
-      { to: "/app/schedules", label: "Escalas", icon: CalendarDays },
-      { to: "/app/shifts", label: "Turnos", icon: CalendarRange },
-      { to: "/app/schedule-templates", label: "Modelos semanais", icon: FileSpreadsheet },
-      { to: "/app/schedule-compliance", label: "Conflitos", icon: ShieldAlert },
-      { to: "/app/schedule-history", label: "Histórico", icon: History },
+      { to: "/app/schedules", label: "Escalas", icon: CalendarDays, feature: "schedules_advanced" },
+      { to: "/app/shifts", label: "Turnos", icon: CalendarRange, feature: "shifts" },
+      { to: "/app/schedule-templates", label: "Modelos semanais", icon: FileSpreadsheet, feature: "schedule_templates" },
+      { to: "/app/schedule-compliance", label: "Conflitos", icon: ShieldAlert, feature: "schedule_compliance" },
+      { to: "/app/schedule-history", label: "Histórico", icon: History, feature: "schedule_history" },
     ],
   },
   {
     label: "Ponto",
     items: [
-      { to: "/app/time-entries", label: "Registros de ponto", icon: Clock },
-      { to: "/app/point-cards", label: "Cartões de ponto", icon: FileSignature },
+      { to: "/app/time-entries", label: "Registros de ponto", icon: Clock, feature: "time_entries" },
+      { to: "/app/point-cards", label: "Cartões de ponto", icon: FileSignature, feature: "point_cards" },
     ],
   },
   {
     label: "Itens e entregas",
     items: [
-      { to: "/app/items", label: "Itens operacionais", icon: Package },
-      { to: "/app/deliveries", label: "Entrega de itens", icon: PackageCheck },
-      { to: "/app/delivery-rules", label: "Regras por função", icon: ListChecks },
+      { to: "/app/items", label: "Itens operacionais", icon: Package, feature: "items" },
+      { to: "/app/deliveries", label: "Entrega de itens", icon: PackageCheck, feature: "deliveries" },
+      { to: "/app/delivery-rules", label: "Regras por função", icon: ListChecks, feature: "delivery_rules" },
     ],
   },
   {
     label: "Conformidade e equipe",
     items: [
-      { to: "/app/conformidade", label: "Visão de conformidade", icon: ShieldCheck, exact: true },
-      { to: "/app/conformidade/exames", label: "Exames e aptidão", icon: Stethoscope },
-      { to: "/app/conformidade/kits", label: "Kits por função", icon: Shirt },
-      { to: "/app/conformidade/trocas", label: "Trocas e devoluções", icon: Repeat },
-      { to: "/app/conformidade/pendencias", label: "Pendências da equipe", icon: ListTodo },
+      { to: "/app/conformidade", label: "Visão de conformidade", icon: ShieldCheck, exact: true, feature: "compliance" },
+      { to: "/app/conformidade/exames", label: "Exames e aptidão", icon: Stethoscope, feature: "compliance" },
+      { to: "/app/conformidade/kits", label: "Kits por função", icon: Shirt, feature: "compliance" },
+      { to: "/app/conformidade/trocas", label: "Trocas e devoluções", icon: Repeat, feature: "compliance" },
+      { to: "/app/conformidade/pendencias", label: "Pendências da equipe", icon: ListTodo, feature: "compliance" },
     ],
   },
   {
     label: "Documentos do colaborador",
-    items: [{ to: "/app/documentos/holerites", label: "Holerites", icon: Receipt }],
+    items: [{ to: "/app/documentos/holerites", label: "Holerites", icon: Receipt, feature: "payslips" }],
   },
   {
     label: "Configurações",
     items: [
-      { to: "/app/settings/aceite", label: "Políticas de aceite", icon: ShieldCheck },
-      { to: "/app/settings/lgpd", label: "Privacidade e LGPD", icon: Lock },
+      { to: "/app/settings/jornada", label: "Jornada fixa", icon: CalendarRange, feature: "fixed_schedule" },
+      { to: "/app/settings/aceite", label: "Políticas de aceite", icon: ShieldCheck, feature: "settings" },
+      { to: "/app/settings/lgpd", label: "Privacidade e LGPD", icon: Lock, feature: "settings" },
+      { to: "/app/admin/piloto", label: "Contas piloto", icon: Rocket, platformOnly: true },
     ],
   },
   {
     label: "Estoque",
-    items: [{ to: "/app/inventory", label: "Estoque por unidade", icon: Boxes }],
+    items: [{ to: "/app/inventory", label: "Estoque por unidade", icon: Boxes, feature: "inventory" }],
   },
   {
     label: "Vendas",
-    items: [{ to: "/app/sales", label: "Vendas e conexões", icon: LineChart }],
+    items: [{ to: "/app/sales", label: "Vendas e conexões", icon: LineChart, feature: "sales" }],
   },
-] as const;
+];
 
 function currentPageLabel(pathname: string) {
   for (const group of NAV) {
@@ -123,7 +136,15 @@ function currentPageLabel(pathname: string) {
 }
 
 export function AppShell({ children }: { children: ReactNode }) {
-  const { company, units, activeUnitId, setActiveUnitId } = useWorkspace();
+  const { company, units, activeUnitId, setActiveUnitId, hasFeature, isPlatformAdmin } =
+    useWorkspace();
+  const nav = NAV.map((group) => ({
+    ...group,
+    items: group.items.filter((item) => {
+      if (item.platformOnly) return isPlatformAdmin;
+      return !item.feature || hasFeature(item.feature);
+    }),
+  })).filter((group) => group.items.length > 0);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -169,7 +190,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <p className="meta-mono mb-1">Empresa</p>
           <p className="truncate text-sm font-semibold">{company?.name ?? "—"}</p>
           <div className="mt-2">
-            <Select value={activeUnitId ?? ""} onValueChange={setActiveUnitId}>
+            <Select value={activeUnitId ?? ""} onValueChange={setActiveUnitId} disabled={units.length < 2}>
               <SelectTrigger aria-label="Unidade ativa">
                 <SelectValue placeholder="Selecione a unidade" />
               </SelectTrigger>
@@ -185,7 +206,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
 
         <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="Navegação principal">
-          {NAV.map((group) => (
+          {nav.map((group) => (
             <div key={group.label} className="mb-5">
               <p className="meta-mono px-2 pb-2">{group.label}</p>
               <ul className="space-y-1">

@@ -45,6 +45,7 @@ import { Route as PortalHoleritesIndexRouteImport } from './routes/portal.holeri
 import { Route as PortalHoleritesIdRouteImport } from './routes/portal.holerites.$id'
 import { Route as PortalItensIndexRouteImport } from './routes/portal.itens.index'
 import { Route as PortalItensIdRouteImport } from './routes/portal.itens.$id'
+import { Route as AuthenticatedAppAdminPilotoRouteImport } from './routes/_authenticated/app.admin.piloto'
 import { Route as AuthenticatedAppConformidadeIndexRouteImport } from './routes/_authenticated/app.conformidade.index'
 import { Route as AuthenticatedAppConformidadeKitsRouteImport } from './routes/_authenticated/app.conformidade.kits'
 import { Route as AuthenticatedAppConformidadePendenciasRouteImport } from './routes/_authenticated/app.conformidade.pendencias'
@@ -54,6 +55,7 @@ import { Route as AuthenticatedAppDeliveriesIdRouteImport } from './routes/_auth
 import { Route as AuthenticatedAppPointCardsIndexRouteImport } from './routes/_authenticated/app.point-cards.index'
 import { Route as AuthenticatedAppPointCardsIdRouteImport } from './routes/_authenticated/app.point-cards.$id'
 import { Route as AuthenticatedAppSettingsAceiteRouteImport } from './routes/_authenticated/app.settings.aceite'
+import { Route as AuthenticatedAppSettingsJornadaRouteImport } from './routes/_authenticated/app.settings.jornada'
 import { Route as AuthenticatedAppSettingsLgpdRouteImport } from './routes/_authenticated/app.settings.lgpd'
 import { Route as PortalHoleritesIdComprovanteRouteImport } from './routes/portal.holerites.$id.comprovante'
 import { Route as AuthenticatedAppConformidadeExamesIndexRouteImport } from './routes/_authenticated/app.conformidade.exames.index'
@@ -250,6 +252,12 @@ const PortalItensIdRoute = PortalItensIdRouteImport.update({
   path: '/itens/$id',
   getParentRoute: () => PortalRoute,
 } as any)
+const AuthenticatedAppAdminPilotoRoute =
+  AuthenticatedAppAdminPilotoRouteImport.update({
+    id: '/admin/piloto',
+    path: '/admin/piloto',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppConformidadeIndexRoute =
   AuthenticatedAppConformidadeIndexRouteImport.update({
     id: '/conformidade/',
@@ -302,6 +310,12 @@ const AuthenticatedAppSettingsAceiteRoute =
   AuthenticatedAppSettingsAceiteRouteImport.update({
     id: '/settings/aceite',
     path: '/settings/aceite',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppSettingsJornadaRoute =
+  AuthenticatedAppSettingsJornadaRouteImport.update({
+    id: '/settings/jornada',
+    path: '/settings/jornada',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
 const AuthenticatedAppSettingsLgpdRoute =
@@ -383,12 +397,14 @@ export interface FileRoutesByFullPath {
   '/portal/documentos/': typeof PortalDocumentosIndexRoute
   '/portal/holerites/': typeof PortalHoleritesIndexRoute
   '/portal/itens/': typeof PortalItensIndexRoute
+  '/app/admin/piloto': typeof AuthenticatedAppAdminPilotoRoute
   '/app/conformidade/kits': typeof AuthenticatedAppConformidadeKitsRoute
   '/app/conformidade/pendencias': typeof AuthenticatedAppConformidadePendenciasRoute
   '/app/conformidade/trocas': typeof AuthenticatedAppConformidadeTrocasRoute
   '/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/app/point-cards/$id': typeof AuthenticatedAppPointCardsIdRoute
   '/app/settings/aceite': typeof AuthenticatedAppSettingsAceiteRoute
+  '/app/settings/jornada': typeof AuthenticatedAppSettingsJornadaRoute
   '/app/settings/lgpd': typeof AuthenticatedAppSettingsLgpdRoute
   '/portal/holerites/$id/comprovante': typeof PortalHoleritesIdComprovanteRoute
   '/app/conformidade/': typeof AuthenticatedAppConformidadeIndexRoute
@@ -434,12 +450,14 @@ export interface FileRoutesByTo {
   '/portal/documentos': typeof PortalDocumentosIndexRoute
   '/portal/holerites': typeof PortalHoleritesIndexRoute
   '/portal/itens': typeof PortalItensIndexRoute
+  '/app/admin/piloto': typeof AuthenticatedAppAdminPilotoRoute
   '/app/conformidade/kits': typeof AuthenticatedAppConformidadeKitsRoute
   '/app/conformidade/pendencias': typeof AuthenticatedAppConformidadePendenciasRoute
   '/app/conformidade/trocas': typeof AuthenticatedAppConformidadeTrocasRoute
   '/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/app/point-cards/$id': typeof AuthenticatedAppPointCardsIdRoute
   '/app/settings/aceite': typeof AuthenticatedAppSettingsAceiteRoute
+  '/app/settings/jornada': typeof AuthenticatedAppSettingsJornadaRoute
   '/app/settings/lgpd': typeof AuthenticatedAppSettingsLgpdRoute
   '/portal/holerites/$id/comprovante': typeof PortalHoleritesIdComprovanteRoute
   '/app/conformidade': typeof AuthenticatedAppConformidadeIndexRoute
@@ -489,12 +507,14 @@ export interface FileRoutesById {
   '/portal/documentos/': typeof PortalDocumentosIndexRoute
   '/portal/holerites/': typeof PortalHoleritesIndexRoute
   '/portal/itens/': typeof PortalItensIndexRoute
+  '/_authenticated/app/admin/piloto': typeof AuthenticatedAppAdminPilotoRoute
   '/_authenticated/app/conformidade/kits': typeof AuthenticatedAppConformidadeKitsRoute
   '/_authenticated/app/conformidade/pendencias': typeof AuthenticatedAppConformidadePendenciasRoute
   '/_authenticated/app/conformidade/trocas': typeof AuthenticatedAppConformidadeTrocasRoute
   '/_authenticated/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/_authenticated/app/point-cards/$id': typeof AuthenticatedAppPointCardsIdRoute
   '/_authenticated/app/settings/aceite': typeof AuthenticatedAppSettingsAceiteRoute
+  '/_authenticated/app/settings/jornada': typeof AuthenticatedAppSettingsJornadaRoute
   '/_authenticated/app/settings/lgpd': typeof AuthenticatedAppSettingsLgpdRoute
   '/portal/holerites/$id/comprovante': typeof PortalHoleritesIdComprovanteRoute
   '/_authenticated/app/conformidade/': typeof AuthenticatedAppConformidadeIndexRoute
@@ -544,12 +564,14 @@ export interface FileRouteTypes {
     | '/portal/documentos/'
     | '/portal/holerites/'
     | '/portal/itens/'
+    | '/app/admin/piloto'
     | '/app/conformidade/kits'
     | '/app/conformidade/pendencias'
     | '/app/conformidade/trocas'
     | '/app/deliveries/$id'
     | '/app/point-cards/$id'
     | '/app/settings/aceite'
+    | '/app/settings/jornada'
     | '/app/settings/lgpd'
     | '/portal/holerites/$id/comprovante'
     | '/app/conformidade/'
@@ -595,12 +617,14 @@ export interface FileRouteTypes {
     | '/portal/documentos'
     | '/portal/holerites'
     | '/portal/itens'
+    | '/app/admin/piloto'
     | '/app/conformidade/kits'
     | '/app/conformidade/pendencias'
     | '/app/conformidade/trocas'
     | '/app/deliveries/$id'
     | '/app/point-cards/$id'
     | '/app/settings/aceite'
+    | '/app/settings/jornada'
     | '/app/settings/lgpd'
     | '/portal/holerites/$id/comprovante'
     | '/app/conformidade'
@@ -649,12 +673,14 @@ export interface FileRouteTypes {
     | '/portal/documentos/'
     | '/portal/holerites/'
     | '/portal/itens/'
+    | '/_authenticated/app/admin/piloto'
     | '/_authenticated/app/conformidade/kits'
     | '/_authenticated/app/conformidade/pendencias'
     | '/_authenticated/app/conformidade/trocas'
     | '/_authenticated/app/deliveries/$id'
     | '/_authenticated/app/point-cards/$id'
     | '/_authenticated/app/settings/aceite'
+    | '/_authenticated/app/settings/jornada'
     | '/_authenticated/app/settings/lgpd'
     | '/portal/holerites/$id/comprovante'
     | '/_authenticated/app/conformidade/'
@@ -930,6 +956,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalItensIdRouteImport
       parentRoute: typeof PortalRoute
     }
+    '/_authenticated/app/admin/piloto': {
+      id: '/_authenticated/app/admin/piloto'
+      path: '/admin/piloto'
+      fullPath: '/app/admin/piloto'
+      preLoaderRoute: typeof AuthenticatedAppAdminPilotoRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/conformidade/': {
       id: '/_authenticated/app/conformidade/'
       path: '/conformidade'
@@ -991,6 +1024,13 @@ declare module '@tanstack/react-router' {
       path: '/settings/aceite'
       fullPath: '/app/settings/aceite'
       preLoaderRoute: typeof AuthenticatedAppSettingsAceiteRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/settings/jornada': {
+      id: '/_authenticated/app/settings/jornada'
+      path: '/settings/jornada'
+      fullPath: '/app/settings/jornada'
+      preLoaderRoute: typeof AuthenticatedAppSettingsJornadaRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
     '/_authenticated/app/settings/lgpd': {
@@ -1060,12 +1100,14 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppTimeEntriesRoute: typeof AuthenticatedAppTimeEntriesRoute
   AuthenticatedAppUnitsRoute: typeof AuthenticatedAppUnitsRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
+  AuthenticatedAppAdminPilotoRoute: typeof AuthenticatedAppAdminPilotoRoute
   AuthenticatedAppConformidadeKitsRoute: typeof AuthenticatedAppConformidadeKitsRoute
   AuthenticatedAppConformidadePendenciasRoute: typeof AuthenticatedAppConformidadePendenciasRoute
   AuthenticatedAppConformidadeTrocasRoute: typeof AuthenticatedAppConformidadeTrocasRoute
   AuthenticatedAppDeliveriesIdRoute: typeof AuthenticatedAppDeliveriesIdRoute
   AuthenticatedAppPointCardsIdRoute: typeof AuthenticatedAppPointCardsIdRoute
   AuthenticatedAppSettingsAceiteRoute: typeof AuthenticatedAppSettingsAceiteRoute
+  AuthenticatedAppSettingsJornadaRoute: typeof AuthenticatedAppSettingsJornadaRoute
   AuthenticatedAppSettingsLgpdRoute: typeof AuthenticatedAppSettingsLgpdRoute
   AuthenticatedAppConformidadeIndexRoute: typeof AuthenticatedAppConformidadeIndexRoute
   AuthenticatedAppDeliveriesIndexRoute: typeof AuthenticatedAppDeliveriesIndexRoute
@@ -1094,6 +1136,7 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppTimeEntriesRoute: AuthenticatedAppTimeEntriesRoute,
   AuthenticatedAppUnitsRoute: AuthenticatedAppUnitsRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
+  AuthenticatedAppAdminPilotoRoute: AuthenticatedAppAdminPilotoRoute,
   AuthenticatedAppConformidadeKitsRoute: AuthenticatedAppConformidadeKitsRoute,
   AuthenticatedAppConformidadePendenciasRoute:
     AuthenticatedAppConformidadePendenciasRoute,
@@ -1102,6 +1145,7 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppDeliveriesIdRoute: AuthenticatedAppDeliveriesIdRoute,
   AuthenticatedAppPointCardsIdRoute: AuthenticatedAppPointCardsIdRoute,
   AuthenticatedAppSettingsAceiteRoute: AuthenticatedAppSettingsAceiteRoute,
+  AuthenticatedAppSettingsJornadaRoute: AuthenticatedAppSettingsJornadaRoute,
   AuthenticatedAppSettingsLgpdRoute: AuthenticatedAppSettingsLgpdRoute,
   AuthenticatedAppConformidadeIndexRoute:
     AuthenticatedAppConformidadeIndexRoute,

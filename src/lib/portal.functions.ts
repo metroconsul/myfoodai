@@ -96,6 +96,26 @@ export const portalLogin = createServerFn({ method: "POST" })
     return { token, name: employee.full_name };
   });
 
+/** Garante a previsão da jornada fixa antes de exibir escala no portal. */
+async function ensureFixedSchedule(
+  employee: { id: string; company_id: string; unit_id: string | null },
+  from: string,
+  to: string,
+) {
+  if (!employee.unit_id) return;
+  const { getFixedScheduleForUnit, materializeFixedSchedule } = await import(
+    "./fixed-schedule.server"
+  );
+  if (!(await getFixedScheduleForUnit(employee.unit_id))) return;
+  await materializeFixedSchedule({
+    companyId: employee.company_id,
+    unitId: employee.unit_id,
+    employeeId: employee.id,
+    periodStart: from,
+    periodEnd: to,
+  });
+}
+
 export const portalMe = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => tokenSchema.parse(d))
   .handler(async ({ data }) => {
@@ -104,6 +124,11 @@ export const portalMe = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     const now = new Date();
+    await ensureFixedSchedule(
+      employee,
+      now.toISOString().slice(0, 10),
+      new Date(now.getTime() + 30 * 86_400_000).toISOString().slice(0, 10),
+    );
     const [{ data: unit }, { data: nextBlocks }, { data: lastEntries }, { data: company }] =
       await Promise.all([
         supabaseAdmin
@@ -151,6 +176,7 @@ export const portalSchedule = createServerFn({ method: "POST" })
     const employee = await (await import("./portal-session.server")).resolveSession(data.token);
     if (!employee) return { error: "Sessão expirada." as const };
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    await ensureFixedSchedule(employee, data.from, data.to);
     const { data: blocks } = await supabaseAdmin
       .from("schedule_blocks")
       .select("id, work_date, start_at, end_at, notes, shifts(name, color), schedules(status)")
