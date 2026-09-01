@@ -149,6 +149,32 @@ function PilotAdminPage() {
         }
       />
 
+      {credentials ? (
+        <SectionCard title="Credenciais de acesso (mostradas uma única vez)">
+          <div className="space-y-3 text-sm">
+            <p className="font-medium">
+              Copie e envie ao responsável junto com o convite. Estes dados não voltam a aparecer.
+            </p>
+            <div className="space-y-1 border-2 border-foreground bg-background p-3 font-mono text-xs break-all">
+              <div>E-mail: {credentials.email}</div>
+              <div>Senha provisória: {credentials.password ?? "(não alterada)"}</div>
+              <div>Link de confirmação: {credentials.accessLink}</div>
+            </div>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => {
+                const text = `Acesso ${"MY FOOD'S AI"}\nE-mail: ${credentials.email}\nSenha provisória: ${credentials.password ?? ""}\nLink de confirmação: ${credentials.accessLink}`;
+                navigator.clipboard.writeText(text);
+                toast.success("Credenciais copiadas.");
+              }}
+            >
+              Copiar credenciais
+            </Button>
+          </div>
+        </SectionCard>
+      ) : null}
+
       <SectionCard title="Responsável e organização">
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
