@@ -1,6 +1,10 @@
 import { useState } from "react";
-import { Link } from "@tanstack/react-router";
-import { Check, Minus, ArrowRight, ChevronDown } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { Check, Minus, ArrowRight, ChevronDown, Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { createCheckoutSession } from "@/lib/billing.functions";
+import { supabase } from "@/integrations/supabase/client";
 import {
   COMPARISON_ROWS,
   PLANS,
@@ -54,6 +58,35 @@ function CycleToggle({
 function PlanCard({ plan, cycle }: { plan: Plan; cycle: BillingCycle }) {
   const yearly = cycle === "yearly";
   const price = yearly ? plan.yearlyMonthlyEquivalent : plan.monthlyPrice;
+  const navigate = useNavigate();
+  const startCheckout = useServerFn(createCheckoutSession);
+  const [loading, setLoading] = useState(false);
+
+  const handleCta = async () => {
+    if (loading) return;
+    setLoading(true);
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) {
+        navigate({ to: "/auth" });
+        return;
+      }
+      const { url } = await startCheckout({
+        data: { planId: plan.id, cycle, origin: window.location.origin },
+      });
+      window.location.href = url;
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Falha ao iniciar o checkout.";
+      if (message.toLowerCase().includes("unauthorized")) {
+        navigate({ to: "/auth" });
+        return;
+      }
+      toast.error("Não foi possível iniciar o pagamento. Tente novamente.");
+      setLoading(false);
+    }
+  };
 
   return (
     <article
