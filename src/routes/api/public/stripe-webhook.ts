@@ -126,12 +126,14 @@ export const Route = createFileRoute("/api/public/stripe-webhook")({
           cycle: string | null,
         ) => {
           if (!companyId) return;
-          const patch: Record<string, unknown> = {
-            subscription_status: status,
-            access_source: "subscription",
-          };
-          if (planId) patch["plan_code"] = planId;
-          if (cycle) patch["billing_cycle"] = cycle === "yearly" ? "anual" : "mensal";
+          const patch: {
+            subscription_status: string;
+            access_source: string;
+            plan_code?: string;
+            billing_cycle?: string;
+          } = { subscription_status: status, access_source: "subscription" };
+          if (planId) patch.plan_code = planId;
+          if (cycle) patch.billing_cycle = cycle === "yearly" ? "anual" : "mensal";
           const { error } = await supabaseAdmin.from("companies").update(patch).eq("id", companyId);
           if (error) console.error("Falha ao aplicar plano na empresa:", error.message);
         };
