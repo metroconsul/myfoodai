@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
-import { TimeInputBR } from "@/components/ui/br-inputs";
+import { BrTimeInput } from "@/components/ui/br-inputs";
 import { useWorkspace } from "@/hooks/use-workspace";
 import { getFixedSchedule, saveFixedSchedule } from "@/lib/fixed-schedule.functions";
 
@@ -121,7 +121,8 @@ function FixedSchedulePage() {
         }
       />
 
-      <SectionCard title="Dias de trabalho" description="Marque os dias em que a equipe trabalha.">
+      <SectionCard title="Dias de trabalho">
+        <p className="mb-3 text-sm text-muted-foreground">Marque os dias em que a equipe trabalha.</p>
         <div className="flex flex-wrap gap-3">
           {WEEKDAYS.map((day) => (
             <label
@@ -144,23 +145,24 @@ function FixedSchedulePage() {
         </div>
       </SectionCard>
 
-      <SectionCard
-        title="Horário"
-        description="Informe o horário real praticado pela unidade. O sistema não presume nenhum horário."
-      >
+      <SectionCard title="Horário">
+        <p className="mb-3 text-sm text-muted-foreground">
+          Informe o horário real praticado pela unidade. O sistema não presume nenhum horário.
+        </p>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label>Entrada</Label>
-            <TimeInputBR value={startTime} onValueChange={setStartTime} />
+            <BrTimeInput value={startTime} onChange={setStartTime} />
           </div>
           <div className="space-y-2">
             <Label>Saída</Label>
-            <TimeInputBR value={endTime} onValueChange={setEndTime} />
+            <BrTimeInput value={endTime} onChange={setEndTime} />
           </div>
         </div>
       </SectionCard>
 
-      <SectionCard title="Intervalo" description="Opcional. Descontado das horas previstas do dia.">
+      <SectionCard title="Intervalo">
+        <p className="mb-3 text-sm text-muted-foreground">Opcional. Descontado das horas previstas do dia.</p>
         <div className="space-y-4">
           <div className="flex items-center gap-3">
             <Switch checked={hasBreak} onCheckedChange={setHasBreak} id="has-break" />
@@ -170,11 +172,11 @@ function FixedSchedulePage() {
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Início do intervalo</Label>
-                <TimeInputBR value={breakStart} onValueChange={setBreakStart} />
+                <BrTimeInput value={breakStart} onChange={setBreakStart} />
               </div>
               <div className="space-y-2">
                 <Label>Fim do intervalo</Label>
-                <TimeInputBR value={breakEnd} onValueChange={setBreakEnd} />
+                <BrTimeInput value={breakEnd} onChange={setBreakEnd} />
               </div>
             </div>
           ) : null}
