@@ -231,44 +231,74 @@ export type Database = {
       companies: {
         Row: {
           accent_color: string
+          billing_cycle: string | null
           brand_logo_url: string | null
           brand_name: string | null
           created_at: string
           document: string | null
+          fixed_schedule_mode: boolean
+          grant_reason: string | null
+          granted_by: string | null
           id: string
           is_demo: boolean
           name: string
+          pilot_account: boolean
+          plan_code: string
           primary_color: string
+          single_unit_mode: boolean
           status: string
+          subscription_status: string
           timezone: string
+          trial_ends_at: string | null
+          trial_starts_at: string | null
           updated_at: string
         }
         Insert: {
           accent_color?: string
+          billing_cycle?: string | null
           brand_logo_url?: string | null
           brand_name?: string | null
           created_at?: string
           document?: string | null
+          fixed_schedule_mode?: boolean
+          grant_reason?: string | null
+          granted_by?: string | null
           id?: string
           is_demo?: boolean
           name: string
+          pilot_account?: boolean
+          plan_code?: string
           primary_color?: string
+          single_unit_mode?: boolean
           status?: string
+          subscription_status?: string
           timezone?: string
+          trial_ends_at?: string | null
+          trial_starts_at?: string | null
           updated_at?: string
         }
         Update: {
           accent_color?: string
+          billing_cycle?: string | null
           brand_logo_url?: string | null
           brand_name?: string | null
           created_at?: string
           document?: string | null
+          fixed_schedule_mode?: boolean
+          grant_reason?: string | null
+          granted_by?: string | null
           id?: string
           is_demo?: boolean
           name?: string
+          pilot_account?: boolean
+          plan_code?: string
           primary_color?: string
+          single_unit_mode?: boolean
           status?: string
+          subscription_status?: string
           timezone?: string
+          trial_ends_at?: string | null
+          trial_starts_at?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -799,6 +829,104 @@ export type Database = {
             columns: ["work_regime_id"]
             isOneToOne: false
             referencedRelation: "work_regimes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      feature_entitlements: {
+        Row: {
+          company_id: string
+          created_at: string
+          enabled: boolean
+          feature_code: string
+          id: string
+          source: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          enabled?: boolean
+          feature_code: string
+          id?: string
+          source?: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          enabled?: boolean
+          feature_code?: string
+          id?: string
+          source?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feature_entitlements_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      fixed_work_schedules: {
+        Row: {
+          active: boolean
+          break_end: string | null
+          break_start: string | null
+          company_id: string
+          created_at: string
+          end_time: string
+          id: string
+          name: string
+          start_time: string
+          unit_id: string
+          updated_at: string
+          weekdays: number[]
+        }
+        Insert: {
+          active?: boolean
+          break_end?: string | null
+          break_start?: string | null
+          company_id: string
+          created_at?: string
+          end_time: string
+          id?: string
+          name?: string
+          start_time: string
+          unit_id: string
+          updated_at?: string
+          weekdays?: number[]
+        }
+        Update: {
+          active?: boolean
+          break_end?: string | null
+          break_start?: string | null
+          company_id?: string
+          created_at?: string
+          end_time?: string
+          id?: string
+          name?: string
+          start_time?: string
+          unit_id?: string
+          updated_at?: string
+          weekdays?: number[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fixed_work_schedules_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fixed_work_schedules_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: true
+            referencedRelation: "units"
             referencedColumns: ["id"]
           },
         ]
@@ -2018,6 +2146,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      platform_admins: {
+        Row: {
+          created_at: string
+          note: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          note?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          note?: string | null
+          user_id?: string
+        }
+        Relationships: []
       }
       point_card_deliveries: {
         Row: {
@@ -3587,42 +3733,62 @@ export type Database = {
       }
       subscriptions: {
         Row: {
+          billing_cycle: string | null
           cancel_at_period_end: boolean
+          company_id: string | null
           created_at: string
           current_period_end: string | null
+          current_period_start: string | null
           id: string
           plan: string | null
           status: string
           stripe_customer_id: string | null
+          stripe_price_id: string | null
           stripe_subscription_id: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
+          billing_cycle?: string | null
           cancel_at_period_end?: boolean
+          company_id?: string | null
           created_at?: string
           current_period_end?: string | null
+          current_period_start?: string | null
           id?: string
           plan?: string | null
           status?: string
           stripe_customer_id?: string | null
+          stripe_price_id?: string | null
           stripe_subscription_id?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
+          billing_cycle?: string | null
           cancel_at_period_end?: boolean
+          company_id?: string | null
           created_at?: string
           current_period_end?: string | null
+          current_period_start?: string | null
           id?: string
           plan?: string | null
           status?: string
           stripe_customer_id?: string | null
+          stripe_price_id?: string | null
           stripe_subscription_id?: string | null
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       suppliers: {
         Row: {

@@ -54,6 +54,7 @@ import { Route as AuthenticatedAppDeliveriesIdRouteImport } from './routes/_auth
 import { Route as AuthenticatedAppPointCardsIndexRouteImport } from './routes/_authenticated/app.point-cards.index'
 import { Route as AuthenticatedAppPointCardsIdRouteImport } from './routes/_authenticated/app.point-cards.$id'
 import { Route as AuthenticatedAppSettingsAceiteRouteImport } from './routes/_authenticated/app.settings.aceite'
+import { Route as AuthenticatedAppSettingsJornadaRouteImport } from './routes/_authenticated/app.settings.jornada'
 import { Route as AuthenticatedAppSettingsLgpdRouteImport } from './routes/_authenticated/app.settings.lgpd'
 import { Route as PortalHoleritesIdComprovanteRouteImport } from './routes/portal.holerites.$id.comprovante'
 import { Route as AuthenticatedAppConformidadeExamesIndexRouteImport } from './routes/_authenticated/app.conformidade.exames.index'
@@ -304,6 +305,12 @@ const AuthenticatedAppSettingsAceiteRoute =
     path: '/settings/aceite',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppSettingsJornadaRoute =
+  AuthenticatedAppSettingsJornadaRouteImport.update({
+    id: '/settings/jornada',
+    path: '/settings/jornada',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppSettingsLgpdRoute =
   AuthenticatedAppSettingsLgpdRouteImport.update({
     id: '/settings/lgpd',
@@ -389,6 +396,7 @@ export interface FileRoutesByFullPath {
   '/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/app/point-cards/$id': typeof AuthenticatedAppPointCardsIdRoute
   '/app/settings/aceite': typeof AuthenticatedAppSettingsAceiteRoute
+  '/app/settings/jornada': typeof AuthenticatedAppSettingsJornadaRoute
   '/app/settings/lgpd': typeof AuthenticatedAppSettingsLgpdRoute
   '/portal/holerites/$id/comprovante': typeof PortalHoleritesIdComprovanteRoute
   '/app/conformidade/': typeof AuthenticatedAppConformidadeIndexRoute
@@ -440,6 +448,7 @@ export interface FileRoutesByTo {
   '/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/app/point-cards/$id': typeof AuthenticatedAppPointCardsIdRoute
   '/app/settings/aceite': typeof AuthenticatedAppSettingsAceiteRoute
+  '/app/settings/jornada': typeof AuthenticatedAppSettingsJornadaRoute
   '/app/settings/lgpd': typeof AuthenticatedAppSettingsLgpdRoute
   '/portal/holerites/$id/comprovante': typeof PortalHoleritesIdComprovanteRoute
   '/app/conformidade': typeof AuthenticatedAppConformidadeIndexRoute
@@ -495,6 +504,7 @@ export interface FileRoutesById {
   '/_authenticated/app/deliveries/$id': typeof AuthenticatedAppDeliveriesIdRoute
   '/_authenticated/app/point-cards/$id': typeof AuthenticatedAppPointCardsIdRoute
   '/_authenticated/app/settings/aceite': typeof AuthenticatedAppSettingsAceiteRoute
+  '/_authenticated/app/settings/jornada': typeof AuthenticatedAppSettingsJornadaRoute
   '/_authenticated/app/settings/lgpd': typeof AuthenticatedAppSettingsLgpdRoute
   '/portal/holerites/$id/comprovante': typeof PortalHoleritesIdComprovanteRoute
   '/_authenticated/app/conformidade/': typeof AuthenticatedAppConformidadeIndexRoute
@@ -550,6 +560,7 @@ export interface FileRouteTypes {
     | '/app/deliveries/$id'
     | '/app/point-cards/$id'
     | '/app/settings/aceite'
+    | '/app/settings/jornada'
     | '/app/settings/lgpd'
     | '/portal/holerites/$id/comprovante'
     | '/app/conformidade/'
@@ -601,6 +612,7 @@ export interface FileRouteTypes {
     | '/app/deliveries/$id'
     | '/app/point-cards/$id'
     | '/app/settings/aceite'
+    | '/app/settings/jornada'
     | '/app/settings/lgpd'
     | '/portal/holerites/$id/comprovante'
     | '/app/conformidade'
@@ -655,6 +667,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/deliveries/$id'
     | '/_authenticated/app/point-cards/$id'
     | '/_authenticated/app/settings/aceite'
+    | '/_authenticated/app/settings/jornada'
     | '/_authenticated/app/settings/lgpd'
     | '/portal/holerites/$id/comprovante'
     | '/_authenticated/app/conformidade/'
@@ -993,6 +1006,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppSettingsAceiteRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/settings/jornada': {
+      id: '/_authenticated/app/settings/jornada'
+      path: '/settings/jornada'
+      fullPath: '/app/settings/jornada'
+      preLoaderRoute: typeof AuthenticatedAppSettingsJornadaRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/settings/lgpd': {
       id: '/_authenticated/app/settings/lgpd'
       path: '/settings/lgpd'
@@ -1066,6 +1086,7 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppDeliveriesIdRoute: typeof AuthenticatedAppDeliveriesIdRoute
   AuthenticatedAppPointCardsIdRoute: typeof AuthenticatedAppPointCardsIdRoute
   AuthenticatedAppSettingsAceiteRoute: typeof AuthenticatedAppSettingsAceiteRoute
+  AuthenticatedAppSettingsJornadaRoute: typeof AuthenticatedAppSettingsJornadaRoute
   AuthenticatedAppSettingsLgpdRoute: typeof AuthenticatedAppSettingsLgpdRoute
   AuthenticatedAppConformidadeIndexRoute: typeof AuthenticatedAppConformidadeIndexRoute
   AuthenticatedAppDeliveriesIndexRoute: typeof AuthenticatedAppDeliveriesIndexRoute
@@ -1102,6 +1123,7 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppDeliveriesIdRoute: AuthenticatedAppDeliveriesIdRoute,
   AuthenticatedAppPointCardsIdRoute: AuthenticatedAppPointCardsIdRoute,
   AuthenticatedAppSettingsAceiteRoute: AuthenticatedAppSettingsAceiteRoute,
+  AuthenticatedAppSettingsJornadaRoute: AuthenticatedAppSettingsJornadaRoute,
   AuthenticatedAppSettingsLgpdRoute: AuthenticatedAppSettingsLgpdRoute,
   AuthenticatedAppConformidadeIndexRoute:
     AuthenticatedAppConformidadeIndexRoute,

@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState, type ReactNode
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { applyCompanyBranding } from "@/config/brand";
+import { planFeatures, type FeatureCode } from "@/config/features";
 import type { Tables } from "@/integrations/supabase/types";
 
 type Company = Tables<"companies">;
@@ -19,6 +20,10 @@ interface WorkspaceValue {
   setActiveUnitId: (id: string) => void;
   roles: string[];
   isAdmin: boolean;
+  isPlatformAdmin: boolean;
+  planCode: string;
+  features: FeatureCode[];
+  hasFeature: (code: FeatureCode) => boolean;
   refresh: () => void;
 }
 
@@ -33,27 +38,48 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     queryFn: async () => {
       const { data: auth } = await supabase.auth.getUser();
       const userId = auth.user?.id ?? null;
-      if (!userId) return { userId: null, profile: null, company: null, units: [], roles: [] };
+      if (!userId)
+        return {
+          userId: null,
+          profile: null,
+          company: null,
+          units: [],
+          roles: [],
+          entitlements: [] as string[],
+          isPlatformAdmin: false,
+        };
 
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", userId)
-        .maybeSingle();
-
-      const { data: roleRows } = await supabase.from("user_roles").select("role").eq("user_id", userId);
+      const [{ data: profile }, { data: roleRows }, { data: platformRow }] = await Promise.all([
+        supabase.from("profiles").select("*").eq("id", userId).maybeSingle(),
+        supabase.from("user_roles").select("role").eq("user_id", userId),
+        supabase.from("platform_admins").select("user_id").eq("user_id", userId).maybeSingle(),
+      ]);
 
       let company: Company | null = null;
       let units: Unit[] = [];
+      let entitlements: string[] = [];
       if (profile?.company_id) {
-        const [{ data: c }, { data: u }] = await Promise.all([
+        const [{ data: c }, { data: u }, { data: ents }] = await Promise.all([
           supabase.from("companies").select("*").eq("id", profile.company_id).maybeSingle(),
           supabase.from("units").select("*").order("name"),
+          supabase
+            .from("feature_entitlements")
+            .select("feature_code, enabled")
+            .eq("company_id", profile.company_id),
         ]);
         company = c ?? null;
         units = u ?? [];
+        entitlements = (ents ?? []).filter((e) => e.enabled).map((e) => e.feature_code);
       }
-      return { userId, profile: profile ?? null, company, units, roles: (roleRows ?? []).map((r) => r.role) };
+      return {
+        userId,
+        profile: profile ?? null,
+        company,
+        units,
+        roles: (roleRows ?? []).map((r) => r.role),
+        entitlements,
+        isPlatformAdmin: Boolean(platformRow),
+      };
     },
   });
 
@@ -71,6 +97,11 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const value = useMemo<WorkspaceValue>(() => {
     const units = data?.units ?? [];
     const roles = data?.roles ?? [];
+    const isPlatformAdmin = Boolean(data?.isPlatformAdmin);
+    const planCode = data?.company?.plan_code ?? "comeco";
+    const granted = data?.entitlements ?? [];
+    const features: FeatureCode[] =
+      granted.length > 0 ? (granted as FeatureCode[]) : planFeatures(planCode);
     return {
       loading: isLoading,
       userId: data?.userId ?? null,
@@ -85,6 +116,10 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       },
       roles,
       isAdmin: roles.includes("owner") || roles.includes("admin"),
+      isPlatformAdmin,
+      planCode,
+      features,
+      hasFeature: (code: FeatureCode) => isPlatformAdmin || features.includes(code),
       refresh: () => queryClient.invalidateQueries({ queryKey: ["workspace"] }),
     };
   }, [data, isLoading, activeUnitId, queryClient]);
