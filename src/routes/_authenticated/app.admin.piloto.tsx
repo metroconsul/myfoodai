@@ -53,18 +53,20 @@ function PilotAdminPage() {
   const queryClient = useQueryClient();
   const listQuery = useQuery({ queryKey: ["pilot-accounts"], queryFn: () => listPilotAccounts() });
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("mathedu2027@gmail.com");
   const [organizationName, setOrganizationName] = useState("Casa Creme'o");
   const [unitName, setUnitName] = useState("Casa Creme'o — EDP São José dos Campos");
   const [city, setCity] = useState("São José dos Campos");
   const [responsibleName, setResponsibleName] = useState("");
   const [weekdays, setWeekdays] = useState<number[]>([1, 2, 3, 4, 5]);
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [startTime, setStartTime] = useState("07:00");
+  const [endTime, setEndTime] = useState("17:00");
   const [hasBreak, setHasBreak] = useState(false);
   const [breakStart, setBreakStart] = useState("");
   const [breakEnd, setBreakEnd] = useState("");
-  const [accessMode, setAccessMode] = useState<"trial" | "admin_grant" | "subscription">("trial");
+  const [accessMode, setAccessMode] = useState<"trial" | "admin_grant" | "subscription">(
+    "subscription",
+  );
   const [trialDays, setTrialDays] = useState("30");
   const [grantReason, setGrantReason] = useState("");
 
