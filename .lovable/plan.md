@@ -40,12 +40,14 @@ Nova tabela `fixed_work_schedules` (company_id, unit_id, weekdays, start_time, e
 
 ## Etapa 4 — Provisionamento seguro da conta piloto
 
-Tela `/app/admin/piloto`, visível apenas para `platform_admin`, com formulário: e-mail do gestor, nome da empresa, nome da unidade, dias e horários da jornada, intervalo, responsável, ciclo (mensal/anual) e modo de acesso (trial, concessão administrativa ou assinatura paga).
+Conta piloto: estabelecimento **Casa Creme'o**, uma única unidade, **Plano Começo anual**.
+
+Tela `/app/admin/piloto`, visível apenas para `platform_admin`, com formulário já pré-preenchido com "Casa Creme'o" (empresa e unidade), plano Começo e ciclo anual — editáveis. Campos restantes: e-mail do gestor, dias e horários da jornada, intervalo, responsável e modo de acesso (trial, concessão administrativa ou assinatura paga). Os horários continuam em branco e obrigatórios, sem valor presumido.
 
 Server function administrativa (não SQL, não senha em código):
 - valida que o chamador é `platform_admin`;
 - cria o usuário por convite do Supabase Auth (link de definição de senha enviado por e-mail) — nenhuma senha trafega ou é gravada;
-- cria a empresa piloto, a unidade, a jornada fixa, o papel `owner` daquela empresa e os entitlements do Começo;
+- cria a empresa piloto "Casa Creme'o", a unidade, a jornada fixa, o papel `owner` daquela empresa e os entitlements do Começo, com `plan_code = comeco` e ciclo anual;
 - registra auditoria em `audit_logs` sem qualquer credencial;
 - se o modo for trial ou concessão, grava início, fim, responsável e motivo.
 
@@ -55,6 +57,7 @@ Server function administrativa (não SQL, não senha em código):
 - Checkout recebe `client_reference_id = company_id` e metadata com `company_id`, `user_id`, `plan_code`.
 - Webhook passa a tratar `checkout.session.completed`, `customer.subscription.created|updated|deleted`, `invoice.paid` e `invoice.payment_failed`, atualizando `companies.plan_code`/`subscription_status` e `subscriptions` por empresa, mantendo a idempotência já existente em `stripe_webhook_events`.
 - A empresa do proprietário fica marcada como `platform_admin` e nunca é rebaixada por evento de plano.
+- Casa Creme'o usa o preço anual do Começo (`price_1UAeTjRzTbFSBgbD2ASyogbe`, R$ 767,04/ano). Se você optar por trial ou concessão administrativa nos 30 dias de piloto, o plano fica `comeco` com status `trialing`/`admin_grant` e a cobrança anual só é criada quando o checkout for concluído — nunca marcamos como pago sem evento real da Stripe.
 
 ## Riscos e pontos de atenção
 
