@@ -40,7 +40,9 @@ Nova tabela `fixed_work_schedules` (company_id, unit_id, weekdays, start_time, e
 
 ## Etapa 4 — Provisionamento seguro da conta piloto
 
-Tela `/app/admin/piloto`, visível apenas para `platform_admin`, com formulário: e-mail do gestor, nome da empresa, nome da unidade, dias e horários da jornada, intervalo, responsável, ciclo (mensal/anual) e modo de acesso (trial, concessão administrativa ou assinatura paga).
+Conta piloto: estabelecimento **Casa Creme'o**, uma única unidade, **Plano Começo anual**.
+
+Tela `/app/admin/piloto`, visível apenas para `platform_admin`, com formulário já pré-preenchido com "Casa Creme'o" (empresa e unidade), plano Começo e ciclo anual — editáveis. Campos restantes: e-mail do gestor, dias e horários da jornada, intervalo, responsável e modo de acesso (trial, concessão administrativa ou assinatura paga). Os horários continuam em branco e obrigatórios, sem valor presumido.
 
 Server function administrativa (não SQL, não senha em código):
 - valida que o chamador é `platform_admin`;
