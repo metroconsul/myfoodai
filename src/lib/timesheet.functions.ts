@@ -119,6 +119,22 @@ export const prepareTimesheetCards = createServerFn({ method: "POST" })
       await supabase.from("timesheet_periods").update({ deadline_at: data.deadlineAt }).eq("id", period.id);
     }
 
+    // Jornada fixa: gera a previsão do período sem exigir escala manual.
+    const { getFixedScheduleForUnit, materializeFixedSchedule } = await import(
+      "./fixed-schedule.server"
+    );
+    if (await getFixedScheduleForUnit(data.unitId)) {
+      for (const employeeId of data.employeeIds) {
+        await materializeFixedSchedule({
+          companyId,
+          unitId: data.unitId,
+          employeeId,
+          periodStart: data.periodStart,
+          periodEnd: data.periodEnd,
+        });
+      }
+    }
+
     const dates = eachDate(data.periodStart, data.periodEnd);
     const fromIso = `${data.periodStart}T00:00:00.000Z`;
     const toIso = `${data.periodEnd}T23:59:59.999Z`;
