@@ -47,7 +47,7 @@ Tela `/app/admin/piloto`, visível apenas para `platform_admin`, com formulário
 Server function administrativa (não SQL, não senha em código):
 - valida que o chamador é `platform_admin`;
 - cria o usuário por convite do Supabase Auth (link de definição de senha enviado por e-mail) — nenhuma senha trafega ou é gravada;
-- cria a empresa piloto, a unidade, a jornada fixa, o papel `owner` daquela empresa e os entitlements do Começo;
+- cria a empresa piloto "Casa Creme'o", a unidade, a jornada fixa, o papel `owner` daquela empresa e os entitlements do Começo, com `plan_code = comeco` e ciclo anual;
 - registra auditoria em `audit_logs` sem qualquer credencial;
 - se o modo for trial ou concessão, grava início, fim, responsável e motivo.
 
