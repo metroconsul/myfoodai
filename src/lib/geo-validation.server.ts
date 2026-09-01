@@ -37,7 +37,7 @@ async function reverseGeocode(
   try {
     const res = await fetch(url, {
       headers: {
-        "User-Agent": "GoldenHourHub/1.0 (aceite-eletronico)",
+        "User-Agent": "MyFoodsAI/1.0 (aceite-eletronico)",
         "Accept-Language": "pt-BR",
       },
     });

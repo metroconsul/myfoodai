@@ -323,7 +323,7 @@ export const portalSignPayslip = createServerFn({ method: "POST" })
       version: payslip.current_version,
       employee_id: employee.id,
       signature_method: needsSignature ? (data.signatureDataUrl ? "desenhada" : "digitada") : "ciencia",
-      provider_name: "golden-hour-hub",
+      provider_name: "my-foods-ai",
       signature_reference: data.typedName?.trim() || employee.full_name,
       signature_object_key: signatureKey,
       term_version: shared.PAYSLIP_TERM_VERSION,
