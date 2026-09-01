@@ -79,13 +79,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Golden Hour Hub — gestão operacional para food service" },
+      { title: "MY FOOD'S AI — gestão operacional para food service" },
       {
         name: "description",
         content: "Pessoas, ponto, escalas, estoque e vendas em um só painel para bares, restaurantes e cozinhas.",
       },
-      { name: "author", content: "Golden Hour Hub" },
-      { property: "og:title", content: "Golden Hour Hub — gestão operacional para food service" },
+      { name: "author", content: "MY FOOD'S AI" },
+      { property: "og:title", content: "MY FOOD'S AI — gestão operacional para food service" },
       {
         property: "og:description",
         content: "Pessoas, ponto, escalas, estoque e vendas em um só painel para bares, restaurantes e cozinhas.",
