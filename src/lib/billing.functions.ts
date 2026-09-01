@@ -1,13 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
-import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { PLAN_PRICES } from "@/config/billing";
-
-const inputSchema = z.object({
-  planId: z.enum(["comeco", "essencial", "equipe"]),
-  cycle: z.enum(["monthly", "yearly"]),
-  origin: z.string().url().max(200),
-});
+import { inputSchema } from "./billing.functions.schemas";
 
 /**
  * Cria uma sessão de Checkout da Stripe para assinatura do plano escolhido.

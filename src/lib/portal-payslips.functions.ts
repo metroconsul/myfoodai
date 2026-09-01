@@ -1,8 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-
-const tokenSchema = z.object({ token: z.string().min(10).max(200) });
-const payslipSchema = tokenSchema.extend({ payslipId: z.string().uuid() });
+import { tokenSchema, payslipSchema } from "./portal-payslips.functions.schemas";
 
 const geoSchema = {
   latitude: z.number().nullable().optional(),

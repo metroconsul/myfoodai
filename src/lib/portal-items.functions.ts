@@ -1,8 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-
-const tokenSchema = z.object({ token: z.string().min(10).max(200) });
-const deliverySchema = tokenSchema.extend({ deliveryId: z.string().uuid() });
+import { tokenSchema, deliverySchema, validateSchema, acceptSchema, refuseSchema } from "./portal-items.functions.schemas";
 
 const geoSchema = {
   latitude: z.number().nullable().optional(),
@@ -18,23 +16,6 @@ const consentSchema = {
   consentLocation: z.boolean(),
 };
 
-const validateSchema = deliverySchema.extend({
-  imageDataUrl: z.string().min(64).max(4_000_000),
-  ...geoSchema,
-  ...consentSchema,
-  deviceInfo: z.string().max(400).nullable().optional(),
-});
-
-const acceptSchema = deliverySchema.extend({
-  signatureType: z.enum(["desenhada", "digitada"]),
-  signatureDataUrl: z.string().max(4_000_000).nullable().optional(),
-  typedName: z.string().trim().max(160).nullable().optional(),
-  ...geoSchema,
-  ...consentSchema,
-  deviceInfo: z.string().max(400).nullable().optional(),
-  faceSkipReason: z.string().trim().max(300).nullable().optional(),
-});
-
 /** IP do cliente mascarado para a trilha de auditoria. */
 async function clientIp() {
   try {
@@ -45,13 +26,6 @@ async function clientIp() {
     return null;
   }
 }
-
-
-
-const refuseSchema = deliverySchema.extend({
-  mode: z.enum(["recusado", "divergente"]),
-  reason: z.string().trim().min(3).max(600),
-});
 
 const SELECT_DELIVERY =
   "id, company_id, unit_id, employee_id, status, reason, notes, delivered_at, published_at, accepted_at, refused_at, refusal_reason, divergence_notes, responsible_label, item_delivery_items(id, item_name, quantity, size, color, lot)";
@@ -224,7 +198,6 @@ export const portalValidateIdentity = createServerFn({ method: "POST" })
       },
     });
 
-
     if (result.status === "aprovado" && delivery.status === "aguardando_aceite") {
       await supabaseAdmin.from("item_deliveries").update({ status: "em_validacao" }).eq("id", delivery.id);
     }
@@ -389,7 +362,6 @@ export const portalAcceptDelivery = createServerFn({ method: "POST" })
         geo: geoAudit,
       },
     });
-
 
     return { ok: true, hash, acceptedAt };
   });
