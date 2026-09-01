@@ -57,6 +57,7 @@ Server function administrativa (não SQL, não senha em código):
 - Checkout recebe `client_reference_id = company_id` e metadata com `company_id`, `user_id`, `plan_code`.
 - Webhook passa a tratar `checkout.session.completed`, `customer.subscription.created|updated|deleted`, `invoice.paid` e `invoice.payment_failed`, atualizando `companies.plan_code`/`subscription_status` e `subscriptions` por empresa, mantendo a idempotência já existente em `stripe_webhook_events`.
 - A empresa do proprietário fica marcada como `platform_admin` e nunca é rebaixada por evento de plano.
+- Casa Creme'o usa o preço anual do Começo (`price_1UAeTjRzTbFSBgbD2ASyogbe`, R$ 767,04/ano). Se você optar por trial ou concessão administrativa nos 30 dias de piloto, o plano fica `comeco` com status `trialing`/`admin_grant` e a cobrança anual só é criada quando o checkout for concluído — nunca marcamos como pago sem evento real da Stripe.
 
 ## Riscos e pontos de atenção
 
