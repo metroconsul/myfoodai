@@ -12,4 +12,15 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    environments: {
+      client: {
+        optimizeDeps: {
+          // Server-only package reached through dynamic imports inside server functions.
+          // Pre-bundling it for the browser fails (#tanstack-start-entry) and stalls dev.
+          exclude: ["@tanstack/react-start-server"],
+        },
+      },
+    },
+  },
 });
