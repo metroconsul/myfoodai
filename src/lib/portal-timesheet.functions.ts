@@ -3,19 +3,6 @@ import { z } from "zod";
 import { LGPD_CONSENT_VERSION } from "./lgpd.shared";
 import { tokenSchema, cardSchema, validateSchema, signSchema, disputeSchema } from "./portal-timesheet.functions.schemas";
 
-const geoSchema = {
-  latitude: z.number().nullable().optional(),
-  longitude: z.number().nullable().optional(),
-  accuracy: z.number().nullable().optional(),
-  locationStatus: z.enum(["obtida", "negada", "imprecisa", "indisponivel", "nao_disponivel"]),
-};
-
-const consentSchema = {
-  consentData: z.boolean().default(false),
-  consentBiometrics: z.boolean().default(false),
-  consentLocation: z.boolean().default(false),
-};
-
 const CARD_FIELDS =
   "id, company_id, unit_id, employee_id, period_start, period_end, status, version, summary, planned_minutes, worked_minutes, overtime_minutes, late_minutes, absence_days, balance_minutes, missing_punches, published_at, viewed_at, signed_at, deadline_at, reopen_reason";
 

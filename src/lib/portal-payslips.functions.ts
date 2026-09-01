@@ -2,19 +2,6 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { tokenSchema, payslipSchema } from "./portal-payslips.functions.schemas";
 
-const geoSchema = {
-  latitude: z.number().nullable().optional(),
-  longitude: z.number().nullable().optional(),
-  accuracy: z.number().nullable().optional(),
-  locationStatus: z.enum(["obtida", "negada", "imprecisa", "indisponivel", "nao_disponivel"]),
-};
-
-const consentSchema = {
-  consentData: z.boolean().default(false),
-  consentBiometrics: z.boolean().default(false),
-  consentLocation: z.boolean().default(false),
-};
-
 async function requestMeta() {
   try {
     const { getRequestHeader } = await import("@tanstack/react-start-server");

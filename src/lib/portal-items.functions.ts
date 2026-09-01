@@ -2,19 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { tokenSchema, deliverySchema, validateSchema, acceptSchema, refuseSchema } from "./portal-items.functions.schemas";
 
-const geoSchema = {
-  latitude: z.number().nullable().optional(),
-  longitude: z.number().nullable().optional(),
-  accuracy: z.number().nullable().optional(),
-  locationStatus: z.enum(["obtida", "negada", "imprecisa", "indisponivel", "nao_disponivel"]),
-};
-
 /** Consentimento explícito (LGPD) para biometria e localização. */
-const consentSchema = {
-  consentData: z.boolean().default(false),
-  consentBiometrics: z.boolean(),
-  consentLocation: z.boolean(),
-};
 
 /** IP do cliente mascarado para a trilha de auditoria. */
 async function clientIp() {
