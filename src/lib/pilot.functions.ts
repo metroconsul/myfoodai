@@ -156,18 +156,35 @@ export const provisionPilotAccount = createServerFn({ method: "POST" })
     return { ok: true, alreadyProvisioned: false, companyId: company.id, userId };
   });
 
-/** Reenvia o link de definição de senha para o responsável da conta piloto. */
+/** Reenvia o link de acesso. Se o e-mail ainda não tem conta, envia o convite. */
 export const resendPilotInvite = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: unknown) => z.object({ email: z.string().email().max(200) }).parse(d))
+  .inputValidator((d: unknown) =>
+    z
+      .object({ email: z.string().email().max(200), redirectOrigin: z.string().url().max(200) })
+      .parse(d),
+  )
   .handler(async ({ data, context }) => {
     const { requirePlatformAdmin } = await import("./plan.server");
     await requirePlatformAdmin(context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { data: list } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 200 });
+    const found = list?.users?.find((u) => u.email?.toLowerCase() === data.email.toLowerCase());
+
+    if (!found) {
+      const { error } = await supabaseAdmin.auth.admin.inviteUserByEmail(data.email, {
+        redirectTo: `${data.redirectOrigin}/auth?convite=1`,
+      });
+      if (error) throw new Error("Não foi possível enviar o convite para este e-mail.");
+      return { ok: true, mode: "invite" as const };
+    }
+
     const { error } = await supabaseAdmin.auth.admin.generateLink({
       type: "recovery",
       email: data.email,
     });
     if (error) throw new Error("Não foi possível gerar o link de acesso.");
-    return { ok: true };
+    return { ok: true, mode: "recovery" as const };
   });
+
