@@ -100,6 +100,20 @@ export const Route = createFileRoute("/api/public/stripe-webhook")({
 
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
+        // Idempotência: registra o event_id antes de processar. Se a Stripe
+        // reenviar o mesmo evento, o conflito no unique(event_id) indica
+        // duplicata e respondemos 200 sem reprocessar.
+        const { error: idemError } = await supabaseAdmin
+          .from("stripe_webhook_events")
+          .insert({ event_id: event.id, event_type: event.type });
+        if (idemError) {
+          if (idemError.code === "23505") {
+            return Response.json({ received: true, duplicate: true });
+          }
+          console.error("Falha ao registrar evento do webhook:", idemError.message);
+          return new Response("Erro interno", { status: 500 });
+        }
+
         type SubFields = {
           stripe_customer_id?: string | null;
           stripe_subscription_id?: string | null;
