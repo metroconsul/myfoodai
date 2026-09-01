@@ -1,5 +1,14 @@
 import { z } from "zod";
 
+export const geoFields = {
+  latitude: z.number().nullable().optional(),
+  longitude: z.number().nullable().optional(),
+  accuracy: z.number().nullable().optional(),
+  locationStatus: z
+    .enum(["obtida", "negada", "imprecisa", "indisponivel", "nao_disponivel"])
+    .default("nao_disponivel"),
+};
+
 export const tokenSchema = z.object({ token: z.string().min(10).max(200) });
 
 export const docSchema = tokenSchema.extend({ documentId: z.string().uuid() });

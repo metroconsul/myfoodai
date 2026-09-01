@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { tokenSchema, payslipSchema } from "./portal-payslips.functions.schemas";
+import { tokenSchema, payslipSchema, geoSchema, consentSchema } from "./portal-payslips.functions.schemas";
 
 async function requestMeta() {
   try {

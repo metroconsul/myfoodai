@@ -3,15 +3,6 @@ import { z } from "zod";
 import { LGPD_CONSENT_VERSION } from "./lgpd.shared";
 import { tokenSchema, docSchema, ackSchema, uploadSchema, exchangeSchema } from "./portal-compliance.functions.schemas";
 
-const geoFields = {
-  latitude: z.number().nullable().optional(),
-  longitude: z.number().nullable().optional(),
-  accuracy: z.number().nullable().optional(),
-  locationStatus: z
-    .enum(["obtida", "negada", "imprecisa", "indisponivel", "nao_disponivel"])
-    .default("nao_disponivel"),
-};
-
 const DOC_SELECT =
   "id, company_id, unit_id, employee_id, document_type, title, status, performed_at, expires_at, next_review_at, provider_name, administrative_notes, clinical_access_level, file_path, file_name, request_mode, published_to_portal_at, archived_at, version, next_action, next_action_due_at, updated_at";
 
