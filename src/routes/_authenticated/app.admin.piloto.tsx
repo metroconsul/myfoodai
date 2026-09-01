@@ -296,7 +296,7 @@ function PilotAdminPage() {
                       : ""}
                   </p>
                 </div>
-                <StatusBadge label={c.subscription_status ?? "—"} />
+                <StatusBadge>{c.subscription_status ?? "—"}</StatusBadge>
               </li>
             ))}
           </ul>

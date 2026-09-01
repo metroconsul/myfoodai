@@ -45,6 +45,7 @@ import { Route as PortalHoleritesIndexRouteImport } from './routes/portal.holeri
 import { Route as PortalHoleritesIdRouteImport } from './routes/portal.holerites.$id'
 import { Route as PortalItensIndexRouteImport } from './routes/portal.itens.index'
 import { Route as PortalItensIdRouteImport } from './routes/portal.itens.$id'
+import { Route as AuthenticatedAppAdminPilotoRouteImport } from './routes/_authenticated/app.admin.piloto'
 import { Route as AuthenticatedAppConformidadeIndexRouteImport } from './routes/_authenticated/app.conformidade.index'
 import { Route as AuthenticatedAppConformidadeKitsRouteImport } from './routes/_authenticated/app.conformidade.kits'
 import { Route as AuthenticatedAppConformidadePendenciasRouteImport } from './routes/_authenticated/app.conformidade.pendencias'
@@ -251,6 +252,12 @@ const PortalItensIdRoute = PortalItensIdRouteImport.update({
   path: '/itens/$id',
   getParentRoute: () => PortalRoute,
 } as any)
+const AuthenticatedAppAdminPilotoRoute =
+  AuthenticatedAppAdminPilotoRouteImport.update({
+    id: '/admin/piloto',
+    path: '/admin/piloto',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppConformidadeIndexRoute =
   AuthenticatedAppConformidadeIndexRouteImport.update({
     id: '/conformidade/',
@@ -390,6 +397,7 @@ export interface FileRoutesByFullPath {
   '/portal/documentos/': typeof PortalDocumentosIndexRoute
   '/portal/holerites/': typeof PortalHoleritesIndexRoute
   '/portal/itens/': typeof PortalItensIndexRoute
+  '/app/admin/piloto': typeof AuthenticatedAppAdminPilotoRoute
   '/app/conformidade/kits': typeof AuthenticatedAppConformidadeKitsRoute
   '/app/conformidade/pendencias': typeof AuthenticatedAppConformidadePendenciasRoute
   '/app/conformidade/trocas': typeof AuthenticatedAppConformidadeTrocasRoute
@@ -442,6 +450,7 @@ export interface FileRoutesByTo {
   '/portal/documentos': typeof PortalDocumentosIndexRoute
   '/portal/holerites': typeof PortalHoleritesIndexRoute
   '/portal/itens': typeof PortalItensIndexRoute
+  '/app/admin/piloto': typeof AuthenticatedAppAdminPilotoRoute
   '/app/conformidade/kits': typeof AuthenticatedAppConformidadeKitsRoute
   '/app/conformidade/pendencias': typeof AuthenticatedAppConformidadePendenciasRoute
   '/app/conformidade/trocas': typeof AuthenticatedAppConformidadeTrocasRoute
@@ -498,6 +507,7 @@ export interface FileRoutesById {
   '/portal/documentos/': typeof PortalDocumentosIndexRoute
   '/portal/holerites/': typeof PortalHoleritesIndexRoute
   '/portal/itens/': typeof PortalItensIndexRoute
+  '/_authenticated/app/admin/piloto': typeof AuthenticatedAppAdminPilotoRoute
   '/_authenticated/app/conformidade/kits': typeof AuthenticatedAppConformidadeKitsRoute
   '/_authenticated/app/conformidade/pendencias': typeof AuthenticatedAppConformidadePendenciasRoute
   '/_authenticated/app/conformidade/trocas': typeof AuthenticatedAppConformidadeTrocasRoute
@@ -554,6 +564,7 @@ export interface FileRouteTypes {
     | '/portal/documentos/'
     | '/portal/holerites/'
     | '/portal/itens/'
+    | '/app/admin/piloto'
     | '/app/conformidade/kits'
     | '/app/conformidade/pendencias'
     | '/app/conformidade/trocas'
@@ -606,6 +617,7 @@ export interface FileRouteTypes {
     | '/portal/documentos'
     | '/portal/holerites'
     | '/portal/itens'
+    | '/app/admin/piloto'
     | '/app/conformidade/kits'
     | '/app/conformidade/pendencias'
     | '/app/conformidade/trocas'
@@ -661,6 +673,7 @@ export interface FileRouteTypes {
     | '/portal/documentos/'
     | '/portal/holerites/'
     | '/portal/itens/'
+    | '/_authenticated/app/admin/piloto'
     | '/_authenticated/app/conformidade/kits'
     | '/_authenticated/app/conformidade/pendencias'
     | '/_authenticated/app/conformidade/trocas'
@@ -943,6 +956,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalItensIdRouteImport
       parentRoute: typeof PortalRoute
     }
+    '/_authenticated/app/admin/piloto': {
+      id: '/_authenticated/app/admin/piloto'
+      path: '/admin/piloto'
+      fullPath: '/app/admin/piloto'
+      preLoaderRoute: typeof AuthenticatedAppAdminPilotoRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/conformidade/': {
       id: '/_authenticated/app/conformidade/'
       path: '/conformidade'
@@ -1080,6 +1100,7 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppTimeEntriesRoute: typeof AuthenticatedAppTimeEntriesRoute
   AuthenticatedAppUnitsRoute: typeof AuthenticatedAppUnitsRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
+  AuthenticatedAppAdminPilotoRoute: typeof AuthenticatedAppAdminPilotoRoute
   AuthenticatedAppConformidadeKitsRoute: typeof AuthenticatedAppConformidadeKitsRoute
   AuthenticatedAppConformidadePendenciasRoute: typeof AuthenticatedAppConformidadePendenciasRoute
   AuthenticatedAppConformidadeTrocasRoute: typeof AuthenticatedAppConformidadeTrocasRoute
@@ -1115,6 +1136,7 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppTimeEntriesRoute: AuthenticatedAppTimeEntriesRoute,
   AuthenticatedAppUnitsRoute: AuthenticatedAppUnitsRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
+  AuthenticatedAppAdminPilotoRoute: AuthenticatedAppAdminPilotoRoute,
   AuthenticatedAppConformidadeKitsRoute: AuthenticatedAppConformidadeKitsRoute,
   AuthenticatedAppConformidadePendenciasRoute:
     AuthenticatedAppConformidadePendenciasRoute,
