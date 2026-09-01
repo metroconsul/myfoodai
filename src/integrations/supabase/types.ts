@@ -231,6 +231,7 @@ export type Database = {
       companies: {
         Row: {
           accent_color: string
+          access_source: string
           billing_cycle: string | null
           brand_logo_url: string | null
           brand_name: string | null
@@ -255,6 +256,7 @@ export type Database = {
         }
         Insert: {
           accent_color?: string
+          access_source?: string
           billing_cycle?: string | null
           brand_logo_url?: string | null
           brand_name?: string | null
@@ -279,6 +281,7 @@ export type Database = {
         }
         Update: {
           accent_color?: string
+          access_source?: string
           billing_cycle?: string | null
           brand_logo_url?: string | null
           brand_name?: string | null
@@ -4803,7 +4806,11 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      apply_plan_entitlements: {
+        Args: { _company_id: string; _plan: string; _source?: string }
+        Returns: undefined
+      }
+      plan_feature_codes: { Args: { _plan: string }; Returns: string[] }
     }
     Enums: {
       app_role:
