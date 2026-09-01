@@ -20,15 +20,15 @@ export const PLAN_PRICES: Record<
   { monthly: PlanPrice; yearly: PlanPrice }
 > = {
   comeco: {
-    monthly: { unitAmount: 7990, productName: "Golden Hour Hub — Começo (mensal)" },
-    yearly: { unitAmount: 76704, productName: "Golden Hour Hub — Começo (anual)" },
+    monthly: { unitAmount: 7990, productName: "MY FOOD'S AI — Começo (mensal)" },
+    yearly: { unitAmount: 76704, productName: "MY FOOD'S AI — Começo (anual)" },
   },
   essencial: {
-    monthly: { unitAmount: 14990, productName: "Golden Hour Hub — Essencial (mensal)" },
-    yearly: { unitAmount: 143904, productName: "Golden Hour Hub — Essencial (anual)" },
+    monthly: { unitAmount: 14990, productName: "MY FOOD'S AI — Essencial (mensal)" },
+    yearly: { unitAmount: 143904, productName: "MY FOOD'S AI — Essencial (anual)" },
   },
   equipe: {
-    monthly: { unitAmount: 24990, productName: "Golden Hour Hub — Equipe (mensal)" },
-    yearly: { unitAmount: 239904, productName: "Golden Hour Hub — Equipe (anual)" },
+    monthly: { unitAmount: 24990, productName: "MY FOOD'S AI — Equipe (mensal)" },
+    yearly: { unitAmount: 239904, productName: "MY FOOD'S AI — Equipe (anual)" },
   },
 };

@@ -198,7 +198,7 @@ function Landing() {
               <span className="grid size-7 shrink-0 place-items-center rounded-md border-2 border-[#09090b] bg-[#d2e823] text-xs">
                 ◍
               </span>
-              <span className="truncate uppercase">Golden Hour Hub</span>
+              <span className="truncate uppercase">MY FOOD'S AI</span>
             </Link>
 
             <div className="gh-mono mx-auto hidden gap-6 text-xs lg:flex">
@@ -274,7 +274,7 @@ function Landing() {
                 </h2>
                 <p className="mt-4 text-[#5e5a50]">
                   Pare de juntar informações de planilhas, mensagens e sistemas desconectados. O
-                  Golden Hour Hub dá contexto para cada decisão — da escala da equipe à reposição do
+                  MY FOOD'S AI dá contexto para cada decisão — da escala da equipe à reposição do
                   estoque.
                 </p>
               </div>
@@ -467,7 +467,7 @@ function Landing() {
             </div>
           </div>
           <p className="gh-mono border-t-2 border-[#f8f4e8]/20 px-6 py-6 text-center text-[10px]">
-            Golden Hour Hub · gestão operacional para food service.
+            MY FOOD'S AI · gestão operacional para food service.
           </p>
         </footer>
       </div>
