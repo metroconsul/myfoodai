@@ -45,8 +45,18 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
       "subscription_data[metadata][cycle]": data.cycle,
     });
 
+    // Usa o Price ID cadastrado somente se ele existir na conta Stripe atual.
+    // Caso contrário (chave de outra conta / preço removido), cria o preço na hora.
+    let usablePriceId: string | null = null;
     if (price.priceId) {
-      params.set("line_items[0][price]", price.priceId);
+      const check = await fetch(`https://api.stripe.com/v1/prices/${price.priceId}`, {
+        headers: { Authorization: `Bearer ${secretKey}` },
+      });
+      if (check.ok) usablePriceId = price.priceId;
+    }
+
+    if (usablePriceId) {
+      params.set("line_items[0][price]", usablePriceId);
     } else {
       params.set("line_items[0][price_data][currency]", "brl");
       params.set("line_items[0][price_data][unit_amount]", String(price.unitAmount));
