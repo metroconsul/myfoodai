@@ -189,6 +189,7 @@ const FEATURES = [
 ];
 
 function Landing() {
+  const navigate = useNavigate();
   // Retorno do login com Google: se havia um plano escolhido, segue para o checkout.
   // Quem ainda não tem empresa passa pelo onboarding primeiro (o checkout dispara lá).
   useEffect(() => {
