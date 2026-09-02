@@ -3,6 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { bootstrapCompany } from "@/lib/admin.functions";
 import { BRAND_NAME } from "@/config/brand";
+import { resumePendingCheckout } from "@/lib/pending-checkout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -50,6 +51,7 @@ function Onboarding() {
     try {
       await bootstrap({ data: { companyName, unitName, unitType, city } });
       toast.success("Empresa criada. Bem-vindo!");
+      if (await resumePendingCheckout()) return;
       navigate({ to: "/app", replace: true });
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Não foi possível criar a empresa.");

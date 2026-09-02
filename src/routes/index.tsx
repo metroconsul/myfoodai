@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { BRAND_NAME } from "@/config/brand";
 import { PricingSection } from "@/components/pricing-section";
@@ -189,12 +189,25 @@ const FEATURES = [
 ];
 
 function Landing() {
+  const navigate = useNavigate();
   // Retorno do login com Google: se havia um plano escolhido, segue para o checkout.
+  // Quem ainda não tem empresa passa pelo onboarding primeiro (o checkout dispara lá).
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) void resumePendingCheckout();
+    supabase.auth.getSession().then(async ({ data }) => {
+      const userId = data.session?.user.id;
+      if (!userId) return;
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("company_id")
+        .eq("id", userId)
+        .maybeSingle();
+      if (!profile?.company_id) {
+        navigate({ to: "/app", replace: true });
+        return;
+      }
+      void resumePendingCheckout();
     });
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="gh min-h-screen">
