@@ -33,10 +33,24 @@ function AuthPage() {
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data }) => {
       if (!data.session) return;
-      if (await resumePendingCheckout()) return;
+      if (await continueAfterAuth(data.session.user.id)) return;
       navigate({ to: "/app", replace: true });
     });
   }, [navigate]);
+
+  /** Usuário sem empresa passa pelo onboarding antes do checkout pendente. */
+  async function continueAfterAuth(userId: string): Promise<boolean> {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("company_id")
+      .eq("id", userId)
+      .maybeSingle();
+    if (!profile?.company_id) {
+      navigate({ to: "/app", replace: true }); // o gate leva ao onboarding
+      return true;
+    }
+    return resumePendingCheckout();
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
