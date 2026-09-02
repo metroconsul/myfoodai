@@ -1,6 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { BRAND_NAME } from "@/config/brand";
 import { PricingSection } from "@/components/pricing-section";
+import { supabase } from "@/integrations/supabase/client";
+import { resumePendingCheckout } from "@/lib/pending-checkout";
 import {
   CalendarDays,
   MapPin,
@@ -186,6 +189,13 @@ const FEATURES = [
 ];
 
 function Landing() {
+  // Retorno do login com Google: se havia um plano escolhido, segue para o checkout.
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) void resumePendingCheckout();
+    });
+  }, []);
+
   return (
     <div className="gh min-h-screen">
       <div className="relative z-[1]">

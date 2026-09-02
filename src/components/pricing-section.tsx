@@ -5,6 +5,7 @@ import { Check, Minus, ArrowRight, ChevronDown, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { createCheckoutSession } from "@/lib/billing.functions";
 import { supabase } from "@/integrations/supabase/client";
+import { savePendingCheckout, type PendingCheckout } from "@/lib/pending-checkout";
 import {
   COMPARISON_ROWS,
   PLANS,
@@ -70,6 +71,7 @@ function PlanCard({ plan, cycle }: { plan: Plan; cycle: BillingCycle }) {
         data: { session },
       } = await supabase.auth.getSession();
       if (!session) {
+        savePendingCheckout({ planId: plan.id as PendingCheckout["planId"], cycle });
         navigate({ to: "/auth" });
         return;
       }
