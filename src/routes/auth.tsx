@@ -71,7 +71,8 @@ function AuthPage() {
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        if (await resumePendingCheckout()) return;
+        const { data: userData } = await supabase.auth.getUser();
+        if (userData.user && (await continueAfterAuth(userData.user.id))) return;
         navigate({ to: "/app", replace: true });
       }
     } catch (error) {
