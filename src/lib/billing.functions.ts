@@ -12,7 +12,10 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => inputSchema.parse(data))
   .handler(async ({ data, context }) => {
-    const secretKey = process.env["STRIPE_TEST_API_KEY"] ?? process.env["STRIPE_API_KEY"];
+    const secretKey =
+      process.env["STRIPE_LIVE_API_KEY"] ??
+      process.env["STRIPE_TEST_API_KEY"] ??
+      process.env["STRIPE_API_KEY"];
     if (!secretKey) {
       throw new Error("Chave secreta da Stripe não configurada no servidor.");
     }

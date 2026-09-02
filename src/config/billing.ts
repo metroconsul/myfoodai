@@ -1,11 +1,11 @@
 /**
  * Configuração de cobrança (Stripe).
  * A chave publicável pode ficar no código — ela é segura para o frontend.
- * A chave secreta fica apenas no servidor (STRIPE_TEST_API_KEY / STRIPE_API_KEY).
+ * A chave secreta fica apenas no servidor (STRIPE_LIVE_API_KEY).
  */
 
 export const STRIPE_PUBLISHABLE_KEY =
-  "pk_test_51UAcMARxTOStc6pHpeiJjvKiT9AdQTWZUKDZRIhBvlxi3eIsvoUagK3B2iVum32dpy46ouwlW8t5FIv6XM1YQiqc00BKebZQrk";
+  "pk_live_51UAcLkRzTbFSBgbD8HVC6RZmMj84Efm1sFLrjl4UicRHRcqazQPdGBMMFm5KjUOvs3PO7EHDox6rplRE6aXZS2uA001YDA2unu";
 
 export interface PlanPrice {
   /** Valor em centavos (BRL). */
