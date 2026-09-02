@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { BRAND_NAME } from "@/config/brand";
 import { PricingSection } from "@/components/pricing-section";
