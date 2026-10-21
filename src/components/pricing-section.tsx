@@ -76,7 +76,7 @@ function PlanCard({ plan, cycle }: { plan: Plan; cycle: BillingCycle }) {
         return;
       }
       const { url } = await startCheckout({
-        data: { planId: plan.id, cycle, origin: window.location.origin },
+        data: { planId: plan.id, cycle },
       });
       window.location.href = url;
     } catch (err) {

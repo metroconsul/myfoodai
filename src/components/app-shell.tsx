@@ -2,31 +2,12 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, type ReactNode } from "react";
 import {
-  Boxes,
-  Building2,
-  CalendarDays,
-  CalendarRange,
-  ClipboardList,
   Clock,
-  FileSignature,
-  FileSpreadsheet,
-  History,
+  FileText,
   LayoutDashboard,
-  LineChart,
-  ListChecks,
-  ListTodo,
   LogOut,
   Menu,
   Package,
-  PackageCheck,
-  Repeat,
-  ShieldAlert,
-  ShieldCheck,
-  Lock,
-  Receipt,
-  Rocket,
-  Shirt,
-  Stethoscope,
   Users,
   X,
 } from "lucide-react";
@@ -55,72 +36,14 @@ type NavItem = {
 
 const NAV: { label: string; items: NavItem[] }[] = [
   {
-    label: "Operação",
-    items: [{ to: "/app", label: "Visão geral", icon: LayoutDashboard, exact: true }],
-  },
-  {
-    label: "Pessoas",
+    label: "Gestão operacional",
     items: [
+      { to: "/app", label: "Dashboard", icon: LayoutDashboard, exact: true },
       { to: "/app/employees", label: "Colaboradores", icon: Users, feature: "employees" },
-      { to: "/app/roles-teams", label: "Cargos e equipes", icon: ClipboardList, feature: "roles_teams" },
-      { to: "/app/units", label: "Unidades", icon: Building2, feature: "units" },
+      { to: "/app/time-entries", label: "Ponto", icon: Clock, feature: "time_entries" },
+      { to: "/app/conformidade/exames", label: "Documentos", icon: FileText, feature: "compliance" },
+      { to: "/app/deliveries", label: "EPIs", icon: Package, feature: "deliveries" },
     ],
-  },
-  {
-    label: "Escalas e turnos",
-    items: [
-      { to: "/app/schedules", label: "Escalas", icon: CalendarDays, feature: "schedules_advanced" },
-      { to: "/app/shifts", label: "Turnos", icon: CalendarRange, feature: "shifts" },
-      { to: "/app/schedule-templates", label: "Modelos semanais", icon: FileSpreadsheet, feature: "schedule_templates" },
-      { to: "/app/schedule-compliance", label: "Conflitos", icon: ShieldAlert, feature: "schedule_compliance" },
-      { to: "/app/schedule-history", label: "Histórico", icon: History, feature: "schedule_history" },
-    ],
-  },
-  {
-    label: "Ponto",
-    items: [
-      { to: "/app/time-entries", label: "Registros de ponto", icon: Clock, feature: "time_entries" },
-      { to: "/app/point-cards", label: "Cartões de ponto", icon: FileSignature, feature: "point_cards" },
-    ],
-  },
-  {
-    label: "Itens e entregas",
-    items: [
-      { to: "/app/items", label: "Itens operacionais", icon: Package, feature: "items" },
-      { to: "/app/deliveries", label: "Entrega de itens", icon: PackageCheck, feature: "deliveries" },
-      { to: "/app/delivery-rules", label: "Regras por função", icon: ListChecks, feature: "delivery_rules" },
-    ],
-  },
-  {
-    label: "Conformidade e equipe",
-    items: [
-      { to: "/app/conformidade", label: "Visão de conformidade", icon: ShieldCheck, exact: true, feature: "compliance" },
-      { to: "/app/conformidade/exames", label: "Exames e aptidão", icon: Stethoscope, feature: "compliance" },
-      { to: "/app/conformidade/kits", label: "Kits por função", icon: Shirt, feature: "compliance" },
-      { to: "/app/conformidade/trocas", label: "Trocas e devoluções", icon: Repeat, feature: "compliance" },
-      { to: "/app/conformidade/pendencias", label: "Pendências da equipe", icon: ListTodo, feature: "compliance" },
-    ],
-  },
-  {
-    label: "Documentos do colaborador",
-    items: [{ to: "/app/documentos/holerites", label: "Holerites", icon: Receipt, feature: "payslips" }],
-  },
-  {
-    label: "Configurações",
-    items: [
-      { to: "/app/settings/jornada", label: "Jornada fixa", icon: CalendarRange, feature: "fixed_schedule" },
-      { to: "/app/settings/aceite", label: "Políticas de aceite", icon: ShieldCheck, feature: "settings" },
-      { to: "/app/settings/lgpd", label: "Privacidade e LGPD", icon: Lock, feature: "settings" },
-      { to: "/app/admin/piloto", label: "Contas piloto", icon: Rocket, platformOnly: true },
-    ],
-  },
-  {
-    label: "Estoque",
-    items: [{ to: "/app/inventory", label: "Estoque por unidade", icon: Boxes, feature: "inventory" }],
-  },
-  {
-    label: "Vendas",
-    items: [{ to: "/app/sales", label: "Vendas e conexões", icon: LineChart, feature: "sales" }],
   },
 ];
 

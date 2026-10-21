@@ -4,7 +4,7 @@
  */
 
 export type SignatureMethod = "visualizar" | "ciencia" | "assinatura" | "assinatura_facial";
-export type FaceProvider = "lovable_ai" | "selfie_evidence" | "externo";
+export type FaceProvider = "vision_api" | "selfie_evidence" | "externo";
 export type GeocodingProvider = "nominatim" | "custom" | "desativado";
 
 export type AcceptancePolicy = {
@@ -31,7 +31,7 @@ export const DEFAULT_ACCEPTANCE_POLICY: AcceptancePolicy = {
   geofenceEnabled: false,
   geofenceRadiusMeters: 200,
   geofenceBlockOutside: false,
-  faceProvider: "lovable_ai",
+  faceProvider: "vision_api",
   faceProviderEndpoint: null,
   geocodingProvider: "nominatim",
   geocodingEndpoint: null,
@@ -45,7 +45,7 @@ export const SIGNATURE_METHOD_LABEL: Record<SignatureMethod, string> = {
 };
 
 export const FACE_PROVIDER_LABEL: Record<FaceProvider, string> = {
-  lovable_ai: "Validação facial gerenciada (padrão)",
+  vision_api: "Validação facial gerenciada (padrão)",
   selfie_evidence: "Somente registro de selfie",
   externo: "Provedor externo (endpoint próprio)",
 };

@@ -14,6 +14,7 @@ dist-ssr
 .vinxi
 .tanstack/**
 .nitro
+.vercel
 *.local
 
 # Wrangler / Cloudflare
@@ -34,3 +35,18 @@ dist-ssr
 # testes e2e
 test-results/
 playwright-report/
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+
+# Private database exports and migration staging
+.migration-private/
+.env*
+
+# Temporary / generated work files
+tmp/
+.codex-finalizer/
+supabase/.temp/
+!.env.example

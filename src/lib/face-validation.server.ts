@@ -2,8 +2,8 @@
  * Camada de validação de identidade (server-only).
  *
  * Provedor ativo definido por FACE_VALIDATION_PROVIDER:
- * - "lovable_ai" (padrão): análise real da selfie por modelo de visão do
- *   Lovable AI Gateway. Verifica presença de rosto único, enquadramento,
+ * - "vision_api" (padrão): análise real da selfie por modelo de visão do
+ *   provedor de visão configurado. Verifica presença de rosto único, enquadramento,
  *   oclusões (boné, óculos escuros, máscara) e indícios de recaptura de tela
  *   (prova de vida passiva). Não faz comparação biométrica 1:1 — o resultado
  *   é registrado como evidência auditável do aceite.
@@ -53,12 +53,12 @@ type Analysis = {
   reason?: string;
 };
 
-async function analyzeWithLovableAI(imageDataUrl: string, apiKey: string): Promise<Analysis | null> {
-  const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+async function analyzeWithVisionAPI(imageDataUrl: string, apiKey: string): Promise<Analysis | null> {
+  const response = await fetch(process.env["FACE_VISION_ENDPOINT"]!, {
     method: "POST",
-    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    headers: { ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {}), "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "google/gemini-2.5-flash",
+      model: process.env["FACE_VISION_MODEL"],
       messages: [
         {
           role: "user",
@@ -123,12 +123,12 @@ export async function validateFace(input: {
   deliveryId: string;
   companyId?: string | null;
 }): Promise<{ result: FaceValidationResult; bytes: Uint8Array | null }> {
-  const apiKey = process.env["LOVABLE_API_KEY"];
+  const apiKey = process.env["FACE_VISION_API_KEY"];
   const policy = await (await import("./policies.server")).getAcceptancePolicy(input.companyId);
   const provider =
     process.env["FACE_VALIDATION_PROVIDER"] ??
     policy.faceProvider ??
-    (apiKey ? "lovable_ai" : "selfie_evidence");
+    (apiKey ? "vision_api" : "selfie_evidence");
   const bytes = decodeImageDataUrl(input.imageDataUrl);
   const reference = `${provider}:${crypto.randomUUID()}`;
 
@@ -145,8 +145,8 @@ export async function validateFace(input: {
     };
   }
 
-  if (provider === "lovable_ai") {
-    if (!apiKey) {
+  if (provider === "vision_api") {
+    if (!process.env["FACE_VISION_ENDPOINT"] || !process.env["FACE_VISION_MODEL"]) {
       return {
         result: {
           status: "indisponivel",
@@ -161,7 +161,7 @@ export async function validateFace(input: {
 
     let analysis: Analysis | null = null;
     try {
-      analysis = await analyzeWithLovableAI(input.imageDataUrl, apiKey);
+      analysis = await analyzeWithVisionAPI(input.imageDataUrl, apiKey ?? "");
     } catch {
       analysis = null;
     }

@@ -9,7 +9,7 @@ export const acceptanceSchema = z.object({
   geofenceEnabled: z.boolean(),
   geofenceRadiusMeters: z.number().int().min(20).max(20000),
   geofenceBlockOutside: z.boolean(),
-  faceProvider: z.enum(["lovable_ai", "selfie_evidence", "externo"]),
+  faceProvider: z.enum(["vision_api", "selfie_evidence", "externo"]),
   faceProviderEndpoint: z.string().trim().url().max(400).nullable().optional(),
   geocodingProvider: z.enum(["nominatim", "custom", "desativado"]),
   geocodingEndpoint: z.string().trim().url().max(400).nullable().optional(),

@@ -20,6 +20,19 @@ export async function companyOfUser(userId: string): Promise<string | null> {
   return data?.company_id ?? null;
 }
 
+export async function hasCompanyAccess(companyId: string): Promise<boolean> {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data } = await supabaseAdmin
+    .from("companies")
+    .select("access_source, subscription_status, trial_ends_at")
+    .eq("id", companyId)
+    .maybeSingle();
+  if (!data) return false;
+  if (data.access_source === "admin_grant" && data.subscription_status === "admin_grant") return true;
+  if (data.access_source === "subscription") return ["active", "trialing"].includes(data.subscription_status);
+  return data.access_source === "trial" && data.subscription_status === "trialing" && Boolean(data.trial_ends_at && new Date(data.trial_ends_at) > new Date());
+}
+
 /**
  * Garante que a empresa do usuário tem o recurso liberado.
  * A conta dona do produto (platform admin) nunca é bloqueada.
@@ -33,6 +46,7 @@ export async function requireFeature(userId: string, featureCode: string): Promi
 
   const companyId = await companyOfUser(userId);
   if (!companyId) throw new Error("Empresa não encontrada.");
+  if (!(await hasCompanyAccess(companyId))) throw new Error("Assinatura inválida ou indisponível.");
 
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data } = await supabaseAdmin

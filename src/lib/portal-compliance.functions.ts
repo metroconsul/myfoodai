@@ -273,7 +273,7 @@ export const portalUploadRequestedDocument = createServerFn({ method: "POST" })
     if (!decoded) return { error: "Arquivo inválido." as const };
     if (decoded.bytes.byteLength > 8_000_000) return { error: "Arquivo maior que o limite." as const };
 
-    const safeName = data.fileName.replace(/[^\w.\-]+/g, "_").slice(-120);
+    const safeName = data.fileName.replace(/[^\w.-]+/g, "_").slice(-120);
     const path = `${request.company_id}/documentos/${employee.id}/${crypto.randomUUID()}-${safeName}`;
     const { error: uploadError } = await supabaseAdmin.storage
       .from("documents")

@@ -11,15 +11,22 @@ export const portalLogin = createServerFn({ method: "POST" })
     void hashPin;
     const cpf = onlyDigits(data.cpf);
 
-    const { data: employee } = await supabaseAdmin
+    const { data: employee, error: employeeError } = await supabaseAdmin
       .from("employees")
       .select("id, full_name, company_id, unit_id, portal_pin_hash, portal_failed_attempts, portal_locked_until, employment_status")
       .eq("cpf", cpf)
       .maybeSingle();
 
+    if (employeeError) {
+      console.error("[Portal] Falha ao consultar credenciais", employeeError.message);
+      return { error: "Não foi possível conectar ao serviço agora. Tente novamente em instantes." as const };
+    }
+
     const genericError = { error: "CPF ou PIN inválidos." as const };
     if (!employee) return genericError;
     if (employee.employment_status === "desligado") return { error: "Acesso indisponível." };
+    const { hasCompanyAccess } = await import("./plan.server");
+    if (!(await hasCompanyAccess(employee.company_id))) return { error: "Acesso indisponível." };
     if (employee.portal_locked_until && new Date(employee.portal_locked_until) > new Date()) {
       return { error: "Muitas tentativas. Tente novamente em alguns minutos." };
     }
@@ -133,6 +140,26 @@ export const portalMe = createServerFn({ method: "POST" })
       nextBlocks: nextBlocks ?? [],
       lastEntries: lastEntries ?? [],
     };
+  });
+
+/** Notificações do colaborador normalizadas para o contrato estruturado do MVP. */
+export const portalNotifications = createServerFn({ method: "POST" })
+  .inputValidator((d: unknown) => tokenSchema.parse(d))
+  .handler(async ({ data }) => {
+    const employee = await (await import("./portal-session.server")).resolveSession(data.token);
+    if (!employee) return { error: "Sessão expirada." as const };
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { toStructuredNotification } = await import("./notifications.shared");
+
+    const { data: rows, error } = await supabaseAdmin
+      .from("notifications")
+      .select("id, event_type, template, payload, created_at")
+      .eq("employee_id", employee.id)
+      .order("created_at", { ascending: false })
+      .limit(8);
+
+    if (error) return { error: "Não foi possível carregar as notificações." as const };
+    return { notifications: (rows ?? []).map(toStructuredNotification) };
   });
 
 export const portalSchedule = createServerFn({ method: "POST" })
@@ -267,6 +294,18 @@ export const portalPunch = createServerFn({ method: "POST" })
       metadata: { entry_type: data.entryType, geo_status: geoStatus },
     });
 
+    await (await import("./automation.server")).publishAutomationEvent({
+      event_type: "clock.created",
+      tenant_id: employee.company_id,
+      employee_id: employee.id,
+      payload: {
+        time_entry_id: inserted.id,
+        entry_type: inserted.entry_type,
+        server_time: inserted.server_time,
+        geo_status: inserted.geo_status,
+      },
+    });
+
     return { entry: inserted, geoStatus };
   });
 
@@ -316,16 +355,26 @@ export const portalRequestCorrection = createServerFn({ method: "POST" })
     const employee = await (await import("./portal-session.server")).resolveSession(data.token);
     if (!employee) return { error: "Sessão expirada." as const };
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { error } = await supabaseAdmin.from("time_entry_reviews").insert({
-      company_id: employee.company_id,
-      unit_id: employee.unit_id,
-      employee_id: employee.id,
-      time_entry_id: data.timeEntryId ?? null,
-      requested_time: data.requestedTime ?? null,
-      requested_entry_type: data.requestedEntryType ?? null,
-      reason: data.reason,
-    });
+    const { data: review, error } = await supabaseAdmin
+      .from("time_entry_reviews")
+      .insert({
+        company_id: employee.company_id,
+        unit_id: employee.unit_id,
+        employee_id: employee.id,
+        time_entry_id: data.timeEntryId ?? null,
+        requested_time: data.requestedTime ?? null,
+        requested_entry_type: data.requestedEntryType ?? null,
+        reason: data.reason,
+      })
+      .select("id")
+      .single();
     if (error) return { error: "Não foi possível enviar a solicitação." };
+    await (await import("./automation.server")).publishAutomationEvent({
+      event_type: "clock.adjustment.requested",
+      tenant_id: employee.company_id,
+      employee_id: employee.id,
+      payload: { review_id: review.id, time_entry_id: data.timeEntryId ?? null },
+    });
     return { ok: true };
   });
 

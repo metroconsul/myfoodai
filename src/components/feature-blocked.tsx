@@ -10,9 +10,11 @@ import { Button } from "@/components/ui/button";
 export function FeatureBlocked({
   planCode,
   title = "Recurso não incluído no seu plano",
+  description,
 }: {
   planCode: string;
   title?: string;
+  description?: string;
 }) {
   const label = PLAN_LABELS[(planCode as PlanCode) ?? "comeco"] ?? "seu plano";
   return (
@@ -22,8 +24,7 @@ export function FeatureBlocked({
       </span>
       <h1 className="display-type mt-4 text-xl">{title}</h1>
       <p className="mt-2 text-sm text-muted-foreground">
-        Este módulo não faz parte do {label}. Sua operação continua funcionando normalmente nos
-        recursos incluídos.
+        {description ?? `Este módulo não faz parte do ${label}. Sua operação continua funcionando normalmente nos recursos incluídos.`}
       </p>
       <div className="mt-6 flex flex-wrap justify-center gap-2">
         <Button asChild>

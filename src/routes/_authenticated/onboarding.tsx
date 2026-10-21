@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { bootstrapCompany } from "@/lib/admin.functions";
 import { BRAND_NAME } from "@/config/brand";
@@ -38,6 +39,7 @@ export const Route = createFileRoute("/_authenticated/onboarding")({
 
 function Onboarding() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const bootstrap = useServerFn(bootstrapCompany);
   const [companyName, setCompanyName] = useState("");
   const [unitName, setUnitName] = useState("");
@@ -50,6 +52,8 @@ function Onboarding() {
     setLoading(true);
     try {
       await bootstrap({ data: { companyName, unitName, unitType, city } });
+      // The workspace cached before onboarding has no company yet.
+      queryClient.removeQueries({ queryKey: ["workspace"] });
       toast.success("Empresa criada. Bem-vindo!");
       if (await resumePendingCheckout()) return;
       navigate({ to: "/app", replace: true });

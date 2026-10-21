@@ -1,7 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
 import { BRAND_NAME } from "@/config/brand";
 import { resumePendingCheckout } from "@/lib/pending-checkout";
 import { Button } from "@/components/ui/button";
@@ -10,10 +9,14 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/auth")({
+  ssr: false,
   head: () => ({
     meta: [
       { title: `Entrar — ${BRAND_NAME}` },
-      { name: "description", content: "Acesse o painel de gestão de pessoas, escalas, ponto e estoque." },
+      {
+        name: "description",
+        content: "Acesse o painel de gestão operacional de colaboradores.",
+      },
       { property: "og:title", content: `Entrar — ${BRAND_NAME}` },
       { property: "og:description", content: "Acesso ao painel administrativo." },
       { name: "robots", content: "noindex" },
@@ -21,6 +24,14 @@ export const Route = createFileRoute("/auth")({
   }),
   component: AuthPage,
 });
+
+function authErrorMessage(error: unknown) {
+  const message = error instanceof Error ? error.message : "";
+  if (message === "Failed to fetch" || message.includes("NetworkError")) {
+    return "Não foi possível conectar ao serviço de autenticação. Verifique a configuração do ambiente e tente novamente.";
+  }
+  return message || "Não foi possível continuar.";
+}
 
 function AuthPage() {
   const navigate = useNavigate();
@@ -76,29 +87,32 @@ function AuthPage() {
         navigate({ to: "/app", replace: true });
       }
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Não foi possível continuar.");
+      toast.error(authErrorMessage(error));
     } finally {
       setLoading(false);
     }
   }
 
   async function handleGoogle() {
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: `${window.location.origin}/auth` },
+      });
+      if (error) throw error;
+    } catch {
       toast.error("Não foi possível entrar com o Google.");
-      return;
     }
-    if (result.redirected) return;
-    navigate({ to: "/app", replace: true });
   }
 
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
       <div className="flex items-center justify-center px-4 py-10">
         <div className="w-full max-w-md surface-card p-7 animate-rise">
-          <Link to="/" className="mb-6 inline-flex items-center gap-2 text-sm font-medium hover:underline">
+          <Link
+            to="/"
+            className="mb-6 inline-flex items-center gap-2 text-sm font-medium hover:underline"
+          >
             ← Voltar
           </Link>
           <p className="display-type text-xs uppercase tracking-tight">{BRAND_NAME}</p>
@@ -106,7 +120,7 @@ function AuthPage() {
             {mode === "login" ? "Entrar no painel" : "Criar conta"}
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Gestão de pessoas, escalas, ponto, estoque e vendas.
+            Gestão operacional de colaboradores para food service.
           </p>
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
@@ -166,7 +180,8 @@ function AuthPage() {
           </form>
 
           <div className="my-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            <span className="h-0.5 flex-1 bg-foreground" /> ou <span className="h-0.5 flex-1 bg-foreground" />
+            <span className="h-0.5 flex-1 bg-foreground" /> ou{" "}
+            <span className="h-0.5 flex-1 bg-foreground" />
           </div>
 
           <Button variant="outline" className="w-full" onClick={handleGoogle}>
@@ -189,10 +204,10 @@ function AuthPage() {
       <aside className="hidden border-l-2 border-foreground bg-accent p-12 lg:flex lg:flex-col lg:justify-between">
         <p className="display-type text-sm uppercase">{BRAND_NAME}</p>
         <p className="display-type max-w-md text-4xl leading-[1.05]">
-          Gestão de pessoas, escalas, ponto, estoque e vendas.
+          Gestão de colaboradores, ponto, documentos e EPIs.
         </p>
         <div className="flex flex-wrap gap-2">
-          {["Escalas", "Ponto auditável", "Estoque visual", "Multiunidade"].map((tag) => (
+          {["Colaboradores", "Ponto auditável", "Documentos", "EPIs"].map((tag) => (
             <span
               key={tag}
               className="rounded-[8px] border-2 border-foreground bg-card px-3 py-1 text-xs font-semibold shadow-[2px_2px_0_var(--ink)]"
@@ -205,4 +220,3 @@ function AuthPage() {
     </div>
   );
 }
-

@@ -1,1 +1,13 @@
-project_id = "hnfsivaqipotppwefgpw"
+# Identificador local; o projeto remoto é escolhido explicitamente com supabase link.
+project_id = "myfoodai"
+
+[auth]
+site_url = "https://myfoodsai.com"
+additional_redirect_urls = [
+  "https://myfoodsai.com/**",
+  "https://www.myfoodsai.com/**",
+  "https://myfoodsai.vercel.app/**",
+  "https://myfoodai-independent.vercel.app/**",
+  "http://localhost:5173/auth",
+  "http://localhost:5173/app",
+]

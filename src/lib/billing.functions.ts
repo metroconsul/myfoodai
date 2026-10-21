@@ -1,88 +1,77 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { PLAN_PRICES } from "@/config/billing";
+import { priceForPlan } from "@/config/billing";
+import { appUrl, getStripe } from "./stripe.server";
 import { inputSchema } from "./billing.functions.schemas";
 
-/**
- * Cria uma sessão de Checkout da Stripe para assinatura do plano escolhido.
- * Roda apenas no servidor: a chave secreta nunca chega ao navegador.
- * O user_id vai em metadata para o webhook vincular a assinatura ao usuário.
- */
+async function subscriptionForCheckout(userId: string, companyId: string) {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data, error } = await supabaseAdmin
+    .from("subscriptions")
+    .select("stripe_customer_id, status")
+    .or(`user_id.eq.${userId},company_id.eq.${companyId}`)
+    .limit(1)
+    .maybeSingle();
+  if (error) throw new Error("Não foi possível consultar a assinatura existente.");
+  return data;
+}
+
 export const createCheckoutSession = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => inputSchema.parse(data))
   .handler(async ({ data, context }) => {
-    const secretKey =
-      process.env["STRIPE_LIVE_API_KEY"] ??
-      process.env["STRIPE_TEST_API_KEY"] ??
-      process.env["STRIPE_API_KEY"];
-    if (!secretKey) {
-      throw new Error("Chave secreta da Stripe não configurada no servidor.");
-    }
-
-    const price = PLAN_PRICES[data.planId]?.[data.cycle];
-    if (!price) throw new Error("Plano inválido.");
-
-    // A empresa vem da sessão autenticada — o frontend não escolhe preço nem empresa.
     const { data: profile } = await context.supabase
       .from("profiles")
       .select("company_id")
       .eq("id", context.userId)
       .maybeSingle();
-    const companyId = profile?.company_id ?? "";
+    if (!profile?.company_id) throw new Error("Crie sua empresa antes de contratar um plano.");
 
-    const interval = data.cycle === "yearly" ? "year" : "month";
-    const params = new URLSearchParams({
+    const price = priceForPlan(data.planId, data.cycle);
+    const existing = await subscriptionForCheckout(context.userId, profile.company_id);
+    if (existing?.status && ["active", "trialing", "past_due", "unpaid"].includes(existing.status)) {
+      throw new Error("Já existe uma assinatura para esta empresa. Gerencie-a pelo portal de cobrança.");
+    }
+
+    const metadata = {
+      supabase_user_id: context.userId,
+      company_id: profile.company_id,
+      plan_key: price.planKey,
+      billing_interval: price.interval,
+    };
+    const email = (context.claims as { email?: string }).email;
+    const customer = existing?.stripe_customer_id
+      ? { customer: existing.stripe_customer_id }
+      : email
+        ? { customer_email: email }
+        : {};
+    const session = await getStripe().checkout.sessions.create({
       mode: "subscription",
-      success_url: `${data.origin}/app?checkout=sucesso`,
-      cancel_url: `${data.origin}/?checkout=cancelado#planos`,
-      "line_items[0][quantity]": "1",
-      client_reference_id: companyId || context.userId,
-      "metadata[user_id]": context.userId,
-      "metadata[company_id]": companyId,
-      "metadata[plan_id]": data.planId,
-      "metadata[cycle]": data.cycle,
-      "subscription_data[metadata][user_id]": context.userId,
-      "subscription_data[metadata][company_id]": companyId,
-      "subscription_data[metadata][plan_id]": data.planId,
-      "subscription_data[metadata][cycle]": data.cycle,
+      line_items: [{ price: price.priceId, quantity: 1 }],
+      success_url: `${appUrl()}/app?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${appUrl()}/#planos`,
+      client_reference_id: context.userId,
+      metadata,
+      subscription_data: { metadata },
+      ...customer,
     });
+    if (!session.url) throw new Error("A Stripe não retornou a URL do checkout.");
+    return { url: session.url };
+  });
 
-    // Usa o Price ID cadastrado somente se ele existir na conta Stripe atual.
-    // Caso contrário (chave de outra conta / preço removido), cria o preço na hora.
-    let usablePriceId: string | null = null;
-    if (price.priceId) {
-      const check = await fetch(`https://api.stripe.com/v1/prices/${price.priceId}`, {
-        headers: { Authorization: `Bearer ${secretKey}` },
-      });
-      if (check.ok) usablePriceId = price.priceId;
-    }
-
-    if (usablePriceId) {
-      params.set("line_items[0][price]", usablePriceId);
-    } else {
-      params.set("line_items[0][price_data][currency]", "brl");
-      params.set("line_items[0][price_data][unit_amount]", String(price.unitAmount));
-      params.set("line_items[0][price_data][recurring][interval]", interval);
-      params.set("line_items[0][price_data][product_data][name]", price.productName);
-    }
-
-    const email = (context as { claims?: { email?: string } }).claims?.email;
-    if (email) params.set("customer_email", email);
-
-    const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${secretKey}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: params.toString(),
+export const createCustomerPortalSession = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: subscription, error } = await supabaseAdmin
+      .from("subscriptions")
+      .select("stripe_customer_id")
+      .eq("user_id", context.userId)
+      .maybeSingle();
+    if (error || !subscription?.stripe_customer_id) throw new Error("Nenhum cliente Stripe encontrado para esta conta.");
+    const session = await getStripe().billingPortal.sessions.create({
+      customer: subscription.stripe_customer_id,
+      return_url: `${appUrl()}/app`,
     });
-
-    const payload = (await res.json()) as { url?: string; error?: { message?: string } };
-    if (!res.ok || !payload.url) {
-      throw new Error(payload.error?.message ?? "Falha ao criar sessão de checkout.");
-    }
-
-    return { url: payload.url };
+    return { url: session.url };
   });

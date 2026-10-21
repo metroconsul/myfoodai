@@ -21,6 +21,7 @@ interface WorkspaceValue {
   roles: string[];
   isAdmin: boolean;
   isPlatformAdmin: boolean;
+  hasSubscriptionAccess: boolean;
   planCode: string;
   features: FeatureCode[];
   hasFeature: (code: FeatureCode) => boolean;
@@ -99,9 +100,16 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     const roles = data?.roles ?? [];
     const isPlatformAdmin = Boolean(data?.isPlatformAdmin);
     const planCode = data?.company?.plan_code ?? "comeco";
+    const hasSubscriptionAccess =
+      isPlatformAdmin ||
+      (data?.company?.access_source === "subscription" && ["active", "trialing"].includes(data.company.subscription_status)) ||
+      (data?.company?.access_source === "admin_grant" && data.company.subscription_status === "admin_grant") ||
+      (data?.company?.access_source === "trial" &&
+        data.company.subscription_status === "trialing" &&
+        Boolean(data.company.trial_ends_at && new Date(data.company.trial_ends_at) > new Date()));
     const granted = data?.entitlements ?? [];
     const features: FeatureCode[] =
-      granted.length > 0 ? (granted as FeatureCode[]) : planFeatures(planCode);
+      hasSubscriptionAccess ? (granted.length > 0 ? (granted as FeatureCode[]) : planFeatures(planCode)) : [];
     return {
       loading: isLoading,
       userId: data?.userId ?? null,
@@ -117,9 +125,10 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       roles,
       isAdmin: roles.includes("owner") || roles.includes("admin"),
       isPlatformAdmin,
+      hasSubscriptionAccess,
       planCode,
       features,
-      hasFeature: (code: FeatureCode) => isPlatformAdmin || features.includes(code),
+      hasFeature: (code: FeatureCode) => hasSubscriptionAccess && (isPlatformAdmin || features.includes(code)),
       refresh: () => queryClient.invalidateQueries({ queryKey: ["workspace"] }),
     };
   }, [data, isLoading, activeUnitId, queryClient]);

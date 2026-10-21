@@ -35,6 +35,8 @@ import { Route as AuthenticatedAppSchedulesRouteImport } from './routes/_authent
 import { Route as AuthenticatedAppShiftsRouteImport } from './routes/_authenticated/app.shifts'
 import { Route as AuthenticatedAppTimeEntriesRouteImport } from './routes/_authenticated/app.time-entries'
 import { Route as AuthenticatedAppUnitsRouteImport } from './routes/_authenticated/app.units'
+import { Route as ApiAutomationDispatchRouteImport } from './routes/api/automation/dispatch'
+import { Route as ApiAutomationManagerSummaryRouteImport } from './routes/api/automation/manager-summary'
 import { Route as ApiPublicSalesIngestRouteImport } from './routes/api/public/sales-ingest'
 import { Route as ApiPublicStripeWebhookRouteImport } from './routes/api/public/stripe-webhook'
 import { Route as PortalCartaoPontoIndexRouteImport } from './routes/portal.cartao-ponto.index'
@@ -57,6 +59,13 @@ import { Route as AuthenticatedAppPointCardsIdRouteImport } from './routes/_auth
 import { Route as AuthenticatedAppSettingsAceiteRouteImport } from './routes/_authenticated/app.settings.aceite'
 import { Route as AuthenticatedAppSettingsJornadaRouteImport } from './routes/_authenticated/app.settings.jornada'
 import { Route as AuthenticatedAppSettingsLgpdRouteImport } from './routes/_authenticated/app.settings.lgpd'
+import { Route as ApiAutomationClockCandidatesRouteImport } from './routes/api/automation/clock.candidates'
+import { Route as ApiAutomationDocumentsCandidatesRouteImport } from './routes/api/automation/documents.candidates'
+import { Route as ApiAutomationEpisCandidatesRouteImport } from './routes/api/automation/epis.candidates'
+import { Route as ApiAutomationEventsClaimRouteImport } from './routes/api/automation/events.claim'
+import { Route as ApiAutomationEventsClockRouteImport } from './routes/api/automation/events.clock'
+import { Route as ApiAutomationEventsDocumentsRouteImport } from './routes/api/automation/events.documents'
+import { Route as ApiAutomationEventsEpisRouteImport } from './routes/api/automation/events.epis'
 import { Route as PortalHoleritesIdComprovanteRouteImport } from './routes/portal.holerites.$id.comprovante'
 import { Route as AuthenticatedAppConformidadeExamesIndexRouteImport } from './routes/_authenticated/app.conformidade.exames.index'
 import { Route as AuthenticatedAppConformidadeExamesIdRouteImport } from './routes/_authenticated/app.conformidade.exames.$id'
@@ -202,6 +211,17 @@ const AuthenticatedAppUnitsRoute = AuthenticatedAppUnitsRouteImport.update({
   path: '/units',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const ApiAutomationDispatchRoute = ApiAutomationDispatchRouteImport.update({
+  id: '/api/automation/dispatch',
+  path: '/api/automation/dispatch',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAutomationManagerSummaryRoute =
+  ApiAutomationManagerSummaryRouteImport.update({
+    id: '/api/automation/manager-summary',
+    path: '/api/automation/manager-summary',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicSalesIngestRoute = ApiPublicSalesIngestRouteImport.update({
   id: '/api/public/sales-ingest',
   path: '/api/public/sales-ingest',
@@ -324,6 +344,47 @@ const AuthenticatedAppSettingsLgpdRoute =
     path: '/settings/lgpd',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const ApiAutomationClockCandidatesRoute =
+  ApiAutomationClockCandidatesRouteImport.update({
+    id: '/api/automation/clock/candidates',
+    path: '/api/automation/clock/candidates',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiAutomationDocumentsCandidatesRoute =
+  ApiAutomationDocumentsCandidatesRouteImport.update({
+    id: '/api/automation/documents/candidates',
+    path: '/api/automation/documents/candidates',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiAutomationEpisCandidatesRoute =
+  ApiAutomationEpisCandidatesRouteImport.update({
+    id: '/api/automation/epis/candidates',
+    path: '/api/automation/epis/candidates',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiAutomationEventsClaimRoute =
+  ApiAutomationEventsClaimRouteImport.update({
+    id: '/api/automation/events/claim',
+    path: '/api/automation/events/claim',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiAutomationEventsClockRoute =
+  ApiAutomationEventsClockRouteImport.update({
+    id: '/api/automation/events/clock',
+    path: '/api/automation/events/clock',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiAutomationEventsDocumentsRoute =
+  ApiAutomationEventsDocumentsRouteImport.update({
+    id: '/api/automation/events/documents',
+    path: '/api/automation/events/documents',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiAutomationEventsEpisRoute = ApiAutomationEventsEpisRouteImport.update({
+  id: '/api/automation/events/epis',
+  path: '/api/automation/events/epis',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PortalHoleritesIdComprovanteRoute =
   PortalHoleritesIdComprovanteRouteImport.update({
     id: '/comprovante',
@@ -386,6 +447,8 @@ export interface FileRoutesByFullPath {
   '/app/shifts': typeof AuthenticatedAppShiftsRoute
   '/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/app/units': typeof AuthenticatedAppUnitsRoute
+  '/api/automation/dispatch': typeof ApiAutomationDispatchRoute
+  '/api/automation/manager-summary': typeof ApiAutomationManagerSummaryRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/portal/cartao-ponto/$id': typeof PortalCartaoPontoIdRoute
@@ -406,6 +469,13 @@ export interface FileRoutesByFullPath {
   '/app/settings/aceite': typeof AuthenticatedAppSettingsAceiteRoute
   '/app/settings/jornada': typeof AuthenticatedAppSettingsJornadaRoute
   '/app/settings/lgpd': typeof AuthenticatedAppSettingsLgpdRoute
+  '/api/automation/clock/candidates': typeof ApiAutomationClockCandidatesRoute
+  '/api/automation/documents/candidates': typeof ApiAutomationDocumentsCandidatesRoute
+  '/api/automation/epis/candidates': typeof ApiAutomationEpisCandidatesRoute
+  '/api/automation/events/claim': typeof ApiAutomationEventsClaimRoute
+  '/api/automation/events/clock': typeof ApiAutomationEventsClockRoute
+  '/api/automation/events/documents': typeof ApiAutomationEventsDocumentsRoute
+  '/api/automation/events/epis': typeof ApiAutomationEventsEpisRoute
   '/portal/holerites/$id/comprovante': typeof PortalHoleritesIdComprovanteRoute
   '/app/conformidade/': typeof AuthenticatedAppConformidadeIndexRoute
   '/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
@@ -439,6 +509,8 @@ export interface FileRoutesByTo {
   '/app/shifts': typeof AuthenticatedAppShiftsRoute
   '/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/app/units': typeof AuthenticatedAppUnitsRoute
+  '/api/automation/dispatch': typeof ApiAutomationDispatchRoute
+  '/api/automation/manager-summary': typeof ApiAutomationManagerSummaryRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/portal/cartao-ponto/$id': typeof PortalCartaoPontoIdRoute
@@ -459,6 +531,13 @@ export interface FileRoutesByTo {
   '/app/settings/aceite': typeof AuthenticatedAppSettingsAceiteRoute
   '/app/settings/jornada': typeof AuthenticatedAppSettingsJornadaRoute
   '/app/settings/lgpd': typeof AuthenticatedAppSettingsLgpdRoute
+  '/api/automation/clock/candidates': typeof ApiAutomationClockCandidatesRoute
+  '/api/automation/documents/candidates': typeof ApiAutomationDocumentsCandidatesRoute
+  '/api/automation/epis/candidates': typeof ApiAutomationEpisCandidatesRoute
+  '/api/automation/events/claim': typeof ApiAutomationEventsClaimRoute
+  '/api/automation/events/clock': typeof ApiAutomationEventsClockRoute
+  '/api/automation/events/documents': typeof ApiAutomationEventsDocumentsRoute
+  '/api/automation/events/epis': typeof ApiAutomationEventsEpisRoute
   '/portal/holerites/$id/comprovante': typeof PortalHoleritesIdComprovanteRoute
   '/app/conformidade': typeof AuthenticatedAppConformidadeIndexRoute
   '/app/deliveries': typeof AuthenticatedAppDeliveriesIndexRoute
@@ -496,6 +575,8 @@ export interface FileRoutesById {
   '/_authenticated/app/shifts': typeof AuthenticatedAppShiftsRoute
   '/_authenticated/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/_authenticated/app/units': typeof AuthenticatedAppUnitsRoute
+  '/api/automation/dispatch': typeof ApiAutomationDispatchRoute
+  '/api/automation/manager-summary': typeof ApiAutomationManagerSummaryRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/portal/cartao-ponto/$id': typeof PortalCartaoPontoIdRoute
@@ -516,6 +597,13 @@ export interface FileRoutesById {
   '/_authenticated/app/settings/aceite': typeof AuthenticatedAppSettingsAceiteRoute
   '/_authenticated/app/settings/jornada': typeof AuthenticatedAppSettingsJornadaRoute
   '/_authenticated/app/settings/lgpd': typeof AuthenticatedAppSettingsLgpdRoute
+  '/api/automation/clock/candidates': typeof ApiAutomationClockCandidatesRoute
+  '/api/automation/documents/candidates': typeof ApiAutomationDocumentsCandidatesRoute
+  '/api/automation/epis/candidates': typeof ApiAutomationEpisCandidatesRoute
+  '/api/automation/events/claim': typeof ApiAutomationEventsClaimRoute
+  '/api/automation/events/clock': typeof ApiAutomationEventsClockRoute
+  '/api/automation/events/documents': typeof ApiAutomationEventsDocumentsRoute
+  '/api/automation/events/epis': typeof ApiAutomationEventsEpisRoute
   '/portal/holerites/$id/comprovante': typeof PortalHoleritesIdComprovanteRoute
   '/_authenticated/app/conformidade/': typeof AuthenticatedAppConformidadeIndexRoute
   '/_authenticated/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
@@ -553,6 +641,8 @@ export interface FileRouteTypes {
     | '/app/shifts'
     | '/app/time-entries'
     | '/app/units'
+    | '/api/automation/dispatch'
+    | '/api/automation/manager-summary'
     | '/api/public/sales-ingest'
     | '/api/public/stripe-webhook'
     | '/portal/cartao-ponto/$id'
@@ -573,6 +663,13 @@ export interface FileRouteTypes {
     | '/app/settings/aceite'
     | '/app/settings/jornada'
     | '/app/settings/lgpd'
+    | '/api/automation/clock/candidates'
+    | '/api/automation/documents/candidates'
+    | '/api/automation/epis/candidates'
+    | '/api/automation/events/claim'
+    | '/api/automation/events/clock'
+    | '/api/automation/events/documents'
+    | '/api/automation/events/epis'
     | '/portal/holerites/$id/comprovante'
     | '/app/conformidade/'
     | '/app/deliveries/'
@@ -606,6 +703,8 @@ export interface FileRouteTypes {
     | '/app/shifts'
     | '/app/time-entries'
     | '/app/units'
+    | '/api/automation/dispatch'
+    | '/api/automation/manager-summary'
     | '/api/public/sales-ingest'
     | '/api/public/stripe-webhook'
     | '/portal/cartao-ponto/$id'
@@ -626,6 +725,13 @@ export interface FileRouteTypes {
     | '/app/settings/aceite'
     | '/app/settings/jornada'
     | '/app/settings/lgpd'
+    | '/api/automation/clock/candidates'
+    | '/api/automation/documents/candidates'
+    | '/api/automation/epis/candidates'
+    | '/api/automation/events/claim'
+    | '/api/automation/events/clock'
+    | '/api/automation/events/documents'
+    | '/api/automation/events/epis'
     | '/portal/holerites/$id/comprovante'
     | '/app/conformidade'
     | '/app/deliveries'
@@ -662,6 +768,8 @@ export interface FileRouteTypes {
     | '/_authenticated/app/shifts'
     | '/_authenticated/app/time-entries'
     | '/_authenticated/app/units'
+    | '/api/automation/dispatch'
+    | '/api/automation/manager-summary'
     | '/api/public/sales-ingest'
     | '/api/public/stripe-webhook'
     | '/portal/cartao-ponto/$id'
@@ -682,6 +790,13 @@ export interface FileRouteTypes {
     | '/_authenticated/app/settings/aceite'
     | '/_authenticated/app/settings/jornada'
     | '/_authenticated/app/settings/lgpd'
+    | '/api/automation/clock/candidates'
+    | '/api/automation/documents/candidates'
+    | '/api/automation/epis/candidates'
+    | '/api/automation/events/claim'
+    | '/api/automation/events/clock'
+    | '/api/automation/events/documents'
+    | '/api/automation/events/epis'
     | '/portal/holerites/$id/comprovante'
     | '/_authenticated/app/conformidade/'
     | '/_authenticated/app/deliveries/'
@@ -698,8 +813,17 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   PortalRoute: typeof PortalRouteWithChildren
+  ApiAutomationDispatchRoute: typeof ApiAutomationDispatchRoute
+  ApiAutomationManagerSummaryRoute: typeof ApiAutomationManagerSummaryRoute
   ApiPublicSalesIngestRoute: typeof ApiPublicSalesIngestRoute
   ApiPublicStripeWebhookRoute: typeof ApiPublicStripeWebhookRoute
+  ApiAutomationClockCandidatesRoute: typeof ApiAutomationClockCandidatesRoute
+  ApiAutomationDocumentsCandidatesRoute: typeof ApiAutomationDocumentsCandidatesRoute
+  ApiAutomationEpisCandidatesRoute: typeof ApiAutomationEpisCandidatesRoute
+  ApiAutomationEventsClaimRoute: typeof ApiAutomationEventsClaimRoute
+  ApiAutomationEventsClockRoute: typeof ApiAutomationEventsClockRoute
+  ApiAutomationEventsDocumentsRoute: typeof ApiAutomationEventsDocumentsRoute
+  ApiAutomationEventsEpisRoute: typeof ApiAutomationEventsEpisRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -886,6 +1010,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppUnitsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/api/automation/dispatch': {
+      id: '/api/automation/dispatch'
+      path: '/api/automation/dispatch'
+      fullPath: '/api/automation/dispatch'
+      preLoaderRoute: typeof ApiAutomationDispatchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/automation/manager-summary': {
+      id: '/api/automation/manager-summary'
+      path: '/api/automation/manager-summary'
+      fullPath: '/api/automation/manager-summary'
+      preLoaderRoute: typeof ApiAutomationManagerSummaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/sales-ingest': {
       id: '/api/public/sales-ingest'
       path: '/api/public/sales-ingest'
@@ -1039,6 +1177,55 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/settings/lgpd'
       preLoaderRoute: typeof AuthenticatedAppSettingsLgpdRouteImport
       parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/api/automation/clock/candidates': {
+      id: '/api/automation/clock/candidates'
+      path: '/api/automation/clock/candidates'
+      fullPath: '/api/automation/clock/candidates'
+      preLoaderRoute: typeof ApiAutomationClockCandidatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/automation/documents/candidates': {
+      id: '/api/automation/documents/candidates'
+      path: '/api/automation/documents/candidates'
+      fullPath: '/api/automation/documents/candidates'
+      preLoaderRoute: typeof ApiAutomationDocumentsCandidatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/automation/epis/candidates': {
+      id: '/api/automation/epis/candidates'
+      path: '/api/automation/epis/candidates'
+      fullPath: '/api/automation/epis/candidates'
+      preLoaderRoute: typeof ApiAutomationEpisCandidatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/automation/events/claim': {
+      id: '/api/automation/events/claim'
+      path: '/api/automation/events/claim'
+      fullPath: '/api/automation/events/claim'
+      preLoaderRoute: typeof ApiAutomationEventsClaimRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/automation/events/clock': {
+      id: '/api/automation/events/clock'
+      path: '/api/automation/events/clock'
+      fullPath: '/api/automation/events/clock'
+      preLoaderRoute: typeof ApiAutomationEventsClockRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/automation/events/documents': {
+      id: '/api/automation/events/documents'
+      path: '/api/automation/events/documents'
+      fullPath: '/api/automation/events/documents'
+      preLoaderRoute: typeof ApiAutomationEventsDocumentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/automation/events/epis': {
+      id: '/api/automation/events/epis'
+      path: '/api/automation/events/epis'
+      fullPath: '/api/automation/events/epis'
+      preLoaderRoute: typeof ApiAutomationEventsEpisRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/portal/holerites/$id/comprovante': {
       id: '/portal/holerites/$id/comprovante'
@@ -1232,8 +1419,17 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   PortalRoute: PortalRouteWithChildren,
+  ApiAutomationDispatchRoute: ApiAutomationDispatchRoute,
+  ApiAutomationManagerSummaryRoute: ApiAutomationManagerSummaryRoute,
   ApiPublicSalesIngestRoute: ApiPublicSalesIngestRoute,
   ApiPublicStripeWebhookRoute: ApiPublicStripeWebhookRoute,
+  ApiAutomationClockCandidatesRoute: ApiAutomationClockCandidatesRoute,
+  ApiAutomationDocumentsCandidatesRoute: ApiAutomationDocumentsCandidatesRoute,
+  ApiAutomationEpisCandidatesRoute: ApiAutomationEpisCandidatesRoute,
+  ApiAutomationEventsClaimRoute: ApiAutomationEventsClaimRoute,
+  ApiAutomationEventsClockRoute: ApiAutomationEventsClockRoute,
+  ApiAutomationEventsDocumentsRoute: ApiAutomationEventsDocumentsRoute,
+  ApiAutomationEventsEpisRoute: ApiAutomationEventsEpisRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

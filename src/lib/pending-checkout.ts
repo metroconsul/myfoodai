@@ -46,7 +46,7 @@ export async function resumePendingCheckout(): Promise<boolean> {
   if (!pending) return false;
   clearPendingCheckout();
   const { url } = await createCheckoutSession({
-    data: { ...pending, origin: window.location.origin },
+    data: pending,
   });
   window.location.href = url;
   return true;

@@ -1,33 +1,27 @@
-import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, redirect, useRouterState } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Bell, CalendarDays, Clock, Home, ListChecks, PackageCheck, User } from "lucide-react";
+import { Bell, Clock, FileText, Home, PackageCheck } from "lucide-react";
 import { BRAND_NAME } from "@/config/brand";
 import { portalMe } from "@/lib/portal.functions";
-import { usePortalSession } from "@/hooks/use-portal-session";
+import { readPortalToken, usePortalSession } from "@/hooks/use-portal-session";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/portal")({
   ssr: false,
+  beforeLoad: ({ location }) => {
+    if (location.pathname !== "/portal/login" && location.pathname !== "/portal/login/" && !readPortalToken()) {
+      throw redirect({ to: "/portal/login" });
+    }
+  },
   component: PortalLayout,
 });
 
-const CONTEXTS = [
-  { to: "/portal", label: "Hoje", exact: true },
-  { to: "/portal/escala", label: "Minha escala" },
-  { to: "/portal/ponto", label: "Meu ponto" },
-  { to: "/portal/itens", label: "Meus itens" },
-  { to: "/portal/documentos", label: "Meus documentos" },
-  { to: "/portal/cartao-ponto", label: "Cartão de ponto" },
-  { to: "/portal/holerites", label: "Holerites" },
-] as const;
-
 const TABS = [
   { to: "/portal", label: "Início", icon: Home, exact: true },
-  { to: "/portal/escala", label: "Escala", icon: CalendarDays },
-  { to: "/portal/pendencias", label: "Pendências", icon: ListChecks },
-  { to: "/portal/itens", label: "Itens", icon: PackageCheck },
-  { to: "/portal/perfil", label: "Perfil", icon: User },
+  { to: "/portal/ponto", label: "Ponto", icon: Clock },
+  { to: "/portal/documentos", label: "Documentos", icon: FileText },
+  { to: "/portal/itens", label: "EPIs", icon: PackageCheck },
 ] as const;
 
 function greeting() {
@@ -94,40 +88,7 @@ function PortalLayout() {
             </div>
           </header>
 
-          <nav
-            aria-label="Contextos do portal"
-            className="no-scrollbar flex snap-x snap-mandatory gap-2 overflow-x-auto px-6 py-4"
-          >
-            {CONTEXTS.map((c) => {
-              const active =
-                "exact" in c && c.exact ? pathname === c.to : pathname.startsWith(c.to);
-              return (
-                <Link
-                  key={c.to}
-                  to={c.to}
-                  aria-current={active ? "page" : undefined}
-                  className={cn(
-                    "portal-press flex min-h-11 shrink-0 snap-start items-center gap-2 rounded-full border-2 border-foreground px-4 text-sm font-bold",
-                    active
-                      ? "bg-foreground text-background shadow-[3px_3px_0_var(--ink)]"
-                      : "bg-card text-foreground shadow-[2px_2px_0_var(--ink)]",
-                  )}
-                >
-                  {active ? (
-                    <span
-                      className="grid size-5 place-items-center rounded-full bg-accent"
-                      aria-hidden
-                    >
-                      <span className="size-2 rounded-full bg-foreground" />
-                    </span>
-                  ) : null}
-                  {c.label}
-                </Link>
-              );
-            })}
-          </nav>
-
-          <main className="flex-1 px-5 pb-32">
+          <main className="flex-1 px-5 pt-5 pb-32">
             <Outlet />
           </main>
 

@@ -1,19 +1,27 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Users, Clock, Boxes, ShoppingBag, AlertTriangle, CalendarDays } from "lucide-react";
+import {
+  AlertTriangle,
+  ArrowRight,
+  CheckCircle2,
+  Clock,
+  FileText,
+  PackageCheck,
+  Users,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/use-workspace";
-import { PageHeader, StatCard, SectionCard, EmptyState, StatusBadge, LoadingState } from "@/components/ui-kit";
+import { EmptyState, LoadingState, PageHeader, StatCard, StatusBadge } from "@/components/ui-kit";
 import { BRAND_NAME } from "@/config/brand";
-import { currency, dateTimeFmt, minutesToHours } from "@/lib/format";
-import { Button } from "@/components/ui/button";
+import { dateFmt, dateTimeFmt, isoDate } from "@/lib/format";
+import { effectiveDocumentStatus } from "@/lib/compliance.shared";
 
 export const Route = createFileRoute("/_authenticated/app/")({
   head: () => ({
     meta: [
-      { title: `Visão geral — ${BRAND_NAME}` },
-      { name: "description", content: "Indicadores de pessoas, ponto, estoque e vendas da unidade." },
-      { property: "og:title", content: `Visão geral — ${BRAND_NAME}` },
+      { title: `Operação hoje — ${BRAND_NAME}` },
+      { name: "description", content: "Pendências de colaboradores, ponto, documentos e EPIs que precisam de atenção." },
+      { property: "og:title", content: `Operação hoje — ${BRAND_NAME}` },
       { property: "og:description", content: "Painel operacional diário." },
       { name: "robots", content: "noindex" },
     ],
@@ -21,220 +29,158 @@ export const Route = createFileRoute("/_authenticated/app/")({
   component: Dashboard,
 });
 
-type InventoryRow = {
+type ActionItem = {
   id: string;
-  name: string;
-  quantity: number;
-  minimum_stock: number;
-  unit_of_measure: string;
+  kind: "Ponto" | "Documento" | "EPI";
+  title: string;
+  description: string;
+  critical: boolean;
+  to: "/app/time-entries" | "/app/conformidade/exames" | "/app/deliveries";
 };
-type SalesRow = {
-  gross_amount: number;
-  orders_count: number;
-  average_ticket: number;
-  metric_date: string;
-};
-
-function todayISO() {
-  return new Date().toISOString().slice(0, 10);
-}
 
 function Dashboard() {
-  const { activeUnitId, activeUnit, hasFeature } = useWorkspace();
-  const showInventory = hasFeature("inventory");
-  const showSales = hasFeature("sales");
-  const advancedSchedules = hasFeature("schedules_advanced");
+  const { activeUnitId, activeUnit } = useWorkspace();
+  const today = isoDate(new Date());
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["dashboard", activeUnitId, showInventory, showSales],
-    enabled: !!activeUnitId,
+  const query = useQuery({
+    queryKey: ["mvp-dashboard", activeUnitId, today],
+    enabled: Boolean(activeUnitId),
     queryFn: async () => {
       const unitId = activeUnitId!;
-      const today = todayISO();
-      const dayStart = new Date(`${today}T00:00:00`).toISOString();
+      const dayStart = new Date(`${today}T00:00:00`);
+      const dayEnd = new Date(dayStart);
+      dayEnd.setDate(dayEnd.getDate() + 1);
 
-      const [employees, blocks, entries, lowStock, alerts, sales] = await Promise.all([
-        supabase
-          .from("employees")
-          .select("id", { count: "exact", head: true })
-          .eq("unit_id", unitId)
-          .eq("employment_status", "ativo"),
-        supabase
-          .from("schedule_blocks")
-          .select("id, start_at, end_at, employee_id, employees(full_name)")
-          .eq("unit_id", unitId)
-          .eq("work_date", today)
-          .order("start_at"),
-        supabase
-          .from("time_entries")
-          .select("id, entry_type, server_time, geo_status, employees(full_name)")
-          .eq("unit_id", unitId)
-          .gte("server_time", dayStart)
-          .order("server_time", { ascending: false })
-          .limit(8),
-        showInventory
-          ? supabase
-              .from("inventory_items")
-              .select("id, name, quantity, minimum_stock, unit_of_measure")
-              .eq("unit_id", unitId)
-              .eq("active", true)
-              .order("quantity")
-              .limit(50)
-          : Promise.resolve({ data: [] as InventoryRow[], count: 0 }),
-        showInventory
-          ? supabase
-              .from("stock_alerts")
-              .select("id", { count: "exact", head: true })
-              .eq("unit_id", unitId)
-              .is("resolved_at", null)
-          : Promise.resolve({ count: 0 }),
-        showSales
-          ? supabase
-              .from("sales_daily_metrics")
-              .select("gross_amount, orders_count, average_ticket, metric_date")
-              .eq("unit_id", unitId)
-              .order("metric_date", { ascending: false })
-              .limit(1)
-          : Promise.resolve({ data: [] as SalesRow[] }),
+      const [employees, entries, reviews, documents, requests, deliveries] = await Promise.all([
+        supabase.from("employees").select("id", { count: "exact", head: true }).eq("unit_id", unitId).eq("employment_status", "ativo"),
+        supabase.from("time_entries").select("id, geo_status, validation_status").eq("unit_id", unitId).gte("server_time", dayStart.toISOString()).lt("server_time", dayEnd.toISOString()),
+        supabase.from("time_entry_reviews").select("id, reason, requested_time, created_at, employees(full_name)").eq("unit_id", unitId).eq("status", "pendente").order("created_at", { ascending: false }).limit(20),
+        supabase.from("occupational_documents").select("id, title, status, expires_at, employees(full_name)").eq("unit_id", unitId).is("archived_at", null).order("expires_at", { ascending: true, nullsFirst: false }),
+        supabase.from("document_requests").select("id, due_at, message, employees(full_name)").eq("unit_id", unitId).eq("status", "aberta").order("due_at", { ascending: true, nullsFirst: false }),
+        supabase.from("item_deliveries").select("id, status, delivered_at, expires_at, employees(full_name)").eq("unit_id", unitId).in("status", ["aguardando_aceite", "em_validacao", "recusado", "divergente"]).order("delivered_at", { ascending: false }),
       ]);
 
-      const low = (lowStock.data ?? []).filter((i) => Number(i.quantity) <= Number(i.minimum_stock));
+      const firstError = [employees, entries, reviews, documents, requests, deliveries].find((result) => result.error)?.error;
+      if (firstError) throw firstError;
+
+      const pendingDocuments = (documents.data ?? []).filter((document) => {
+        const status = effectiveDocumentStatus(document.status, document.expires_at);
+        return ["vencido", "vence_em_breve", "aguardando_documento", "em_revisao"].includes(status);
+      });
+      const pointAnomalies = (entries.data ?? []).filter(
+        (entry) => entry.geo_status !== "dentro_do_raio" || !["valido", "aprovado"].includes(entry.validation_status),
+      );
+
+      const actions: ActionItem[] = [
+        ...(reviews.data ?? []).map((review): ActionItem => ({
+          id: `review:${review.id}`,
+          kind: "Ponto",
+          title: `${review.employees?.full_name ?? "Colaborador"} — correção de ponto`,
+          description: review.reason || (review.requested_time ? dateTimeFmt(review.requested_time) : "Aguardando revisão"),
+          critical: true,
+          to: "/app/time-entries",
+        })),
+        ...pendingDocuments.map((document): ActionItem => {
+          const status = effectiveDocumentStatus(document.status, document.expires_at);
+          return {
+            id: `document:${document.id}`,
+            kind: "Documento",
+            title: `${document.employees?.full_name ?? "Colaborador"} — ${document.title}`,
+            description: document.expires_at
+              ? `${status === "vencido" ? "Vencido" : "Vence"} em ${dateFmt(document.expires_at)}`
+              : "Documento aguardando regularização",
+            critical: status === "vencido",
+            to: "/app/conformidade/exames",
+          };
+        }),
+        ...(requests.data ?? []).map((request): ActionItem => ({
+          id: `request:${request.id}`,
+          kind: "Documento",
+          title: `${request.employees?.full_name ?? "Colaborador"} — solicitação aberta`,
+          description: request.due_at ? `Prazo ${dateFmt(request.due_at)}` : request.message || "Aguardando envio",
+          critical: Boolean(request.due_at && new Date(`${request.due_at}T23:59:59`) < new Date()),
+          to: "/app/conformidade/exames",
+        })),
+        ...(deliveries.data ?? []).map((delivery): ActionItem => ({
+          id: `delivery:${delivery.id}`,
+          kind: "EPI",
+          title: `${delivery.employees?.full_name ?? "Colaborador"} — EPI pendente`,
+          description: delivery.status === "recusado" || delivery.status === "divergente" ? "Aceite com divergência" : "Aguardando aceite do colaborador",
+          critical: delivery.status === "recusado" || delivery.status === "divergente",
+          to: "/app/deliveries",
+        })),
+      ].sort((a, b) => Number(b.critical) - Number(a.critical));
 
       return {
-        employeeCount: employees.count ?? 0,
-        blocks: blocks.data ?? [],
-        entries: entries.data ?? [],
-        low,
-        alertCount: alerts.count ?? 0,
-        sales: sales.data?.[0] ?? null,
+        activeEmployees: employees.count ?? 0,
+        pointCount: entries.data?.length ?? 0,
+        pointDivergences: (reviews.data?.length ?? 0) + pointAnomalies.length,
+        pendingDocuments: pendingDocuments.length + (requests.data?.length ?? 0),
+        pendingEpis: deliveries.data?.length ?? 0,
+        actions,
       };
     },
   });
 
-  const plannedMinutes = (data?.blocks ?? []).reduce((acc, b) => {
-    const diff = (new Date(b.end_at).getTime() - new Date(b.start_at).getTime()) / 60000;
-    return acc + Math.max(0, diff);
-  }, 0);
-
   return (
-    <>
+    <div className="space-y-7">
       <PageHeader
-        title="Visão geral"
-        description={activeUnit ? `Operação de hoje em ${activeUnit.name}.` : "Selecione uma unidade."}
-        actions={
-          <Button asChild variant="outline">
-            {advancedSchedules ? (
-              <Link to="/app/schedules">Ver escalas</Link>
-            ) : (
-              <Link to="/app/settings/jornada">Ver jornada fixa</Link>
-            )}
-          </Button>
-        }
+        eyebrow="Operação hoje"
+        title={activeUnit?.name ?? "Sua operação"}
+        description="Veja primeiro o que precisa de uma decisão sua. O restante da operação continua trabalhando em segundo plano."
       />
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard label="Colaboradores ativos" value={data?.employeeCount ?? "—"} icon={<Users className="size-5" />} />
-        <StatCard
-          label={advancedSchedules ? "Horas planejadas hoje" : "Horas previstas hoje"}
-          value={minutesToHours(plannedMinutes)}
-          hint={`${data?.blocks.length ?? 0} blocos de escala`}
-          icon={<CalendarDays className="size-5" />}
-        />
-        {showInventory ? (
-        <StatCard
-          label="Itens abaixo do mínimo"
-          value={data?.low.length ?? 0}
-          tone={(data?.low.length ?? 0) > 0 ? "warning" : "success"}
-          hint={`${data?.alertCount ?? 0} alertas abertos`}
-          icon={<Boxes className="size-5" />}
-        />
-        ) : null}
-        {showSales ? (
-        <StatCard
-          label="Vendas (último dia)"
-          value={data?.sales ? currency(Number(data.sales.gross_amount)) : "—"}
-          hint={data?.sales ? `${data.sales.orders_count} pedidos` : "Sem conexão de vendas"}
-          icon={<ShoppingBag className="size-5" />}
-        />
-        ) : null}
-      </div>
+      <section aria-label="Indicadores de hoje" className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+        <StatCard label="Colaboradores ativos" value={query.data?.activeEmployees ?? "—"} icon={<Users className="size-5" />} />
+        <StatCard label="Pontos hoje" value={query.data?.pointCount ?? "—"} icon={<Clock className="size-5" />} />
+        <StatCard label="Divergências" value={query.data?.pointDivergences ?? "—"} tone={(query.data?.pointDivergences ?? 0) > 0 ? "warning" : "success"} icon={<AlertTriangle className="size-5" />} />
+        <StatCard label="Documentos pendentes" value={query.data?.pendingDocuments ?? "—"} tone={(query.data?.pendingDocuments ?? 0) > 0 ? "warning" : "success"} icon={<FileText className="size-5" />} />
+        <StatCard label="EPIs pendentes" value={query.data?.pendingEpis ?? "—"} tone={(query.data?.pendingEpis ?? 0) > 0 ? "warning" : "success"} icon={<PackageCheck className="size-5" />} />
+      </section>
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-2">
-        <SectionCard title="Escala de hoje">
-          {isLoading ? (
-            <LoadingState />
-          ) : (data?.blocks.length ?? 0) === 0 ? (
-            <EmptyState
-              title="Nenhum turno planejado para hoje"
-              description={
-                advancedSchedules
-                  ? "Crie uma escala para esta unidade."
-                  : "Confira a jornada fixa da unidade em Configurações."
-              }
-            />
-          ) : (
-            <ul className="divide-y-2 divide-foreground">
-              {data!.blocks.map((b) => (
-                <li key={b.id} className="flex items-center justify-between py-2.5 text-sm">
-                  <span className="font-medium">
-                    {(b.employees as { full_name: string } | null)?.full_name ?? "Colaborador"}
-                  </span>
-                  <span className="text-muted-foreground">
-                    {new Date(b.start_at).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })} –{" "}
-                    {new Date(b.end_at).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </SectionCard>
-
-        <SectionCard title="Últimos registros de ponto">
-          {(data?.entries.length ?? 0) === 0 ? (
-            <EmptyState title="Nenhum ponto registrado hoje" description="Os registros do portal aparecem aqui." />
-          ) : (
-            <ul className="divide-y-2 divide-foreground">
-              {data!.entries.map((e) => (
-                <li key={e.id} className="flex items-center justify-between gap-2 py-2.5 text-sm">
-                  <span className="min-w-0">
-                    <span className="block truncate font-medium">
-                      {(e.employees as { full_name: string } | null)?.full_name ?? "Colaborador"}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      {e.entry_type.replace("_", " ")} · {dateTimeFmt(e.server_time)}
-                    </span>
-                  </span>
-                  <StatusBadge tone={e.geo_status === "dentro_do_raio" ? "ok" : "warn"}>
-                    {e.geo_status.replaceAll("_", " ")}
-                  </StatusBadge>
-                </li>
-              ))}
-            </ul>
-          )}
-        </SectionCard>
-      </div>
-
-      {showInventory && (data?.low.length ?? 0) > 0 ? (
-        <div className="mt-4">
-          <SectionCard title="Reposição sugerida">
-            <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-              {data!.low.slice(0, 9).map((i) => (
-                <li key={i.id} className="flex items-center gap-2 rounded-[10px] border-2 border-foreground bg-secondary px-3 py-2 text-sm">
-                  <AlertTriangle className="size-4 text-warning" aria-hidden />
-                  <span className="flex-1 truncate">{i.name}</span>
-                  <span className="text-muted-foreground">
-                    {Number(i.quantity)} {i.unit_of_measure}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </SectionCard>
+      <section className="rounded-[16px] border-2 border-foreground bg-card shadow-[6px_6px_0_var(--ink)]" aria-labelledby="needs-you-title">
+        <div className="border-b-2 border-foreground bg-accent px-5 py-5 sm:px-6">
+          <p className="meta-mono text-foreground/70">Prioridade do gestor</p>
+          <div className="mt-1 flex flex-wrap items-end justify-between gap-3">
+            <h2 id="needs-you-title" className="display-type text-2xl sm:text-3xl">O que precisa de você</h2>
+            {query.data ? <StatusBadge tone={query.data.actions.length > 0 ? "warn" : "ok"}>{query.data.actions.length} pendência(s)</StatusBadge> : null}
+          </div>
         </div>
-      ) : null}
 
-      <p className="mt-6 flex items-center gap-2 text-xs text-muted-foreground">
-        <Clock className="size-3.5" aria-hidden /> Dados atualizados em tempo de carregamento da página.
-      </p>
-    </>
+        <div className="p-4 sm:p-6">
+          {query.isLoading ? (
+            <LoadingState rows={4} label="Reunindo pendências…" />
+          ) : query.isError ? (
+            <EmptyState title="Não foi possível carregar as pendências" description="Atualize a página para tentar novamente." />
+          ) : (query.data?.actions.length ?? 0) === 0 ? (
+            <div className="flex flex-col items-start gap-3 py-6 sm:flex-row sm:items-center">
+              <span className="grid size-12 shrink-0 place-items-center rounded-[12px] border-2 border-foreground bg-success"><CheckCircle2 className="size-6" aria-hidden /></span>
+              <div>
+                <p className="display-type text-lg">Tudo em dia por aqui</p>
+                <p className="mt-1 text-sm text-muted-foreground">Nenhuma decisão operacional está aguardando você.</p>
+              </div>
+            </div>
+          ) : (
+            <ul className="divide-y-2 divide-foreground">
+              {query.data!.actions.slice(0, 12).map((item) => (
+                <li key={item.id}>
+                  <Link to={item.to} className="group flex min-h-20 items-center gap-3 py-4 transition-transform active:translate-y-px">
+                    <span className={`grid size-10 shrink-0 place-items-center rounded-[10px] border-2 border-foreground ${item.critical ? "bg-destructive" : "bg-warning"}`}>
+                      {item.kind === "Ponto" ? <Clock className="size-5" /> : item.kind === "Documento" ? <FileText className="size-5" /> : <PackageCheck className="size-5" />}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-xs font-bold uppercase tracking-[0.08em] text-muted-foreground">{item.kind}</span>
+                      <span className="mt-0.5 block font-semibold">{item.title}</span>
+                      <span className="mt-0.5 block text-sm text-muted-foreground">{item.description}</span>
+                    </span>
+                    <ArrowRight className="size-5 shrink-0 transition-transform group-hover:translate-x-1" aria-hidden />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </section>
+    </div>
   );
 }

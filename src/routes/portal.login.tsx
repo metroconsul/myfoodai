@@ -13,9 +13,9 @@ export const Route = createFileRoute("/portal/login")({
   head: () => ({
     meta: [
       { title: `Portal do colaborador — ${BRAND_NAME}` },
-      { name: "description", content: "Acesse sua escala, seu ponto e seu cartão de ponto com CPF e PIN." },
+      { name: "description", content: "Acesse seu ponto, documentos e EPIs com CPF e PIN." },
       { property: "og:title", content: `Portal do colaborador — ${BRAND_NAME}` },
-      { property: "og:description", content: "Escala, ponto e cartão de ponto do colaborador." },
+      { property: "og:description", content: "Ponto, documentos e EPIs do colaborador." },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -69,7 +69,7 @@ function PortalLoginPage() {
         <p className="display-type text-sm uppercase tracking-[0.08em]">{BRAND_NAME}</p>
         <h1 className="display-type mt-3 text-2xl">Portal do colaborador</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Acesse sua escala, registre seu ponto e acompanhe sua jornada.
+          Registre seu ponto e acompanhe documentos, EPIs e pendências.
         </p>
 
         <form className="mt-6 space-y-4" onSubmit={submit} noValidate={false}>

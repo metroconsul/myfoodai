@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { BRAND_NAME } from "@/config/brand";
+import { BRAND_LOGO, BRAND_NAME } from "@/config/brand";
 import { PricingSection } from "@/components/pricing-section";
 import { supabase } from "@/integrations/supabase/client";
 import { resumePendingCheckout } from "@/lib/pending-checkout";
@@ -217,11 +217,12 @@ function Landing() {
             className="mx-auto flex max-w-6xl items-center gap-3 rounded-xl border-2 border-[#09090b] bg-[#f8f4e8]/90 px-4 py-3 backdrop-blur-xl"
             aria-label="Principal"
           >
-            <Link to="/" className="gh-display flex min-w-0 items-center gap-2 text-sm sm:text-base">
-              <span className="grid size-7 shrink-0 place-items-center rounded-md border-2 border-[#09090b] bg-[#d2e823] text-xs">
-                ◍
-              </span>
-              <span className="truncate uppercase">MY FOOD'S AI</span>
+            <Link to="/" className="flex min-w-0 items-center" aria-label={BRAND_NAME}>
+              <img
+                src={BRAND_LOGO}
+                alt={BRAND_NAME}
+                className="h-12 w-12 shrink-0 object-contain sm:h-14 sm:w-14"
+              />
             </Link>
 
             <div className="gh-mono mx-auto hidden gap-6 text-xs lg:flex">

@@ -136,6 +136,63 @@ export type Database = {
           },
         ]
       }
+      automation_events: {
+        Row: {
+          company_id: string
+          created_at: string
+          employee_id: string | null
+          error: string | null
+          event_id: string
+          event_type: string
+          occurred_at: string
+          payload: Json
+          processed_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          employee_id?: string | null
+          error?: string | null
+          event_id: string
+          event_type: string
+          occurred_at: string
+          payload?: Json
+          processed_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          employee_id?: string | null
+          error?: string | null
+          event_id?: string
+          event_type?: string
+          occurred_at?: string
+          payload?: Json
+          processed_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automation_events_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "automation_events_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       catalog_items: {
         Row: {
           active: boolean
@@ -3738,6 +3795,7 @@ export type Database = {
         Row: {
           billing_cycle: string | null
           cancel_at_period_end: boolean
+          checkout_session_id: string | null
           company_id: string | null
           created_at: string
           current_period_end: string | null
@@ -3746,6 +3804,7 @@ export type Database = {
           plan: string | null
           status: string
           stripe_customer_id: string | null
+          stripe_product_id: string | null
           stripe_price_id: string | null
           stripe_subscription_id: string | null
           updated_at: string
@@ -3754,6 +3813,7 @@ export type Database = {
         Insert: {
           billing_cycle?: string | null
           cancel_at_period_end?: boolean
+          checkout_session_id?: string | null
           company_id?: string | null
           created_at?: string
           current_period_end?: string | null
@@ -3762,6 +3822,7 @@ export type Database = {
           plan?: string | null
           status?: string
           stripe_customer_id?: string | null
+          stripe_product_id?: string | null
           stripe_price_id?: string | null
           stripe_subscription_id?: string | null
           updated_at?: string
@@ -3770,6 +3831,7 @@ export type Database = {
         Update: {
           billing_cycle?: string | null
           cancel_at_period_end?: boolean
+          checkout_session_id?: string | null
           company_id?: string | null
           created_at?: string
           current_period_end?: string | null
@@ -3778,6 +3840,7 @@ export type Database = {
           plan?: string | null
           status?: string
           stripe_customer_id?: string | null
+          stripe_product_id?: string | null
           stripe_price_id?: string | null
           stripe_subscription_id?: string | null
           updated_at?: string

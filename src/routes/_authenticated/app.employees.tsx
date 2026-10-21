@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { setEmployeePin } from "@/lib/admin.functions";
 import { useWorkspace } from "@/hooks/use-workspace";
-import { PageHeader, SectionCard, EmptyState, StatusBadge, LoadingState } from "@/components/ui-kit";
+import { PageHeader, SectionCard, EmptyState, ErrorState, StatusBadge, LoadingState } from "@/components/ui-kit";
 import { BRAND_NAME } from "@/config/brand";
 import { maskCpf, maskCpfPrivate, onlyDigits } from "@/lib/format";
 import { Button } from "@/components/ui/button";
@@ -49,12 +49,23 @@ function EmployeesPage() {
     unit_id: "",
   });
 
-  const { data: employees = [], isLoading } = useQuery({
-    queryKey: ["employees"],
+  const {
+    data: employees = [],
+    isLoading,
+    isError,
+    error: employeesError,
+    refetch: refetchEmployees,
+  } = useQuery({
+    queryKey: ["employees", company?.id, activeUnitId],
+    enabled: Boolean(company?.id && activeUnitId),
     queryFn: async () => {
       const { data, error } = await supabase
         .from("employees")
-        .select("*, roles(name), teams(name), units(name)")
+        .select(
+          "id, full_name, cpf, employment_status, portal_pin_set_at, role_id, team_id, unit_id",
+        )
+        .eq("company_id", company!.id)
+        .eq("unit_id", activeUnitId!)
         .order("full_name");
       if (error) throw error;
       return data;
@@ -62,13 +73,36 @@ function EmployeesPage() {
   });
 
   const { data: roles = [] } = useQuery({
-    queryKey: ["roles"],
-    queryFn: async () => (await supabase.from("roles").select("id, name").eq("active", true).order("name")).data ?? [],
+    queryKey: ["roles", activeUnitId],
+    enabled: Boolean(activeUnitId),
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("roles")
+        .select("id, name")
+        .eq("unit_id", activeUnitId!)
+        .eq("active", true)
+        .order("name");
+      if (error) throw error;
+      return data;
+    },
   });
   const { data: teams = [] } = useQuery({
-    queryKey: ["teams"],
-    queryFn: async () => (await supabase.from("teams").select("id, name").eq("active", true).order("name")).data ?? [],
+    queryKey: ["teams", activeUnitId],
+    enabled: Boolean(activeUnitId),
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("teams")
+        .select("id, name")
+        .eq("unit_id", activeUnitId!)
+        .eq("active", true)
+        .order("name");
+      if (error) throw error;
+      return data;
+    },
   });
+
+  const roleNames = useMemo(() => new Map(roles.map((role) => [role.id, role.name])), [roles]);
+  const unitNames = useMemo(() => new Map(units.map((unit) => [unit.id, unit.name])), [units]);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -257,6 +291,12 @@ function EmployeesPage() {
       <SectionCard>
         {isLoading ? (
           <LoadingState />
+        ) : isError ? (
+          <ErrorState
+            title="Não foi possível carregar os colaboradores"
+            description={employeesError instanceof Error ? employeesError.message : "Tente novamente em instantes."}
+            action={<Button onClick={() => void refetchEmployees()}>Tentar novamente</Button>}
+          />
         ) : filtered.length === 0 ? (
           <EmptyState title="Nenhum colaborador encontrado" description="Cadastre a equipe para liberar escalas e ponto." />
         ) : (
@@ -266,13 +306,13 @@ function EmployeesPage() {
                 <div className="min-w-0">
                   <p className="font-medium">{e.full_name}</p>
                   <p className="text-xs text-muted-foreground">
-                    {maskCpfPrivate(e.cpf)} · {(e.roles as { name: string } | null)?.name ?? "sem cargo"} ·{" "}
-                    {(e.units as { name: string } | null)?.name ?? "sem unidade"}
+                    {maskCpfPrivate(e.cpf)} · {roleNames.get(e.role_id ?? "") ?? "sem cargo"} ·{" "}
+                    {unitNames.get(e.unit_id ?? "") ?? "sem unidade"}
                   </p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <StatusBadge tone={e.portal_pin_hash ? "ok" : "warn"}>
-                    {e.portal_pin_hash ? "Portal ativo" : "Sem PIN"}
+                  <StatusBadge tone={e.portal_pin_set_at ? "ok" : "warn"}>
+                    {e.portal_pin_set_at ? "Portal ativo" : "Sem PIN"}
                   </StatusBadge>
                   <Select
                     value={e.employment_status}

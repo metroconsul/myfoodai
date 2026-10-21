@@ -18,7 +18,7 @@ function AppLayout() {
 }
 
 function WorkspaceGate() {
-  const { loading, company } = useWorkspace();
+  const { loading, company, hasSubscriptionAccess, planCode } = useWorkspace();
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
@@ -47,6 +47,16 @@ function WorkspaceGate() {
   }
 
   if (!company) return null;
+
+  if (!hasSubscriptionAccess) {
+    return (
+      <FeatureBlocked
+        planCode={planCode}
+        title="Assinatura necessária para acessar a operação"
+        description="O acesso será liberado quando a Stripe confirmar uma assinatura ativa ou em período de teste."
+      />
+    );
+  }
 
   return (
     <AppShell>

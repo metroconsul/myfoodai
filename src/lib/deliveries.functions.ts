@@ -183,6 +183,13 @@ export const createDeliveries = createServerFn({ method: "POST" })
         },
       ]);
 
+      await (await import("./automation.server")).publishAutomationEvent({
+        event_type: "epi.assigned",
+        tenant_id: companyId,
+        employee_id: employee.id,
+        payload: { delivery_id: delivery.id, unit_id: data.unitId, batch_id: batchId },
+      });
+
       created.push(delivery.id);
     }
 

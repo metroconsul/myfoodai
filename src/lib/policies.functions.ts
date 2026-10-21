@@ -1,8 +1,10 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "@/integrations/supabase/types";
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { acceptanceSchema, privacySchema, tokenSchema } from "./policies.functions.schemas";
 
-async function isCompanyAdmin(context: { supabase: any; userId: string }) {
+async function isCompanyAdmin(context: { supabase: SupabaseClient<Database>; userId: string }) {
   const { data } = await context.supabase
     .from("user_roles")
     .select("role")
@@ -10,7 +12,7 @@ async function isCompanyAdmin(context: { supabase: any; userId: string }) {
   return (data ?? []).some((r: { role: string }) => r.role === "owner" || r.role === "admin");
 }
 
-async function requireAdminCompany(context: { supabase: any; userId: string }) {
+async function requireAdminCompany(context: { supabase: SupabaseClient<Database>; userId: string }) {
   const { data: profile } = await context.supabase
     .from("profiles")
     .select("company_id")
@@ -45,7 +47,7 @@ export const saveAcceptancePolicy = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => acceptanceSchema.parse(d))
   .handler(async ({ data, context }) => {
-    const companyId = await requireAdminCompany(context as never);
+    const companyId = await requireAdminCompany(context);
     const { error } = await context.supabase.from("acceptance_policies").upsert(
       {
         company_id: companyId,
@@ -73,7 +75,7 @@ export const savePrivacyPolicy = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => privacySchema.parse(d))
   .handler(async ({ data, context }) => {
-    const companyId = await requireAdminCompany(context as never);
+    const companyId = await requireAdminCompany(context);
     const { error } = await context.supabase.from("privacy_policies").upsert(
       {
         company_id: companyId,

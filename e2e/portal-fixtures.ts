@@ -17,7 +17,7 @@ const url = process.env["SUPABASE_URL"] ?? process.env["VITE_SUPABASE_URL"];
 const serviceKey = process.env["SUPABASE_SERVICE_ROLE_KEY"];
 
 /** Os testes só rodam quando existe um colaborador de teste configurado. */
-export const hasTestEmployee = Boolean(TEST_CPF && TEST_PIN);
+export const hasTestEmployee = Boolean(process.env["E2E_PORTAL_CPF"] && process.env["E2E_PORTAL_PIN"]);
 /** Semeadura e desbloqueio automáticos exigem acesso administrativo ao banco. */
 export const canSeed = Boolean(url && serviceKey);
 

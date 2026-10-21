@@ -1,0 +1,3716 @@
+{
+  "originalCommit": "50fe1060de287bd91012f013cd2e30f02758c30b",
+  "originalFileCount": 227,
+  "serverFunctions": 64,
+  "unresolvedLocalImports": [],
+  "files": [
+    {
+      "file": ".env",
+      "originalBytes": 361,
+      "sha256": "1c152ffc1c43d96534155945deee3339bc44a62a5aba3f477ced30d1e51b8c4d",
+      "lines": 7,
+      "kind": "Configuração / integração / tipos",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": ".gitignore",
+      "originalBytes": 381,
+      "sha256": "ca73d5015df0609725640951c615ead820ee75ba88bbd965cb0e6a4183374d5a",
+      "lines": 42,
+      "kind": "Configuração / integração / tipos",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": ".lovable/plan/auditoria-funcional-prompt-de-proposta-de-parceria-2026-09-01.md",
+      "originalBytes": 3668,
+      "sha256": "a3abeacd4e1c27218f8bec67da6e26f691294ecad95a864b930e20cb4848aca9",
+      "lines": 54,
+      "kind": "Documentação — removido",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": ".lovable/plan/plano-começo-simplificado-conta-piloto-da-cafeteria-2026-09-01.md",
+      "originalBytes": 6851,
+      "sha256": "ef7ae975d0e97f083aa924356e0dea0503f5d844f4e8ffb3d720c80411272d3a",
+      "lines": 71,
+      "kind": "Documentação — removido",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": ".lovable/plan/saas-de-gestão-para-food-service-modelo-de-dados-e-rotas-2026-08-29.md",
+      "originalBytes": 4765,
+      "sha256": "0bdcc23f54a00155dbb9870a7fc356f1a91ef873dcc83a06774b1997f8d33193",
+      "lines": 77,
+      "kind": "Documentação — removido",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": ".lovable/project.json",
+      "originalBytes": 124,
+      "sha256": "31867829647a88a1d52cdb0762c73031ad8770476b67b5e7d6106bf5692edd21",
+      "lines": 6,
+      "kind": "Configuração / integração / tipos — removido",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": ".prettierignore",
+      "originalBytes": 92,
+      "sha256": "52c7c767ff0615eec4eb64cc71265877f7f423eb597d665b5e439f337c661a5a",
+      "lines": 9,
+      "kind": "Configuração / integração / tipos",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": ".prettierrc",
+      "originalBytes": 90,
+      "sha256": "1ed88d3b99eced8dc3b6f58f26645466dd1ceaca6c5a9b818531c941ac28e55b",
+      "lines": 7,
+      "kind": "Configuração / integração / tipos",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "AGENTS.md",
+      "originalBytes": 480,
+      "sha256": "4e96b38f10a0bbf0f105f51e6d2c39a889baec12b3386ae3facec4f076714d60",
+      "lines": 8,
+      "kind": "Documentação",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "README.md",
+      "originalBytes": 23674,
+      "sha256": "0958cb895ca16fe59d97854e5f397437003838e7d0f1f0d90e64de3287bb14a4",
+      "lines": 72,
+      "kind": "Documentação",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "bun.lock",
+      "originalBytes": 145247,
+      "sha256": "467e6d51af87471c5b6e36882ec0eb1484a8c64f7f3825a413d16f5cbdb0ff9e",
+      "lines": 1078,
+      "kind": "Configuração / integração / tipos — removido",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "bunfig.toml",
+      "originalBytes": 380,
+      "sha256": "366fc9712878c09fe0fee77df1f41a1614b45c561f673f53d9bc39a9fc7b6569",
+      "lines": 8,
+      "kind": "Configuração / integração / tipos — removido",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "components.json",
+      "originalBytes": 443,
+      "sha256": "37c484818824d2521eee3367e7aa2c2abbd19635d8103d19734b6e24603d0292",
+      "lines": 23,
+      "kind": "Configuração / integração / tipos",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "e2e/portal-fixtures.ts",
+      "originalBytes": 3637,
+      "sha256": "3ef2d19c5325fdd66eb046b2a47be6f3055d1241ce056b25dd21f952296b1d50",
+      "lines": 109,
+      "kind": "Configuração / integração / tipos",
+      "imports": [
+        "@supabase/supabase-js",
+        "@playwright/test"
+      ],
+      "tables": [
+        "employees"
+      ]
+    },
+    {
+      "file": "e2e/portal-login.spec.ts",
+      "originalBytes": 2236,
+      "sha256": "d9e5b3f30d2f8d77ffedbef30776b77768ba4712e98ba8f56ba929f86304dd6e",
+      "lines": 62,
+      "kind": "Configuração / integração / tipos",
+      "imports": [
+        "@playwright/test",
+        "./portal-fixtures"
+      ],
+      "tables": []
+    },
+    {
+      "file": "e2e/portal-session.spec.ts",
+      "originalBytes": 1475,
+      "sha256": "eaa6c33cb6db3e4f3c92efb1c986383335f64c66032e5f391fe6e32e6512de86",
+      "lines": 41,
+      "kind": "Configuração / integração / tipos",
+      "imports": [
+        "@playwright/test",
+        "./portal-fixtures"
+      ],
+      "tables": []
+    },
+    {
+      "file": "eslint.config.js",
+      "originalBytes": 1250,
+      "sha256": "3266245a1ff610a0b37dbb8b8c77b93a125e0d8758b9838cfd04b2e0a1397d56",
+      "lines": 41,
+      "kind": "Configuração / integração / tipos",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "package.json",
+      "originalBytes": 3095,
+      "sha256": "2b0daf26dfee4dfcddd39d4a360481541e5f6727f86504a75583ac38e86db4eb",
+      "lines": 101,
+      "kind": "Configuração / integração / tipos",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "playwright.config.ts",
+      "originalBytes": 423,
+      "sha256": "6cb046fb6cb810e3af665a0cfdc322669236700da1ad442b7a9a0f513140284a",
+      "lines": 17,
+      "kind": "Configuração / integração / tipos",
+      "imports": [
+        "@playwright/test"
+      ],
+      "tables": []
+    },
+    {
+      "file": "public/favicon.ico",
+      "originalBytes": 20373,
+      "sha256": "dd821076a9b03adc2173c93956226aea3d92482d7578fc4339c5d3a2e9c24586",
+      "lines": null,
+      "kind": "Asset binário preservado",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "public/robots.txt",
+      "originalBytes": 160,
+      "sha256": "a3d27b3ca5ce32341fa9f96f01169b521b1657c05d1860c45d1e53a6258e9e8b",
+      "lines": 15,
+      "kind": "Configuração / integração / tipos",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "roadmap.md",
+      "originalBytes": 318,
+      "sha256": "24c5feb39d37880787e975e6fcec8036ffe4ca416811ff685c290660cbf71e22",
+      "lines": 7,
+      "kind": "Documentação",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/components/app-shell.tsx",
+      "originalBytes": 10472,
+      "sha256": "ecde71aec2d9535e12e524a9b129894c97428a8e5411ea698824b50be49b91f1",
+      "lines": 286,
+      "kind": "Componente React local",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "react",
+        "lucide-react",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/config/brand",
+        "@/components/ui/button",
+        "@/components/ui/select",
+        "@/config/features",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/feature-blocked.tsx",
+      "originalBytes": 1476,
+      "sha256": "f76d7abdaff54309d71b4906f25b31939a9e74e28974f2c992ecce04b90f784f",
+      "lines": 39,
+      "kind": "Componente React local",
+      "imports": [
+        "@tanstack/react-router",
+        "lucide-react",
+        "@/config/features",
+        "@/components/ui/button"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/item-photo.tsx",
+      "originalBytes": 732,
+      "sha256": "a059ec8361eab98db399f0b856e3833d5e94752d3a7b88b0b1ccc0e6c463864a",
+      "lines": 30,
+      "kind": "Componente React local",
+      "imports": [
+        "lucide-react",
+        "@/hooks/use-signed-url",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/lgpd-consent.tsx",
+      "originalBytes": 2903,
+      "sha256": "5e4dfe12b697e8558fcf6a0b8f9dd3cbe152b304fd56126db2980055663ab71a",
+      "lines": 93,
+      "kind": "Componente React local",
+      "imports": [
+        "lucide-react",
+        "@/lib/lgpd.shared",
+        "@/hooks/use-portal-policies",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/portal-ui.tsx",
+      "originalBytes": 8254,
+      "sha256": "2967b3707d6399ff0d7314f0b3304d7187643d8081d80bda3ca71ca08c1bc0bd",
+      "lines": 298,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/pricing-section.tsx",
+      "originalBytes": 11209,
+      "sha256": "40e039e93f5eae0a51e92151d1c187e3aa408f28abdc15b5a1f949ed441a6425",
+      "lines": 325,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@tanstack/react-router",
+        "@tanstack/react-start",
+        "lucide-react",
+        "sonner",
+        "@/lib/billing.functions",
+        "@/integrations/supabase/client",
+        "@/lib/pending-checkout",
+        "@/config/plans"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/selfie-capture.tsx",
+      "originalBytes": 5362,
+      "sha256": "23bb31e393dc8f2a0b24ff788378242a04727736d8891a8f070b2515b4d05b0b",
+      "lines": 160,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "lucide-react",
+        "@/components/portal-ui"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/signature-pad.tsx",
+      "originalBytes": 3513,
+      "sha256": "cc9a2b7dd91f8ca3a53bc119ecf647942ed46ed82cda27881b16eab8edfb43fe",
+      "lines": 112,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui-kit.tsx",
+      "originalBytes": 5212,
+      "sha256": "8059458a26592f3da02af01b2c742f91ac2c42be42d428be3114a4766682773b",
+      "lines": 190,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/accordion.tsx",
+      "originalBytes": 2015,
+      "sha256": "0903efcd7b746eef0a10c954a541b0dfa7aa1172f3c380a1a88f4e19a317fda3",
+      "lines": 52,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-accordion",
+        "lucide-react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/alert-dialog.tsx",
+      "originalBytes": 4218,
+      "sha256": "c52f3595e936bffe8bd775a59ce45eeb9b87f6700476e6b3bc9d0e696e568f65",
+      "lines": 116,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-alert-dialog",
+        "@/lib/utils",
+        "@/components/ui/button"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/alert.tsx",
+      "originalBytes": 1616,
+      "sha256": "61e2ad9ee4d3915607288681897745efe76b1291dcd227da6c7f3f1b6c8388df",
+      "lines": 50,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "class-variance-authority",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/aspect-ratio.tsx",
+      "originalBytes": 143,
+      "sha256": "d72c73d629e37995a0a71647d851d68d6fdcd7ec120797f36ab83a8ee89f2cab",
+      "lines": 6,
+      "kind": "Componente React local",
+      "imports": [
+        "@radix-ui/react-aspect-ratio"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/avatar.tsx",
+      "originalBytes": 1413,
+      "sha256": "0326c9041c5a0b1ba31ff29822c51950b6aeac485cd0985e7df714741a54e7f4",
+      "lines": 48,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-avatar",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/badge.tsx",
+      "originalBytes": 963,
+      "sha256": "0332217c16100c7f5ce5352b6492cfd6495bb5a2a3d1ad1a9dba89736ed057ed",
+      "lines": 31,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "class-variance-authority",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/br-inputs.tsx",
+      "originalBytes": 4615,
+      "sha256": "7cefc1ffd9563d43829b9017f2c66799027c2b9eea32a4d0d11b3cb12b6b729c",
+      "lines": 161,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@/components/ui/input",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/breadcrumb.tsx",
+      "originalBytes": 2749,
+      "sha256": "d5224e87344b3ac0f8b002e5dda6a71ff8fee296db8a5fbe6b034d06bd5c2ae1",
+      "lines": 102,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-slot",
+        "lucide-react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/button.tsx",
+      "originalBytes": 2322,
+      "sha256": "61718e9192f03cce26923e75ab8ecbdf2ab73d06827141a01c32ac780cf98617",
+      "lines": 51,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/calendar.tsx",
+      "originalBytes": 7226,
+      "sha256": "e883f2245873fdf360764f77fc8f391426bef5776c6397537012c46970ebd6ee",
+      "lines": 178,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "lucide-react",
+        "react-day-picker",
+        "@/lib/utils",
+        "@/components/ui/button"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/card.tsx",
+      "originalBytes": 1864,
+      "sha256": "decf86eb1a8cf24049a132c03798530c32980f18aa97135f00cece70182440a5",
+      "lines": 56,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/carousel.tsx",
+      "originalBytes": 6200,
+      "sha256": "568e00e8edbfab8af67ee902ca9ef5ceb6d5ed6f3045e7f9b3c15b4f7ef9e974",
+      "lines": 241,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "embla-carousel-react",
+        "lucide-react",
+        "@/lib/utils",
+        "@/components/ui/button"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/chart.tsx",
+      "originalBytes": 10588,
+      "sha256": "7c0b9f20612e8b3825d40f3185ff75130cb6d7397b30a51976a3ae24ad979edc",
+      "lines": 332,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "recharts",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/checkbox.tsx",
+      "originalBytes": 1043,
+      "sha256": "c44d02535d5c9c92807576804407dd63d01e7189dbde526e925b53885e645fd4",
+      "lines": 27,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-checkbox",
+        "lucide-react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/collapsible.tsx",
+      "originalBytes": 335,
+      "sha256": "5f0a45d8f6ca72d37ed10bf0a85306158b67d7cbc386319186ce013ead9bc0a6",
+      "lines": 12,
+      "kind": "Componente React local",
+      "imports": [
+        "@radix-ui/react-collapsible"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/command.tsx",
+      "originalBytes": 4876,
+      "sha256": "ba8c0f8b23044ce9a5066e66d7ab7be3a3c79bfc4a0ab7dfae6ffafe439145a3",
+      "lines": 144,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-dialog",
+        "cmdk",
+        "lucide-react",
+        "@/lib/utils",
+        "@/components/ui/dialog"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/context-menu.tsx",
+      "originalBytes": 7360,
+      "sha256": "b299f50a0a7840b136db5670f2b2e7eec6fc62b3c06bc2ad0015800959cc381b",
+      "lines": 187,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-context-menu",
+        "lucide-react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/dialog.tsx",
+      "originalBytes": 3712,
+      "sha256": "b24a566a9a3fa52c51b42534ae7d5f781c0a97accafbffaafbc1bf625bcaf25a",
+      "lines": 105,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-dialog",
+        "lucide-react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/drawer.tsx",
+      "originalBytes": 2973,
+      "sha256": "478c487f66245641d5fa0f0d1c53a07d68bd60c4b3c497ec4c41ce08b482e14b",
+      "lines": 99,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "vaul",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/dropdown-menu.tsx",
+      "originalBytes": 7565,
+      "sha256": "a6b87c89f5a806225b7f3a81f13a6577289c67e5787c2a56b5a22bd1edea02ce",
+      "lines": 188,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-dropdown-menu",
+        "lucide-react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/form.tsx",
+      "originalBytes": 4201,
+      "sha256": "1ed53d4ab564a64708938643de590f2bef3718b0b2a309c1019c57e9c1fde23f",
+      "lines": 172,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-label",
+        "@radix-ui/react-slot",
+        "react-hook-form",
+        "@/lib/utils",
+        "@/components/ui/label"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/hover-card.tsx",
+      "originalBytes": 1246,
+      "sha256": "69dc172ece56ac77bf3a044a1cd60ed601b0041945d16b5da4c6cc4f42116988",
+      "lines": 28,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-hover-card",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/input-otp.tsx",
+      "originalBytes": 2232,
+      "sha256": "45b7c4fd518616f76dd611b9da13bc60bece1352e050878bf943e1cc6a4ed678",
+      "lines": 74,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "input-otp",
+        "lucide-react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/input.tsx",
+      "originalBytes": 819,
+      "sha256": "070f4d638ddd4af1989327c7609648f68669f01cf661b642d786a6b218072c71",
+      "lines": 23,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/label.tsx",
+      "originalBytes": 716,
+      "sha256": "9f72e2ecf16206593aa9e3c4fbc14cd8e81aa8488d57d92d4a950b30935a9fa9",
+      "lines": 22,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-label",
+        "class-variance-authority",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/menubar.tsx",
+      "originalBytes": 8515,
+      "sha256": "5bd157c3a446ea1e451867e63724b2e87ad6bba6251c8b5f1b267d1df7bd4e0e",
+      "lines": 229,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-menubar",
+        "lucide-react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/navigation-menu.tsx",
+      "originalBytes": 5152,
+      "sha256": "755aecc77b7911ab61159c9fbb9b25254009eb4c32c95b1430b6b5b7d37ed8f0",
+      "lines": 121,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-navigation-menu",
+        "class-variance-authority",
+        "lucide-react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/pagination.tsx",
+      "originalBytes": 2739,
+      "sha256": "cbe8559c578ee2d34c7daef5ee75dc3afeb795851e294b111dec375ba44a9a2d",
+      "lines": 99,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "lucide-react",
+        "@/lib/utils",
+        "@/components/ui/button"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/popover.tsx",
+      "originalBytes": 1352,
+      "sha256": "861c18577ea5988c6f5ca00d1c677200319fd427cf8b424e59a5cca6ff24f830",
+      "lines": 32,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-popover",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/progress.tsx",
+      "originalBytes": 781,
+      "sha256": "418f612946a520d1380b7a0d058185bb6a6d09846846dd6d6904a0016152dd4a",
+      "lines": 26,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-progress",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/radio-group.tsx",
+      "originalBytes": 1405,
+      "sha256": "8c55aa0496b00a27fc4f609ca8b43a7e82c6802f6bf613998438b7632899fa96",
+      "lines": 37,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-radio-group",
+        "lucide-react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/resizable.tsx",
+      "originalBytes": 1552,
+      "sha256": "f0399fec7bc334f06433b41b6ebf34255942ce4916b99173898893fa7fcc8281",
+      "lines": 38,
+      "kind": "Componente React local",
+      "imports": [
+        "lucide-react",
+        "react-resizable-panels",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/scroll-area.tsx",
+      "originalBytes": 1635,
+      "sha256": "b607f562455152a079d70a22538c95072b0267e0d59a1a1cf16a905a2e373a6f",
+      "lines": 45,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-scroll-area",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/select.tsx",
+      "originalBytes": 5781,
+      "sha256": "8dbf637850f51f172b43c9ed4b942be9020489d4180f896aa4190bd1abdcdab4",
+      "lines": 153,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-select",
+        "lucide-react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/separator.tsx",
+      "originalBytes": 723,
+      "sha256": "bf5838b692e5f74fde7083280b99492dd402bce6966e912e79f5e23f14bc98eb",
+      "lines": 25,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-separator",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/sheet.tsx",
+      "originalBytes": 4248,
+      "sha256": "a82f9341962e766ee925a2fe883b0a9ab5d5dd8475c402ac8e491ee37dc95fde",
+      "lines": 123,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-dialog",
+        "class-variance-authority",
+        "lucide-react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/sidebar.tsx",
+      "originalBytes": 23975,
+      "sha256": "9f44f4523271f965adec608ae1c3b8a2f350f2f45ba1401a2c7ee33bc5eda238",
+      "lines": 745,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "lucide-react",
+        "@/hooks/use-mobile",
+        "@/lib/utils",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/separator",
+        "@/components/ui/sheet",
+        "@/components/ui/skeleton",
+        "@/components/ui/tooltip"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/skeleton.tsx",
+      "originalBytes": 239,
+      "sha256": "f4c42257d73925b0b856a3500e2cbdd918fe6744fcd6be87ef28bb88e7eb7366",
+      "lines": 8,
+      "kind": "Componente React local",
+      "imports": [
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/slider.tsx",
+      "originalBytes": 1025,
+      "sha256": "d307cf3ff05b54be4a04389ef4379f9e8b4dc49720197937991ce843a8d4b5ec",
+      "lines": 24,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-slider",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/sonner.tsx",
+      "originalBytes": 896,
+      "sha256": "6f9b66875fc3bbfc451a3f7089875f7ec51b9c3a12526e0344cf0a3c761467cf",
+      "lines": 24,
+      "kind": "Componente React local",
+      "imports": [
+        "sonner"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/switch.tsx",
+      "originalBytes": 1156,
+      "sha256": "c3c298df4ffb56695e4a8f0ff3e37eee08437dec542a677153ec16bed0820107",
+      "lines": 28,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-switch",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/table.tsx",
+      "originalBytes": 2888,
+      "sha256": "fa1290e1303e1a9100eac5485d853b8071446873d3b7c093ee11ba7c1c9262dc",
+      "lines": 95,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/tabs.tsx",
+      "originalBytes": 2044,
+      "sha256": "3076f6d5401c34e55634e5c93289ba680fb4fbd1d21b5f5e1f92a1c2f0e257df",
+      "lines": 54,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-tabs",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/textarea.tsx",
+      "originalBytes": 719,
+      "sha256": "3fbf86854f7894f7538c5bb24366d5d8c6711193247e05d75a66ab904355d084",
+      "lines": 22,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/toggle-group.tsx",
+      "originalBytes": 1752,
+      "sha256": "d59cd3937c967a3e221fdfcfe4ea5cd57eb97cbe37e1ac98126664c9c7db49c1",
+      "lines": 58,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-toggle-group",
+        "class-variance-authority",
+        "@/lib/utils",
+        "@/components/ui/toggle"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/toggle.tsx",
+      "originalBytes": 1534,
+      "sha256": "62e6e21993f1ab633b9f830cbbf0c181f3d161bae3a7792dbf2d842d42a2f09c",
+      "lines": 43,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-toggle",
+        "class-variance-authority",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/components/ui/tooltip.tsx",
+      "originalBytes": 1278,
+      "sha256": "9682690fc3755d0f4b8684f2d7b1f77945876d41a45b723d0761b26804ad5010",
+      "lines": 33,
+      "kind": "Componente React local",
+      "imports": [
+        "react",
+        "@radix-ui/react-tooltip",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/config/billing.ts",
+      "originalBytes": 2151,
+      "sha256": "7f60f8f5e837cef363dd58511308cc9866a25266d8593410a3b6e196eacccdfd",
+      "lines": 62,
+      "kind": "Configuração / integração / tipos",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/config/brand.ts",
+      "originalBytes": 1011,
+      "sha256": "714a088360df24569a9191327cc554f871de1eab85ee29dab23a2f5eee5f0ef9",
+      "lines": 29,
+      "kind": "Configuração / integração / tipos",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/config/features.ts",
+      "originalBytes": 3002,
+      "sha256": "3c641efce6c6f150cccb2195b7c0e090ce9a71bef105b74564dc622f6297303a",
+      "lines": 110,
+      "kind": "Configuração / integração / tipos",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/config/plans.ts",
+      "originalBytes": 5855,
+      "sha256": "3106c8b058c106006e49126fa46019a36f31f3146ac2f308d30d85eb8f67a73f",
+      "lines": 152,
+      "kind": "Configuração / integração / tipos",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/hooks/use-mobile.tsx",
+      "originalBytes": 576,
+      "sha256": "21eff740f9e5c965c7f0782925a7e8f67ddfcdf0f58b6613550f99c3e1c454e9",
+      "lines": 20,
+      "kind": "Hook React",
+      "imports": [
+        "react"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/hooks/use-portal-policies.ts",
+      "originalBytes": 1039,
+      "sha256": "d39e10d4faf6c2480358bc5a0b7b5f231566be955fd5e2605bf2577a15035733",
+      "lines": 29,
+      "kind": "Hook React",
+      "imports": [
+        "@tanstack/react-query",
+        "@/lib/policies.functions",
+        "./use-portal-session",
+        "@/lib/policies.shared"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/hooks/use-portal-session.ts",
+      "originalBytes": 721,
+      "sha256": "495a065a2a083f8ac3d00826dcf932859e95bc8220b0acdf3d6b2320564b918b",
+      "lines": 31,
+      "kind": "Hook React",
+      "imports": [
+        "react"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/hooks/use-signed-url.ts",
+      "originalBytes": 1046,
+      "sha256": "17f476e72732b3d44d34daa02ceaf3d88de51f3e03a55570f584110bf7bff63b",
+      "lines": 30,
+      "kind": "Hook React",
+      "imports": [
+        "@tanstack/react-query",
+        "@/integrations/supabase/client"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/hooks/use-workspace.tsx",
+      "originalBytes": 4830,
+      "sha256": "0cf3ac6d459ab170bbd50b916971edb7f00fe3c1a66f27af0b3b629c2ca77993",
+      "lines": 135,
+      "kind": "Hook React",
+      "imports": [
+        "react",
+        "@tanstack/react-query",
+        "@/integrations/supabase/client",
+        "@/config/brand",
+        "@/config/features",
+        "@/integrations/supabase/types"
+      ],
+      "tables": [
+        "profiles",
+        "user_roles",
+        "platform_admins",
+        "companies",
+        "units",
+        "feature_entitlements"
+      ]
+    },
+    {
+      "file": "src/integrations/lovable/index.ts",
+      "originalBytes": 939,
+      "sha256": "b56717c3c83e5532cd01f8f73fb7f8c944913d24cd364cf979f26210c8b1bbd7",
+      "lines": 39,
+      "kind": "Configuração / integração / tipos — removido",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/integrations/supabase/auth-attacher.ts",
+      "originalBytes": 611,
+      "sha256": "24d0dbdf8dc0fd49b391a948bd04e1db43b97a1d851acc391dd3d1b13b9797fd",
+      "lines": 16,
+      "kind": "Configuração / integração / tipos",
+      "imports": [
+        "@tanstack/react-start",
+        "./client"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/integrations/supabase/auth-middleware.ts",
+      "originalBytes": 3234,
+      "sha256": "9358ea3516b212bf77abacb3549b36f662a70b4a6888fe23ae572cb3826d9f52",
+      "lines": 109,
+      "kind": "Configuração / integração / tipos",
+      "imports": [
+        "@tanstack/react-start",
+        "@tanstack/react-start/server",
+        "@supabase/supabase-js",
+        "./types"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/integrations/supabase/client.server.ts",
+      "originalBytes": 2753,
+      "sha256": "56ec7f9ac40ccdf96d8aba4f7fe33a586590ac63420b81e6cd5dc1e4777ee28e",
+      "lines": 69,
+      "kind": "Configuração / integração / tipos",
+      "imports": [
+        "@supabase/supabase-js",
+        "./types"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/integrations/supabase/client.ts",
+      "originalBytes": 2493,
+      "sha256": "78a33aab7d61f3d29390546f5340d2df44533118374eb5f71eb797231c73cb7e",
+      "lines": 66,
+      "kind": "Configuração / integração / tipos",
+      "imports": [
+        "@supabase/supabase-js",
+        "./types"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/integrations/supabase/cron-auth.ts",
+      "originalBytes": 1109,
+      "sha256": "18430aa4c7faff5b44c572a8a4dfa6482daa52acbea09f384b872f087e58e738",
+      "lines": 35,
+      "kind": "Configuração / integração / tipos",
+      "imports": [
+        "node:crypto"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/integrations/supabase/previewAuthStorage.ts",
+      "originalBytes": 4336,
+      "sha256": "634c0f279327b7c79f6e38b54b7ab4ae3737f0d6c3a660d8ac02a9659be48a0f",
+      "lines": 89,
+      "kind": "Configuração / integração / tipos — removido",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/integrations/supabase/types.ts",
+      "originalBytes": 159328,
+      "sha256": "44d1b24a04f0e5c57e8daff4335867b8ec7d9cdc3779e4b80da9bcc43ebcaa17",
+      "lines": 5172,
+      "kind": "Configuração / integração / tipos",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/lib/admin.functions.schemas.ts",
+      "originalBytes": 940,
+      "sha256": "340ad553a0b09c12cbef903f305e0472942a0d19cc0f202708a46cee53bf8c6b",
+      "lines": 37,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "zod"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/admin.functions.ts",
+      "originalBytes": 9436,
+      "sha256": "0d707705932273820b2fc48d29ad644fb2ddffbcfdc1204a3d82b5528a4ce1c3",
+      "lines": 248,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@tanstack/react-start",
+        "@/integrations/supabase/auth-middleware",
+        "./admin.functions.schemas",
+        "./portal.server",
+        "@/integrations/supabase/client.server",
+        "./portal.server",
+        "@/integrations/supabase/client.server"
+      ],
+      "tables": [
+        "employees",
+        "audit_logs",
+        "schedule_blocks",
+        "time_entries",
+        "point_cards",
+        "point_card_deliveries",
+        "notifications",
+        "profiles",
+        "companies",
+        "units",
+        "point_policies",
+        "user_roles",
+        "user_units"
+      ]
+    },
+    {
+      "file": "src/lib/billing.functions.schemas.ts",
+      "originalBytes": 198,
+      "sha256": "6dd3122b25b97ce94711cd2a10d7e867630282d3cc44ca56a8f23a95a194aa55",
+      "lines": 8,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "zod"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/billing.functions.ts",
+      "originalBytes": 3636,
+      "sha256": "78da4f54494408b89443fd78cced04f693298de606e7c9dde4e761f6fa0530bb",
+      "lines": 89,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@tanstack/react-start",
+        "@/integrations/supabase/auth-middleware",
+        "@/config/billing",
+        "./billing.functions.schemas"
+      ],
+      "tables": [
+        "profiles"
+      ]
+    },
+    {
+      "file": "src/lib/compliance.shared.ts",
+      "originalBytes": 6698,
+      "sha256": "2f9e5d51ec84d08643d97ad40ed9c8725021e5aaea2aae3ce0d3136c9ad2fcb1",
+      "lines": 249,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/lib/deliveries.functions.schemas.ts",
+      "originalBytes": 1024,
+      "sha256": "03c1606b2df73d3479f4114549d7be81ab1e4f93b39c1bdc4e5359c8271cacc7",
+      "lines": 36,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "zod"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/deliveries.functions.ts",
+      "originalBytes": 9537,
+      "sha256": "24ecbc982861083f2877d86d1f02c8a63f348417a482d5622895b77e4741bbbf",
+      "lines": 259,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@tanstack/react-start",
+        "@/integrations/supabase/auth-middleware",
+        "./deliveries.functions.schemas"
+      ],
+      "tables": [
+        "profiles",
+        "employees",
+        "catalog_items",
+        "inventory_items",
+        "item_deliveries",
+        "item_delivery_items",
+        "stock_movements",
+        "item_delivery_events"
+      ]
+    },
+    {
+      "file": "src/lib/error-capture.ts",
+      "originalBytes": 2898,
+      "sha256": "d6fa7756cbc4c399f4e891b174c2dce8160e2354972c2ae68413dfd1db843088",
+      "lines": 82,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/lib/error-page.ts",
+      "originalBytes": 1371,
+      "sha256": "635915886f5d44a18b6add2a53959dbe2e8ba1bb3f7e597fc714650e74157bb6",
+      "lines": 31,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/lib/face-validation.server.ts",
+      "originalBytes": 10229,
+      "sha256": "f57b6edc606da7df370d980f904af795a0cc77d3ecdfd1600f57d09e8f694798",
+      "lines": 325,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "./policies.server"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/fixed-schedule.functions.schemas.ts",
+      "originalBytes": 460,
+      "sha256": "c9eaec4ca4397de6d8fcfdf929f563b283a1c603768247fa0d2e8b16bf3a368e",
+      "lines": 13,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "zod"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/fixed-schedule.functions.ts",
+      "originalBytes": 2428,
+      "sha256": "16ed4fe1cc22e900860d493d4ad8e31aaac1b8598a8af278bf16e18bda9cd206",
+      "lines": 68,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@tanstack/react-start",
+        "zod",
+        "@/integrations/supabase/auth-middleware",
+        "./fixed-schedule.functions.schemas",
+        "./plan.server"
+      ],
+      "tables": [
+        "fixed_work_schedules",
+        "units",
+        "audit_logs"
+      ]
+    },
+    {
+      "file": "src/lib/fixed-schedule.server.ts",
+      "originalBytes": 5180,
+      "sha256": "1ae4f6afbf37cf9ea7e750130ab176efd5e50607df824ba4b4806d86206aee3e",
+      "lines": 149,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@/integrations/supabase/client.server",
+        "@/integrations/supabase/client.server"
+      ],
+      "tables": [
+        "fixed_work_schedules",
+        "schedules",
+        "schedule_blocks"
+      ]
+    },
+    {
+      "file": "src/lib/format.ts",
+      "originalBytes": 2169,
+      "sha256": "2fdd9120df32e144cfefaba2a52e4010f21afce0c91da0bd78883d4981963ef9",
+      "lines": 62,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/lib/geo-validation.server.ts",
+      "originalBytes": 3516,
+      "sha256": "373cee43a8d8bda603a34f38d57c69dadb3405e25e3d0d1f746867cbabc2ee1e",
+      "lines": 101,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "./policies.server"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/inventory.functions.schemas.ts",
+      "originalBytes": 528,
+      "sha256": "4350ef53274909140cdc0231640b7b86060741cc49b945daf0b4ae1d3ed8f5dd",
+      "lines": 13,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "zod"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/inventory.functions.ts",
+      "originalBytes": 4469,
+      "sha256": "fe04e3e620da8e14cf84b8c4088fa0491014b0f243def19c378ba26cd1d80248",
+      "lines": 133,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@tanstack/react-start",
+        "@/integrations/supabase/auth-middleware",
+        "./inventory.functions.schemas"
+      ],
+      "tables": [
+        "inventory_items",
+        "stock_movements",
+        "stock_alerts",
+        "audit_logs"
+      ]
+    },
+    {
+      "file": "src/lib/items.shared.ts",
+      "originalBytes": 4305,
+      "sha256": "f278366e48f27b3b364530b087d56b4503f61589771a314485b7c8dc0306c795",
+      "lines": 155,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@/integrations/supabase/types"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/lgpd.shared.ts",
+      "originalBytes": 2118,
+      "sha256": "c2cd2d0ecce5dead1e179661a23aaa0026cc221d7190332d0d54d56a28d3d228",
+      "lines": 53,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/lib/lovable-error-reporting.ts",
+      "originalBytes": 1739,
+      "sha256": "0d6a91dab0a099507a379b28eaa7d2825e76bcc0ce5a8444e07e3e28427e9b57",
+      "lines": 59,
+      "kind": "Regra de negócio / schema / utilitário — removido",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/lib/payslips.functions.schemas.ts",
+      "originalBytes": 1167,
+      "sha256": "0ec8cf7f9cd8697181a196574a6aaa07d95c506e35ab37b5bd271d0d5b4ad209",
+      "lines": 38,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "zod"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/payslips.functions.ts",
+      "originalBytes": 21254,
+      "sha256": "5ecfc6870a485225464ef6d1e7050ec38a3662c121e0260318b5e78e0495635e",
+      "lines": 570,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@tanstack/react-start",
+        "@/integrations/supabase/auth-middleware",
+        "zod",
+        "./payslips.functions.schemas",
+        "@tanstack/react-start-server",
+        "./payslips.server",
+        "./payslips.shared",
+        "@/integrations/supabase/client.server",
+        "./payslips.server",
+        "@/integrations/supabase/client.server",
+        "./payslips.server",
+        "@/integrations/supabase/client.server",
+        "./payslips.server",
+        "@/integrations/supabase/client.server",
+        "./payslips.server",
+        "@/integrations/supabase/client.server",
+        "./payslips.server",
+        "@/integrations/supabase/client.server",
+        "./payslips.server",
+        "@/integrations/supabase/client.server",
+        "./payslips.server"
+      ],
+      "tables": [
+        "profiles",
+        "user_roles",
+        "payslips",
+        "payslip_versions",
+        "employees",
+        "payslip_disputes"
+      ]
+    },
+    {
+      "file": "src/lib/payslips.server.ts",
+      "originalBytes": 3956,
+      "sha256": "f8789de28ff407338b1ac5f600102d6a624f99e06618c472d0334e5fe8194a35",
+      "lines": 123,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [],
+      "tables": [
+        "payslip_audit_events"
+      ]
+    },
+    {
+      "file": "src/lib/payslips.shared.ts",
+      "originalBytes": 7124,
+      "sha256": "70a338a2576ec1ce6bc27d0a34c631b10d4d7fd13781a04f6046688b7746cdb3",
+      "lines": 216,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/lib/pending-checkout.ts",
+      "originalBytes": 1487,
+      "sha256": "26e66850b77d61c0cc9260634dec226e24eed8d08ebd9986b1a7ad9baf936082",
+      "lines": 54,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@/lib/billing.functions",
+        "@/config/plans"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/pilot.functions.schemas.ts",
+      "originalBytes": 1057,
+      "sha256": "5bfab096ebc4eb8ea81b8ed7420c2bab1ca0b329f9406d1559f36101faf6f9fa",
+      "lines": 32,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "zod"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/pilot.functions.ts",
+      "originalBytes": 8942,
+      "sha256": "72b54ed0ed1d9eeb99954fbaca01f6cf5ad3027599067ac0141ebbcecd7aa3ad",
+      "lines": 251,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@tanstack/react-start",
+        "zod",
+        "@/integrations/supabase/auth-middleware",
+        "./pilot.functions.schemas",
+        "./plan.server",
+        "@/integrations/supabase/client.server",
+        "./plan.server",
+        "@/integrations/supabase/client.server",
+        "./plan.server",
+        "@/integrations/supabase/client.server"
+      ],
+      "tables": [
+        "companies",
+        "profiles",
+        "units",
+        "point_policies",
+        "fixed_work_schedules",
+        "user_roles",
+        "user_units",
+        "audit_logs"
+      ]
+    },
+    {
+      "file": "src/lib/plan.server.ts",
+      "originalBytes": 1817,
+      "sha256": "089b3760c40deb7ba952306fa47ca86b36226a016dcfc5eaec02977c8d0cd733",
+      "lines": 56,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@/integrations/supabase/client.server",
+        "@/integrations/supabase/client.server",
+        "@/integrations/supabase/client.server"
+      ],
+      "tables": [
+        "platform_admins",
+        "profiles",
+        "feature_entitlements"
+      ]
+    },
+    {
+      "file": "src/lib/policies.functions.schemas.ts",
+      "originalBytes": 1692,
+      "sha256": "44d732ab60a23cbfd7f6c4eb9e27581ddc50db3785f8cabc23d60a1d417c473f",
+      "lines": 35,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "zod"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/policies.functions.ts",
+      "originalBytes": 4839,
+      "sha256": "0e3888c277d8a56b29d8c73842eab87a4088891784643f9e91a1700decb3d364",
+      "lines": 116,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@supabase/supabase-js",
+        "@/integrations/supabase/types",
+        "@tanstack/react-start",
+        "@/integrations/supabase/auth-middleware",
+        "./policies.functions.schemas",
+        "./policies.server",
+        "./portal-session.server",
+        "./policies.server"
+      ],
+      "tables": [
+        "user_roles",
+        "profiles",
+        "acceptance_policies",
+        "privacy_policies"
+      ]
+    },
+    {
+      "file": "src/lib/policies.server.ts",
+      "originalBytes": 3205,
+      "sha256": "e808c4c4bede3c68a2b7bfb600e56a3eb511f587f78c97d21ea2423d0a3ace32",
+      "lines": 69,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "./policies.shared",
+        "@/integrations/supabase/client.server",
+        "@/integrations/supabase/client.server"
+      ],
+      "tables": [
+        "acceptance_policies",
+        "privacy_policies"
+      ]
+    },
+    {
+      "file": "src/lib/policies.shared.ts",
+      "originalBytes": 3244,
+      "sha256": "924d495926df67325f9cf6c00b7c52b2ca571112d044209439bf4cd8eea655fe",
+      "lines": 107,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/lib/portal-compliance.functions.schemas.ts",
+      "originalBytes": 1459,
+      "sha256": "fa5108638bbc2e39c7c2cf46518e3a6f8a474f4d603bbc59aa758ca0e621a796",
+      "lines": 40,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "zod"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/portal-compliance.functions.ts",
+      "originalBytes": 17115,
+      "sha256": "8322fb2fd679ee298983928e84aa195fca3f5a343d55cab9aed85c98c8e19cc1",
+      "lines": 434,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@tanstack/react-start",
+        "zod",
+        "./lgpd.shared",
+        "./portal-compliance.functions.schemas",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "@/integrations/supabase/client.server",
+        "@/integrations/supabase/client.server",
+        "@/integrations/supabase/client.server",
+        "./face-validation.server",
+        "./compliance.shared",
+        "@/integrations/supabase/client.server",
+        "@/integrations/supabase/client.server",
+        "@/integrations/supabase/client.server"
+      ],
+      "tables": [
+        "occupational_documents",
+        "document_requests",
+        "document_acknowledgements",
+        "document_access_logs",
+        "documents",
+        "signatures",
+        "item_deliveries",
+        "point_cards",
+        "uniform_exchange_requests"
+      ]
+    },
+    {
+      "file": "src/lib/portal-items.functions.schemas.ts",
+      "originalBytes": 1349,
+      "sha256": "2b94d6ade40ebd0bf1f780f1592337da226bd0e88e459ab7ed48a0ac1f99d21c",
+      "lines": 41,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "zod"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/portal-items.functions.ts",
+      "originalBytes": 15709,
+      "sha256": "30923079dc215a0f0ef1b280eb677b404a503587d3edf15d6b424c4606da80f6",
+      "lines": 407,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@tanstack/react-start",
+        "zod",
+        "./portal-items.functions.schemas",
+        "@tanstack/react-start-server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./face-validation.server",
+        "./geo-validation.server",
+        "./items.shared",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./face-validation.server",
+        "./items.shared",
+        "./geo-validation.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server"
+      ],
+      "tables": [
+        "item_deliveries",
+        "item_delivery_evidence",
+        "units",
+        "item_delivery_events",
+        "signatures",
+        "item_delivery_items",
+        "notifications"
+      ]
+    },
+    {
+      "file": "src/lib/portal-payslips.functions.schemas.ts",
+      "originalBytes": 626,
+      "sha256": "447903990be7813508424441ca153a7ab994a577ff0912e3f4430fff82fbc9e8",
+      "lines": 19,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "zod"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/portal-payslips.functions.ts",
+      "originalBytes": 17960,
+      "sha256": "aa89ba711308c7f3263fa5574f449233f7c622df39265f902c06d7a5f3bcdffa",
+      "lines": 453,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@tanstack/react-start",
+        "zod",
+        "./portal-payslips.functions.schemas",
+        "@tanstack/react-start-server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./payslips.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./face-validation.server",
+        "./payslips.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./payslips.server",
+        "./face-validation.server",
+        "./geo-validation.server",
+        "./payslips.shared",
+        "./lgpd.shared",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./payslips.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server"
+      ],
+      "tables": [
+        "payslips",
+        "payslip_versions",
+        "payslip_signatures",
+        "payslip_disputes",
+        "units",
+        "signatures",
+        "payslip_audit_events"
+      ]
+    },
+    {
+      "file": "src/lib/portal-session.server.ts",
+      "originalBytes": 842,
+      "sha256": "b48bb3fad21c5a90af40ba94081e856823a4ab11cf86df136bf6281f1cfc896c",
+      "lines": 21,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@/integrations/supabase/client.server",
+        "./portal.server"
+      ],
+      "tables": [
+        "portal_sessions",
+        "employees"
+      ]
+    },
+    {
+      "file": "src/lib/portal-timesheet.functions.schemas.ts",
+      "originalBytes": 1503,
+      "sha256": "4203c37e29d6a043d5c31d41c7b002a25e30da2954c7a2670e532fa19465a506",
+      "lines": 43,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "zod"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/portal-timesheet.functions.ts",
+      "originalBytes": 15495,
+      "sha256": "3e432619a9a60bea7b74e9a518da940e50948d6103f2273061d3d630af1b81eb",
+      "lines": 362,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@tanstack/react-start",
+        "zod",
+        "./lgpd.shared",
+        "./portal-timesheet.functions.schemas",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./face-validation.server",
+        "./timesheet.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./face-validation.server",
+        "./timesheet.server",
+        "./timesheet.shared"
+      ],
+      "tables": [
+        "point_cards",
+        "timesheet_disputes",
+        "timesheet_entries",
+        "point_card_evidence",
+        "units",
+        "companies",
+        "point_card_events",
+        "notifications",
+        "signatures"
+      ]
+    },
+    {
+      "file": "src/lib/portal.functions.schemas.ts",
+      "originalBytes": 1141,
+      "sha256": "b40e5b4e21f51db953a04c1c7ad48762d907878ff5fc5f6f26389945481d7361",
+      "lines": 37,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "zod"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/portal.functions.ts",
+      "originalBytes": 14511,
+      "sha256": "0ffb3bdc7404f47a1ec27a007839b4be709ffd657bf349117f76b8ccef617493",
+      "lines": 357,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@tanstack/react-start",
+        "./portal.functions.schemas",
+        "@/integrations/supabase/client.server",
+        "./portal.server",
+        "./fixed-schedule.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./portal.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "./portal-session.server",
+        "@/integrations/supabase/client.server",
+        "@/integrations/supabase/client.server",
+        "./portal.server"
+      ],
+      "tables": [
+        "employees",
+        "portal_sessions",
+        "audit_logs",
+        "units",
+        "schedule_blocks",
+        "time_entries",
+        "companies",
+        "point_policies",
+        "point_cards",
+        "time_entry_reviews",
+        "employee_item_deliveries"
+      ]
+    },
+    {
+      "file": "src/lib/portal.server.ts",
+      "originalBytes": 2461,
+      "sha256": "991d695150e8793ecf7d6b66b4487556150c99554d504f53a7cc9573879df5b0",
+      "lines": 79,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/lib/sales-ingest.schemas.ts",
+      "originalBytes": 522,
+      "sha256": "f4bdf28cec15e2183aee9a0d49680a1bd049b4e1314f72368f896f460ffd303e",
+      "lines": 19,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "zod"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/timesheet.functions.schemas.ts",
+      "originalBytes": 962,
+      "sha256": "6feb6b370a1363ea3d071a9ae06852e13dea1fe592cdde9874decfce3fe4a1d2",
+      "lines": 29,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "zod"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/lib/timesheet.functions.ts",
+      "originalBytes": 19203,
+      "sha256": "f696a66bdbb0f22c45f0cf626755a245d5637278dfdca9e85c9fb123cb1acd49",
+      "lines": 541,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "@tanstack/react-start",
+        "@/integrations/supabase/auth-middleware",
+        "zod",
+        "./timesheet.functions.schemas",
+        "./timesheet.server",
+        "./fixed-schedule.server",
+        "./timesheet.server",
+        "./timesheet.server",
+        "./timesheet.server",
+        "./timesheet.server",
+        "./timesheet.server"
+      ],
+      "tables": [
+        "employees",
+        "point_cards",
+        "timesheet_disputes",
+        "profiles",
+        "units",
+        "timesheet_periods",
+        "time_entries",
+        "schedule_blocks",
+        "timesheet_entries",
+        "point_card_evidence",
+        "point_card_events",
+        "timesheet_batches"
+      ]
+    },
+    {
+      "file": "src/lib/timesheet.server.ts",
+      "originalBytes": 8207,
+      "sha256": "e8d09615bfb866cbfa6ceab357fddbd89df48569bdffc6f3196bf9c8aafb8c2e",
+      "lines": 253,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "./timesheet.shared",
+        "@supabase/supabase-js",
+        "@/integrations/supabase/types"
+      ],
+      "tables": [
+        "point_card_events",
+        "timesheet_entries",
+        "point_cards",
+        "point_card_evidence"
+      ]
+    },
+    {
+      "file": "src/lib/timesheet.shared.ts",
+      "originalBytes": 4871,
+      "sha256": "e1239f7e3863ce2e5bccdf90b3c148af07a7877ca3063aec48fb86adf94f9c8e",
+      "lines": 159,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/lib/utils.ts",
+      "originalBytes": 169,
+      "sha256": "d1f1e0d62cb8d8d1e04c26e14de842d8a151f75812d81b046c65b5d1fe8e4b27",
+      "lines": 7,
+      "kind": "Regra de negócio / schema / utilitário",
+      "imports": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routeTree.gen.ts",
+      "originalBytes": 53817,
+      "sha256": "5523bd3d7b4397077181dbc9828dbc262113981f0595b430bdf7f81d14f8470c",
+      "lines": 1251,
+      "kind": "Configuração / integração / tipos",
+      "imports": [
+        "./routes/__root",
+        "./routes/index",
+        "./routes/_authenticated/route",
+        "./routes/auth",
+        "./routes/portal",
+        "./routes/_authenticated/app",
+        "./routes/_authenticated/onboarding",
+        "./routes/portal.index",
+        "./routes/portal.escala",
+        "./routes/portal.login",
+        "./routes/portal.pendencias",
+        "./routes/portal.perfil",
+        "./routes/portal.ponto",
+        "./routes/_authenticated/app.index",
+        "./routes/_authenticated/app.delivery-rules",
+        "./routes/_authenticated/app.employees",
+        "./routes/_authenticated/app.inventory",
+        "./routes/_authenticated/app.items",
+        "./routes/_authenticated/app.roles-teams",
+        "./routes/_authenticated/app.sales",
+        "./routes/_authenticated/app.schedule-compliance",
+        "./routes/_authenticated/app.schedule-history",
+        "./routes/_authenticated/app.schedule-templates",
+        "./routes/_authenticated/app.schedules",
+        "./routes/_authenticated/app.shifts",
+        "./routes/_authenticated/app.time-entries",
+        "./routes/_authenticated/app.units",
+        "./routes/api/public/sales-ingest",
+        "./routes/api/public/stripe-webhook",
+        "./routes/portal.cartao-ponto.index",
+        "./routes/portal.cartao-ponto.$id",
+        "./routes/portal.documentos.index",
+        "./routes/portal.documentos.$id",
+        "./routes/portal.holerites.index",
+        "./routes/portal.holerites.$id",
+        "./routes/portal.itens.index",
+        "./routes/portal.itens.$id",
+        "./routes/_authenticated/app.admin.piloto",
+        "./routes/_authenticated/app.conformidade.index",
+        "./routes/_authenticated/app.conformidade.kits",
+        "./routes/_authenticated/app.conformidade.pendencias",
+        "./routes/_authenticated/app.conformidade.trocas",
+        "./routes/_authenticated/app.deliveries.index",
+        "./routes/_authenticated/app.deliveries.$id",
+        "./routes/_authenticated/app.point-cards.index",
+        "./routes/_authenticated/app.point-cards.$id",
+        "./routes/_authenticated/app.settings.aceite",
+        "./routes/_authenticated/app.settings.jornada",
+        "./routes/_authenticated/app.settings.lgpd",
+        "./routes/portal.holerites.$id.comprovante",
+        "./routes/_authenticated/app.conformidade.exames.index",
+        "./routes/_authenticated/app.conformidade.exames.$id",
+        "./routes/_authenticated/app.conformidade.exames.novo",
+        "./routes/_authenticated/app.documentos.holerites.index",
+        "./routes/_authenticated/app.documentos.holerites.$id",
+        "./router.tsx",
+        "./start.ts"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/router.tsx",
+      "originalBytes": 394,
+      "sha256": "72b68964d3f55ba4f7dcf2a04aad9d97d7c61fabad13aec1d298f1e39ee59fcc",
+      "lines": 17,
+      "kind": "Configuração / integração / tipos",
+      "imports": [
+        "@tanstack/react-query",
+        "@tanstack/react-router",
+        "./routeTree.gen"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/README.md",
+      "originalBytes": 835,
+      "sha256": "5c8187dbe79dac7a3c494f2600585508f5d15e75f04f21ea364d0de14de10575",
+      "lines": 22,
+      "kind": "Rota / layout / API",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "src/routes/__root.tsx",
+      "originalBytes": 4821,
+      "sha256": "37316a6632aedafc664563ab83c06b62c3f6c22b06e6e1a8aabfe8c91e351cf1",
+      "lines": 137,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-query",
+        "@tanstack/react-router",
+        "react",
+        "../styles.css?url",
+        "../lib/error-reporting",
+        "@/components/ui/sonner"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/_authenticated/app.admin.piloto.tsx",
+      "originalBytes": 13986,
+      "sha256": "1bd92222204859cefce8a89d03ea7e2da4900aa4f7d5a651b0de0f9ff5644376",
+      "lines": 352,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "react",
+        "@tanstack/react-query",
+        "sonner",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/label",
+        "@/components/ui/checkbox",
+        "@/components/ui/switch",
+        "@/components/ui/br-inputs",
+        "@/components/ui/select",
+        "@/lib/pilot.functions"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/_authenticated/app.conformidade.exames.$id.tsx",
+      "originalBytes": 13457,
+      "sha256": "8d2722277895a7b00562dce077fc997d86c2d727193f01052a97ebc1c763334d",
+      "lines": 378,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "react",
+        "lucide-react",
+        "sonner",
+        "@/integrations/supabase/client",
+        "@/integrations/supabase/types",
+        "@/hooks/use-workspace",
+        "@/config/brand",
+        "@/components/ui-kit",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/br-inputs",
+        "@/components/ui/label",
+        "@/components/ui/textarea",
+        "@/components/ui/select",
+        "@/lib/format",
+        "@/lib/compliance.shared"
+      ],
+      "tables": [
+        "occupational_documents",
+        "employees",
+        "document_access_logs",
+        "document_acknowledgements",
+        "documents"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.conformidade.exames.index.tsx",
+      "originalBytes": 17474,
+      "sha256": "240d9f4dd402c11dd69e9de8024658123bf39c353dd03eaa1e209341bdbf12a9",
+      "lines": 486,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "react",
+        "lucide-react",
+        "sonner",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/config/brand",
+        "@/components/ui-kit",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/br-inputs",
+        "@/components/ui/label",
+        "@/components/ui/textarea",
+        "@/components/ui/select",
+        "@/components/ui/dialog",
+        "@/lib/format",
+        "@/lib/compliance.shared"
+      ],
+      "tables": [
+        "employees",
+        "occupational_documents",
+        "document_requests"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.conformidade.exames.novo.tsx",
+      "originalBytes": 13212,
+      "sha256": "b08dc185755f404540fc4398534d57452a8f8cb72ed8895726e5ad96b49d9ac3",
+      "lines": 383,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "react",
+        "sonner",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/config/brand",
+        "@/components/ui-kit",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/br-inputs",
+        "@/components/ui/label",
+        "@/components/ui/textarea",
+        "@/components/ui/select",
+        "@/lib/compliance.shared"
+      ],
+      "tables": [
+        "employees",
+        "documents",
+        "occupational_documents"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.conformidade.index.tsx",
+      "originalBytes": 12189,
+      "sha256": "89551034738a144b3af52f17bd7dfa9895fe130f19e4a50ab85b290232f9ed13",
+      "lines": 342,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "react",
+        "lucide-react",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/config/brand",
+        "@/components/ui-kit",
+        "@/components/ui/select",
+        "@/lib/format",
+        "@/lib/compliance.shared"
+      ],
+      "tables": [
+        "occupational_documents",
+        "item_deliveries",
+        "uniform_exchange_requests",
+        "uniform_kits"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.conformidade.kits.tsx",
+      "originalBytes": 16242,
+      "sha256": "54b58c9c2b751c760211d55be2e03b089c7e6e321e7df2205cdac85a23e5917b",
+      "lines": 449,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "react",
+        "lucide-react",
+        "sonner",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/config/brand",
+        "@/components/ui-kit",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/br-inputs",
+        "@/components/ui/label",
+        "@/components/ui/select",
+        "@/components/ui/dialog",
+        "@/lib/items.shared",
+        "@/lib/format"
+      ],
+      "tables": [
+        "catalog_items",
+        "roles",
+        "uniform_kits",
+        "uniform_kit_items"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.conformidade.pendencias.tsx",
+      "originalBytes": 9508,
+      "sha256": "de48e38d04dd39bc9c208a9636c22976fd6f4a5944fc8d8e4e82202b65de85b7",
+      "lines": 267,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "react",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/config/brand",
+        "@/components/ui-kit",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/select",
+        "@/lib/format",
+        "@/lib/compliance.shared"
+      ],
+      "tables": [
+        "employees",
+        "occupational_documents",
+        "document_requests",
+        "item_deliveries",
+        "point_cards",
+        "uniform_exchange_requests"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.conformidade.trocas.tsx",
+      "originalBytes": 10843,
+      "sha256": "f04809defb283c8866720a2c643af99eb74d27c3887ccdf47b72ef38cd8a1c3f",
+      "lines": 306,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "react",
+        "sonner",
+        "@/integrations/supabase/client",
+        "@/integrations/supabase/types",
+        "@/hooks/use-workspace",
+        "@/config/brand",
+        "@/components/ui-kit",
+        "@/components/ui/button",
+        "@/components/ui/textarea",
+        "@/components/ui/label",
+        "@/components/ui/select",
+        "@/lib/format"
+      ],
+      "tables": [
+        "uniform_exchange_requests",
+        "employees",
+        "catalog_items"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.deliveries.$id.tsx",
+      "originalBytes": 16187,
+      "sha256": "b9025b7ac16956513aca6edaefb13f87f815acb9060c9df5d7c8b572caa0132f",
+      "lines": 396,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "react",
+        "lucide-react",
+        "@/integrations/supabase/client",
+        "@/hooks/use-signed-url",
+        "@/lib/deliveries.functions",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/components/ui/button",
+        "@/components/ui/label",
+        "@/components/ui/textarea",
+        "@/components/ui/dialog",
+        "sonner",
+        "@/lib/format",
+        "@/lib/items.shared"
+      ],
+      "tables": [
+        "item_deliveries",
+        "item_delivery_events"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.deliveries.index.tsx",
+      "originalBytes": 24196,
+      "sha256": "7cb3421e03616daf3e1ba48a5e72c85a1e772956cc4bd340679566a606b2f865",
+      "lines": 578,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "react",
+        "lucide-react",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/lib/deliveries.functions",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/br-inputs",
+        "@/components/ui/label",
+        "@/components/ui/textarea",
+        "@/components/ui/checkbox",
+        "@/components/ui/select",
+        "@/components/ui/dialog",
+        "sonner",
+        "@/lib/format",
+        "@/lib/items.shared"
+      ],
+      "tables": [
+        "item_deliveries",
+        "employees",
+        "catalog_items",
+        "delivery_rules"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.delivery-rules.tsx",
+      "originalBytes": 13969,
+      "sha256": "692bbb59383d60845d2569aa96b3e18fb1db530a33b71eb1bf53312458b2d400",
+      "lines": 362,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "react",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/br-inputs",
+        "@/components/ui/label",
+        "@/components/ui/checkbox",
+        "@/components/ui/select",
+        "@/components/ui/dialog",
+        "sonner",
+        "@/lib/format",
+        "@/lib/items.shared"
+      ],
+      "tables": [
+        "delivery_rules",
+        "roles",
+        "catalog_items"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.documentos.holerites.$id.tsx",
+      "originalBytes": 19296,
+      "sha256": "fed094be77017aa2bdc5f4be3de70efe3ab82674d025c440f68733a889ceb9f5",
+      "lines": 492,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "react",
+        "lucide-react",
+        "sonner",
+        "@/integrations/supabase/client",
+        "@/config/brand",
+        "@/components/ui-kit",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/label",
+        "@/components/ui/textarea",
+        "@/components/ui/dialog",
+        "@/components/lgpd-consent",
+        "@/lib/format",
+        "@/lib/payslips.functions",
+        "@/lib/payslips.shared"
+      ],
+      "tables": [
+        "payslips",
+        "payslip_versions",
+        "payslip_signatures",
+        "payslip_disputes",
+        "payslip_audit_events",
+        "employees"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.documentos.holerites.index.tsx",
+      "originalBytes": 23109,
+      "sha256": "f65b6f0a97db5671b34d98cb2a40ff3514b77344132197f4d92f3f36953a98fd",
+      "lines": 609,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "react",
+        "lucide-react",
+        "sonner",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/config/brand",
+        "@/components/ui-kit",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/label",
+        "@/components/ui/textarea",
+        "@/components/ui/select",
+        "@/components/ui/dialog",
+        "@/lib/format",
+        "@/lib/payslips.functions",
+        "@/lib/payslips.shared"
+      ],
+      "tables": [
+        "employees",
+        "payslips",
+        "payslip_disputes"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.employees.tsx",
+      "originalBytes": 13488,
+      "sha256": "a6efccd91b9da71d1d9702221d5c862464b2c8481ceab694e279acf1000b2485",
+      "lines": 338,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "react",
+        "@/integrations/supabase/client",
+        "@/lib/admin.functions",
+        "@/hooks/use-workspace",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/lib/format",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/label",
+        "@/components/ui/select",
+        "@/components/ui/dialog",
+        "sonner",
+        "@/integrations/supabase/types"
+      ],
+      "tables": [
+        "employees",
+        "roles",
+        "teams"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.index.tsx",
+      "originalBytes": 9360,
+      "sha256": "11222b6f3f862b183a48fa7744e497c6ffe671a737f03246df4f56e2c3acc0eb",
+      "lines": 241,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "lucide-react",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/lib/format",
+        "@/components/ui/button"
+      ],
+      "tables": [
+        "employees",
+        "schedule_blocks",
+        "time_entries",
+        "inventory_items",
+        "stock_alerts",
+        "sales_daily_metrics"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.inventory.tsx",
+      "originalBytes": 23393,
+      "sha256": "895eb461a0b358bca4bd331c0c86040fb966e695e13f082bcc5c65be9bcb9c22",
+      "lines": 588,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "react",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/hooks/use-signed-url",
+        "@/components/item-photo",
+        "@/lib/inventory.functions",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/lib/format",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/label",
+        "@/components/ui/textarea",
+        "@/components/ui/select",
+        "@/components/ui/dialog",
+        "@/components/ui/tabs",
+        "lucide-react",
+        "sonner",
+        "@/integrations/supabase/types"
+      ],
+      "tables": [
+        "inventory_items",
+        "catalog_items",
+        "stock_movements",
+        "stock_alerts"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.items.tsx",
+      "originalBytes": 21812,
+      "sha256": "d1cda695eebacd9adbe250b0869539451f02a54903785563b30a0e4917eb1ca4",
+      "lines": 564,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "react",
+        "lucide-react",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/hooks/use-signed-url",
+        "@/components/item-photo",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/label",
+        "@/components/ui/textarea",
+        "@/components/ui/checkbox",
+        "@/components/ui/select",
+        "@/components/ui/dialog",
+        "sonner",
+        "@/lib/format",
+        "@/lib/items.shared",
+        "@/integrations/supabase/types"
+      ],
+      "tables": [
+        "catalog_items",
+        "inventory_items"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.point-cards.$id.tsx",
+      "originalBytes": 21936,
+      "sha256": "78db8c49340c1c3962009aa3efa3bee33d817054590876fd82edeeb0add2a2dc",
+      "lines": 523,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "react",
+        "lucide-react",
+        "@/config/brand",
+        "@/lib/timesheet.functions",
+        "@/lib/timesheet.shared",
+        "@/components/ui-kit",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/br-inputs",
+        "@/components/ui/label",
+        "@/components/ui/textarea",
+        "@/components/ui/alert-dialog",
+        "@/lib/format",
+        "sonner",
+        "@/components/lgpd-consent"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/_authenticated/app.point-cards.index.tsx",
+      "originalBytes": 14709,
+      "sha256": "7030c8fa9abc71ef8c462aa0191a28f3cd695304665f5c15cfd55726eb3fc034",
+      "lines": 358,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "react",
+        "lucide-react",
+        "@/config/brand",
+        "@/hooks/use-workspace",
+        "@/lib/timesheet.functions",
+        "@/lib/timesheet.shared",
+        "@/components/ui-kit",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/br-inputs",
+        "@/components/ui/label",
+        "@/components/ui/checkbox",
+        "@/components/ui/alert-dialog",
+        "@/lib/format",
+        "sonner"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/_authenticated/app.roles-teams.tsx",
+      "originalBytes": 8250,
+      "sha256": "9f8e8ea4a11408b83db3240b11d115b15667b42eea74acbc4f8554dd2210e34b",
+      "lines": 232,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "react",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/label",
+        "@/components/ui/select",
+        "sonner",
+        "@/integrations/supabase/types"
+      ],
+      "tables": [
+        "roles",
+        "teams",
+        "work_regimes"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.sales.tsx",
+      "originalBytes": 17591,
+      "sha256": "57e8cea52a1987c94ff3f38f3d3c5ed37fb33c31acbbbda9c79355e78d6f246f",
+      "lines": 430,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "react",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/lib/format",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/label",
+        "@/components/ui/select",
+        "@/components/ui/dialog",
+        "@/components/ui/tabs",
+        "lucide-react",
+        "sonner"
+      ],
+      "tables": [
+        "sales_daily_metrics",
+        "sales_connections",
+        "sales_import_jobs"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.schedule-compliance.tsx",
+      "originalBytes": 5114,
+      "sha256": "62573d4d60293e6f8fd2151a40378b894bd2758df21422ec1954e2c8d898381e",
+      "lines": 135,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "react",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/lib/format",
+        "lucide-react"
+      ],
+      "tables": [
+        "schedule_blocks"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.schedule-history.tsx",
+      "originalBytes": 4462,
+      "sha256": "394fdcda8bfb9940c40a9c00045b338f564f085f034469cc8910f335175d9752",
+      "lines": 126,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/lib/format"
+      ],
+      "tables": [
+        "schedules",
+        "schedule_changes",
+        "shift_swap_requests"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.schedule-templates.tsx",
+      "originalBytes": 11647,
+      "sha256": "7dd49771788dcf32b9c48de0b6acd9edba3deea36f0cbdf86fa9c61dfe587deb",
+      "lines": 299,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "react",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/lib/format",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/label",
+        "@/components/ui/select",
+        "sonner",
+        "lucide-react"
+      ],
+      "tables": [
+        "schedule_templates",
+        "schedule_template_items",
+        "shifts",
+        "employees",
+        "schedules",
+        "schedule_blocks"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.schedules.tsx",
+      "originalBytes": 13386,
+      "sha256": "8d11c47d219429683b68bee290fe6a40a46c521d6aa59769fc0fc3f453a6e9dd",
+      "lines": 351,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "react",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/lib/format",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/br-inputs",
+        "@/components/ui/label",
+        "@/components/ui/select",
+        "@/components/ui/dialog",
+        "sonner",
+        "lucide-react"
+      ],
+      "tables": [
+        "schedules",
+        "schedule_blocks",
+        "employees",
+        "shifts"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.settings.aceite.tsx",
+      "originalBytes": 10160,
+      "sha256": "c359d12082ebd76083d58f54052a5c26ff403fe59249e1f467fdb66f5a115518",
+      "lines": 254,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "react",
+        "@tanstack/react-query",
+        "sonner",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/label",
+        "@/components/ui/checkbox",
+        "@/components/ui/select",
+        "@/lib/policies.functions",
+        "@/lib/policies.shared"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/_authenticated/app.settings.jornada.tsx",
+      "originalBytes": 6998,
+      "sha256": "d8b1c5835af3de898257b3d6b0ea6674fb0383444d9006955776e7c506b35484",
+      "lines": 188,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "react",
+        "@tanstack/react-query",
+        "sonner",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/components/ui/button",
+        "@/components/ui/label",
+        "@/components/ui/checkbox",
+        "@/components/ui/switch",
+        "@/components/ui/br-inputs",
+        "@/hooks/use-workspace",
+        "@/lib/fixed-schedule.functions"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/_authenticated/app.settings.lgpd.tsx",
+      "originalBytes": 9654,
+      "sha256": "0dcae83ee12d01b8d52a32de6983de0d229d361f3e6e29f169fcffe8b31595c0",
+      "lines": 278,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "react",
+        "@tanstack/react-query",
+        "sonner",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/label",
+        "@/components/ui/textarea",
+        "@/lib/policies.functions",
+        "@/lib/policies.shared",
+        "@/lib/lgpd.shared"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/_authenticated/app.shifts.tsx",
+      "originalBytes": 5526,
+      "sha256": "7e4a80e11708131d571a828e21bf09c7a67a796fac9fb3c19366dcf5a7047389",
+      "lines": 145,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "react",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/br-inputs",
+        "@/components/ui/label",
+        "sonner"
+      ],
+      "tables": [
+        "shifts"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.time-entries.tsx",
+      "originalBytes": 6444,
+      "sha256": "e8cbbce81cf1eab7041e0accc0c9ffa8ff458024156a46afb15f438f504dd393",
+      "lines": 161,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "react",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/lib/format",
+        "@/components/ui/input",
+        "@/components/ui/br-inputs",
+        "@/components/ui/label",
+        "@/components/ui/button",
+        "sonner"
+      ],
+      "tables": [
+        "time_entries",
+        "time_entry_reviews"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/app.tsx",
+      "originalBytes": 2322,
+      "sha256": "bbe4f9b872c39a28c47c07549449e88dcc0e6dec3e341c6d9561e464a1183932",
+      "lines": 73,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "react",
+        "@/hooks/use-workspace",
+        "@/components/app-shell",
+        "@/components/feature-blocked",
+        "@/config/features"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/_authenticated/app.units.tsx",
+      "originalBytes": 8812,
+      "sha256": "4f72c79042a5597a92f955870b1c10dc9e01ed336bc9955e105faade14b392f2",
+      "lines": 238,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "react",
+        "@/integrations/supabase/client",
+        "@/hooks/use-workspace",
+        "@/components/ui-kit",
+        "@/config/brand",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/label",
+        "@/components/ui/select",
+        "@/components/ui/dialog",
+        "sonner",
+        "@/integrations/supabase/types"
+      ],
+      "tables": [
+        "units"
+      ]
+    },
+    {
+      "file": "src/routes/_authenticated/onboarding.tsx",
+      "originalBytes": 4573,
+      "sha256": "f98c0122f4fde1c316d60380587329c659e1c67cfda0133507cf991e3af281c6",
+      "lines": 120,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-start",
+        "react",
+        "@/lib/admin.functions",
+        "@/config/brand",
+        "@/lib/pending-checkout",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/label",
+        "@/components/ui/select",
+        "sonner"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/_authenticated/route.tsx",
+      "originalBytes": 429,
+      "sha256": "face85f32fee62aa54b165cc49b74a633964a883b2d247c40105e901e8d1f4c4",
+      "lines": 13,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@/integrations/supabase/client"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/api/public/sales-ingest.ts",
+      "originalBytes": 3311,
+      "sha256": "969b8e6afad0daa631b78d2912d49dc1552000dc78b6b5b3225e6002ae025c85",
+      "lines": 88,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@/lib/sales-ingest.schemas",
+        "@/integrations/supabase/client.server"
+      ],
+      "tables": [
+        "sales_connections",
+        "units",
+        "sales_daily_metrics",
+        "sales_import_jobs"
+      ]
+    },
+    {
+      "file": "src/routes/api/public/stripe-webhook.ts",
+      "originalBytes": 11030,
+      "sha256": "6cce3465a9122de23706af04056658149496d30f99ca30c2186f5aead8384589",
+      "lines": 280,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@/config/billing",
+        "@/integrations/supabase/client.server"
+      ],
+      "tables": [
+        "stripe_webhook_events",
+        "companies",
+        "subscriptions"
+      ]
+    },
+    {
+      "file": "src/routes/auth.tsx",
+      "originalBytes": 7862,
+      "sha256": "7827f587e8170dd08832f222c68fa318f39b4781f9bbecb55c949e5322e337e8",
+      "lines": 209,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "react",
+        "@/integrations/supabase/client",
+        "@/config/brand",
+        "@/lib/pending-checkout",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/label",
+        "sonner"
+      ],
+      "tables": [
+        "profiles"
+      ]
+    },
+    {
+      "file": "src/routes/index.tsx",
+      "originalBytes": 20386,
+      "sha256": "56e3053f94bd86b9701bfe8f6a35c286a28e3e85df3a68fabcfdd0065614f21d",
+      "lines": 500,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "react",
+        "@/config/brand",
+        "@/components/pricing-section",
+        "@/integrations/supabase/client",
+        "@/lib/pending-checkout",
+        "lucide-react"
+      ],
+      "tables": [
+        "profiles"
+      ]
+    },
+    {
+      "file": "src/routes/portal.cartao-ponto.$id.tsx",
+      "originalBytes": 20145,
+      "sha256": "9cdfe1605eb90b215f25de2470ebc164b1d9dbee78f883dc35cd8ee714138dda",
+      "lines": 526,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "react",
+        "lucide-react",
+        "@/config/brand",
+        "@/hooks/use-portal-session",
+        "@/lib/portal-timesheet.functions",
+        "@/components/selfie-capture",
+        "@/components/lgpd-consent",
+        "@/lib/lgpd.shared",
+        "@/components/signature-pad",
+        "@/components/portal-ui",
+        "@/lib/format",
+        "@/components/ui/br-inputs",
+        "@/lib/timesheet.shared",
+        "sonner"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/portal.cartao-ponto.index.tsx",
+      "originalBytes": 6086,
+      "sha256": "ea0ac5db56f267906c5a1430b9a47ff8bb9debc4da81328d0f57cc97765c08e5",
+      "lines": 149,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "react",
+        "@/lib/portal-timesheet.functions",
+        "@/hooks/use-portal-session",
+        "@/config/brand",
+        "@/lib/format",
+        "@/lib/timesheet.shared",
+        "@/components/portal-ui"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/portal.documentos.$id.tsx",
+      "originalBytes": 12410,
+      "sha256": "74c58ba011e411a8dd211f8040c4f81114df5a754dd8eb9bb1bea85824659db2",
+      "lines": 345,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "react",
+        "lucide-react",
+        "sonner",
+        "@/config/brand",
+        "@/hooks/use-portal-session",
+        "@/lib/portal-compliance.functions",
+        "@/components/signature-pad",
+        "@/components/lgpd-consent",
+        "@/lib/lgpd.shared",
+        "@/components/portal-ui",
+        "@/lib/format",
+        "@/lib/compliance.shared"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/portal.documentos.index.tsx",
+      "originalBytes": 7074,
+      "sha256": "0357a7660dc68faaded48a7ae9179eeca521129f7ac5c3ca15684cfa0f41a793",
+      "lines": 194,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "lucide-react",
+        "@/config/brand",
+        "@/hooks/use-portal-session",
+        "@/lib/portal-compliance.functions",
+        "@/components/portal-ui",
+        "@/lib/format",
+        "@/lib/compliance.shared"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/portal.escala.tsx",
+      "originalBytes": 5722,
+      "sha256": "eeec359489ff2a016305a268bb116e7d84c9326183f6c8545ee0db0f5c7edd45",
+      "lines": 148,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "react",
+        "@/lib/portal.functions",
+        "@/hooks/use-portal-session",
+        "@/config/brand",
+        "@/lib/format",
+        "@/components/portal-ui",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/portal.holerites.$id.comprovante.tsx",
+      "originalBytes": 5492,
+      "sha256": "8bf3c31ea9f5856fe311662db33b13a021f8a47f3ab61aebd67d9da0e3e2f14a",
+      "lines": 138,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "lucide-react",
+        "@/config/brand",
+        "@/hooks/use-portal-session",
+        "@/lib/portal-payslips.functions",
+        "@/components/portal-ui",
+        "@/components/lgpd-consent",
+        "@/lib/format",
+        "@/lib/payslips.shared"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/portal.holerites.$id.tsx",
+      "originalBytes": 16890,
+      "sha256": "bd0414f189c0bf6f34455e0393df4af98e9a34e1becebfbc69b1575659c4763d",
+      "lines": 439,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "react",
+        "lucide-react",
+        "sonner",
+        "@/config/brand",
+        "@/hooks/use-portal-session",
+        "@/lib/portal-payslips.functions",
+        "@/components/portal-ui",
+        "@/components/selfie-capture",
+        "@/components/signature-pad",
+        "@/components/lgpd-consent",
+        "@/lib/lgpd.shared",
+        "@/lib/format",
+        "@/lib/payslips.shared"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/portal.holerites.index.tsx",
+      "originalBytes": 4879,
+      "sha256": "1a2909467b61c5769eb156195bbd3cdc6cf574caff6a3b1f67fabd6405c3bd59",
+      "lines": 133,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "lucide-react",
+        "@/config/brand",
+        "@/hooks/use-portal-session",
+        "@/lib/portal-payslips.functions",
+        "@/components/portal-ui",
+        "@/lib/format",
+        "@/lib/payslips.shared"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/portal.index.tsx",
+      "originalBytes": 8461,
+      "sha256": "bc9c92ada6ed7cd709c39f3ae69e1ca14ce55e783460ede845982e224877560e",
+      "lines": 228,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "react",
+        "lucide-react",
+        "@/lib/portal.functions",
+        "@/hooks/use-portal-session",
+        "@/config/brand",
+        "@/lib/format",
+        "@/components/portal-ui",
+        "sonner"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/portal.itens.$id.tsx",
+      "originalBytes": 17423,
+      "sha256": "e575619419eea7303e7ab0cfd09d60d3c6d650aac9f88f1c9fbf7583b491d599",
+      "lines": 470,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "react",
+        "lucide-react",
+        "@/config/brand",
+        "@/hooks/use-portal-session",
+        "@/lib/portal-items.functions",
+        "@/components/selfie-capture",
+        "@/components/signature-pad",
+        "@/components/lgpd-consent",
+        "@/components/portal-ui",
+        "@/lib/format",
+        "@/lib/items.shared",
+        "sonner"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/portal.itens.index.tsx",
+      "originalBytes": 5493,
+      "sha256": "408c90b1379125f7956f798176a897e032333bdfbbd33bd5110ccf83f0234751",
+      "lines": 149,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "lucide-react",
+        "@/config/brand",
+        "@/hooks/use-portal-session",
+        "@/lib/portal-items.functions",
+        "@/components/portal-ui",
+        "@/lib/format",
+        "@/lib/items.shared"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/portal.login.tsx",
+      "originalBytes": 5134,
+      "sha256": "5ab05491bfe981d3cebfb91f5b40fb04e7940ad5f10b2f9aafe11006b18fbf84",
+      "lines": 135,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-start",
+        "react",
+        "lucide-react",
+        "@/lib/portal.functions",
+        "@/hooks/use-portal-session",
+        "@/config/brand",
+        "@/lib/format",
+        "@/components/portal-ui",
+        "sonner"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/portal.pendencias.tsx",
+      "originalBytes": 11151,
+      "sha256": "3ee69d4e457e01f7f9eca51e4fdc4f7fd2716cf1379d93aa9a14ffee6ba34ea1",
+      "lines": 293,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "react",
+        "lucide-react",
+        "sonner",
+        "@/config/brand",
+        "@/hooks/use-portal-session",
+        "@/lib/portal-compliance.functions",
+        "@/components/portal-ui",
+        "@/lib/format",
+        "@/lib/compliance.shared"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/portal.perfil.tsx",
+      "originalBytes": 4374,
+      "sha256": "699debaa0cc6e16ebf843d4475250f6bc480bb4bc64026c56618783493721b9d",
+      "lines": 130,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "react",
+        "lucide-react",
+        "@/lib/portal.functions",
+        "@/hooks/use-portal-session",
+        "@/config/brand",
+        "@/lib/format",
+        "@/components/portal-ui"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/portal.ponto.tsx",
+      "originalBytes": 10259,
+      "sha256": "e4120e340283008a32d2abcc7b1ffd36dd880d48f9d724c3f558b05fb3c8252b",
+      "lines": 278,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "react",
+        "lucide-react",
+        "@/lib/portal.functions",
+        "@/hooks/use-portal-session",
+        "@/config/brand",
+        "@/lib/format",
+        "@/components/portal-ui",
+        "@/components/ui/textarea",
+        "@/components/ui/dialog",
+        "sonner",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/routes/portal.tsx",
+      "originalBytes": 6904,
+      "sha256": "acc3cbb2bbb61f464a57a1d03b55f1c5447d4e9644421fbc1b1f4f32902f6062",
+      "lines": 185,
+      "kind": "Rota / layout / API",
+      "imports": [
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "@tanstack/react-start",
+        "lucide-react",
+        "@/config/brand",
+        "@/lib/portal.functions",
+        "@/hooks/use-portal-session",
+        "@/lib/utils"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/server.ts",
+      "originalBytes": 2048,
+      "sha256": "f0ee683067afee145f81a63a3af76b3d3767e2a1f61f0e82582f8da184ad3ef6",
+      "lines": 62,
+      "kind": "Configuração / integração / tipos",
+      "imports": [
+        "./lib/error-capture",
+        "./lib/error-capture",
+        "./lib/error-page",
+        "@tanstack/react-start/server-entry"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/start.ts",
+      "originalBytes": 1064,
+      "sha256": "f3f07f1f6afe27708dd41bb992e3c7c470892d44a75c32eebe57abb6327ff28f",
+      "lines": 32,
+      "kind": "Configuração / integração / tipos",
+      "imports": [
+        "@tanstack/react-start",
+        "./lib/error-page",
+        "@/integrations/supabase/auth-attacher"
+      ],
+      "tables": []
+    },
+    {
+      "file": "src/styles.css",
+      "originalBytes": 10753,
+      "sha256": "07b9c4aaa963409ac3505cede4919daa5fe4fba6adbe3b180611ea0c2371b855",
+      "lines": 439,
+      "kind": "Configuração / integração / tipos",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/config.toml",
+      "originalBytes": 35,
+      "sha256": "17df35e6e0d185ec005a774963f808a65d1b1732b65e47dfd297f056a18ac3fb",
+      "lines": 7,
+      "kind": "Configuração / integração / tipos",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/migrations/20260829134240_cee32520-2b64-4c61-bbd5-564d07531a1d.sql",
+      "originalBytes": 33379,
+      "sha256": "44a95c6802277f1ffc69dff62c921dfe8a32bc1b1ec2be5424b950aab385bf86",
+      "lines": 776,
+      "kind": "Schema / RLS / funções SQL",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/migrations/20260829134305_4390ef54-aa92-4cd0-a897-b45b2a1f6734.sql",
+      "originalBytes": 1109,
+      "sha256": "9ff8be494e3b66f4a87744c9c82fcd61fb95cc7372760fce748e47eef773ffd4",
+      "lines": 15,
+      "kind": "Schema / RLS / funções SQL",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/migrations/20260829134344_5e842d89-8aa8-4222-8cf9-b0845b12870d.sql",
+      "originalBytes": 703,
+      "sha256": "bfeaa41acad8f1e8387c599bcf7275c79cd2e495b9b245b28d33e2f8f11caf28",
+      "lines": 9,
+      "kind": "Schema / RLS / funções SQL",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/migrations/20260830101855_ca9a4651-6476-4fd5-b713-8dc2feba8cd9.sql",
+      "originalBytes": 8833,
+      "sha256": "c2b8033dd7ade3836407e90b1c6f45735e6906ea202e935645d50267e699615f",
+      "lines": 188,
+      "kind": "Schema / RLS / funções SQL",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/migrations/20260830105459_231a1dc9-1f57-42f3-b4df-3c58e9327484.sql",
+      "originalBytes": 10152,
+      "sha256": "30bd9fab676b160e1a920ef506aff9b41d092e00b785d9742416f2a1488a0675",
+      "lines": 232,
+      "kind": "Schema / RLS / funções SQL",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/migrations/20260830230759_c8e79326-59e7-4933-ad3a-bb62767ca130.sql",
+      "originalBytes": 13583,
+      "sha256": "b9b785e8de0410f8b526d4012641068b15124d3f4a25f910a1e50c5d196c7ec8",
+      "lines": 276,
+      "kind": "Schema / RLS / funções SQL",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/migrations/20260831160253_ba484a95-7ffc-4435-8bcb-c958698b42d2.sql",
+      "originalBytes": 10192,
+      "sha256": "e1739eccabb73438830716b365e887fad5c063c5e591b4b80018fe384043c9e8",
+      "lines": 225,
+      "kind": "Schema / RLS / funções SQL",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/migrations/20260831161250_48520154-2ab3-49d9-a5b8-2d6cdf773552.sql",
+      "originalBytes": 787,
+      "sha256": "20d42f6a0c9b948cff0adec9e79b17015aee0541328f1498a2b4f79f3a01116e",
+      "lines": 12,
+      "kind": "Schema / RLS / funções SQL",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/migrations/20260831205851_f24b51ab-b33b-418a-a2c1-31c80bb191dc.sql",
+      "originalBytes": 3786,
+      "sha256": "43874fbaca94dd50e90d34d89967c61ebeb8676fc5b4b6597463e0aa8a5177e1",
+      "lines": 74,
+      "kind": "Schema / RLS / funções SQL",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/migrations/20260831211015_65ed0fae-2a64-446b-92c4-2dd2f220ebe1.sql",
+      "originalBytes": 7187,
+      "sha256": "11ee22fbcd7287f629aea435b9c36a91f0e40c690650052b6159c54bdacc6b90",
+      "lines": 156,
+      "kind": "Schema / RLS / funções SQL",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/migrations/20260831234238_3dfa97ec-270d-4e95-93e8-dbb44cb0112a.sql",
+      "originalBytes": 983,
+      "sha256": "d1abbe9480812652fc8a98e527631c81cffa97f3d6159a863fd5c37e4fba7a2f",
+      "lines": 18,
+      "kind": "Schema / RLS / funções SQL",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/migrations/20260901094706_6e5371ab-414e-4c7c-8ab7-847578056851.sql",
+      "originalBytes": 420,
+      "sha256": "a99927d0a4bfa920e20cc84a873837ee782c730b0496fb92d5c7d5365655b6fa",
+      "lines": 11,
+      "kind": "Schema / RLS / funções SQL",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/migrations/20260901094732_0ee55254-6352-43a9-a6ef-7a647d7fb6a3.sql",
+      "originalBytes": 144,
+      "sha256": "ebb9c742ce3568da47a9d28ab75f290ce23cce056a5d20305b1eaca4182f214c",
+      "lines": 5,
+      "kind": "Schema / RLS / funções SQL",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/migrations/20260901210619_92cc989d-ece9-48a2-80d7-57fdea07cc32.sql",
+      "originalBytes": 7372,
+      "sha256": "27e97599c733c374cb747ee76f5c070fcb62f94497f0e69315ad79bc8456f875",
+      "lines": 157,
+      "kind": "Schema / RLS / funções SQL",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/migrations/20260901210645_d98ae1a0-cb05-42a8-aba6-cdba889ada1b.sql",
+      "originalBytes": 167,
+      "sha256": "f48273f5be339107742b3f25df1e5bfc26661ee081d47510b5bd9bea7be997cf",
+      "lines": 2,
+      "kind": "Schema / RLS / funções SQL",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/migrations/20260901211326_fc22e870-d34b-4d04-99eb-990b5b30ad94.sql",
+      "originalBytes": 3080,
+      "sha256": "03ccb367c6f2302112507b6efb05a5ead5fe1e92c093be01bf6490b355d964d5",
+      "lines": 82,
+      "kind": "Schema / RLS / funções SQL",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/migrations/20260901211351_5674db99-8dcc-4d0d-8d03-02050e990a44.sql",
+      "originalBytes": 458,
+      "sha256": "35d4765e1e9e9ac8020096be202a2606f92c682302e1aa177613b35135d9d8cc",
+      "lines": 5,
+      "kind": "Schema / RLS / funções SQL",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "supabase/migrations/20260901211729_bad6b544-104e-4228-a578-5ce48e9621a9.sql",
+      "originalBytes": 2862,
+      "sha256": "43e210dbffd4c780dbbc461f3586831970f5be233fe2808e775c69de359d6475",
+      "lines": 37,
+      "kind": "Schema / RLS / funções SQL",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "tsconfig.json",
+      "originalBytes": 820,
+      "sha256": "0ff5b0536ac765fe8beabcfe2202c3069c4cc43136e20e4c2f04c55f6f4ebc84",
+      "lines": 44,
+      "kind": "Configuração / integração / tipos",
+      "imports": [],
+      "tables": []
+    },
+    {
+      "file": "vite.config.ts",
+      "originalBytes": 1156,
+      "sha256": "44a32046e401c59f22a349f87a7790dc29ac008aa296d66cecc49abac32949c8",
+      "lines": 33,
+      "kind": "Configuração / integração / tipos",
+      "imports": [
+        "vite",
+        "@tanstack/react-start/plugin/vite",
+        "@vitejs/plugin-react",
+        "@tailwindcss/vite",
+        "nitro/vite"
+      ],
+      "tables": []
+    }
+  ]
+}

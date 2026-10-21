@@ -16,5 +16,7 @@ export async function resolveSession(token: string) {
     )
     .eq("id", session.employee_id)
     .maybeSingle();
-  return employee ?? null;
+  if (!employee) return null;
+  const { hasCompanyAccess } = await import("./plan.server");
+  return (await hasCompanyAccess(employee.company_id)) ? employee : null;
 }

@@ -1,9 +1,9 @@
 /** Helpers server-only do módulo de Cartões de ponto. */
 import type { TimesheetSummary } from "./timesheet.shared";
 
-type AnyClient = {
-  from: (table: string) => any;
-};
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database, Json, TablesInsert, TablesUpdate } from "@/integrations/supabase/types";
+type AnyClient = SupabaseClient<Database>;
 
 export type BuiltEntry = {
   work_date: string;
@@ -169,7 +169,7 @@ export async function logCardEvent(
     actor_id?: string | null;
     actor_label?: string | null;
     event_type: string;
-    metadata?: Record<string, unknown>;
+    metadata?: Json;
   },
 ) {
   await client.from("point_card_events").insert({
@@ -180,7 +180,7 @@ export async function logCardEvent(
 }
 
 /** Recalcula os totais do cartão a partir dos lançamentos. */
-export async function recalcCardTotals(supabase: any, cardId: string) {
+export async function recalcCardTotals(supabase: AnyClient, cardId: string) {
   const { data: entries } = await supabase.from("timesheet_entries").select("*").eq("card_id", cardId);
   const rows = (entries ?? []) as {
     planned_minutes: number;
@@ -229,10 +229,10 @@ export async function recalcCardTotals(supabase: any, cardId: string) {
  * Retorna true quando a linha foi persistida.
  */
 export async function upsertCardEvidence(
-  supabase: any,
+  supabase: AnyClient,
   cardId: string,
   cardVersion: number,
-  patch: Record<string, unknown>,
+  patch: TablesUpdate<"point_card_evidence"> & Pick<TablesInsert<"point_card_evidence">, "company_id">,
 ): Promise<boolean> {
   const { data: existing } = await supabase
     .from("point_card_evidence")

@@ -22,10 +22,10 @@ export const Route = createFileRoute("/portal/itens/")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: `Meus itens — ${BRAND_NAME}` },
-      { name: "description", content: "Consulte e confirme o recebimento dos seus itens de trabalho." },
-      { property: "og:title", content: `Meus itens — ${BRAND_NAME}` },
-      { property: "og:description", content: "Itens recebidos e pendências de aceite." },
+      { title: `Meus EPIs — ${BRAND_NAME}` },
+      { name: "description", content: "Consulte e confirme o recebimento dos seus EPIs." },
+      { property: "og:title", content: `Meus EPIs — ${BRAND_NAME}` },
+      { property: "og:description", content: "EPIs recebidos e pendências de aceite." },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -52,11 +52,11 @@ function PortalItemsPage() {
     queryFn: () => fetchItems({ data: { token: token! } }),
   });
 
-  if (query.isLoading) return <PortalLoading label="Carregando seus itens…" />;
+  if (query.isLoading) return <PortalLoading label="Carregando seus EPIs…" />;
   if (query.isError || (query.data && "error" in query.data)) {
     return (
       <PortalError
-        title="Não foi possível carregar seus itens"
+        title="Não foi possível carregar seus EPIs"
         description="Verifique sua conexão e tente novamente."
       />
     );
@@ -75,14 +75,14 @@ function PortalItemsPage() {
             <PackageCheck className="size-5" aria-hidden />
           </PortalIconBox>
           <div>
-            <PortalLabel>Meus itens</PortalLabel>
+            <PortalLabel>Meus EPIs</PortalLabel>
             <p className="display-type text-xl">
               {pending.length > 0 ? `${pending.length} aguardando você` : "Tudo confirmado"}
             </p>
           </div>
         </div>
         <p className="mt-3 text-sm text-muted-foreground">
-          Confirme o recebimento dos uniformes e materiais entregues pela sua unidade.
+          Consulte as entregas e confirme o recebimento dos equipamentos enviados pela sua unidade.
         </p>
       </PortalCard>
 
@@ -98,7 +98,7 @@ function PortalItemsPage() {
                 >
                   <div className="min-w-0 flex-1">
                     <p className="display-type text-base">
-                      {(d.item_delivery_items ?? []).length} item(ns) para confirmar
+                      {(d.item_delivery_items ?? []).length} EPI(s) para confirmar
                     </p>
                     <p className="mt-1 truncate text-xs font-medium">
                       {(d.item_delivery_items ?? []).map((i) => i.item_name).join(" · ")}
@@ -116,8 +116,8 @@ function PortalItemsPage() {
       <PortalSection title="Histórico">
         {history.length === 0 ? (
           <PortalEmpty
-            title="Nenhum item registrado ainda"
-            description="Quando você receber uniformes ou materiais, eles aparecem aqui."
+            title="Nenhum EPI registrado ainda"
+            description="Quando você receber um equipamento, ele aparece aqui."
           />
         ) : (
           <ul className="space-y-3">

@@ -351,6 +351,13 @@ export const portalAcceptDelivery = createServerFn({ method: "POST" })
       },
     });
 
+    await (await import("./automation.server")).publishAutomationEvent({
+      event_type: "epi.accepted",
+      tenant_id: delivery.company_id,
+      employee_id: employee.id,
+      payload: { delivery_id: delivery.id, accepted_at: acceptedAt, integrity_hash: hash },
+    });
+
     return { ok: true, hash, acceptedAt };
   });
 

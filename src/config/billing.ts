@@ -1,27 +1,21 @@
-/**
- * Configuração de cobrança (Stripe).
- * A chave publicável pode ficar no código — ela é segura para o frontend.
- * A chave secreta fica apenas no servidor (STRIPE_LIVE_API_KEY).
- */
+export type BillingInterval = "monthly" | "yearly";
 
-export const STRIPE_PUBLISHABLE_KEY =
-  "pk_live_51UAcLkRzTbFSBgbD8HVC6RZmMj84Efm1sFLrjl4UicRHRcqazQPdGBMMFm5KjUOvs3PO7EHDox6rplRE6aXZS2uA001YDA2unu";
-
-export interface PlanPrice {
-  /** Valor em centavos (BRL). */
-  unitAmount: number;
-  /** Nome exibido no checkout. */
-  productName: string;
-  /** Price ID cadastrado na Stripe. Quando presente, é usado no checkout. */
+export interface BillingPrice {
   priceId?: string;
+  unitAmount: number;
+  productName: string;
 }
 
-/** Preços oficiais por plano e ciclo, em centavos. */
-export const PLAN_PRICES: Record<
-  string,
-  { monthly: PlanPrice; yearly: PlanPrice }
-> = {
+export interface BillingPlan {
+  productId?: string;
+  monthly: BillingPrice;
+  yearly: BillingPrice;
+}
+
+/** Catálogo permitido pelo backend. Planos sem Price ID não abrem Checkout. */
+export const PLAN_PRICES: Record<string, BillingPlan> = {
   comeco: {
+    productId: "prod_VB0UQimCMeINc7",
     monthly: {
       unitAmount: 7990,
       productName: "MY FOOD'S AI — Começo (mensal)",
@@ -43,19 +37,19 @@ export const PLAN_PRICES: Record<
   },
 };
 
-/** Price IDs aceitos pelo backend. O frontend nunca define preço. */
-export const ALLOWED_PRICE_IDS = Object.values(PLAN_PRICES)
-  .flatMap((p) => [p.monthly.priceId, p.yearly.priceId])
-  .filter((id): id is string => Boolean(id));
+export function priceForPlan(planKey: string, interval: BillingInterval) {
+  const plan = PLAN_PRICES[planKey];
+  const price = plan?.[interval];
+  if (!plan || !price?.priceId) throw new Error("Este plano ainda não está disponível para contratação.");
+  return { ...price, priceId: price.priceId!, planKey, interval, productId: plan.productId ?? null };
+}
 
-/** Descobre plano e ciclo a partir de um Price ID da Stripe. */
-export function planFromPriceId(
-  priceId: string | null | undefined,
-): { planId: string; cycle: "monthly" | "yearly" } | null {
+export function planFromPriceId(priceId: string | null | undefined) {
   if (!priceId) return null;
-  for (const [planId, prices] of Object.entries(PLAN_PRICES)) {
-    if (prices.monthly.priceId === priceId) return { planId, cycle: "monthly" };
-    if (prices.yearly.priceId === priceId) return { planId, cycle: "yearly" };
+  for (const [planKey, plan] of Object.entries(PLAN_PRICES)) {
+    for (const interval of ["monthly", "yearly"] as const) {
+      if (plan[interval].priceId === priceId) return { planKey, interval, productId: plan.productId ?? null };
+    }
   }
   return null;
 }

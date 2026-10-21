@@ -5,8 +5,8 @@
  */
 export const BRAND_NAME = "MY FOOD'S AI";
 export const BRAND_TAGLINE = "Operação de food service em um só lugar";
-export const BRAND_LOGO = "/favicon.ico";
-export const BRAND_FAVICON = "/favicon.ico";
+export const BRAND_LOGO = "/myfoods-logo.png";
+export const BRAND_FAVICON = "/myfoods-logo.png";
 export const PRIMARY_COLOR = "#F97316";
 export const ACCENT_COLOR = "#FDBA74";
 
