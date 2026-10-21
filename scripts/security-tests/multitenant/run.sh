@@ -27,7 +27,7 @@ echo "== plataforma (stubs)";   psqlc < "$HERE/00_platform_stubs.sql"
 
 echo "== migrations aprovadas (ordem de versão, sem o rascunho)"
 while IFS= read -r f; do
-  case "$(basename "$f")" in 20261021120000_*) continue;; esac
+  case "$(basename "$f")" in 20261021120000_*|20261021120100_*) continue;; esac
   echo "   $(basename "$f")"; psqlc < "$f" || { echo "FALHOU: $f"; exit 1; }
 done < <(printf '%s\n' "$MIG"/*.sql | sort)
 
@@ -40,10 +40,16 @@ echo "== aplicando rascunho (cópia temporária SEM o bloco-guarda; o arquivo do
 sed '/^DO \$guard\$ BEGIN/,/^END \$guard\$;/d' "$MIG/20261021120000_tenant_scoped_roles_and_user_units.sql" > "$TMP/draft.sql"
 psqlc < "$TMP/draft.sql"
 
-echo "== testes DEPOIS da correção"
+echo "== testes DEPOIS da migration de políticas (fase after)"
 psqlc -v phase=after < "$HERE/02_tests.sql" | tee "$TMP/after.txt"
 
-echo "== reaplicando o rascunho (idempotência)"; psqlc < "$TMP/draft.sql" && echo "idempotente: OK"
+echo "== aplicando a migration de grants"
+psqlc < "$MIG/20261021120100_least_privilege_grants.sql"
+echo "== testes FINAIS (políticas + grants)"
+psqlc -v phase=final < "$HERE/02_tests.sql" | tee "$TMP/final.txt"
+
+echo "== reaplicando as duas migrations (idempotência)"
+psqlc < "$TMP/draft.sql" && psqlc < "$MIG/20261021120100_least_privilege_grants.sql" && echo "idempotente: OK"
 
 if [ -n "${PROPOSAL_SQL:-}" ]; then
   echo "== PROPOSTA separada (${PROPOSAL_SQL##*/}) aplicada sobre o rascunho, só neste contêiner"
@@ -52,5 +58,5 @@ if [ -n "${PROPOSAL_SQL:-}" ]; then
 fi
 
 echo "== rollback e reteste"
-psqlc < "$HERE/rollback_20261021120000.sql" && echo "rollback aplicado"
+psqlc < "$HERE/rollback_20261021120100.sql" && psqlc < "$HERE/rollback_20261021120000.sql" && echo "rollback aplicado"
 psqlc -v phase=rollback < "$HERE/02_tests.sql" | tee "$TMP/rollback.txt"

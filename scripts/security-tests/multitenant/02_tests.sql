@@ -88,6 +88,7 @@ DECLARE
   uA2 constant uuid := 'aaaaaaaa-1000-0000-0000-000000000002';
   uB1 constant uuid := 'bbbbbbbb-1000-0000-0000-000000000001';
   r text; r2 text;
+  ph text := current_setting('t.phase', true);
 BEGIN
   -- ===== T01–T02: Administrador A enxerga só a empresa A =====
   PERFORM t.as_user(adA);
@@ -109,7 +110,7 @@ BEGIN
   r := t.attempt(format('insert into public.user_roles(user_id, company_id, role) values (%L,%L,''owner'')', coA, cA));
   PERFORM t.record('T03d Admin (não dono) não concede papel owner', r LIKE 'err:%', r);
   r := t.attempt(format('insert into public.user_roles(user_id, company_id, role) values (%L,%L,''hr'')', coA, cA));
-  PERFORM t.record('T03e AdminA concede papel hr a colaborador de A (legítimo)', r = 'ok:1', r);
+  PERFORM t.record('T03e AdminA concede papel hr a colaborador de A (legítimo)', r = 'ok:1' OR (ph = 'final' AND r LIKE 'err:permission denied%'), r);
 
   -- ===== T04: AdminA não mexe em user_units de B =====
   r := t.attempt(format('update public.user_units set unit_id = %L where unit_id = %L', uA2, uB1));
@@ -121,14 +122,14 @@ BEGIN
   r := t.attempt(format('insert into public.user_units(user_id, unit_id) values (%L,%L)', nvB, uA2));
   PERFORM t.record('T04d AdminA não vincula usuário de B a unidade de A', r LIKE 'err:%', r);
   r := t.attempt(format('insert into public.user_units(user_id, unit_id) values (%L,%L)', coA, uA2));
-  PERFORM t.record('T04e AdminA vincula colaborador de A a unidade de A (legítimo)', r = 'ok:1', r);
+  PERFORM t.record('T04e AdminA vincula colaborador de A a unidade de A (legítimo)', r = 'ok:1' OR (ph = 'final' AND r LIKE 'err:permission denied%'), r);
 
   -- ===== T05: AdminB segue funcionando =====
   PERFORM t.as_user(adB);
   r := t.attempt(format('insert into public.user_roles(user_id, company_id, role) values (%L,%L,''staff'')', nvB, cB));
-  PERFORM t.record('T05a AdminB concede papel staff a usuário de B', r = 'ok:1', r);
+  PERFORM t.record('T05a AdminB concede papel staff a usuário de B', r = 'ok:1' OR (ph = 'final' AND r LIKE 'err:permission denied%'), r);
   r := t.attempt(format('insert into public.user_units(user_id, unit_id) values (%L,%L)', nvB, uB1));
-  PERFORM t.record('T05b AdminB vincula usuário de B a unidade de B', r = 'ok:1', r);
+  PERFORM t.record('T05b AdminB vincula usuário de B a unidade de B', r = 'ok:1' OR (ph = 'final' AND r LIKE 'err:permission denied%'), r);
   r := t.val(format('select count(*) from public.user_roles where company_id = %L', cB));
   PERFORM t.record('T05c AdminB lê papéis de B', r::int > 0, 'B='||r);
   r := t.val(format('select count(*) from public.user_roles where company_id = %L', cA));
@@ -191,8 +192,7 @@ BEGIN
   -- T10: anon não lê nada
   PERFORM t.as_anon();
   r := t.attempt('select 1 from public.user_roles limit 1');
-  r2 := t.val('select count(*) from public.user_roles');
-  PERFORM t.record('T10 anon não lê user_roles', r2 = '0' OR r LIKE 'err:%', 'rows='||r2);
+  PERFORM t.record('T10 anon não lê user_roles (0 linhas ou acesso negado)', r = 'ok:0' OR r LIKE 'err:%', r);
 
   -- T11–T12: leituras legítimas (regressão)
   PERFORM t.as_user(adA);
@@ -207,6 +207,39 @@ BEGIN
   PERFORM t.record('T12b Dono A acessa todas as unidades de A', r = 'true', r);
   r := t.val(format('select app_auth.has_unit_access(%L)::text', uB1));
   PERFORM t.record('T12c Dono A não acessa unidade de B', r = 'false', r);
+
+  -- T13: grants de menor privilégio (fases before/final/rollback; na fase 'after' só a migration de políticas está aplicada)
+  IF ph IN ('before','final','rollback') THEN
+  PERFORM t.as_anon();
+  r := t.attempt('select 1 from public.units limit 1');
+  PERFORM t.record('T13a anon não tem acesso às tabelas de public', r LIKE 'err:%', r);
+  PERFORM t.as_user(adA);
+  r := t.attempt(format('insert into public.subscriptions(company_id, user_id) values (%L,%L)', cA, adA));
+  PERFORM t.record('T13b authenticated não grava subscriptions', r LIKE 'err:%', r);
+  r := t.attempt(format('update public.user_roles set role = ''owner'' where user_id = %L', coA));
+  PERFORM t.record('T13c authenticated não altera user_roles pela API', r LIKE 'err:%', r);
+  r := t.attempt('update public.employees set portal_pin_hash = ''x'' where false');
+  PERFORM t.record('T13d authenticated não grava PIN do portal', r LIKE 'err:%', r);
+  r := t.attempt(format('insert into public.employees(company_id, unit_id, full_name, cpf) values (%L,%L,''Teste Ficticio'',''00000000000''); '
+                        'update public.employees set employment_status = ''afastado'' where full_name = ''Teste Ficticio''', cA, uA1));
+  PERFORM t.record('T13e AdminA cadastra e altera status de colaborador (fluxo legítimo)', r = 'ok:1', r);
+  r := t.attempt(format('update public.companies set name = ''Empresa A renomeada'' where id = %L', cA));
+  PERFORM t.record('T13f AdminA altera dados de marca da empresa (fluxo legítimo)', r = 'ok:1', r);
+  r := t.attempt(format('update public.companies set is_demo = true where id = %L', cA));
+  PERFORM t.record('T13g authenticated não altera is_demo/status da empresa', r LIKE 'err:%', r);
+  r := t.attempt(format('delete from public.companies where id = %L', cA));
+  PERFORM t.record('T13h authenticated não apaga empresa', r LIKE 'err:%', r);
+  PERFORM t.as_service();
+  r := t.attempt('update public.employees set portal_pin_hash = ''x'' where false');
+  PERFORM t.record('T13i service_role continua gravando PIN (servidor)', r = 'ok:0', r);
+  END IF;
+
+  -- T14: o servidor (service_role) continua administrando papéis e vínculos (é o único caminho de escrita na fase final)
+  PERFORM t.as_service();
+  r := t.attempt(format('insert into public.user_roles(user_id, company_id, role) values (%L,%L,''hr'')', coA, cA));
+  PERFORM t.record('T14a backend concede papel a colaborador da mesma empresa', r = 'ok:1', r);
+  r := t.attempt(format('insert into public.user_units(user_id, unit_id) values (%L,%L)', coA, uA2));
+  PERFORM t.record('T14b backend vincula colaborador a unidade da mesma empresa', r = 'ok:1', r);
 
   EXECUTE 'RESET ROLE';
 END
