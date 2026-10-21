@@ -81,19 +81,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "MY FOOD'S AI — gestão operacional para food service" },
+      { title: "Grupo MyFoods — aplicativos para a gestão de cafeterias e restaurantes" },
       {
         name: "description",
-        content: "Pessoas, ponto, escalas, estoque e vendas em um só painel para bares, restaurantes e cozinhas.",
+        content:
+          "Aplicativos especializados para cafeterias, restaurantes e padarias: ponto, estoque, compras, caixa e documentos. Escolha o que o seu negócio precisa.",
       },
-      { name: "author", content: "MY FOOD'S AI" },
-      { property: "og:title", content: "MY FOOD'S AI — gestão operacional para food service" },
+      { name: "author", content: "Grupo MyFoods" },
+      { property: "og:title", content: "Grupo MyFoods — Aplicativos inteligentes para simplificar a gestão do seu negócio." },
       {
         property: "og:description",
-        content: "Pessoas, ponto, escalas, estoque e vendas em um só painel para bares, restaurantes e cozinhas.",
+        content:
+          "Aplicativos especializados para cafeterias, restaurantes e padarias: ponto, estoque, compras, caixa e documentos. Escolha o que o seu negócio precisa.",
       },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:site_name", content: "Grupo MyFoods" },
+      { property: "og:locale", content: "pt_BR" },
+      { property: "og:image", content: "https://myfoodsai.com/myfoods-logo.png" },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:image", content: "https://myfoodsai.com/myfoods-logo.png" },
     ],
     links: [
       {
@@ -113,7 +119,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         <HeadContent />
       </head>
