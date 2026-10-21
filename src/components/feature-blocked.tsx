@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Lock } from "lucide-react";
 import { PLAN_LABELS, type PlanCode } from "@/config/features";
 import { Button } from "@/components/ui/button";
+import { contactHref } from "@/config/brand";
 
 /**
  * Tela amigável para recursos fora do plano contratado.
@@ -31,7 +32,13 @@ export function FeatureBlocked({
           <Link to="/app">Voltar para a visão geral</Link>
         </Button>
         <Button asChild variant="outline">
-          <a href="/#planos">Ver planos</a>
+          <a
+            href={contactHref("Olá! Quero ampliar os recursos da minha conta no MyFoods.")}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Falar com a MyFoods
+          </a>
         </Button>
       </div>
     </div>

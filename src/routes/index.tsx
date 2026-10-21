@@ -8,9 +8,7 @@ import {
   SITE_URL,
   contactHref,
 } from "@/config/brand";
-import { PricingSection } from "@/components/pricing-section";
 import { supabase } from "@/integrations/supabase/client";
-import { resumePendingCheckout } from "@/lib/pending-checkout";
 import {
   ArrowRight,
   Boxes,
@@ -326,8 +324,13 @@ function AppCardView({ app }: { app: AppCard }) {
               <MessageCircle className="size-4" aria-hidden /> Quero saber mais
             </a>
           ) : (
-            <a href="#planos" className="gh-btn gh-btn-primary gh-press px-3 py-2 text-sm">
-              Ver planos <ArrowRight className="size-4" aria-hidden />
+            <a
+              href={contactHref(`Olá! Quero contratar o ${app.name}.`)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="gh-btn gh-btn-primary gh-press px-3 py-2 text-sm"
+            >
+              Quero contratar <ArrowRight className="size-4" aria-hidden />
             </a>
           )}
         </div>
@@ -346,8 +349,8 @@ function ContactButton({ className = "", children }: { className?: string; child
 
 function Landing() {
   const navigate = useNavigate();
-  // Retorno do login com Google: se havia um plano escolhido, segue para o checkout.
-  // Quem ainda não tem empresa passa pelo onboarding primeiro (o checkout dispara lá).
+  // Retorno do login com Google: quem ainda não tem empresa passa pelo onboarding.
+  // A assinatura pelo site está desativada: a landing não retoma checkout pendente.
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data }) => {
       const userId = data.session?.user.id;
@@ -359,9 +362,7 @@ function Landing() {
         .maybeSingle();
       if (!profile?.company_id) {
         navigate({ to: "/app", replace: true });
-        return;
       }
-      void resumePendingCheckout();
     });
   }, [navigate]);
 
@@ -384,7 +385,6 @@ function Landing() {
             <div className="gh-mono mx-auto hidden gap-6 text-xs lg:flex">
               <a href="#aplicativos" className="hover:text-[#f26b38]">Aplicativos</a>
               <a href="#como-funciona" className="hover:text-[#f26b38]">Como funciona</a>
-              <a href="#planos" className="hover:text-[#f26b38]">Planos</a>
               <a href="#para-quem" className="hover:text-[#f26b38]">Para quem é</a>
               <a href="#ecossistema" className="hover:text-[#f26b38]">Ecossistema</a>
             </div>
@@ -490,8 +490,8 @@ function Landing() {
               ))}
             </div>
             <p className="gh-mono mt-5 text-[11px] text-[#5e5a50]">
-              A contratação online disponível hoje é feita pelos planos abaixo. Os aplicativos “em
-              breve” ainda não estão à venda e não têm data de lançamento definida.
+              A contratação é feita diretamente com a equipe do Grupo MyFoods, pelo WhatsApp. Os
+              aplicativos “em breve” ainda não estão à venda e não têm data de lançamento definida.
             </p>
           </section>
 
@@ -509,9 +509,6 @@ function Landing() {
               ))}
             </ol>
           </section>
-
-          {/* PLANOS (checkout existente, preservado) */}
-          <PricingSection />
 
           {/* 5. PARA QUEM É */}
           <section id="para-quem" className="scroll-mt-28 border-y-2 border-[#09090b] bg-[#d2e823]">
@@ -632,7 +629,6 @@ function Landing() {
             <div>
               <h2 className="gh-mono mb-3 text-[11px] text-[#d2e823]">Acesso</h2>
               <ul className="space-y-2 text-sm">
-                <li><a href="#planos" className="hover:text-[#d2e823]">Planos</a></li>
                 <li><Link to="/auth" className="hover:text-[#d2e823]">Entrar no painel</Link></li>
                 <li><Link to="/portal/login" className="hover:text-[#d2e823]">Portal do colaborador</Link></li>
               </ul>

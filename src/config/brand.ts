@@ -41,8 +41,8 @@ export const CONTACT_WHATSAPP_LABEL = "+55 12 98175-9663";
 export const CONTACT_DEFAULT_MESSAGE =
   "Olá! Vim pelo site do Grupo MyFoods e quero conhecer os aplicativos.";
 
-/** Link de contato; sem número configurado, leva à seção de planos. */
+/** Link de contato; sem número configurado, leva à seção de aplicativos. */
 export function contactHref(message: string = CONTACT_DEFAULT_MESSAGE): string {
-  if (!CONTACT_WHATSAPP) return "#planos";
+  if (!CONTACT_WHATSAPP) return "#aplicativos";
   return `https://wa.me/${CONTACT_WHATSAPP}?text=${encodeURIComponent(message)}`;
 }
