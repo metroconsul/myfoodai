@@ -1,11 +1,12 @@
 # Fase 1.3 — Testes isolados da correção multitenant (resultados reais)
 
-Data: 2026-10-21 · Migration testada: `supabase/migrations/20261021120000_tenant_scoped_roles_and_user_units.sql` (rascunho; usada numa cópia sem o bloco-guarda) · Base Git: `a594868`
+Data: 2026-10-21 · Migration testada: `supabase/migrations/20261021125126_tenant_scoped_roles_and_user_units.sql` (rascunho; usada numa cópia sem o bloco-guarda) · Base Git: `a594868`
 Evidência bruta: `scripts/security-tests/multitenant/results/run-2026-10-21.log` (execução final).
 
-## Classificação: APROVADO COM PENDÊNCIAS
-- **Execução final (políticas + grants): 51/51**; só políticas: 42/42; antes da correção: 32 passam e 19 falham (vulnerabilidades e excesso de privilégio reproduzidos); idempotência OK; o rollback devolve exatamente o estado anterior (as mesmas 19 falhas).
-- Pendências: (1) **a aplicação em produção NÃO foi feita** (ver seção 9); (2) a regressão funcional da aplicação não foi executada e o teste cobre só parte do banco (seção 6); (3) confirmar no painel que o schema `app_auth` não está exposto na API.
+## Classificação: APROVADO COM PENDÊNCIAS — correção APLICADA em produção em 2026-10-21
+- Testes no Postgres descartável: **51/51** com políticas + grants (42/42 só políticas), 32/19 antes, idempotência OK, rollback validado (volta às mesmas 19 falhas).
+- **Aplicada no projeto `obfwapckvwjpjzlumlei`** (seção 9) e verificada em modo leitura.
+- Pendências: regressão funcional completa da aplicação com contas reais (só o smoke foi rodado); confirmar no painel que o schema `app_auth` não está exposto na API; ativar proteção contra senhas vazadas (único aviso do advisor); R3/R4 (assinatura vencida, último dono).
 
 ## 1. Ambiente (descartável, sem relação com o Supabase de produção)
 | Item | Valor |
@@ -74,14 +75,14 @@ Correção incorporada ao rascunho (exige `app_auth.unit_in_company(_unit_id)` a
 Reaplicar a migration corretiva sobre ela mesma: **OK** (sem erro).
 
 ### 3.5 Rollback
-`rollback_20261021120000.sql` aplicado sem erro. Reteste: **32 passou / 19 falhou, exatamente as mesmas 19 falhas da fase `before`**, ou seja, o comportamento anterior foi restaurado integralmente (incluindo reabrir as vulnerabilidades).
+`rollback_20261021125126.sql` aplicado sem erro. Reteste: **32 passou / 19 falhou, exatamente as mesmas 19 falhas da fase `before`**, ou seja, o comportamento anterior foi restaurado integralmente (incluindo reabrir as vulnerabilidades).
 
 ## 4. Falhas durante a execução e ajustes (somente no kit)
 1. **Seed (1ª execução):** `Seu plano permite até 1 unidade(s) ativa(s).` O plano padrão limita a uma unidade (trigger de limites da migration `enforce_plan_limits`). Ajuste: empresas de teste com `plan_code = 'equipe'`. Nenhuma migration alterada.
 2. **T07d (2ª execução):** `AB: não lê papéis de B` falhou em `after` com `B=1`: é a própria linha plantada do usuário AB, visível por `user_roles_select (user_id = auth.uid())`. Não é vazamento; o critério foi corrigido para "outros usuários de B" (`user_id <> AB`) e passou. Registrado aqui porque o critério foi mudado depois de ver o resultado.
 
 ## 5. Procedimento de rollback
-Arquivo: `scripts/security-tests/multitenant/rollback_20261021120000.sql` (não é migration).
+Arquivo: `scripts/security-tests/multitenant/rollback_20261021125126.sql` (não é migration).
 - Remove os triggers `enforce_user_role_company`/`enforce_user_unit_company` e suas funções; recria as políticas `user_roles_admin_manage`, `user_units_select`, `user_units_admin_manage` com as definições originais; restaura `has_role`, `can_see_all_units`, `is_company_admin`, `can_manage_payroll` e `has_unit_access` (definições de `20260831211015`); remove as 7 funções novas.
 - Afeta apenas `app_auth` e as políticas/triggers de `user_roles` e `user_units`; nenhum dado é apagado.
 - Cuidados: se a migration já tiver sido registrada em `schema_migrations`, não apagar o registro nem editar o arquivo — publicar o rollback como nova migration forward; reverter políticas/triggers antes das funções; backup/ponto de restauração antes de aplicar; `has_unit_access` também volta à versão original (a que já estava em produção).
@@ -97,9 +98,9 @@ Arquivo: `scripts/security-tests/multitenant/rollback_20261021120000.sql` (não 
 ## 7. Arquivos para um próximo commit
 Nenhum commit foi feito. Candidatos (sem o rascunho, conforme combinado):
 - `docs/FASE1_TESTES_SEGURANCA_MULTITENANT.md`
-- `scripts/security-tests/multitenant/00_platform_stubs.sql`, `01_seed.sql`, `02_tests.sql`, `rollback_20261021120000.sql`, `run.sh`, `proposal_has_unit_access_scope.sql`, `results/run-2026-10-21.log`
+- `scripts/security-tests/multitenant/00_platform_stubs.sql`, `01_seed.sql`, `02_tests.sql`, `rollback_20261021125126.sql`, `run.sh`, `proposal_has_unit_access_scope.sql`, `results/run-2026-10-21.log`
 
-Continuam fora: `supabase/migrations/20261021120000_tenant_scoped_roles_and_user_units.sql` (rascunho, agora com a correção do T12c) e `output/`.
+Continuam fora: `supabase/migrations/20261021125126_tenant_scoped_roles_and_user_units.sql` (rascunho, agora com a correção do T12c) e `output/`.
 
 ## 8. Decisões abertas resolvidas nesta rodada
 | Decisão | Resolução | Onde |
@@ -113,13 +114,16 @@ Continuam fora: `supabase/migrations/20261021120000_tenant_scoped_roles_and_user
 | Modelo multiempresa | Mantido 1 perfil = 1 empresa; o trigger bloqueia papel em outra empresa. Reavaliar antes do Hub | — |
 | Último dono / assinatura vencida (R3, R4) | Não tratados; riscos registrados | — |
 
-## 9. Aplicação em produção: NÃO realizada
-A aplicação no projeto `obfwapckvwjpjzlumlei` foi tentada via `apply_migration` e **bloqueada pelo classificador do Claude Code** ("Protected-Scope IaC Apply"); a remoção do bloco-guarda do arquivo da migration também foi bloqueada. Nenhum comando contornou o bloqueio e **nada foi alterado no Cloud**. Estado: a migration `…120000` ainda tem o bloco-guarda no repositório; `…120100` (grants) não tem guarda.
-
-### Procedimento recomendado (feito por quem tem a autoridade de aplicar)
-1. Confirmar backup/ponto de restauração no painel (a mudança é só de definições, grants e triggers; não altera dados).
-2. Remover o bloco `DO $guard$ … END $guard$;` e o cabeçalho "RASCUNHO" de `supabase/migrations/20261021120000_…sql`.
-3. `supabase link --project-ref obfwapckvwjpjzlumlei` e `supabase db push --dry-run`: deve listar **somente** `20261021120000` e `20261021120100` (as versões da automação já coincidem com o remoto). Se listar mais, parar.
-4. `supabase db push` (ou conceder a permissão `apply_migration` ao Claude e pedir para aplicar).
-5. Verificar: consultas de leitura em `pg_policies`/`pg_proc` (funções `*_in` existem; `user_units_*` com `unit_in_company`), `get_advisors`, e o smoke `npm run test:migration`; abrir o painel e o Portal com contas de teste.
-6. Rollback, se necessário: `rollback_20261021120100.sql` e depois `rollback_20261021120000.sql`, publicados como nova migration forward.
+## 9. Aplicação em produção (realizada)
+Autorização: o responsável liberou a permissão `apply_migration` no `.claude/settings.local.json` do projeto (arquivo local, não versionado) e pediu a aplicação. Antes de aplicar, leitura do banco: 30 migrations, 12 funções `app_auth`, 0 triggers novos, `is_company_admin` sem escopo.
+| Passo | Resultado |
+|---|---|
+| `apply_migration tenant_scoped_roles_and_user_units` | sucesso; registrada como `20261021125126` |
+| Verificação 1 | 19 funções `app_auth` (12 + 7 novas); 2 triggers novos; `is_company_admin` e `has_unit_access` escopadas; políticas `user_roles_admin_manage` e `user_units_*` com as novas funções; 6 papéis, 6 vínculos, 0 papéis cruzados; **0 diferença** de administradores antes × depois (6 = 6) |
+| `apply_migration least_privilege_grants` | sucesso; registrada como `20261021125216` |
+| Verificação 2 | `anon`: 0 privilégios de tabela em `public`; `authenticated`: só SELECT em `subscriptions` e `user_roles`, 0 TRUNCATE/REFERENCES/TRIGGER; PIN não atualizável; status de colaborador, INSERT de nome e UPDATE de nome da empresa permitidos; `plan_code` e DELETE de empresa negados; `service_role` mantém UPDATE |
+| Advisor de segurança | apenas "Leaked Password Protection Disabled" (como antes) |
+| Smoke e2e (build local) | 5/5 aprovados |
+| Histórico no Supabase | 32 migrations; os arquivos locais foram renomeados para as versões registradas |
+O bloco-guarda do arquivo da migration foi removido depois da aplicação (o SQL aplicado em produção é o do arquivo, sem o guarda). A cópia do SQL enviada ao Cloud foi composta a partir do arquivo; a verificação acima confere o resultado, mas um diff byte a byte entre `pg_get_functiondef` de produção e do contêiner não foi feito.
+Rollback, se necessário: `rollback_20261021125216.sql` e depois `rollback_20261021125126.sql` como nova migration forward.

@@ -1,14 +1,10 @@
 -- =====================================================================================
--- RASCUNHO — NÃO APROVADO — NÃO APLICAR.
--- Correção das vulnerabilidades A e B (docs/FASE1_PLANO_CORRECAO_SEGURANCA.md).
--- Nunca foi executada, nem em teste: precisa de revisão humana e de ensaio em branch/dev.
---
--- Salvaguarda: o bloco abaixo faz a migration falhar (e reverter) se alguém rodar
--- `supabase db push` por engano. Ao aprovar, remova SOMENTE este bloco DO.
+-- Correção das vulnerabilidades A (funções de papel sem escopo de empresa) e B (user_units sem
+-- isolamento). Revisada (Fase 1.2), testada em Postgres descartável (Fase 1.3) e APLICADA em produção
+-- em 2026-10-21 (versão registrada 20261021125126). Plano: docs/FASE1_PLANO_CORRECAO_SEGURANCA.md.
+-- Rollback: scripts/security-tests/multitenant/rollback_20261021125126.sql
+-- Observação: o bloco-guarda que existia no rascunho foi removido após a aplicação.
 -- =====================================================================================
-DO $guard$ BEGIN
-  RAISE EXCEPTION 'Migration 20261021120000 é um RASCUNHO NÃO APROVADO. Veja docs/FASE1_PLANO_CORRECAO_SEGURANCA.md.';
-END $guard$;
 
 -- Sem BEGIN/COMMIT explícitos: o executor de migrations já aplica cada arquivo de forma
 -- atômica e registra a versão em schema_migrations (revisão da Fase 1.2).

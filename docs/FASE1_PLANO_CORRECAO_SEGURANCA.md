@@ -1,7 +1,7 @@
 # Fase 1.1 — Plano de correção de segurança (RASCUNHO PARA REVISÃO)
 
 Status: **NÃO APROVADO. Nada foi aplicado no Supabase Cloud.** Migration proposta (estado final na Fase 1.3: ver docs/FASE1_TESTES_SEGURANCA_MULTITENANT.md, seção 8):
-`supabase/migrations/20261021120000_tenant_scoped_roles_and_user_units.sql` (começa com um bloco que faz a migration falhar de propósito; remover só após aprovação).
+`supabase/migrations/20261021125126_tenant_scoped_roles_and_user_units.sql` (começa com um bloco que faz a migration falhar de propósito; remover só após aprovação).
 Base: `docs/FASE1_INSPECAO_SUPABASE.md` e `docs/FASE1_RECONCILIACAO_MIGRATIONS.md`.
 
 ## 1. Vulnerabilidades

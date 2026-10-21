@@ -1,6 +1,6 @@
 # Fase 1.2 — Revisão técnica da migration de segurança multitenant
 
-Data: 2026-10-21 · Arquivo revisado: `supabase/migrations/20261021120000_tenant_scoped_roles_and_user_units.sql` (rascunho NÃO APROVADO) · Commit de referência `e24761b`
+Data: 2026-10-21 · Arquivo revisado: `supabase/migrations/20261021125126_tenant_scoped_roles_and_user_units.sql` (rascunho NÃO APROVADO) · Commit de referência `e24761b`
 Escopo: análise e validação. Nenhum SQL foi aplicado no Cloud. O remoto foi consultado só com `SELECT`.
 Limite do ambiente: não há Postgres local nem imagem Docker de Postgres; baixar uma exigiria autorização. **Não houve execução técnica do SQL**; a validação é por leitura das definições reais, por consultas de leitura ao catálogo e por uma comparação "antes × depois" calculada sobre os dados atuais.
 

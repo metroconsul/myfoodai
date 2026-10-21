@@ -1,4 +1,4 @@
--- ROLLBACK da migration 20261021120000_tenant_scoped_roles_and_user_units.sql
+-- ROLLBACK da migration 20261021125126_tenant_scoped_roles_and_user_units.sql
 -- NÃO executar em produção sem aprovação. Testado apenas pelo procedimento descrito em
 -- docs/FASE1_TESTES_SEGURANCA_MULTITENANT.md (contêiner descartável), e só depois que o teste rodar.
 -- Restaura as definições anteriores copiadas de 20260831211015 (funções) e 20260829134240 (políticas),

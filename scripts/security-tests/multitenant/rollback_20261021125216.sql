@@ -1,4 +1,4 @@
--- ROLLBACK de 20261021120100_least_privilege_grants.sql. Restaura os grants descritos em docs/FASE1_GRANTS_ANTES.md.
+-- ROLLBACK de 20261021125216_least_privilege_grants.sql. Restaura os grants descritos em docs/FASE1_GRANTS_ANTES.md.
 -- Não é migration. Se a migration já estiver registrada em produção, publicar este script como NOVA migration forward.
 DO $$
 DECLARE t record;

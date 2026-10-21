@@ -48,7 +48,7 @@ Legenda: **=** igual nos dois lados · **R→L** recuperada do remoto · **TS** 
 | 20260910220812 | time_entry_visual_evidence | **R→L** | sim | recuperada |
 | 20260930000707 (local) / 20260930001123 (remoto) | myfoods_automation_engine | sim | sim | **TS**, conteúdo idêntico |
 | 20260930001652 (local) / 20260930001707 (remoto) | automation_events_explicit_client_deny | sim | sim | **TS**, conteúdo idêntico |
-| 20261021120000 | tenant_scoped_roles_and_user_units | rascunho | não | **NÃO APROVADO** — ver plano de correção |
+| 20261021125126 | tenant_scoped_roles_and_user_units | rascunho | não | **NÃO APROVADO** — ver plano de correção |
 
 Arquivo extra: `20260905000002_stripe_subscription_security.sql.log` (saída de `psql`, não é migration; ignorado pelo Git via `*.log`).
 

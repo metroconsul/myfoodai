@@ -1,5 +1,5 @@
--- PROPOSTA JÁ INCORPORADA à migration 20261021120000 (Fase 1.3, T12c). Mantida só como registro histórico.
--- PROPOSTA (não faz parte da migration 20261021120000; não aprovada; nunca aplicada fora do contêiner de teste).
+-- PROPOSTA JÁ INCORPORADA à migration 20261021125126 (Fase 1.3, T12c). Mantida só como registro histórico.
+-- PROPOSTA (não faz parte da migration 20261021125126; não aprovada; nunca aplicada fora do contêiner de teste).
 -- Motivo: no teste T12c, app_auth.has_unit_access(<unidade de B>) retorna TRUE para o dono/admin/RH da empresa A,
 -- porque can_see_all_units() agora tem escopo de empresa, mas não confere se a UNIDADE pertence a essa empresa.
 -- As políticas continuam protegidas por in_company(company_id) da linha; o defeito está na própria função.
