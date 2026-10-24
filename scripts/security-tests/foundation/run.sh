@@ -25,11 +25,16 @@ psqlc() { docker exec -i "$NAME" psql -U postgres -v ON_ERROR_STOP=1 -q "$@"; }
 echo "== stubs de plataforma"; psqlc < "$STUBS"
 echo "== migrations anteriores à fundação"
 while IFS= read -r f; do
-  case "$(basename "$f")" in "$F1_ROLES"|"$F1_APPS") continue;; esac
+  [[ "$(basename "$f")" < "$F1_ROLES" ]] || continue   # só as anteriores à F1
   psqlc < "$f" >/dev/null || { echo "FALHOU: $f"; exit 1; }
 done < <(printf '%s\n' "$MIG"/*.sql | sort)
 echo "== seed fictício (antes da fundação, para testar o backfill)"; psqlc < "$HERE/01_seed_before.sql"
 echo "== migrations da fundação"; psqlc < "$MIG/$F1_ROLES"; psqlc < "$MIG/$F1_APPS"
+echo "== migrations posteriores à F1"
+while IFS= read -r f; do
+  [[ "$(basename "$f")" > "$F1_APPS" ]] || continue
+  psqlc < "$f" >/dev/null || { echo "FALHOU: $f"; exit 1; }
+done < <(printf '%s\n' "$MIG"/*.sql | sort)
 echo "== reaplicando (idempotência)"; psqlc < "$MIG/$F1_ROLES" && psqlc < "$MIG/$F1_APPS" && echo "idempotente: OK"
 echo "== duplicidades de entitlement:"; psqlc -At -c "select count(*) from (select company_id, feature_code from public.feature_entitlements group by 1,2 having count(*)>1) x"
 echo "== testes"; psqlc < "$HERE/02_tests.sql"

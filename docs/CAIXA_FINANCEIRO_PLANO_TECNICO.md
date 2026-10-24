@@ -87,3 +87,19 @@ Emissão fiscal, integração bancária/OFX, conciliação automática, processa
 - **D-CF2** Fechamento de caixa gera lançamentos automaticamente (recomendado) ou só relatório.
 - **D-CF3** Adicionar `vitest` para testes de cálculo.
 - **D-CF4** Ambiente de dev com Auth para o e2e: stack local do Supabase (download de imagens) ou branch Supabase (possível custo).
+
+## 10. Etapa 1 executada (2026-10-24) — local, sem commit, sem aplicar no Supabase
+Migration `supabase/migrations/20261024180000_caixa_financeiro_core.sql` + kit `scripts/security-tests/caixa-financeiro/` (**34/34**). Kits anteriores reexecutados sem regressão (multitenant 51/51 na fase final; fundação 11/11).
+
+Decisões de detalhe tomadas na implementação (revisáveis):
+- **Sangria e suprimento** são sempre em dinheiro e exigem a conta de destino/origem (ex.: Cofre). No fechamento viram **transferências** entre contas, fora de receitas e despesas.
+- **Fechamento** (`close_cash_session`, numa única transação): confere todas as formas com saldo, grava a conferência, lança receitas e despesas por forma de pagamento e categoria, lança as transferências e ajusta a **falta/sobra de dinheiro** na categoria "Diferença de caixa". Depois do fechamento, o saldo da conta do caixa é igual ao dinheiro conferido (teste C12).
+- **Estorno** copia forma, valor e categoria do original; não há edição nem exclusão de movimentos.
+- **Saldos** (`fin_account_balances`) só aparecem para dono, admin e financeiro.
+- **Financeiro por unidade:** o papel `finance` vê lançamentos sem unidade e os das unidades vinculadas a ele; dono e admin veem todas.
+- **Configuração inicial** (`fin_bootstrap_company`): contas "Conta bancária", "Cofre" e "Caixa — <unidade>", um caixa por unidade, 12 categorias e 5 formas de pagamento. Idempotente.
+- **Recorrências** (`fin_materialize_recurrences`): mensal respeita o último dia do mês; idempotente; horizonte máximo de 400 dias.
+- **Reabrir caixa** fechado: não implementado nesta etapa.
+- Datas de lançamento no fuso da empresa (`companies.timezone`).
+
+Próximas etapas: telas (configurações, caixa, vendas, financeiro/dashboard) e server functions; o card continua "Em breve" até lá.
