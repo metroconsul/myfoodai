@@ -76,6 +76,8 @@ import { Route as ApiAutomationEventsClaimRouteImport } from './routes/api/autom
 import { Route as ApiAutomationEventsClockRouteImport } from './routes/api/automation/events.clock'
 import { Route as ApiAutomationEventsDocumentsRouteImport } from './routes/api/automation/events.documents'
 import { Route as ApiAutomationEventsEpisRouteImport } from './routes/api/automation/events.epis'
+import { Route as ApiPublicMercadoPagoCallbackRouteImport } from './routes/api/public/mercado-pago/callback'
+import { Route as ApiPublicMercadoPagoWebhookRouteImport } from './routes/api/public/mercado-pago/webhook'
 import { Route as PortalHoleritesIdComprovanteRouteImport } from './routes/portal.holerites.$id.comprovante'
 import { Route as AuthenticatedAppConformidadeExamesIndexRouteImport } from './routes/_authenticated/app.conformidade.exames.index'
 import { Route as AuthenticatedAppConformidadeExamesIdRouteImport } from './routes/_authenticated/app.conformidade.exames.$id'
@@ -454,6 +456,18 @@ const ApiAutomationEventsEpisRoute = ApiAutomationEventsEpisRouteImport.update({
   path: '/api/automation/events/epis',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicMercadoPagoCallbackRoute =
+  ApiPublicMercadoPagoCallbackRouteImport.update({
+    id: '/api/public/mercado-pago/callback',
+    path: '/api/public/mercado-pago/callback',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicMercadoPagoWebhookRoute =
+  ApiPublicMercadoPagoWebhookRouteImport.update({
+    id: '/api/public/mercado-pago/webhook',
+    path: '/api/public/mercado-pago/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const PortalHoleritesIdComprovanteRoute =
   PortalHoleritesIdComprovanteRouteImport.update({
     id: '/comprovante',
@@ -554,6 +568,8 @@ export interface FileRoutesByFullPath {
   '/api/automation/events/clock': typeof ApiAutomationEventsClockRoute
   '/api/automation/events/documents': typeof ApiAutomationEventsDocumentsRoute
   '/api/automation/events/epis': typeof ApiAutomationEventsEpisRoute
+  '/api/public/mercado-pago/callback': typeof ApiPublicMercadoPagoCallbackRoute
+  '/api/public/mercado-pago/webhook': typeof ApiPublicMercadoPagoWebhookRoute
   '/portal/holerites/$id/comprovante': typeof PortalHoleritesIdComprovanteRoute
   '/app/conformidade/': typeof AuthenticatedAppConformidadeIndexRoute
   '/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
@@ -624,6 +640,8 @@ export interface FileRoutesByTo {
   '/api/automation/events/clock': typeof ApiAutomationEventsClockRoute
   '/api/automation/events/documents': typeof ApiAutomationEventsDocumentsRoute
   '/api/automation/events/epis': typeof ApiAutomationEventsEpisRoute
+  '/api/public/mercado-pago/callback': typeof ApiPublicMercadoPagoCallbackRoute
+  '/api/public/mercado-pago/webhook': typeof ApiPublicMercadoPagoWebhookRoute
   '/portal/holerites/$id/comprovante': typeof PortalHoleritesIdComprovanteRoute
   '/app/conformidade': typeof AuthenticatedAppConformidadeIndexRoute
   '/app/deliveries': typeof AuthenticatedAppDeliveriesIndexRoute
@@ -700,6 +718,8 @@ export interface FileRoutesById {
   '/api/automation/events/clock': typeof ApiAutomationEventsClockRoute
   '/api/automation/events/documents': typeof ApiAutomationEventsDocumentsRoute
   '/api/automation/events/epis': typeof ApiAutomationEventsEpisRoute
+  '/api/public/mercado-pago/callback': typeof ApiPublicMercadoPagoCallbackRoute
+  '/api/public/mercado-pago/webhook': typeof ApiPublicMercadoPagoWebhookRoute
   '/portal/holerites/$id/comprovante': typeof PortalHoleritesIdComprovanteRoute
   '/_authenticated/app/conformidade/': typeof AuthenticatedAppConformidadeIndexRoute
   '/_authenticated/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
@@ -776,6 +796,8 @@ export interface FileRouteTypes {
     | '/api/automation/events/clock'
     | '/api/automation/events/documents'
     | '/api/automation/events/epis'
+    | '/api/public/mercado-pago/callback'
+    | '/api/public/mercado-pago/webhook'
     | '/portal/holerites/$id/comprovante'
     | '/app/conformidade/'
     | '/app/deliveries/'
@@ -846,6 +868,8 @@ export interface FileRouteTypes {
     | '/api/automation/events/clock'
     | '/api/automation/events/documents'
     | '/api/automation/events/epis'
+    | '/api/public/mercado-pago/callback'
+    | '/api/public/mercado-pago/webhook'
     | '/portal/holerites/$id/comprovante'
     | '/app/conformidade'
     | '/app/deliveries'
@@ -921,6 +945,8 @@ export interface FileRouteTypes {
     | '/api/automation/events/clock'
     | '/api/automation/events/documents'
     | '/api/automation/events/epis'
+    | '/api/public/mercado-pago/callback'
+    | '/api/public/mercado-pago/webhook'
     | '/portal/holerites/$id/comprovante'
     | '/_authenticated/app/conformidade/'
     | '/_authenticated/app/deliveries/'
@@ -949,6 +975,8 @@ export interface RootRouteChildren {
   ApiAutomationEventsClockRoute: typeof ApiAutomationEventsClockRoute
   ApiAutomationEventsDocumentsRoute: typeof ApiAutomationEventsDocumentsRoute
   ApiAutomationEventsEpisRoute: typeof ApiAutomationEventsEpisRoute
+  ApiPublicMercadoPagoCallbackRoute: typeof ApiPublicMercadoPagoCallbackRoute
+  ApiPublicMercadoPagoWebhookRoute: typeof ApiPublicMercadoPagoWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1422,6 +1450,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAutomationEventsEpisRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/mercado-pago/callback': {
+      id: '/api/public/mercado-pago/callback'
+      path: '/api/public/mercado-pago/callback'
+      fullPath: '/api/public/mercado-pago/callback'
+      preLoaderRoute: typeof ApiPublicMercadoPagoCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/mercado-pago/webhook': {
+      id: '/api/public/mercado-pago/webhook'
+      path: '/api/public/mercado-pago/webhook'
+      fullPath: '/api/public/mercado-pago/webhook'
+      preLoaderRoute: typeof ApiPublicMercadoPagoWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/portal/holerites/$id/comprovante': {
       id: '/portal/holerites/$id/comprovante'
       path: '/comprovante'
@@ -1674,6 +1716,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAutomationEventsClockRoute: ApiAutomationEventsClockRoute,
   ApiAutomationEventsDocumentsRoute: ApiAutomationEventsDocumentsRoute,
   ApiAutomationEventsEpisRoute: ApiAutomationEventsEpisRoute,
+  ApiPublicMercadoPagoCallbackRoute: ApiPublicMercadoPagoCallbackRoute,
+  ApiPublicMercadoPagoWebhookRoute: ApiPublicMercadoPagoWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

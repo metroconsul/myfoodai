@@ -87,6 +87,8 @@ export function SalesPage() {
       const { data, error } = await supabase
         .from("sales_connections")
         .select("*")
+        // O Mercado Pago tem card próprio em Vendas.
+        .neq("provider", "mercado_pago")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return data;
