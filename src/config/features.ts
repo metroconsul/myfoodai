@@ -30,7 +30,7 @@ export const FEATURES = [
   "sales",
   "settings",
   "billing",
-  // Acesso por aplicativo (migration 20261024120100). Os códigos acima valem dentro de cada app.
+  // Acesso por aplicativo (migration 20261024165301). Os códigos acima valem dentro de cada app.
   "app_ponto",
   "app_documentos",
   "app_estoque",

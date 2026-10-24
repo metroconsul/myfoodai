@@ -73,7 +73,7 @@ describe("planos e aplicativos padrão", () => {
   });
 
   it("os apps padrão do cliente são os mesmos da função SQL plan_app_codes", () => {
-    const sql = readFileSync("supabase/migrations/20261024120100_app_entitlements.sql", "utf8");
+    const sql = readFileSync("supabase/migrations/20261024165301_app_entitlements.sql", "utf8");
     const fromSql = (label: string) => {
       const m = sql.match(new RegExp(`WHEN '${label}' THEN ARRAY\\[([^\\]]+)\\]`));
       return m?.[1] ? m[1].split(",").map((s) => s.trim().replace(/'/g, "")) : null;

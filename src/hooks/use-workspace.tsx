@@ -108,7 +108,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         data.company.subscription_status === "trialing" &&
         Boolean(data.company.trial_ends_at && new Date(data.company.trial_ends_at) > new Date()));
     const granted = (data?.entitlements ?? []) as FeatureCode[];
-    // Empresas sem linhas de acesso por aplicativo (banco ainda sem a migration 20261024120100)
+    // Empresas sem linhas de acesso por aplicativo (banco ainda sem a migration 20261024165301)
     // recebem os apps padrão do plano, para que a ordem de deploy não bloqueie ninguém.
     const legacyApps = granted.some((code) => code.startsWith("app_"))
       ? []
