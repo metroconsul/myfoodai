@@ -24,7 +24,7 @@ for (const viewport of [{ width: 1440, height: 1000 }, { width: 390, height: 844
 }
 
 test("rotas protegidas redirecionam visitantes sem sessão", async ({ page }) => {
-  for (const route of ["/app", "/app/employees", "/app/settings/aceite", "/app/inventory"]) {
+  for (const route of ["/app", "/app/employees", "/app/settings/aceite", "/app/inventory", "/painel", "/painel/admin/aplicativos"]) {
     await page.goto(route);
     await expect(page).toHaveURL(/\/auth$/);
   }

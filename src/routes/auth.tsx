@@ -45,7 +45,7 @@ function AuthPage() {
     supabase.auth.getSession().then(async ({ data }) => {
       if (!data.session) return;
       if (await continueAfterAuth(data.session.user.id)) return;
-      navigate({ to: "/app", replace: true });
+      navigate({ to: "/painel", replace: true });
     });
   }, [navigate]);
 
@@ -57,7 +57,7 @@ function AuthPage() {
       .eq("id", userId)
       .maybeSingle();
     if (!profile?.company_id) {
-      navigate({ to: "/app", replace: true }); // o gate leva ao onboarding
+      navigate({ to: "/painel", replace: true }); // o gate leva ao onboarding
       return true;
     }
     return resumePendingCheckout();
@@ -72,7 +72,7 @@ function AuthPage() {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/app`,
+            emailRedirectTo: `${window.location.origin}/painel`,
             data: { full_name: fullName },
           },
         });
@@ -84,7 +84,7 @@ function AuthPage() {
         if (error) throw error;
         const { data: userData } = await supabase.auth.getUser();
         if (userData.user && (await continueAfterAuth(userData.user.id))) return;
-        navigate({ to: "/app", replace: true });
+        navigate({ to: "/painel", replace: true });
       }
     } catch (error) {
       toast.error(authErrorMessage(error));

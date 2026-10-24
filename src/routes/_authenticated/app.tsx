@@ -1,69 +1,26 @@
-import { createFileRoute, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
 import { WorkspaceProvider, useWorkspace } from "@/hooks/use-workspace";
 import { AppShell } from "@/components/app-shell";
 import { FeatureBlocked } from "@/components/feature-blocked";
-import { featureForRoute } from "@/config/features";
+import { WorkspaceGate } from "@/components/workspace-gate";
+import { appForRoute, featureForRoute } from "@/config/features";
 
 export const Route = createFileRoute("/_authenticated/app")({
   component: AppLayout,
 });
 
 function AppLayout() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
   return (
     <WorkspaceProvider>
-      <WorkspaceGate />
+      <WorkspaceGate>
+        <AppShell>
+          <RouteFeatureGate pathname={pathname}>
+            <Outlet />
+          </RouteFeatureGate>
+        </AppShell>
+      </WorkspaceGate>
     </WorkspaceProvider>
-  );
-}
-
-function WorkspaceGate() {
-  const { loading, company, hasSubscriptionAccess, planCode } = useWorkspace();
-  const navigate = useNavigate();
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
-
-  useEffect(() => {
-    if (!loading && !company && pathname !== "/onboarding") {
-      navigate({ to: "/onboarding", replace: true });
-    }
-  }, [loading, company, navigate, pathname]);
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center p-6">
-        <div
-          role="status"
-          aria-live="polite"
-          className="w-full max-w-sm rounded-[12px] border-2 border-foreground bg-card p-6 text-center shadow-[4px_4px_0_var(--ink)]"
-        >
-          <span className="display-type text-lg">Preparando o turno</span>
-          <p className="meta-mono mt-2">Carregando sua operação…</p>
-          <div className="mt-4 h-2 w-full overflow-hidden rounded-full border-2 border-foreground bg-secondary">
-            <div className="h-full w-1/2 animate-pulse bg-accent" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (!company) return null;
-
-  if (!hasSubscriptionAccess) {
-    return (
-      <FeatureBlocked
-        planCode={planCode}
-        title="Assinatura necessária para acessar a operação"
-        description="O acesso será liberado quando a Stripe confirmar uma assinatura ativa ou em período de teste."
-      />
-    );
-  }
-
-  return (
-    <AppShell>
-      <RouteFeatureGate pathname={pathname}>
-        <Outlet />
-      </RouteFeatureGate>
-    </AppShell>
   );
 }
 
@@ -72,6 +29,17 @@ function RouteFeatureGate({ pathname, children }: { pathname: string; children: 
 
   if (pathname.startsWith("/app/admin") && !isPlatformAdmin) {
     return <FeatureBlocked planCode={planCode} title="Área exclusiva da administração" />;
+  }
+
+  const app = appForRoute(pathname);
+  if (app && !hasFeature(app)) {
+    return (
+      <FeatureBlocked
+        planCode={planCode}
+        title="Aplicativo não contratado"
+        description="Este aplicativo não está ativo para a sua empresa. Fale com a MyFoods para contratar."
+      />
+    );
   }
 
   const feature = featureForRoute(pathname);

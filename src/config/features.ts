@@ -30,6 +30,12 @@ export const FEATURES = [
   "sales",
   "settings",
   "billing",
+  // Acesso por aplicativo (migration 20261024120100). Os códigos acima valem dentro de cada app.
+  "app_ponto",
+  "app_documentos",
+  "app_estoque",
+  "app_compras",
+  "app_caixa_financeiro",
 ] as const;
 
 export type FeatureCode = (typeof FEATURES)[number];
@@ -70,10 +76,17 @@ export const EQUIPE_FEATURES: FeatureCode[] = [
   "sales",
 ];
 
+/** Aplicativos padrão de cada plano — espelha `public.plan_app_codes` no banco. */
+export const PLAN_APPS: Record<PlanCode, FeatureCode[]> = {
+  comeco: ["app_ponto", "app_documentos"],
+  essencial: ["app_ponto", "app_documentos", "app_estoque"],
+  equipe: ["app_ponto", "app_documentos", "app_estoque"],
+};
+
 export const PLAN_FEATURES: Record<PlanCode, FeatureCode[]> = {
-  comeco: COMECO_FEATURES,
-  essencial: ESSENCIAL_FEATURES,
-  equipe: EQUIPE_FEATURES,
+  comeco: [...COMECO_FEATURES, ...PLAN_APPS.comeco],
+  essencial: [...ESSENCIAL_FEATURES, ...PLAN_APPS.essencial],
+  equipe: [...EQUIPE_FEATURES, ...PLAN_APPS.equipe],
 };
 
 export const PLAN_LABELS: Record<PlanCode, string> = {
@@ -106,4 +119,30 @@ export const ROUTE_FEATURES: { prefix: string; feature: FeatureCode }[] = [
 export function featureForRoute(pathname: string): FeatureCode | null {
   const match = ROUTE_FEATURES.find((r) => pathname.startsWith(r.prefix));
   return match?.feature ?? null;
+}
+
+/**
+ * Rota legada /app → aplicativo a que pertence. Enquanto as telas não mudam de endereço (etapa F2),
+ * o app desligado para a empresa também bloqueia estas rotas. Itens (/app/items) são compartilhados
+ * entre Estoque e Documentos (EPIs) e por isso não exigem um app específico.
+ */
+export const ROUTE_APPS: { prefix: string; app: FeatureCode }[] = [
+  { prefix: "/app/time-entries", app: "app_ponto" },
+  { prefix: "/app/point-cards", app: "app_ponto" },
+  { prefix: "/app/schedule-templates", app: "app_ponto" },
+  { prefix: "/app/schedule-compliance", app: "app_ponto" },
+  { prefix: "/app/schedule-history", app: "app_ponto" },
+  { prefix: "/app/schedules", app: "app_ponto" },
+  { prefix: "/app/shifts", app: "app_ponto" },
+  { prefix: "/app/settings/jornada", app: "app_ponto" },
+  { prefix: "/app/conformidade", app: "app_documentos" },
+  { prefix: "/app/documentos", app: "app_documentos" },
+  { prefix: "/app/deliveries", app: "app_documentos" },
+  { prefix: "/app/delivery-rules", app: "app_documentos" },
+  { prefix: "/app/inventory", app: "app_estoque" },
+];
+
+export function appForRoute(pathname: string): FeatureCode | null {
+  const match = ROUTE_APPS.find((r) => pathname.startsWith(r.prefix));
+  return match?.app ?? null;
 }

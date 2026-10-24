@@ -48,7 +48,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
     const session = await getStripe().checkout.sessions.create({
       mode: "subscription",
       line_items: [{ price: price.priceId, quantity: 1 }],
-      success_url: `${appUrl()}/app?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${appUrl()}/painel?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${appUrl()}/#planos`,
       client_reference_id: context.userId,
       metadata,
@@ -71,7 +71,7 @@ export const createCustomerPortalSession = createServerFn({ method: "POST" })
     if (error || !subscription?.stripe_customer_id) throw new Error("Nenhum cliente Stripe encontrado para esta conta.");
     const session = await getStripe().billingPortal.sessions.create({
       customer: subscription.stripe_customer_id,
-      return_url: `${appUrl()}/app`,
+      return_url: `${appUrl()}/painel`,
     });
     return { url: session.url };
   });

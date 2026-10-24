@@ -10,4 +10,5 @@ additional_redirect_urls = [
   "https://myfoodai-independent.vercel.app/**",
   "http://localhost:5173/auth",
   "http://localhost:5173/app",
+  "http://localhost:5173/painel",
 ]

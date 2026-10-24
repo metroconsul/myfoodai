@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState, type ReactNode
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { applyCompanyBranding } from "@/config/brand";
-import { planFeatures, type FeatureCode } from "@/config/features";
+import { PLAN_APPS, planFeatures, type FeatureCode, type PlanCode } from "@/config/features";
 import type { Tables } from "@/integrations/supabase/types";
 
 type Company = Tables<"companies">;
@@ -107,9 +107,17 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       (data?.company?.access_source === "trial" &&
         data.company.subscription_status === "trialing" &&
         Boolean(data.company.trial_ends_at && new Date(data.company.trial_ends_at) > new Date()));
-    const granted = data?.entitlements ?? [];
-    const features: FeatureCode[] =
-      hasSubscriptionAccess ? (granted.length > 0 ? (granted as FeatureCode[]) : planFeatures(planCode)) : [];
+    const granted = (data?.entitlements ?? []) as FeatureCode[];
+    // Empresas sem linhas de acesso por aplicativo (banco ainda sem a migration 20261024120100)
+    // recebem os apps padrão do plano, para que a ordem de deploy não bloqueie ninguém.
+    const legacyApps = granted.some((code) => code.startsWith("app_"))
+      ? []
+      : (PLAN_APPS[planCode as PlanCode] ?? PLAN_APPS.comeco);
+    const features: FeatureCode[] = hasSubscriptionAccess
+      ? granted.length > 0
+        ? [...granted, ...legacyApps]
+        : planFeatures(planCode)
+      : [];
     return {
       loading: isLoading,
       userId: data?.userId ?? null,

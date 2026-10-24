@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PortalRouteImport } from './routes/portal'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
+import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
 import { Route as PortalEscalaRouteImport } from './routes/portal.escala'
 import { Route as PortalLoginRouteImport } from './routes/portal.login'
@@ -35,6 +36,7 @@ import { Route as AuthenticatedAppSchedulesRouteImport } from './routes/_authent
 import { Route as AuthenticatedAppShiftsRouteImport } from './routes/_authenticated/app.shifts'
 import { Route as AuthenticatedAppTimeEntriesRouteImport } from './routes/_authenticated/app.time-entries'
 import { Route as AuthenticatedAppUnitsRouteImport } from './routes/_authenticated/app.units'
+import { Route as AuthenticatedPainelIndexRouteImport } from './routes/_authenticated/painel.index'
 import { Route as ApiAutomationDispatchRouteImport } from './routes/api/automation/dispatch'
 import { Route as ApiAutomationManagerSummaryRouteImport } from './routes/api/automation/manager-summary'
 import { Route as ApiPublicSalesIngestRouteImport } from './routes/api/public/sales-ingest'
@@ -59,6 +61,7 @@ import { Route as AuthenticatedAppPointCardsIdRouteImport } from './routes/_auth
 import { Route as AuthenticatedAppSettingsAceiteRouteImport } from './routes/_authenticated/app.settings.aceite'
 import { Route as AuthenticatedAppSettingsJornadaRouteImport } from './routes/_authenticated/app.settings.jornada'
 import { Route as AuthenticatedAppSettingsLgpdRouteImport } from './routes/_authenticated/app.settings.lgpd'
+import { Route as AuthenticatedPainelAdminAplicativosRouteImport } from './routes/_authenticated/painel.admin.aplicativos'
 import { Route as ApiAutomationClockCandidatesRouteImport } from './routes/api/automation/clock.candidates'
 import { Route as ApiAutomationDocumentsCandidatesRouteImport } from './routes/api/automation/documents.candidates'
 import { Route as ApiAutomationEpisCandidatesRouteImport } from './routes/api/automation/epis.candidates'
@@ -100,6 +103,11 @@ const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
 const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
+  id: '/painel',
+  path: '/painel',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const PortalIndexRoute = PortalIndexRouteImport.update({
@@ -211,6 +219,12 @@ const AuthenticatedAppUnitsRoute = AuthenticatedAppUnitsRouteImport.update({
   path: '/units',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedPainelIndexRoute =
+  AuthenticatedPainelIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
 const ApiAutomationDispatchRoute = ApiAutomationDispatchRouteImport.update({
   id: '/api/automation/dispatch',
   path: '/api/automation/dispatch',
@@ -344,6 +358,12 @@ const AuthenticatedAppSettingsLgpdRoute =
     path: '/settings/lgpd',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedPainelAdminAplicativosRoute =
+  AuthenticatedPainelAdminAplicativosRouteImport.update({
+    id: '/admin/aplicativos',
+    path: '/admin/aplicativos',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
 const ApiAutomationClockCandidatesRoute =
   ApiAutomationClockCandidatesRouteImport.update({
     id: '/api/automation/clock/candidates',
@@ -428,6 +448,7 @@ export interface FileRoutesByFullPath {
   '/portal': typeof PortalRouteWithChildren
   '/app': typeof AuthenticatedAppRouteWithChildren
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/painel': typeof AuthenticatedPainelRouteWithChildren
   '/portal/escala': typeof PortalEscalaRoute
   '/portal/login': typeof PortalLoginRoute
   '/portal/pendencias': typeof PortalPendenciasRoute
@@ -456,6 +477,7 @@ export interface FileRoutesByFullPath {
   '/portal/holerites/$id': typeof PortalHoleritesIdRouteWithChildren
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/app/': typeof AuthenticatedAppIndexRoute
+  '/painel/': typeof AuthenticatedPainelIndexRoute
   '/portal/cartao-ponto/': typeof PortalCartaoPontoIndexRoute
   '/portal/documentos/': typeof PortalDocumentosIndexRoute
   '/portal/holerites/': typeof PortalHoleritesIndexRoute
@@ -469,6 +491,7 @@ export interface FileRoutesByFullPath {
   '/app/settings/aceite': typeof AuthenticatedAppSettingsAceiteRoute
   '/app/settings/jornada': typeof AuthenticatedAppSettingsJornadaRoute
   '/app/settings/lgpd': typeof AuthenticatedAppSettingsLgpdRoute
+  '/painel/admin/aplicativos': typeof AuthenticatedPainelAdminAplicativosRoute
   '/api/automation/clock/candidates': typeof ApiAutomationClockCandidatesRoute
   '/api/automation/documents/candidates': typeof ApiAutomationDocumentsCandidatesRoute
   '/api/automation/epis/candidates': typeof ApiAutomationEpisCandidatesRoute
@@ -518,6 +541,7 @@ export interface FileRoutesByTo {
   '/portal/holerites/$id': typeof PortalHoleritesIdRouteWithChildren
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/app': typeof AuthenticatedAppIndexRoute
+  '/painel': typeof AuthenticatedPainelIndexRoute
   '/portal/cartao-ponto': typeof PortalCartaoPontoIndexRoute
   '/portal/documentos': typeof PortalDocumentosIndexRoute
   '/portal/holerites': typeof PortalHoleritesIndexRoute
@@ -531,6 +555,7 @@ export interface FileRoutesByTo {
   '/app/settings/aceite': typeof AuthenticatedAppSettingsAceiteRoute
   '/app/settings/jornada': typeof AuthenticatedAppSettingsJornadaRoute
   '/app/settings/lgpd': typeof AuthenticatedAppSettingsLgpdRoute
+  '/painel/admin/aplicativos': typeof AuthenticatedPainelAdminAplicativosRoute
   '/api/automation/clock/candidates': typeof ApiAutomationClockCandidatesRoute
   '/api/automation/documents/candidates': typeof ApiAutomationDocumentsCandidatesRoute
   '/api/automation/epis/candidates': typeof ApiAutomationEpisCandidatesRoute
@@ -556,6 +581,7 @@ export interface FileRoutesById {
   '/portal': typeof PortalRouteWithChildren
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
+  '/_authenticated/painel': typeof AuthenticatedPainelRouteWithChildren
   '/portal/escala': typeof PortalEscalaRoute
   '/portal/login': typeof PortalLoginRoute
   '/portal/pendencias': typeof PortalPendenciasRoute
@@ -584,6 +610,7 @@ export interface FileRoutesById {
   '/portal/holerites/$id': typeof PortalHoleritesIdRouteWithChildren
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
+  '/_authenticated/painel/': typeof AuthenticatedPainelIndexRoute
   '/portal/cartao-ponto/': typeof PortalCartaoPontoIndexRoute
   '/portal/documentos/': typeof PortalDocumentosIndexRoute
   '/portal/holerites/': typeof PortalHoleritesIndexRoute
@@ -597,6 +624,7 @@ export interface FileRoutesById {
   '/_authenticated/app/settings/aceite': typeof AuthenticatedAppSettingsAceiteRoute
   '/_authenticated/app/settings/jornada': typeof AuthenticatedAppSettingsJornadaRoute
   '/_authenticated/app/settings/lgpd': typeof AuthenticatedAppSettingsLgpdRoute
+  '/_authenticated/painel/admin/aplicativos': typeof AuthenticatedPainelAdminAplicativosRoute
   '/api/automation/clock/candidates': typeof ApiAutomationClockCandidatesRoute
   '/api/automation/documents/candidates': typeof ApiAutomationDocumentsCandidatesRoute
   '/api/automation/epis/candidates': typeof ApiAutomationEpisCandidatesRoute
@@ -622,6 +650,7 @@ export interface FileRouteTypes {
     | '/portal'
     | '/app'
     | '/onboarding'
+    | '/painel'
     | '/portal/escala'
     | '/portal/login'
     | '/portal/pendencias'
@@ -650,6 +679,7 @@ export interface FileRouteTypes {
     | '/portal/holerites/$id'
     | '/portal/itens/$id'
     | '/app/'
+    | '/painel/'
     | '/portal/cartao-ponto/'
     | '/portal/documentos/'
     | '/portal/holerites/'
@@ -663,6 +693,7 @@ export interface FileRouteTypes {
     | '/app/settings/aceite'
     | '/app/settings/jornada'
     | '/app/settings/lgpd'
+    | '/painel/admin/aplicativos'
     | '/api/automation/clock/candidates'
     | '/api/automation/documents/candidates'
     | '/api/automation/epis/candidates'
@@ -712,6 +743,7 @@ export interface FileRouteTypes {
     | '/portal/holerites/$id'
     | '/portal/itens/$id'
     | '/app'
+    | '/painel'
     | '/portal/cartao-ponto'
     | '/portal/documentos'
     | '/portal/holerites'
@@ -725,6 +757,7 @@ export interface FileRouteTypes {
     | '/app/settings/aceite'
     | '/app/settings/jornada'
     | '/app/settings/lgpd'
+    | '/painel/admin/aplicativos'
     | '/api/automation/clock/candidates'
     | '/api/automation/documents/candidates'
     | '/api/automation/epis/candidates'
@@ -749,6 +782,7 @@ export interface FileRouteTypes {
     | '/portal'
     | '/_authenticated/app'
     | '/_authenticated/onboarding'
+    | '/_authenticated/painel'
     | '/portal/escala'
     | '/portal/login'
     | '/portal/pendencias'
@@ -777,6 +811,7 @@ export interface FileRouteTypes {
     | '/portal/holerites/$id'
     | '/portal/itens/$id'
     | '/_authenticated/app/'
+    | '/_authenticated/painel/'
     | '/portal/cartao-ponto/'
     | '/portal/documentos/'
     | '/portal/holerites/'
@@ -790,6 +825,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/settings/aceite'
     | '/_authenticated/app/settings/jornada'
     | '/_authenticated/app/settings/lgpd'
+    | '/_authenticated/painel/admin/aplicativos'
     | '/api/automation/clock/candidates'
     | '/api/automation/documents/candidates'
     | '/api/automation/epis/candidates'
@@ -868,6 +904,13 @@ declare module '@tanstack/react-router' {
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/painel': {
+      id: '/_authenticated/painel'
+      path: '/painel'
+      fullPath: '/painel'
+      preLoaderRoute: typeof AuthenticatedPainelRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/portal/': {
@@ -1009,6 +1052,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/units'
       preLoaderRoute: typeof AuthenticatedAppUnitsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/painel/': {
+      id: '/_authenticated/painel/'
+      path: '/'
+      fullPath: '/painel/'
+      preLoaderRoute: typeof AuthenticatedPainelIndexRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
     }
     '/api/automation/dispatch': {
       id: '/api/automation/dispatch'
@@ -1177,6 +1227,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/settings/lgpd'
       preLoaderRoute: typeof AuthenticatedAppSettingsLgpdRouteImport
       parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/painel/admin/aplicativos': {
+      id: '/_authenticated/painel/admin/aplicativos'
+      path: '/admin/aplicativos'
+      fullPath: '/painel/admin/aplicativos'
+      preLoaderRoute: typeof AuthenticatedPainelAdminAplicativosRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
     }
     '/api/automation/clock/candidates': {
       id: '/api/automation/clock/candidates'
@@ -1353,14 +1410,30 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
 const AuthenticatedAppRouteWithChildren =
   AuthenticatedAppRoute._addFileChildren(AuthenticatedAppRouteChildren)
 
+interface AuthenticatedPainelRouteChildren {
+  AuthenticatedPainelIndexRoute: typeof AuthenticatedPainelIndexRoute
+  AuthenticatedPainelAdminAplicativosRoute: typeof AuthenticatedPainelAdminAplicativosRoute
+}
+
+const AuthenticatedPainelRouteChildren: AuthenticatedPainelRouteChildren = {
+  AuthenticatedPainelIndexRoute: AuthenticatedPainelIndexRoute,
+  AuthenticatedPainelAdminAplicativosRoute:
+    AuthenticatedPainelAdminAplicativosRoute,
+}
+
+const AuthenticatedPainelRouteWithChildren =
+  AuthenticatedPainelRoute._addFileChildren(AuthenticatedPainelRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
+  AuthenticatedPainelRoute: typeof AuthenticatedPainelRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppRoute: AuthenticatedAppRouteWithChildren,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
+  AuthenticatedPainelRoute: AuthenticatedPainelRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =

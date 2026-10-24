@@ -56,7 +56,7 @@ function Onboarding() {
       queryClient.removeQueries({ queryKey: ["workspace"] });
       toast.success("Empresa criada. Bem-vindo!");
       if (await resumePendingCheckout()) return;
-      navigate({ to: "/app", replace: true });
+      navigate({ to: "/painel", replace: true });
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Não foi possível criar a empresa.");
     } finally {

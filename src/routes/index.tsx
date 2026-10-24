@@ -361,7 +361,7 @@ function Landing() {
         .eq("id", userId)
         .maybeSingle();
       if (!profile?.company_id) {
-        navigate({ to: "/app", replace: true });
+        navigate({ to: "/painel", replace: true });
       }
     });
   }, [navigate]);

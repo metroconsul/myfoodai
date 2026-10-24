@@ -14,7 +14,8 @@
     "start": "node --env-file-if-exists=.env --env-file-if-exists=.env.local .output/server/index.mjs",
     "typecheck": "tsc --noEmit",
     "test:migration": "playwright test e2e/migration",
-    "audit:source": "node scripts/audit.mjs"
+    "audit:source": "node scripts/audit.mjs",
+    "test": "vitest run"
   },
   "overrides": {
     "rolldown": "1.2.1"
@@ -93,7 +94,8 @@
     "prettier": "^3.7.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
-    "vite": "8.1.5"
+    "vite": "8.1.5",
+    "vitest": "^5.0.5"
   },
   "engines": {
     "node": ">=22.12.0"

@@ -5,6 +5,7 @@ import {
   Clock,
   FileText,
   LayoutDashboard,
+  LayoutGrid,
   LogOut,
   Menu,
   Package,
@@ -31,6 +32,8 @@ type NavItem = {
   icon: typeof LayoutDashboard;
   exact?: boolean;
   feature?: FeatureCode;
+  /** Aplicativo que precisa estar contratado (fundação F1). */
+  app?: FeatureCode;
   platformOnly?: boolean;
 };
 
@@ -38,11 +41,12 @@ const NAV: { label: string; items: NavItem[] }[] = [
   {
     label: "Gestão operacional",
     items: [
+      { to: "/painel", label: "Central de aplicativos", icon: LayoutGrid, exact: true },
       { to: "/app", label: "Dashboard", icon: LayoutDashboard, exact: true },
       { to: "/app/employees", label: "Colaboradores", icon: Users, feature: "employees" },
-      { to: "/app/time-entries", label: "Ponto", icon: Clock, feature: "time_entries" },
-      { to: "/app/conformidade/exames", label: "Documentos", icon: FileText, feature: "compliance" },
-      { to: "/app/deliveries", label: "EPIs", icon: Package, feature: "deliveries" },
+      { to: "/app/time-entries", label: "Ponto", icon: Clock, feature: "time_entries", app: "app_ponto" },
+      { to: "/app/conformidade/exames", label: "Documentos", icon: FileText, feature: "compliance", app: "app_documentos" },
+      { to: "/app/deliveries", label: "EPIs", icon: Package, feature: "deliveries", app: "app_documentos" },
     ],
   },
 ];
@@ -65,6 +69,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     ...group,
     items: group.items.filter((item) => {
       if (item.platformOnly) return isPlatformAdmin;
+      if (item.app && !hasFeature(item.app)) return false;
       return !item.feature || hasFeature(item.feature);
     }),
   })).filter((group) => group.items.length > 0);

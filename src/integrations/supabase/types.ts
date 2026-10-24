@@ -4884,6 +4884,8 @@ export type Database = {
         | "stock_manager"
         | "supervisor"
         | "staff"
+        | "cashier"
+        | "finance"
       clinical_access_level:
         | "saude_ocupacional"
         | "rh_autorizado"
@@ -5120,6 +5122,8 @@ export const Constants = {
         "stock_manager",
         "supervisor",
         "staff",
+        "cashier",
+        "finance",
       ],
       clinical_access_level: [
         "saude_ocupacional",
