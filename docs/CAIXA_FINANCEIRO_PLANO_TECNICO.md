@@ -89,7 +89,7 @@ Emissão fiscal, integração bancária/OFX, conciliação automática, processa
 - **D-CF4** Ambiente de dev com Auth para o e2e: stack local do Supabase (download de imagens) ou branch Supabase (possível custo).
 
 ## 10. Etapa 1 executada (2026-10-24) — local, sem commit, sem aplicar no Supabase
-Migration `supabase/migrations/20261024180000_caixa_financeiro_core.sql` + kit `scripts/security-tests/caixa-financeiro/` (**34/34**). Kits anteriores reexecutados sem regressão (multitenant 51/51 na fase final; fundação 11/11).
+Migration `supabase/migrations/20261024172028_caixa_financeiro_core.sql` + kit `scripts/security-tests/caixa-financeiro/` (**34/34**). Kits anteriores reexecutados sem regressão (multitenant 51/51 na fase final; fundação 11/11).
 
 Decisões de detalhe tomadas na implementação (revisáveis):
 - **Sangria e suprimento** são sempre em dinheiro e exigem a conta de destino/origem (ex.: Cofre). No fechamento viram **transferências** entre contas, fora de receitas e despesas.
@@ -103,3 +103,19 @@ Decisões de detalhe tomadas na implementação (revisáveis):
 - Datas de lançamento no fuso da empresa (`companies.timezone`).
 
 Próximas etapas: telas (configurações, caixa, vendas, financeiro/dashboard) e server functions; o card continua "Em breve" até lá.
+
+## 11. Etapa 1 aplicada e etapa 2 (telas) — 2026-10-24
+- **Produção:** `caixa_financeiro_core` aplicada como `20261024172028` (hash normalizado idêntico ao arquivo testado; 9 tabelas, 15 políticas, `anon` sem acesso). Função `cf_transfer_accounts` (lista de contas para sangria/suprimento, só nome e tipo) aplicada como `20261024172328`. Kit SQL: **37/37**.
+- **Telas** (código local, sem commit): `/caixa-financeiro` (visão geral: saldo, receitas, despesas, resultado, contas a vencer, despesas por categoria, últimas movimentações, situação do caixa), `/caixa` (abrir), `/caixa/$sessionId` (movimentar, estornar, fechar com conferência), `/caixa/historico`, `/vendas` (módulo de vendas existente, agora também dentro do app; `/app/sales` continua igual), `/financeiro` (a pagar, a receber, pagos no período, cancelados; novo lançamento; baixa; cancelamento), `/configuracoes` (contas, formas de pagamento, categorias, caixas, recorrências).
+- Rota de Vendas ficou `/caixa-financeiro/vendas` (aba própria, em vez de `/caixa/vendas`).
+- Acesso: card da central agora "disponível"; a tela exige o app contratado (lista real de acessos) e papel de operador ou financeiro. Abas Financeiro e Configurações só para dono, admin e financeiro.
+- Recorrências geradas para os próximos 60 dias ao abrir a visão geral (idempotente).
+- Testes: `money.test.ts` (cálculo do esperado no caixa igual ao SQL, resultado sem transferências, períodos, conversão de valores) + registro (19/19 no total).
+
+## 12. Escopo reduzido das telas (decisão de 2026-10-24)
+O responsável decidiu que o app fica com **Visão geral, Caixa, Vendas e Configurações**, e Configurações o mais simples possível.
+- **Removido:** tela Financeiro (contas a pagar/receber, lançamentos manuais, baixa, recorrências) e categoria no registro de movimentos.
+- **Visão geral:** baseada no caixa (vendas, outras entradas, saídas, diferenças de caixa, vendas por forma de pagamento, últimas movimentações, situação dos caixas), por período (hoje, 7 dias, mês, mês anterior). Visível para operador e financeiro.
+- **Vendas:** vendas registradas no caixa (total, quantidade, ticket médio, lista) para todos; vendas importadas do PDV aparecem na mesma tela quando o plano tem o recurso.
+- **Configurações:** só formas de pagamento (ativar/desativar, adicionar) e caixas por unidade (ativar/desativar, adicionar). Contas e categorias são criadas automaticamente em "Preparar o app" e não aparecem.
+- **Banco:** inalterado. O fechamento de caixa continua gerando os lançamentos financeiros (base para relatórios futuros), sem tela por enquanto.

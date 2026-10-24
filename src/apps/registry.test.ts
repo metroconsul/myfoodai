@@ -20,10 +20,16 @@ describe("registro de aplicativos", () => {
     for (const app of APPS) expect(FEATURES).toContain(app.entitlement);
   });
 
-  it("Compras e Caixa & Financeiro aparecem como 'em breve' mesmo se ativados", () => {
-    const compras = appById("compras");
-    expect(appAccess(compras, ctx({ features: ["app_compras"] }))).toBe("soon");
-    expect(appAccess(appById("caixa-financeiro"), ctx({ isPlatformAdmin: true }))).toBe("soon");
+  it("Compras aparece como 'em breve' mesmo se ativado", () => {
+    expect(appAccess(appById("compras"), ctx({ features: ["app_compras"] }))).toBe("soon");
+  });
+
+  it("Caixa & Financeiro abre para operador de caixa e financeiro quando contratado", () => {
+    const cf = appById("caixa-financeiro");
+    expect(appAccess(cf, ctx({ features: ["app_caixa_financeiro"], roles: ["cashier"] }))).toBe("open");
+    expect(appAccess(cf, ctx({ features: ["app_caixa_financeiro"], roles: ["finance"] }))).toBe("open");
+    expect(appAccess(cf, ctx({ features: [], roles: ["owner"] }))).toBe("not_contracted");
+    expect(appAccess(cf, ctx({ features: ["app_caixa_financeiro"], roles: ["hr"] }))).toBe("no_role");
   });
 
   it("app não contratado não abre, mesmo para o dono", () => {

@@ -70,7 +70,7 @@ export const APPS: AppManifest[] = [
     description: "Operação de caixa, vendas e controle financeiro em um único aplicativo.",
     icon: Wallet,
     entitlement: "app_caixa_financeiro",
-    status: "soon",
+    status: "available",
     entry: "/caixa-financeiro",
     roles: ["owner", "admin", "unit_manager", "cashier", "finance"],
     tone: "paper",

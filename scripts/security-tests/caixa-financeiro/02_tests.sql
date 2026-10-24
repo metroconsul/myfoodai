@@ -122,6 +122,17 @@ BEGIN
   r2 := t.val('select count(*) from public.cash_sessions');
   PERFORM t.record('C04e Colaborador comum não abre nem vê caixas', r LIKE 'err:%' AND r2 = '0', r || ' vê=' || r2);
 
+  -- ===== Contas para sangria (operador vê nomes, não saldos) =====
+  PERFORM t.as_user(caA);
+  r := t.val('select string_agg(name, '','' order by name) from public.cf_transfer_accounts()');
+  PERFORM t.record('C04f Operador lista contas para sangria (só nomes)', r LIKE '%Cofre%', r);
+  PERFORM t.as_user(oB);
+  r := t.val(format('select count(*) from public.cf_transfer_accounts() where id = %L', accCofreA));
+  PERFORM t.record('C04g Dono de B não vê as contas de A na lista', r = '0', r);
+  PERFORM t.as_user(stA);
+  r := t.val('select count(*) from public.cf_transfer_accounts()');
+  PERFORM t.record('C04h Colaborador comum não lista contas', r = '0', r);
+
   -- ===== Movimentos =====
   PERFORM t.as_user(caA);
   r := concat_ws(' ',

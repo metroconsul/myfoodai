@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PortalRouteImport } from './routes/portal'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
+import { Route as AuthenticatedCaixaFinanceiroRouteImport } from './routes/_authenticated/caixa-financeiro'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
@@ -36,6 +37,9 @@ import { Route as AuthenticatedAppSchedulesRouteImport } from './routes/_authent
 import { Route as AuthenticatedAppShiftsRouteImport } from './routes/_authenticated/app.shifts'
 import { Route as AuthenticatedAppTimeEntriesRouteImport } from './routes/_authenticated/app.time-entries'
 import { Route as AuthenticatedAppUnitsRouteImport } from './routes/_authenticated/app.units'
+import { Route as AuthenticatedCaixaFinanceiroIndexRouteImport } from './routes/_authenticated/caixa-financeiro.index'
+import { Route as AuthenticatedCaixaFinanceiroConfiguracoesRouteImport } from './routes/_authenticated/caixa-financeiro.configuracoes'
+import { Route as AuthenticatedCaixaFinanceiroVendasRouteImport } from './routes/_authenticated/caixa-financeiro.vendas'
 import { Route as AuthenticatedPainelIndexRouteImport } from './routes/_authenticated/painel.index'
 import { Route as ApiAutomationDispatchRouteImport } from './routes/api/automation/dispatch'
 import { Route as ApiAutomationManagerSummaryRouteImport } from './routes/api/automation/manager-summary'
@@ -61,6 +65,9 @@ import { Route as AuthenticatedAppPointCardsIdRouteImport } from './routes/_auth
 import { Route as AuthenticatedAppSettingsAceiteRouteImport } from './routes/_authenticated/app.settings.aceite'
 import { Route as AuthenticatedAppSettingsJornadaRouteImport } from './routes/_authenticated/app.settings.jornada'
 import { Route as AuthenticatedAppSettingsLgpdRouteImport } from './routes/_authenticated/app.settings.lgpd'
+import { Route as AuthenticatedCaixaFinanceiroCaixaIndexRouteImport } from './routes/_authenticated/caixa-financeiro.caixa.index'
+import { Route as AuthenticatedCaixaFinanceiroCaixaSessionIdRouteImport } from './routes/_authenticated/caixa-financeiro.caixa.$sessionId'
+import { Route as AuthenticatedCaixaFinanceiroCaixaHistoricoRouteImport } from './routes/_authenticated/caixa-financeiro.caixa.historico'
 import { Route as AuthenticatedPainelAdminAplicativosRouteImport } from './routes/_authenticated/painel.admin.aplicativos'
 import { Route as ApiAutomationClockCandidatesRouteImport } from './routes/api/automation/clock.candidates'
 import { Route as ApiAutomationDocumentsCandidatesRouteImport } from './routes/api/automation/documents.candidates'
@@ -100,6 +107,12 @@ const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
   path: '/app',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCaixaFinanceiroRoute =
+  AuthenticatedCaixaFinanceiroRouteImport.update({
+    id: '/caixa-financeiro',
+    path: '/caixa-financeiro',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
@@ -219,6 +232,24 @@ const AuthenticatedAppUnitsRoute = AuthenticatedAppUnitsRouteImport.update({
   path: '/units',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedCaixaFinanceiroIndexRoute =
+  AuthenticatedCaixaFinanceiroIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedCaixaFinanceiroRoute,
+  } as any)
+const AuthenticatedCaixaFinanceiroConfiguracoesRoute =
+  AuthenticatedCaixaFinanceiroConfiguracoesRouteImport.update({
+    id: '/configuracoes',
+    path: '/configuracoes',
+    getParentRoute: () => AuthenticatedCaixaFinanceiroRoute,
+  } as any)
+const AuthenticatedCaixaFinanceiroVendasRoute =
+  AuthenticatedCaixaFinanceiroVendasRouteImport.update({
+    id: '/vendas',
+    path: '/vendas',
+    getParentRoute: () => AuthenticatedCaixaFinanceiroRoute,
+  } as any)
 const AuthenticatedPainelIndexRoute =
   AuthenticatedPainelIndexRouteImport.update({
     id: '/',
@@ -358,6 +389,24 @@ const AuthenticatedAppSettingsLgpdRoute =
     path: '/settings/lgpd',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedCaixaFinanceiroCaixaIndexRoute =
+  AuthenticatedCaixaFinanceiroCaixaIndexRouteImport.update({
+    id: '/caixa/',
+    path: '/caixa/',
+    getParentRoute: () => AuthenticatedCaixaFinanceiroRoute,
+  } as any)
+const AuthenticatedCaixaFinanceiroCaixaSessionIdRoute =
+  AuthenticatedCaixaFinanceiroCaixaSessionIdRouteImport.update({
+    id: '/caixa/$sessionId',
+    path: '/caixa/$sessionId',
+    getParentRoute: () => AuthenticatedCaixaFinanceiroRoute,
+  } as any)
+const AuthenticatedCaixaFinanceiroCaixaHistoricoRoute =
+  AuthenticatedCaixaFinanceiroCaixaHistoricoRouteImport.update({
+    id: '/caixa/historico',
+    path: '/caixa/historico',
+    getParentRoute: () => AuthenticatedCaixaFinanceiroRoute,
+  } as any)
 const AuthenticatedPainelAdminAplicativosRoute =
   AuthenticatedPainelAdminAplicativosRouteImport.update({
     id: '/admin/aplicativos',
@@ -447,6 +496,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/portal': typeof PortalRouteWithChildren
   '/app': typeof AuthenticatedAppRouteWithChildren
+  '/caixa-financeiro': typeof AuthenticatedCaixaFinanceiroRouteWithChildren
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/painel': typeof AuthenticatedPainelRouteWithChildren
   '/portal/escala': typeof PortalEscalaRoute
@@ -468,6 +518,8 @@ export interface FileRoutesByFullPath {
   '/app/shifts': typeof AuthenticatedAppShiftsRoute
   '/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/app/units': typeof AuthenticatedAppUnitsRoute
+  '/caixa-financeiro/configuracoes': typeof AuthenticatedCaixaFinanceiroConfiguracoesRoute
+  '/caixa-financeiro/vendas': typeof AuthenticatedCaixaFinanceiroVendasRoute
   '/api/automation/dispatch': typeof ApiAutomationDispatchRoute
   '/api/automation/manager-summary': typeof ApiAutomationManagerSummaryRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
@@ -477,6 +529,7 @@ export interface FileRoutesByFullPath {
   '/portal/holerites/$id': typeof PortalHoleritesIdRouteWithChildren
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/app/': typeof AuthenticatedAppIndexRoute
+  '/caixa-financeiro/': typeof AuthenticatedCaixaFinanceiroIndexRoute
   '/painel/': typeof AuthenticatedPainelIndexRoute
   '/portal/cartao-ponto/': typeof PortalCartaoPontoIndexRoute
   '/portal/documentos/': typeof PortalDocumentosIndexRoute
@@ -491,6 +544,8 @@ export interface FileRoutesByFullPath {
   '/app/settings/aceite': typeof AuthenticatedAppSettingsAceiteRoute
   '/app/settings/jornada': typeof AuthenticatedAppSettingsJornadaRoute
   '/app/settings/lgpd': typeof AuthenticatedAppSettingsLgpdRoute
+  '/caixa-financeiro/caixa/$sessionId': typeof AuthenticatedCaixaFinanceiroCaixaSessionIdRoute
+  '/caixa-financeiro/caixa/historico': typeof AuthenticatedCaixaFinanceiroCaixaHistoricoRoute
   '/painel/admin/aplicativos': typeof AuthenticatedPainelAdminAplicativosRoute
   '/api/automation/clock/candidates': typeof ApiAutomationClockCandidatesRoute
   '/api/automation/documents/candidates': typeof ApiAutomationDocumentsCandidatesRoute
@@ -503,6 +558,7 @@ export interface FileRoutesByFullPath {
   '/app/conformidade/': typeof AuthenticatedAppConformidadeIndexRoute
   '/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
   '/app/point-cards/': typeof AuthenticatedAppPointCardsIndexRoute
+  '/caixa-financeiro/caixa/': typeof AuthenticatedCaixaFinanceiroCaixaIndexRoute
   '/app/conformidade/exames/$id': typeof AuthenticatedAppConformidadeExamesIdRoute
   '/app/conformidade/exames/novo': typeof AuthenticatedAppConformidadeExamesNovoRoute
   '/app/documentos/holerites/$id': typeof AuthenticatedAppDocumentosHoleritesIdRoute
@@ -532,6 +588,8 @@ export interface FileRoutesByTo {
   '/app/shifts': typeof AuthenticatedAppShiftsRoute
   '/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/app/units': typeof AuthenticatedAppUnitsRoute
+  '/caixa-financeiro/configuracoes': typeof AuthenticatedCaixaFinanceiroConfiguracoesRoute
+  '/caixa-financeiro/vendas': typeof AuthenticatedCaixaFinanceiroVendasRoute
   '/api/automation/dispatch': typeof ApiAutomationDispatchRoute
   '/api/automation/manager-summary': typeof ApiAutomationManagerSummaryRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
@@ -541,6 +599,7 @@ export interface FileRoutesByTo {
   '/portal/holerites/$id': typeof PortalHoleritesIdRouteWithChildren
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/app': typeof AuthenticatedAppIndexRoute
+  '/caixa-financeiro': typeof AuthenticatedCaixaFinanceiroIndexRoute
   '/painel': typeof AuthenticatedPainelIndexRoute
   '/portal/cartao-ponto': typeof PortalCartaoPontoIndexRoute
   '/portal/documentos': typeof PortalDocumentosIndexRoute
@@ -555,6 +614,8 @@ export interface FileRoutesByTo {
   '/app/settings/aceite': typeof AuthenticatedAppSettingsAceiteRoute
   '/app/settings/jornada': typeof AuthenticatedAppSettingsJornadaRoute
   '/app/settings/lgpd': typeof AuthenticatedAppSettingsLgpdRoute
+  '/caixa-financeiro/caixa/$sessionId': typeof AuthenticatedCaixaFinanceiroCaixaSessionIdRoute
+  '/caixa-financeiro/caixa/historico': typeof AuthenticatedCaixaFinanceiroCaixaHistoricoRoute
   '/painel/admin/aplicativos': typeof AuthenticatedPainelAdminAplicativosRoute
   '/api/automation/clock/candidates': typeof ApiAutomationClockCandidatesRoute
   '/api/automation/documents/candidates': typeof ApiAutomationDocumentsCandidatesRoute
@@ -567,6 +628,7 @@ export interface FileRoutesByTo {
   '/app/conformidade': typeof AuthenticatedAppConformidadeIndexRoute
   '/app/deliveries': typeof AuthenticatedAppDeliveriesIndexRoute
   '/app/point-cards': typeof AuthenticatedAppPointCardsIndexRoute
+  '/caixa-financeiro/caixa': typeof AuthenticatedCaixaFinanceiroCaixaIndexRoute
   '/app/conformidade/exames/$id': typeof AuthenticatedAppConformidadeExamesIdRoute
   '/app/conformidade/exames/novo': typeof AuthenticatedAppConformidadeExamesNovoRoute
   '/app/documentos/holerites/$id': typeof AuthenticatedAppDocumentosHoleritesIdRoute
@@ -580,6 +642,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/portal': typeof PortalRouteWithChildren
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
+  '/_authenticated/caixa-financeiro': typeof AuthenticatedCaixaFinanceiroRouteWithChildren
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRouteWithChildren
   '/portal/escala': typeof PortalEscalaRoute
@@ -601,6 +664,8 @@ export interface FileRoutesById {
   '/_authenticated/app/shifts': typeof AuthenticatedAppShiftsRoute
   '/_authenticated/app/time-entries': typeof AuthenticatedAppTimeEntriesRoute
   '/_authenticated/app/units': typeof AuthenticatedAppUnitsRoute
+  '/_authenticated/caixa-financeiro/configuracoes': typeof AuthenticatedCaixaFinanceiroConfiguracoesRoute
+  '/_authenticated/caixa-financeiro/vendas': typeof AuthenticatedCaixaFinanceiroVendasRoute
   '/api/automation/dispatch': typeof ApiAutomationDispatchRoute
   '/api/automation/manager-summary': typeof ApiAutomationManagerSummaryRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
@@ -610,6 +675,7 @@ export interface FileRoutesById {
   '/portal/holerites/$id': typeof PortalHoleritesIdRouteWithChildren
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
+  '/_authenticated/caixa-financeiro/': typeof AuthenticatedCaixaFinanceiroIndexRoute
   '/_authenticated/painel/': typeof AuthenticatedPainelIndexRoute
   '/portal/cartao-ponto/': typeof PortalCartaoPontoIndexRoute
   '/portal/documentos/': typeof PortalDocumentosIndexRoute
@@ -624,6 +690,8 @@ export interface FileRoutesById {
   '/_authenticated/app/settings/aceite': typeof AuthenticatedAppSettingsAceiteRoute
   '/_authenticated/app/settings/jornada': typeof AuthenticatedAppSettingsJornadaRoute
   '/_authenticated/app/settings/lgpd': typeof AuthenticatedAppSettingsLgpdRoute
+  '/_authenticated/caixa-financeiro/caixa/$sessionId': typeof AuthenticatedCaixaFinanceiroCaixaSessionIdRoute
+  '/_authenticated/caixa-financeiro/caixa/historico': typeof AuthenticatedCaixaFinanceiroCaixaHistoricoRoute
   '/_authenticated/painel/admin/aplicativos': typeof AuthenticatedPainelAdminAplicativosRoute
   '/api/automation/clock/candidates': typeof ApiAutomationClockCandidatesRoute
   '/api/automation/documents/candidates': typeof ApiAutomationDocumentsCandidatesRoute
@@ -636,6 +704,7 @@ export interface FileRoutesById {
   '/_authenticated/app/conformidade/': typeof AuthenticatedAppConformidadeIndexRoute
   '/_authenticated/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
   '/_authenticated/app/point-cards/': typeof AuthenticatedAppPointCardsIndexRoute
+  '/_authenticated/caixa-financeiro/caixa/': typeof AuthenticatedCaixaFinanceiroCaixaIndexRoute
   '/_authenticated/app/conformidade/exames/$id': typeof AuthenticatedAppConformidadeExamesIdRoute
   '/_authenticated/app/conformidade/exames/novo': typeof AuthenticatedAppConformidadeExamesNovoRoute
   '/_authenticated/app/documentos/holerites/$id': typeof AuthenticatedAppDocumentosHoleritesIdRoute
@@ -649,6 +718,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/portal'
     | '/app'
+    | '/caixa-financeiro'
     | '/onboarding'
     | '/painel'
     | '/portal/escala'
@@ -670,6 +740,8 @@ export interface FileRouteTypes {
     | '/app/shifts'
     | '/app/time-entries'
     | '/app/units'
+    | '/caixa-financeiro/configuracoes'
+    | '/caixa-financeiro/vendas'
     | '/api/automation/dispatch'
     | '/api/automation/manager-summary'
     | '/api/public/sales-ingest'
@@ -679,6 +751,7 @@ export interface FileRouteTypes {
     | '/portal/holerites/$id'
     | '/portal/itens/$id'
     | '/app/'
+    | '/caixa-financeiro/'
     | '/painel/'
     | '/portal/cartao-ponto/'
     | '/portal/documentos/'
@@ -693,6 +766,8 @@ export interface FileRouteTypes {
     | '/app/settings/aceite'
     | '/app/settings/jornada'
     | '/app/settings/lgpd'
+    | '/caixa-financeiro/caixa/$sessionId'
+    | '/caixa-financeiro/caixa/historico'
     | '/painel/admin/aplicativos'
     | '/api/automation/clock/candidates'
     | '/api/automation/documents/candidates'
@@ -705,6 +780,7 @@ export interface FileRouteTypes {
     | '/app/conformidade/'
     | '/app/deliveries/'
     | '/app/point-cards/'
+    | '/caixa-financeiro/caixa/'
     | '/app/conformidade/exames/$id'
     | '/app/conformidade/exames/novo'
     | '/app/documentos/holerites/$id'
@@ -734,6 +810,8 @@ export interface FileRouteTypes {
     | '/app/shifts'
     | '/app/time-entries'
     | '/app/units'
+    | '/caixa-financeiro/configuracoes'
+    | '/caixa-financeiro/vendas'
     | '/api/automation/dispatch'
     | '/api/automation/manager-summary'
     | '/api/public/sales-ingest'
@@ -743,6 +821,7 @@ export interface FileRouteTypes {
     | '/portal/holerites/$id'
     | '/portal/itens/$id'
     | '/app'
+    | '/caixa-financeiro'
     | '/painel'
     | '/portal/cartao-ponto'
     | '/portal/documentos'
@@ -757,6 +836,8 @@ export interface FileRouteTypes {
     | '/app/settings/aceite'
     | '/app/settings/jornada'
     | '/app/settings/lgpd'
+    | '/caixa-financeiro/caixa/$sessionId'
+    | '/caixa-financeiro/caixa/historico'
     | '/painel/admin/aplicativos'
     | '/api/automation/clock/candidates'
     | '/api/automation/documents/candidates'
@@ -769,6 +850,7 @@ export interface FileRouteTypes {
     | '/app/conformidade'
     | '/app/deliveries'
     | '/app/point-cards'
+    | '/caixa-financeiro/caixa'
     | '/app/conformidade/exames/$id'
     | '/app/conformidade/exames/novo'
     | '/app/documentos/holerites/$id'
@@ -781,6 +863,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/portal'
     | '/_authenticated/app'
+    | '/_authenticated/caixa-financeiro'
     | '/_authenticated/onboarding'
     | '/_authenticated/painel'
     | '/portal/escala'
@@ -802,6 +885,8 @@ export interface FileRouteTypes {
     | '/_authenticated/app/shifts'
     | '/_authenticated/app/time-entries'
     | '/_authenticated/app/units'
+    | '/_authenticated/caixa-financeiro/configuracoes'
+    | '/_authenticated/caixa-financeiro/vendas'
     | '/api/automation/dispatch'
     | '/api/automation/manager-summary'
     | '/api/public/sales-ingest'
@@ -811,6 +896,7 @@ export interface FileRouteTypes {
     | '/portal/holerites/$id'
     | '/portal/itens/$id'
     | '/_authenticated/app/'
+    | '/_authenticated/caixa-financeiro/'
     | '/_authenticated/painel/'
     | '/portal/cartao-ponto/'
     | '/portal/documentos/'
@@ -825,6 +911,8 @@ export interface FileRouteTypes {
     | '/_authenticated/app/settings/aceite'
     | '/_authenticated/app/settings/jornada'
     | '/_authenticated/app/settings/lgpd'
+    | '/_authenticated/caixa-financeiro/caixa/$sessionId'
+    | '/_authenticated/caixa-financeiro/caixa/historico'
     | '/_authenticated/painel/admin/aplicativos'
     | '/api/automation/clock/candidates'
     | '/api/automation/documents/candidates'
@@ -837,6 +925,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/conformidade/'
     | '/_authenticated/app/deliveries/'
     | '/_authenticated/app/point-cards/'
+    | '/_authenticated/caixa-financeiro/caixa/'
     | '/_authenticated/app/conformidade/exames/$id'
     | '/_authenticated/app/conformidade/exames/novo'
     | '/_authenticated/app/documentos/holerites/$id'
@@ -897,6 +986,13 @@ declare module '@tanstack/react-router' {
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AuthenticatedAppRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/caixa-financeiro': {
+      id: '/_authenticated/caixa-financeiro'
+      path: '/caixa-financeiro'
+      fullPath: '/caixa-financeiro'
+      preLoaderRoute: typeof AuthenticatedCaixaFinanceiroRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/onboarding': {
@@ -1052,6 +1148,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/units'
       preLoaderRoute: typeof AuthenticatedAppUnitsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/caixa-financeiro/': {
+      id: '/_authenticated/caixa-financeiro/'
+      path: '/'
+      fullPath: '/caixa-financeiro/'
+      preLoaderRoute: typeof AuthenticatedCaixaFinanceiroIndexRouteImport
+      parentRoute: typeof AuthenticatedCaixaFinanceiroRoute
+    }
+    '/_authenticated/caixa-financeiro/configuracoes': {
+      id: '/_authenticated/caixa-financeiro/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/caixa-financeiro/configuracoes'
+      preLoaderRoute: typeof AuthenticatedCaixaFinanceiroConfiguracoesRouteImport
+      parentRoute: typeof AuthenticatedCaixaFinanceiroRoute
+    }
+    '/_authenticated/caixa-financeiro/vendas': {
+      id: '/_authenticated/caixa-financeiro/vendas'
+      path: '/vendas'
+      fullPath: '/caixa-financeiro/vendas'
+      preLoaderRoute: typeof AuthenticatedCaixaFinanceiroVendasRouteImport
+      parentRoute: typeof AuthenticatedCaixaFinanceiroRoute
     }
     '/_authenticated/painel/': {
       id: '/_authenticated/painel/'
@@ -1227,6 +1344,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/settings/lgpd'
       preLoaderRoute: typeof AuthenticatedAppSettingsLgpdRouteImport
       parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/caixa-financeiro/caixa/': {
+      id: '/_authenticated/caixa-financeiro/caixa/'
+      path: '/caixa'
+      fullPath: '/caixa-financeiro/caixa/'
+      preLoaderRoute: typeof AuthenticatedCaixaFinanceiroCaixaIndexRouteImport
+      parentRoute: typeof AuthenticatedCaixaFinanceiroRoute
+    }
+    '/_authenticated/caixa-financeiro/caixa/$sessionId': {
+      id: '/_authenticated/caixa-financeiro/caixa/$sessionId'
+      path: '/caixa/$sessionId'
+      fullPath: '/caixa-financeiro/caixa/$sessionId'
+      preLoaderRoute: typeof AuthenticatedCaixaFinanceiroCaixaSessionIdRouteImport
+      parentRoute: typeof AuthenticatedCaixaFinanceiroRoute
+    }
+    '/_authenticated/caixa-financeiro/caixa/historico': {
+      id: '/_authenticated/caixa-financeiro/caixa/historico'
+      path: '/caixa/historico'
+      fullPath: '/caixa-financeiro/caixa/historico'
+      preLoaderRoute: typeof AuthenticatedCaixaFinanceiroCaixaHistoricoRouteImport
+      parentRoute: typeof AuthenticatedCaixaFinanceiroRoute
     }
     '/_authenticated/painel/admin/aplicativos': {
       id: '/_authenticated/painel/admin/aplicativos'
@@ -1410,6 +1548,36 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
 const AuthenticatedAppRouteWithChildren =
   AuthenticatedAppRoute._addFileChildren(AuthenticatedAppRouteChildren)
 
+interface AuthenticatedCaixaFinanceiroRouteChildren {
+  AuthenticatedCaixaFinanceiroConfiguracoesRoute: typeof AuthenticatedCaixaFinanceiroConfiguracoesRoute
+  AuthenticatedCaixaFinanceiroVendasRoute: typeof AuthenticatedCaixaFinanceiroVendasRoute
+  AuthenticatedCaixaFinanceiroIndexRoute: typeof AuthenticatedCaixaFinanceiroIndexRoute
+  AuthenticatedCaixaFinanceiroCaixaSessionIdRoute: typeof AuthenticatedCaixaFinanceiroCaixaSessionIdRoute
+  AuthenticatedCaixaFinanceiroCaixaHistoricoRoute: typeof AuthenticatedCaixaFinanceiroCaixaHistoricoRoute
+  AuthenticatedCaixaFinanceiroCaixaIndexRoute: typeof AuthenticatedCaixaFinanceiroCaixaIndexRoute
+}
+
+const AuthenticatedCaixaFinanceiroRouteChildren: AuthenticatedCaixaFinanceiroRouteChildren =
+  {
+    AuthenticatedCaixaFinanceiroConfiguracoesRoute:
+      AuthenticatedCaixaFinanceiroConfiguracoesRoute,
+    AuthenticatedCaixaFinanceiroVendasRoute:
+      AuthenticatedCaixaFinanceiroVendasRoute,
+    AuthenticatedCaixaFinanceiroIndexRoute:
+      AuthenticatedCaixaFinanceiroIndexRoute,
+    AuthenticatedCaixaFinanceiroCaixaSessionIdRoute:
+      AuthenticatedCaixaFinanceiroCaixaSessionIdRoute,
+    AuthenticatedCaixaFinanceiroCaixaHistoricoRoute:
+      AuthenticatedCaixaFinanceiroCaixaHistoricoRoute,
+    AuthenticatedCaixaFinanceiroCaixaIndexRoute:
+      AuthenticatedCaixaFinanceiroCaixaIndexRoute,
+  }
+
+const AuthenticatedCaixaFinanceiroRouteWithChildren =
+  AuthenticatedCaixaFinanceiroRoute._addFileChildren(
+    AuthenticatedCaixaFinanceiroRouteChildren,
+  )
+
 interface AuthenticatedPainelRouteChildren {
   AuthenticatedPainelIndexRoute: typeof AuthenticatedPainelIndexRoute
   AuthenticatedPainelAdminAplicativosRoute: typeof AuthenticatedPainelAdminAplicativosRoute
@@ -1426,12 +1594,15 @@ const AuthenticatedPainelRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
+  AuthenticatedCaixaFinanceiroRoute: typeof AuthenticatedCaixaFinanceiroRouteWithChildren
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppRoute: AuthenticatedAppRouteWithChildren,
+  AuthenticatedCaixaFinanceiroRoute:
+    AuthenticatedCaixaFinanceiroRouteWithChildren,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRouteWithChildren,
 }

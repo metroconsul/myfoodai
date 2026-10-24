@@ -9,7 +9,7 @@ HERE="$(cd "$(dirname "$0")" && pwd)"
 REPO="$(cd "$HERE/../../.." && pwd)"
 MIG="$REPO/supabase/migrations"
 STUBS="$REPO/scripts/security-tests/multitenant/00_platform_stubs.sql"
-CF="20261024180000_caixa_financeiro_core.sql"
+CF="20261024172028_caixa_financeiro_core.sql"
 PGPASS="$(head -c 18 /dev/urandom | base64 | tr -dc 'A-Za-z0-9')"
 
 cleanup() { docker rm -f "$NAME" >/dev/null 2>&1 || true; }
