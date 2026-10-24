@@ -114,8 +114,8 @@ Implementação: um único redirecionamento central (mapa antigo → novo) em ve
 ## 10. Execução da F1 (2026-10-24) — local, sem commit, nada aplicado no Supabase
 | Item | Arquivos |
 |---|---|
-| Papéis `cashier` e `finance` | `supabase/migrations/20261024120000_app_roles_cashier_finance.sql`; enum espelhado em `src/integrations/supabase/types.ts` |
-| Acesso por aplicativo | `supabase/migrations/20261024120100_app_entitlements.sql` (`plan_app_codes`, nova `apply_plan_entitlements` que preserva `app_%`, backfill) |
+| Papéis `cashier` e `finance` | `supabase/migrations/20261024165246_app_roles_cashier_finance.sql`; enum espelhado em `src/integrations/supabase/types.ts` |
+| Acesso por aplicativo | `supabase/migrations/20261024165301_app_entitlements.sql` (`plan_app_codes`, nova `apply_plan_entitlements` que preserva `app_%`, backfill) |
 | Registro dos apps e regra de acesso | `src/apps/registry.ts` (+ `registry.test.ts`) |
 | Códigos de app, mapa rota legada → app | `src/config/features.ts` |
 | Compatibilidade de deploy | `src/hooks/use-workspace.tsx`: sem linhas `app_%` no banco, usa os apps padrão do plano |
@@ -127,3 +127,6 @@ Implementação: um único redirecionamento central (mapa antigo → novo) em ve
 | Testes | `scripts/security-tests/foundation/` (SQL, 11/11), `vitest` (10/10), smoke e2e com `/painel` (5/5) |
 
 Pendente para a F2: mover as telas para `/ponto`, `/documentos`, `/estoque` com o redirecionamento central de `/app/*`, e checar o app também nas server functions existentes (`requireApp`). Hoje o bloqueio por app nas telas legadas é de interface; os dados continuam protegidos pelo RLS por empresa e pelos recursos do plano.
+
+### Aplicação em produção (2026-10-24)
+Autorizada pelo responsável. `app_roles_cashier_finance` registrada como `20261024165246` e `app_entitlements` como `20261024165301` (arquivos locais renomeados para essas versões). Verificação somente leitura: enum com `cashier` e `finance`; nova `apply_plan_entitlements` ativa; 6 empresas com os apps esperados (plano Começo: Ponto e Documentos; plano Equipe: Ponto, Documentos e Estoque); ninguém com Compras ou Caixa & Financeiro.

@@ -10,8 +10,8 @@ REPO="$(cd "$HERE/../../.." && pwd)"
 MIG="$REPO/supabase/migrations"
 STUBS="$REPO/scripts/security-tests/multitenant/00_platform_stubs.sql"
 PGPASS="$(head -c 18 /dev/urandom | base64 | tr -dc 'A-Za-z0-9')"
-F1_ROLES="20261024120000_app_roles_cashier_finance.sql"
-F1_APPS="20261024120100_app_entitlements.sql"
+F1_ROLES="20261024165246_app_roles_cashier_finance.sql"
+F1_APPS="20261024165301_app_entitlements.sql"
 
 cleanup() { docker rm -f "$NAME" >/dev/null 2>&1 || true; }
 trap cleanup EXIT
