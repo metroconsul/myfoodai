@@ -1,6 +1,6 @@
 # MyFoods Ponto — diagnóstico e plano de separação
 
-Data: 2026-10-24 · Situação: **P1 implementada** (telas em `/ponto`, sem mudança no banco). P2 (segurança no banco) aguarda aprovação.
+Data: 2026-10-24 · Situação: **P1 e P2 concluídas** (app em `/ponto` e regras de acesso no banco aplicadas em produção).
 
 ## 1. Diagnóstico
 
@@ -74,3 +74,11 @@ Como:
 - Endereços antigos de ponto em `/app` redirecionam para `/ponto`. Colaboradores, Cargos e Políticas de aceite continuam também em `/app` (compartilhados com Documentos/EPIs).
 - Central de aplicativos abre `/ponto`; o item "Ponto" saiu do menu de `/app`. Portal do Colaborador sem alteração.
 - Pedidos de correção agora aparecem por unidade ativa (antes a lista era da empresa toda). Datas do app usam o dia local (não UTC).
+
+## 4. Como ficou a P2 (2026-10-25, aplicada em produção)
+- Migration `20261025005057_ponto_rls_app_contract.sql`: funções `app_auth.ponto_enabled`, `can_manage_ponto`, `ponto_unit` e novas regras em 18 tabelas (batidas, correções, cartões e fechamento, escalas, turnos, modelos, trocas, horário padrão).
+- Ler e alterar dados de ponto exige: app Ponto contratado + papel de gestão (dono, admin, gerente, RH, supervisor) + acesso à unidade. Operador de caixa, financeiro, estoque e staff deixam de ver o ponto; empresa sem o app também.
+- Horário padrão (jornada fixa): leitura pela gestão do ponto; alteração por dono, admin, gerente e **RH** (antes só dono/admin).
+- Portal do Colaborador, automações e cálculo de cartões no servidor usam service_role: sem efeito.
+- Testes: `scripts/security-tests/ponto/run.sh` (11 testes). Sem a migration, 5 deles mudam de resultado (4 brechas + a nova permissão do RH).
+- Conferido em produção: todas as empresas têm o app Ponto ativo; o dono da Ramos Food continua vendo 4 batidas, 3 cartões e 3 escalas.
