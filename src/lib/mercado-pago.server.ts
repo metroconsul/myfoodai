@@ -181,8 +181,16 @@ const PAGE = 100;
 const MAX_PAGES = 20;
 
 /** Busca os pagamentos dos últimos `days` dias e grava como vendas. Idempotente. */
-export async function syncConnection(conn: Connection, days = 30): Promise<{ imported: number }> {
+type SyncOptions = {
+  /** "date_last_updated" também pega estornos e mudanças de status de vendas antigas. */
+  range?: "date_created" | "date_last_updated";
+  /** Sincronização automática: não grava histórico de importação a cada rodada. */
+  automatic?: boolean;
+};
+
+export async function syncConnection(conn: Connection, days = 30, opts: SyncOptions = {}): Promise<{ imported: number }> {
   const startedAt = new Date().toISOString();
+  const range = opts.range ?? "date_created";
   try {
     const token = await accessToken(conn.id);
     const begin = new Date(Date.now() - days * 24 * 3600 * 1000).toISOString();
@@ -190,9 +198,9 @@ export async function syncConnection(conn: Connection, days = 30): Promise<{ imp
     let imported = 0;
     for (let page = 0; page < MAX_PAGES; page++) {
       const q = new URLSearchParams({
-        sort: "date_created",
+        sort: range,
         criteria: "desc",
-        range: "date_created",
+        range,
         begin_date: begin,
         end_date: end,
         limit: String(PAGE),
@@ -204,6 +212,7 @@ export async function syncConnection(conn: Connection, days = 30): Promise<{ imp
       if (results.length < PAGE || (page + 1) * PAGE >= (res.paging?.total ?? 0)) break;
     }
     await markSync(conn.id, null);
+    if (opts.automatic) return { imported };
     await supabaseAdmin.from("sales_import_jobs").insert({
       company_id: conn.company_id,
       connection_id: conn.id,
@@ -221,6 +230,36 @@ export async function syncConnection(conn: Connection, days = 30): Promise<{ imp
     await markSync(conn.id, message);
     throw new Error(message);
   }
+}
+
+/** Rodada automática: atualiza todas as conexões ativas (vendas das últimas 24h, novas ou alteradas). */
+export async function syncAllConnections() {
+  const { data, error } = await supabaseAdmin
+    .from("sales_connections")
+    .select("id, company_id, unit_id")
+    .eq("provider", MP_PROVIDER)
+    .eq("active", true);
+  if (error) throw new Error("Não foi possível listar as conexões.");
+  const results: { connectionId: string; imported?: number; error?: string }[] = [];
+  for (const conn of data ?? []) {
+    try {
+      const { imported } = await syncConnection(conn, 1, { range: "date_last_updated", automatic: true });
+      results.push({ connectionId: conn.id, imported });
+    } catch (e) {
+      results.push({ connectionId: conn.id, error: e instanceof Error ? e.message : "falha" });
+    }
+  }
+  return results;
+}
+
+/** Segredo do agendador do banco (pg_cron), guardado no Vault; só o servidor lê. */
+let cronSecretCache: string | null = null;
+export async function mpSyncCronSecret(): Promise<string | null> {
+  if (cronSecretCache) return cronSecretCache;
+  const { data, error } = await mpAdmin.rpc("mp_sync_cron_secret");
+  if (error || typeof data !== "string" || data.length < 32) return null;
+  cronSecretCache = data;
+  return data;
 }
 
 /** Aviso de pagamento: busca o pagamento com o token da conta e grava. */

@@ -34,6 +34,8 @@ export function VendasPage() {
       if (error) throw new Error(error.message);
       return data ?? [];
     },
+    // Vendas do Mercado Pago chegam sozinhas (sincronização automática): a lista acompanha.
+    refetchInterval: 60_000,
   });
 
   // Vendas importadas do Mercado Pago (sales_orders da conexão da empresa), no mesmo período.
@@ -57,6 +59,8 @@ export function VendasPage() {
       if (error) throw new Error(error.message);
       return data ?? [];
     },
+    // Vendas do Mercado Pago chegam sozinhas (sincronização automática): a lista acompanha.
+    refetchInterval: 60_000,
   });
 
   // Uma lista só: vendas do caixa (sem as estornadas) + vendas do Mercado Pago (estornadas aparecem riscadas).

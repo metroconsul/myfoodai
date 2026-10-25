@@ -33,7 +33,7 @@ export function MercadoPagoCard() {
   const syncFn = useServerFn(syncMercadoPago);
   const disconnectFn = useServerFn(disconnectMercadoPago);
   const [unitId, setUnitId] = useState("");
-  const status = useQuery({ queryKey: mpStatusKey, queryFn: () => statusFn() });
+  const status = useQuery({ queryKey: mpStatusKey, queryFn: () => statusFn(), refetchInterval: 60_000 });
 
   // Mensagem de volta do Mercado Pago (?mp=...), mostrada uma vez.
   useEffect(() => {
@@ -96,15 +96,17 @@ export function MercadoPagoCard() {
             <strong>{unitName.get(s.unitId ?? "") ?? "unidade"}</strong>.
           </p>
           <p className="meta-mono">
-            {s.lastSyncAt ? `Última atualização: ${fmtDateTime(s.lastSyncAt)}` : "Ainda não sincronizado"}
+            Atualiza sozinho a cada 2 minutos
+            {s.lastSyncAt ? ` · última: ${fmtDateTime(s.lastSyncAt)}` : ""}
           </p>
           {s.lastSyncError ? <p className="text-destructive">Erro: {s.lastSyncError}</p> : null}
           <div className="flex flex-wrap gap-2">
-            <Button onClick={() => sync.mutate()} disabled={sync.isPending}>
-              {sync.isPending ? "Sincronizando…" : "Sincronizar agora"}
+            <Button variant="outline" size="sm" onClick={() => sync.mutate()} disabled={sync.isPending}>
+              {sync.isPending ? "Atualizando…" : "Atualizar agora"}
             </Button>
             <Button
-              variant="outline"
+              variant="ghost"
+              size="sm"
               onClick={() => {
                 if (window.confirm("Desconectar o Mercado Pago? As vendas já importadas continuam aqui.")) disconnect.mutate();
               }}

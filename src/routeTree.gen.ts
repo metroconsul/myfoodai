@@ -65,6 +65,7 @@ import { Route as AuthenticatedPontoEscalasRouteImport } from './routes/_authent
 import { Route as AuthenticatedPontoRegistrosRouteImport } from './routes/_authenticated/ponto.registros'
 import { Route as ApiAutomationDispatchRouteImport } from './routes/api/automation/dispatch'
 import { Route as ApiAutomationManagerSummaryRouteImport } from './routes/api/automation/manager-summary'
+import { Route as ApiAutomationMercadoPagoSyncRouteImport } from './routes/api/automation/mercado-pago-sync'
 import { Route as ApiPublicSalesIngestRouteImport } from './routes/api/public/sales-ingest'
 import { Route as ApiPublicStripeWebhookRouteImport } from './routes/api/public/stripe-webhook'
 import { Route as CSlugIndexRouteImport } from './routes/c.$slug.index'
@@ -425,6 +426,12 @@ const ApiAutomationManagerSummaryRoute =
     path: '/api/automation/manager-summary',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiAutomationMercadoPagoSyncRoute =
+  ApiAutomationMercadoPagoSyncRouteImport.update({
+    id: '/api/automation/mercado-pago-sync',
+    path: '/api/automation/mercado-pago-sync',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicSalesIngestRoute = ApiPublicSalesIngestRouteImport.update({
   id: '/api/public/sales-ingest',
   path: '/api/public/sales-ingest',
@@ -750,6 +757,7 @@ export interface FileRoutesByFullPath {
   '/ponto/registros': typeof AuthenticatedPontoRegistrosRoute
   '/api/automation/dispatch': typeof ApiAutomationDispatchRoute
   '/api/automation/manager-summary': typeof ApiAutomationManagerSummaryRoute
+  '/api/automation/mercado-pago-sync': typeof ApiAutomationMercadoPagoSyncRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/portal/cartao-ponto/$id': typeof PortalCartaoPontoIdRoute
@@ -846,6 +854,7 @@ export interface FileRoutesByTo {
   '/ponto/registros': typeof AuthenticatedPontoRegistrosRoute
   '/api/automation/dispatch': typeof ApiAutomationDispatchRoute
   '/api/automation/manager-summary': typeof ApiAutomationManagerSummaryRoute
+  '/api/automation/mercado-pago-sync': typeof ApiAutomationMercadoPagoSyncRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/portal/cartao-ponto/$id': typeof PortalCartaoPontoIdRoute
@@ -953,6 +962,7 @@ export interface FileRoutesById {
   '/_authenticated/ponto/registros': typeof AuthenticatedPontoRegistrosRoute
   '/api/automation/dispatch': typeof ApiAutomationDispatchRoute
   '/api/automation/manager-summary': typeof ApiAutomationManagerSummaryRoute
+  '/api/automation/mercado-pago-sync': typeof ApiAutomationMercadoPagoSyncRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/portal/cartao-ponto/$id': typeof PortalCartaoPontoIdRoute
@@ -1060,6 +1070,7 @@ export interface FileRouteTypes {
     | '/ponto/registros'
     | '/api/automation/dispatch'
     | '/api/automation/manager-summary'
+    | '/api/automation/mercado-pago-sync'
     | '/api/public/sales-ingest'
     | '/api/public/stripe-webhook'
     | '/portal/cartao-ponto/$id'
@@ -1156,6 +1167,7 @@ export interface FileRouteTypes {
     | '/ponto/registros'
     | '/api/automation/dispatch'
     | '/api/automation/manager-summary'
+    | '/api/automation/mercado-pago-sync'
     | '/api/public/sales-ingest'
     | '/api/public/stripe-webhook'
     | '/portal/cartao-ponto/$id'
@@ -1262,6 +1274,7 @@ export interface FileRouteTypes {
     | '/_authenticated/ponto/registros'
     | '/api/automation/dispatch'
     | '/api/automation/manager-summary'
+    | '/api/automation/mercado-pago-sync'
     | '/api/public/sales-ingest'
     | '/api/public/stripe-webhook'
     | '/portal/cartao-ponto/$id'
@@ -1326,6 +1339,7 @@ export interface RootRouteChildren {
   PortalRoute: typeof PortalRouteWithChildren
   ApiAutomationDispatchRoute: typeof ApiAutomationDispatchRoute
   ApiAutomationManagerSummaryRoute: typeof ApiAutomationManagerSummaryRoute
+  ApiAutomationMercadoPagoSyncRoute: typeof ApiAutomationMercadoPagoSyncRoute
   ApiPublicSalesIngestRoute: typeof ApiPublicSalesIngestRoute
   ApiPublicStripeWebhookRoute: typeof ApiPublicStripeWebhookRoute
   CSlugIndexRoute: typeof CSlugIndexRoute
@@ -1733,6 +1747,13 @@ declare module '@tanstack/react-router' {
       path: '/api/automation/manager-summary'
       fullPath: '/api/automation/manager-summary'
       preLoaderRoute: typeof ApiAutomationManagerSummaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/automation/mercado-pago-sync': {
+      id: '/api/automation/mercado-pago-sync'
+      path: '/api/automation/mercado-pago-sync'
+      fullPath: '/api/automation/mercado-pago-sync'
+      preLoaderRoute: typeof ApiAutomationMercadoPagoSyncRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/sales-ingest': {
@@ -2378,6 +2399,7 @@ const rootRouteChildren: RootRouteChildren = {
   PortalRoute: PortalRouteWithChildren,
   ApiAutomationDispatchRoute: ApiAutomationDispatchRoute,
   ApiAutomationManagerSummaryRoute: ApiAutomationManagerSummaryRoute,
+  ApiAutomationMercadoPagoSyncRoute: ApiAutomationMercadoPagoSyncRoute,
   ApiPublicSalesIngestRoute: ApiPublicSalesIngestRoute,
   ApiPublicStripeWebhookRoute: ApiPublicStripeWebhookRoute,
   CSlugIndexRoute: CSlugIndexRoute,

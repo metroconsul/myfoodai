@@ -22,7 +22,10 @@ export type MpDatabase = {
       provider_oauth_states: Table<ProviderOauthState>;
     };
     Views: Record<string, never>;
-    Functions: { mp_manage_company: { Args: Record<string, never>; Returns: string | null } };
+    Functions: {
+      mp_manage_company: { Args: Record<string, never>; Returns: string | null };
+      mp_sync_cron_secret: { Args: Record<string, never>; Returns: string | null };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };
