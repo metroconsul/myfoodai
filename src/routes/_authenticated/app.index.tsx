@@ -35,7 +35,7 @@ type ActionItem = {
   title: string;
   description: string;
   critical: boolean;
-  to: "/app/time-entries" | "/app/conformidade/exames" | "/app/deliveries";
+  to: "/ponto" | "/app/conformidade/exames" | "/app/deliveries";
 };
 
 function Dashboard() {
@@ -78,7 +78,7 @@ function Dashboard() {
           title: `${review.employees?.full_name ?? "Colaborador"} — correção de ponto`,
           description: review.reason || (review.requested_time ? dateTimeFmt(review.requested_time) : "Aguardando revisão"),
           critical: true,
-          to: "/app/time-entries",
+          to: "/ponto",
         })),
         ...pendingDocuments.map((document): ActionItem => {
           const status = effectiveDocumentStatus(document.status, document.expires_at);

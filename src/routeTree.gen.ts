@@ -17,6 +17,7 @@ import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/ap
 import { Route as AuthenticatedCaixaFinanceiroRouteImport } from './routes/_authenticated/caixa-financeiro'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
+import { Route as AuthenticatedPontoRouteImport } from './routes/_authenticated/ponto'
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
 import { Route as PortalEscalaRouteImport } from './routes/portal.escala'
 import { Route as PortalLoginRouteImport } from './routes/portal.login'
@@ -41,6 +42,11 @@ import { Route as AuthenticatedCaixaFinanceiroIndexRouteImport } from './routes/
 import { Route as AuthenticatedCaixaFinanceiroConfiguracoesRouteImport } from './routes/_authenticated/caixa-financeiro.configuracoes'
 import { Route as AuthenticatedCaixaFinanceiroVendasRouteImport } from './routes/_authenticated/caixa-financeiro.vendas'
 import { Route as AuthenticatedPainelIndexRouteImport } from './routes/_authenticated/painel.index'
+import { Route as AuthenticatedPontoIndexRouteImport } from './routes/_authenticated/ponto.index'
+import { Route as AuthenticatedPontoConfiguracoesRouteImport } from './routes/_authenticated/ponto.configuracoes'
+import { Route as AuthenticatedPontoEquipeRouteImport } from './routes/_authenticated/ponto.equipe'
+import { Route as AuthenticatedPontoEscalasRouteImport } from './routes/_authenticated/ponto.escalas'
+import { Route as AuthenticatedPontoRegistrosRouteImport } from './routes/_authenticated/ponto.registros'
 import { Route as ApiAutomationDispatchRouteImport } from './routes/api/automation/dispatch'
 import { Route as ApiAutomationManagerSummaryRouteImport } from './routes/api/automation/manager-summary'
 import { Route as ApiPublicSalesIngestRouteImport } from './routes/api/public/sales-ingest'
@@ -69,6 +75,10 @@ import { Route as AuthenticatedCaixaFinanceiroCaixaIndexRouteImport } from './ro
 import { Route as AuthenticatedCaixaFinanceiroCaixaSessionIdRouteImport } from './routes/_authenticated/caixa-financeiro.caixa.$sessionId'
 import { Route as AuthenticatedCaixaFinanceiroCaixaHistoricoRouteImport } from './routes/_authenticated/caixa-financeiro.caixa.historico'
 import { Route as AuthenticatedPainelAdminAplicativosRouteImport } from './routes/_authenticated/painel.admin.aplicativos'
+import { Route as AuthenticatedPontoCartoesIndexRouteImport } from './routes/_authenticated/ponto.cartoes.index'
+import { Route as AuthenticatedPontoCartoesIdRouteImport } from './routes/_authenticated/ponto.cartoes.$id'
+import { Route as AuthenticatedPontoEquipeIndexRouteImport } from './routes/_authenticated/ponto.equipe.index'
+import { Route as AuthenticatedPontoEquipeCargosRouteImport } from './routes/_authenticated/ponto.equipe.cargos'
 import { Route as ApiAutomationClockCandidatesRouteImport } from './routes/api/automation/clock.candidates'
 import { Route as ApiAutomationDocumentsCandidatesRouteImport } from './routes/api/automation/documents.candidates'
 import { Route as ApiAutomationEpisCandidatesRouteImport } from './routes/api/automation/epis.candidates'
@@ -123,6 +133,11 @@ const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
 const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
   id: '/painel',
   path: '/painel',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPontoRoute = AuthenticatedPontoRouteImport.update({
+  id: '/ponto',
+  path: '/ponto',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const PortalIndexRoute = PortalIndexRouteImport.update({
@@ -257,6 +272,35 @@ const AuthenticatedPainelIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
+const AuthenticatedPontoIndexRoute = AuthenticatedPontoIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedPontoRoute,
+} as any)
+const AuthenticatedPontoConfiguracoesRoute =
+  AuthenticatedPontoConfiguracoesRouteImport.update({
+    id: '/configuracoes',
+    path: '/configuracoes',
+    getParentRoute: () => AuthenticatedPontoRoute,
+  } as any)
+const AuthenticatedPontoEquipeRoute =
+  AuthenticatedPontoEquipeRouteImport.update({
+    id: '/equipe',
+    path: '/equipe',
+    getParentRoute: () => AuthenticatedPontoRoute,
+  } as any)
+const AuthenticatedPontoEscalasRoute =
+  AuthenticatedPontoEscalasRouteImport.update({
+    id: '/escalas',
+    path: '/escalas',
+    getParentRoute: () => AuthenticatedPontoRoute,
+  } as any)
+const AuthenticatedPontoRegistrosRoute =
+  AuthenticatedPontoRegistrosRouteImport.update({
+    id: '/registros',
+    path: '/registros',
+    getParentRoute: () => AuthenticatedPontoRoute,
   } as any)
 const ApiAutomationDispatchRoute = ApiAutomationDispatchRouteImport.update({
   id: '/api/automation/dispatch',
@@ -415,6 +459,30 @@ const AuthenticatedPainelAdminAplicativosRoute =
     path: '/admin/aplicativos',
     getParentRoute: () => AuthenticatedPainelRoute,
   } as any)
+const AuthenticatedPontoCartoesIndexRoute =
+  AuthenticatedPontoCartoesIndexRouteImport.update({
+    id: '/cartoes/',
+    path: '/cartoes/',
+    getParentRoute: () => AuthenticatedPontoRoute,
+  } as any)
+const AuthenticatedPontoCartoesIdRoute =
+  AuthenticatedPontoCartoesIdRouteImport.update({
+    id: '/cartoes/$id',
+    path: '/cartoes/$id',
+    getParentRoute: () => AuthenticatedPontoRoute,
+  } as any)
+const AuthenticatedPontoEquipeIndexRoute =
+  AuthenticatedPontoEquipeIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedPontoEquipeRoute,
+  } as any)
+const AuthenticatedPontoEquipeCargosRoute =
+  AuthenticatedPontoEquipeCargosRouteImport.update({
+    id: '/cargos',
+    path: '/cargos',
+    getParentRoute: () => AuthenticatedPontoEquipeRoute,
+  } as any)
 const ApiAutomationClockCandidatesRoute =
   ApiAutomationClockCandidatesRouteImport.update({
     id: '/api/automation/clock/candidates',
@@ -513,6 +581,7 @@ export interface FileRoutesByFullPath {
   '/caixa-financeiro': typeof AuthenticatedCaixaFinanceiroRouteWithChildren
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/painel': typeof AuthenticatedPainelRouteWithChildren
+  '/ponto': typeof AuthenticatedPontoRouteWithChildren
   '/portal/escala': typeof PortalEscalaRoute
   '/portal/login': typeof PortalLoginRoute
   '/portal/pendencias': typeof PortalPendenciasRoute
@@ -534,6 +603,10 @@ export interface FileRoutesByFullPath {
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/caixa-financeiro/configuracoes': typeof AuthenticatedCaixaFinanceiroConfiguracoesRoute
   '/caixa-financeiro/vendas': typeof AuthenticatedCaixaFinanceiroVendasRoute
+  '/ponto/configuracoes': typeof AuthenticatedPontoConfiguracoesRoute
+  '/ponto/equipe': typeof AuthenticatedPontoEquipeRouteWithChildren
+  '/ponto/escalas': typeof AuthenticatedPontoEscalasRoute
+  '/ponto/registros': typeof AuthenticatedPontoRegistrosRoute
   '/api/automation/dispatch': typeof ApiAutomationDispatchRoute
   '/api/automation/manager-summary': typeof ApiAutomationManagerSummaryRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
@@ -545,6 +618,7 @@ export interface FileRoutesByFullPath {
   '/app/': typeof AuthenticatedAppIndexRoute
   '/caixa-financeiro/': typeof AuthenticatedCaixaFinanceiroIndexRoute
   '/painel/': typeof AuthenticatedPainelIndexRoute
+  '/ponto/': typeof AuthenticatedPontoIndexRoute
   '/portal/cartao-ponto/': typeof PortalCartaoPontoIndexRoute
   '/portal/documentos/': typeof PortalDocumentosIndexRoute
   '/portal/holerites/': typeof PortalHoleritesIndexRoute
@@ -561,6 +635,8 @@ export interface FileRoutesByFullPath {
   '/caixa-financeiro/caixa/$sessionId': typeof AuthenticatedCaixaFinanceiroCaixaSessionIdRoute
   '/caixa-financeiro/caixa/historico': typeof AuthenticatedCaixaFinanceiroCaixaHistoricoRoute
   '/painel/admin/aplicativos': typeof AuthenticatedPainelAdminAplicativosRoute
+  '/ponto/cartoes/$id': typeof AuthenticatedPontoCartoesIdRoute
+  '/ponto/equipe/cargos': typeof AuthenticatedPontoEquipeCargosRoute
   '/api/automation/clock/candidates': typeof ApiAutomationClockCandidatesRoute
   '/api/automation/documents/candidates': typeof ApiAutomationDocumentsCandidatesRoute
   '/api/automation/epis/candidates': typeof ApiAutomationEpisCandidatesRoute
@@ -575,6 +651,8 @@ export interface FileRoutesByFullPath {
   '/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
   '/app/point-cards/': typeof AuthenticatedAppPointCardsIndexRoute
   '/caixa-financeiro/caixa/': typeof AuthenticatedCaixaFinanceiroCaixaIndexRoute
+  '/ponto/cartoes/': typeof AuthenticatedPontoCartoesIndexRoute
+  '/ponto/equipe/': typeof AuthenticatedPontoEquipeIndexRoute
   '/app/conformidade/exames/$id': typeof AuthenticatedAppConformidadeExamesIdRoute
   '/app/conformidade/exames/novo': typeof AuthenticatedAppConformidadeExamesNovoRoute
   '/app/documentos/holerites/$id': typeof AuthenticatedAppDocumentosHoleritesIdRoute
@@ -606,6 +684,9 @@ export interface FileRoutesByTo {
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/caixa-financeiro/configuracoes': typeof AuthenticatedCaixaFinanceiroConfiguracoesRoute
   '/caixa-financeiro/vendas': typeof AuthenticatedCaixaFinanceiroVendasRoute
+  '/ponto/configuracoes': typeof AuthenticatedPontoConfiguracoesRoute
+  '/ponto/escalas': typeof AuthenticatedPontoEscalasRoute
+  '/ponto/registros': typeof AuthenticatedPontoRegistrosRoute
   '/api/automation/dispatch': typeof ApiAutomationDispatchRoute
   '/api/automation/manager-summary': typeof ApiAutomationManagerSummaryRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
@@ -617,6 +698,7 @@ export interface FileRoutesByTo {
   '/app': typeof AuthenticatedAppIndexRoute
   '/caixa-financeiro': typeof AuthenticatedCaixaFinanceiroIndexRoute
   '/painel': typeof AuthenticatedPainelIndexRoute
+  '/ponto': typeof AuthenticatedPontoIndexRoute
   '/portal/cartao-ponto': typeof PortalCartaoPontoIndexRoute
   '/portal/documentos': typeof PortalDocumentosIndexRoute
   '/portal/holerites': typeof PortalHoleritesIndexRoute
@@ -633,6 +715,8 @@ export interface FileRoutesByTo {
   '/caixa-financeiro/caixa/$sessionId': typeof AuthenticatedCaixaFinanceiroCaixaSessionIdRoute
   '/caixa-financeiro/caixa/historico': typeof AuthenticatedCaixaFinanceiroCaixaHistoricoRoute
   '/painel/admin/aplicativos': typeof AuthenticatedPainelAdminAplicativosRoute
+  '/ponto/cartoes/$id': typeof AuthenticatedPontoCartoesIdRoute
+  '/ponto/equipe/cargos': typeof AuthenticatedPontoEquipeCargosRoute
   '/api/automation/clock/candidates': typeof ApiAutomationClockCandidatesRoute
   '/api/automation/documents/candidates': typeof ApiAutomationDocumentsCandidatesRoute
   '/api/automation/epis/candidates': typeof ApiAutomationEpisCandidatesRoute
@@ -647,6 +731,8 @@ export interface FileRoutesByTo {
   '/app/deliveries': typeof AuthenticatedAppDeliveriesIndexRoute
   '/app/point-cards': typeof AuthenticatedAppPointCardsIndexRoute
   '/caixa-financeiro/caixa': typeof AuthenticatedCaixaFinanceiroCaixaIndexRoute
+  '/ponto/cartoes': typeof AuthenticatedPontoCartoesIndexRoute
+  '/ponto/equipe': typeof AuthenticatedPontoEquipeIndexRoute
   '/app/conformidade/exames/$id': typeof AuthenticatedAppConformidadeExamesIdRoute
   '/app/conformidade/exames/novo': typeof AuthenticatedAppConformidadeExamesNovoRoute
   '/app/documentos/holerites/$id': typeof AuthenticatedAppDocumentosHoleritesIdRoute
@@ -663,6 +749,7 @@ export interface FileRoutesById {
   '/_authenticated/caixa-financeiro': typeof AuthenticatedCaixaFinanceiroRouteWithChildren
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRouteWithChildren
+  '/_authenticated/ponto': typeof AuthenticatedPontoRouteWithChildren
   '/portal/escala': typeof PortalEscalaRoute
   '/portal/login': typeof PortalLoginRoute
   '/portal/pendencias': typeof PortalPendenciasRoute
@@ -684,6 +771,10 @@ export interface FileRoutesById {
   '/_authenticated/app/units': typeof AuthenticatedAppUnitsRoute
   '/_authenticated/caixa-financeiro/configuracoes': typeof AuthenticatedCaixaFinanceiroConfiguracoesRoute
   '/_authenticated/caixa-financeiro/vendas': typeof AuthenticatedCaixaFinanceiroVendasRoute
+  '/_authenticated/ponto/configuracoes': typeof AuthenticatedPontoConfiguracoesRoute
+  '/_authenticated/ponto/equipe': typeof AuthenticatedPontoEquipeRouteWithChildren
+  '/_authenticated/ponto/escalas': typeof AuthenticatedPontoEscalasRoute
+  '/_authenticated/ponto/registros': typeof AuthenticatedPontoRegistrosRoute
   '/api/automation/dispatch': typeof ApiAutomationDispatchRoute
   '/api/automation/manager-summary': typeof ApiAutomationManagerSummaryRoute
   '/api/public/sales-ingest': typeof ApiPublicSalesIngestRoute
@@ -695,6 +786,7 @@ export interface FileRoutesById {
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/caixa-financeiro/': typeof AuthenticatedCaixaFinanceiroIndexRoute
   '/_authenticated/painel/': typeof AuthenticatedPainelIndexRoute
+  '/_authenticated/ponto/': typeof AuthenticatedPontoIndexRoute
   '/portal/cartao-ponto/': typeof PortalCartaoPontoIndexRoute
   '/portal/documentos/': typeof PortalDocumentosIndexRoute
   '/portal/holerites/': typeof PortalHoleritesIndexRoute
@@ -711,6 +803,8 @@ export interface FileRoutesById {
   '/_authenticated/caixa-financeiro/caixa/$sessionId': typeof AuthenticatedCaixaFinanceiroCaixaSessionIdRoute
   '/_authenticated/caixa-financeiro/caixa/historico': typeof AuthenticatedCaixaFinanceiroCaixaHistoricoRoute
   '/_authenticated/painel/admin/aplicativos': typeof AuthenticatedPainelAdminAplicativosRoute
+  '/_authenticated/ponto/cartoes/$id': typeof AuthenticatedPontoCartoesIdRoute
+  '/_authenticated/ponto/equipe/cargos': typeof AuthenticatedPontoEquipeCargosRoute
   '/api/automation/clock/candidates': typeof ApiAutomationClockCandidatesRoute
   '/api/automation/documents/candidates': typeof ApiAutomationDocumentsCandidatesRoute
   '/api/automation/epis/candidates': typeof ApiAutomationEpisCandidatesRoute
@@ -725,6 +819,8 @@ export interface FileRoutesById {
   '/_authenticated/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
   '/_authenticated/app/point-cards/': typeof AuthenticatedAppPointCardsIndexRoute
   '/_authenticated/caixa-financeiro/caixa/': typeof AuthenticatedCaixaFinanceiroCaixaIndexRoute
+  '/_authenticated/ponto/cartoes/': typeof AuthenticatedPontoCartoesIndexRoute
+  '/_authenticated/ponto/equipe/': typeof AuthenticatedPontoEquipeIndexRoute
   '/_authenticated/app/conformidade/exames/$id': typeof AuthenticatedAppConformidadeExamesIdRoute
   '/_authenticated/app/conformidade/exames/novo': typeof AuthenticatedAppConformidadeExamesNovoRoute
   '/_authenticated/app/documentos/holerites/$id': typeof AuthenticatedAppDocumentosHoleritesIdRoute
@@ -741,6 +837,7 @@ export interface FileRouteTypes {
     | '/caixa-financeiro'
     | '/onboarding'
     | '/painel'
+    | '/ponto'
     | '/portal/escala'
     | '/portal/login'
     | '/portal/pendencias'
@@ -762,6 +859,10 @@ export interface FileRouteTypes {
     | '/app/units'
     | '/caixa-financeiro/configuracoes'
     | '/caixa-financeiro/vendas'
+    | '/ponto/configuracoes'
+    | '/ponto/equipe'
+    | '/ponto/escalas'
+    | '/ponto/registros'
     | '/api/automation/dispatch'
     | '/api/automation/manager-summary'
     | '/api/public/sales-ingest'
@@ -773,6 +874,7 @@ export interface FileRouteTypes {
     | '/app/'
     | '/caixa-financeiro/'
     | '/painel/'
+    | '/ponto/'
     | '/portal/cartao-ponto/'
     | '/portal/documentos/'
     | '/portal/holerites/'
@@ -789,6 +891,8 @@ export interface FileRouteTypes {
     | '/caixa-financeiro/caixa/$sessionId'
     | '/caixa-financeiro/caixa/historico'
     | '/painel/admin/aplicativos'
+    | '/ponto/cartoes/$id'
+    | '/ponto/equipe/cargos'
     | '/api/automation/clock/candidates'
     | '/api/automation/documents/candidates'
     | '/api/automation/epis/candidates'
@@ -803,6 +907,8 @@ export interface FileRouteTypes {
     | '/app/deliveries/'
     | '/app/point-cards/'
     | '/caixa-financeiro/caixa/'
+    | '/ponto/cartoes/'
+    | '/ponto/equipe/'
     | '/app/conformidade/exames/$id'
     | '/app/conformidade/exames/novo'
     | '/app/documentos/holerites/$id'
@@ -834,6 +940,9 @@ export interface FileRouteTypes {
     | '/app/units'
     | '/caixa-financeiro/configuracoes'
     | '/caixa-financeiro/vendas'
+    | '/ponto/configuracoes'
+    | '/ponto/escalas'
+    | '/ponto/registros'
     | '/api/automation/dispatch'
     | '/api/automation/manager-summary'
     | '/api/public/sales-ingest'
@@ -845,6 +954,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/caixa-financeiro'
     | '/painel'
+    | '/ponto'
     | '/portal/cartao-ponto'
     | '/portal/documentos'
     | '/portal/holerites'
@@ -861,6 +971,8 @@ export interface FileRouteTypes {
     | '/caixa-financeiro/caixa/$sessionId'
     | '/caixa-financeiro/caixa/historico'
     | '/painel/admin/aplicativos'
+    | '/ponto/cartoes/$id'
+    | '/ponto/equipe/cargos'
     | '/api/automation/clock/candidates'
     | '/api/automation/documents/candidates'
     | '/api/automation/epis/candidates'
@@ -875,6 +987,8 @@ export interface FileRouteTypes {
     | '/app/deliveries'
     | '/app/point-cards'
     | '/caixa-financeiro/caixa'
+    | '/ponto/cartoes'
+    | '/ponto/equipe'
     | '/app/conformidade/exames/$id'
     | '/app/conformidade/exames/novo'
     | '/app/documentos/holerites/$id'
@@ -890,6 +1004,7 @@ export interface FileRouteTypes {
     | '/_authenticated/caixa-financeiro'
     | '/_authenticated/onboarding'
     | '/_authenticated/painel'
+    | '/_authenticated/ponto'
     | '/portal/escala'
     | '/portal/login'
     | '/portal/pendencias'
@@ -911,6 +1026,10 @@ export interface FileRouteTypes {
     | '/_authenticated/app/units'
     | '/_authenticated/caixa-financeiro/configuracoes'
     | '/_authenticated/caixa-financeiro/vendas'
+    | '/_authenticated/ponto/configuracoes'
+    | '/_authenticated/ponto/equipe'
+    | '/_authenticated/ponto/escalas'
+    | '/_authenticated/ponto/registros'
     | '/api/automation/dispatch'
     | '/api/automation/manager-summary'
     | '/api/public/sales-ingest'
@@ -922,6 +1041,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/'
     | '/_authenticated/caixa-financeiro/'
     | '/_authenticated/painel/'
+    | '/_authenticated/ponto/'
     | '/portal/cartao-ponto/'
     | '/portal/documentos/'
     | '/portal/holerites/'
@@ -938,6 +1058,8 @@ export interface FileRouteTypes {
     | '/_authenticated/caixa-financeiro/caixa/$sessionId'
     | '/_authenticated/caixa-financeiro/caixa/historico'
     | '/_authenticated/painel/admin/aplicativos'
+    | '/_authenticated/ponto/cartoes/$id'
+    | '/_authenticated/ponto/equipe/cargos'
     | '/api/automation/clock/candidates'
     | '/api/automation/documents/candidates'
     | '/api/automation/epis/candidates'
@@ -952,6 +1074,8 @@ export interface FileRouteTypes {
     | '/_authenticated/app/deliveries/'
     | '/_authenticated/app/point-cards/'
     | '/_authenticated/caixa-financeiro/caixa/'
+    | '/_authenticated/ponto/cartoes/'
+    | '/_authenticated/ponto/equipe/'
     | '/_authenticated/app/conformidade/exames/$id'
     | '/_authenticated/app/conformidade/exames/novo'
     | '/_authenticated/app/documentos/holerites/$id'
@@ -1035,6 +1159,13 @@ declare module '@tanstack/react-router' {
       path: '/painel'
       fullPath: '/painel'
       preLoaderRoute: typeof AuthenticatedPainelRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ponto': {
+      id: '/_authenticated/ponto'
+      path: '/ponto'
+      fullPath: '/ponto'
+      preLoaderRoute: typeof AuthenticatedPontoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/portal/': {
@@ -1204,6 +1335,41 @@ declare module '@tanstack/react-router' {
       fullPath: '/painel/'
       preLoaderRoute: typeof AuthenticatedPainelIndexRouteImport
       parentRoute: typeof AuthenticatedPainelRoute
+    }
+    '/_authenticated/ponto/': {
+      id: '/_authenticated/ponto/'
+      path: '/'
+      fullPath: '/ponto/'
+      preLoaderRoute: typeof AuthenticatedPontoIndexRouteImport
+      parentRoute: typeof AuthenticatedPontoRoute
+    }
+    '/_authenticated/ponto/configuracoes': {
+      id: '/_authenticated/ponto/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/ponto/configuracoes'
+      preLoaderRoute: typeof AuthenticatedPontoConfiguracoesRouteImport
+      parentRoute: typeof AuthenticatedPontoRoute
+    }
+    '/_authenticated/ponto/equipe': {
+      id: '/_authenticated/ponto/equipe'
+      path: '/equipe'
+      fullPath: '/ponto/equipe'
+      preLoaderRoute: typeof AuthenticatedPontoEquipeRouteImport
+      parentRoute: typeof AuthenticatedPontoRoute
+    }
+    '/_authenticated/ponto/escalas': {
+      id: '/_authenticated/ponto/escalas'
+      path: '/escalas'
+      fullPath: '/ponto/escalas'
+      preLoaderRoute: typeof AuthenticatedPontoEscalasRouteImport
+      parentRoute: typeof AuthenticatedPontoRoute
+    }
+    '/_authenticated/ponto/registros': {
+      id: '/_authenticated/ponto/registros'
+      path: '/registros'
+      fullPath: '/ponto/registros'
+      preLoaderRoute: typeof AuthenticatedPontoRegistrosRouteImport
+      parentRoute: typeof AuthenticatedPontoRoute
     }
     '/api/automation/dispatch': {
       id: '/api/automation/dispatch'
@@ -1400,6 +1566,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/painel/admin/aplicativos'
       preLoaderRoute: typeof AuthenticatedPainelAdminAplicativosRouteImport
       parentRoute: typeof AuthenticatedPainelRoute
+    }
+    '/_authenticated/ponto/cartoes/': {
+      id: '/_authenticated/ponto/cartoes/'
+      path: '/cartoes'
+      fullPath: '/ponto/cartoes/'
+      preLoaderRoute: typeof AuthenticatedPontoCartoesIndexRouteImport
+      parentRoute: typeof AuthenticatedPontoRoute
+    }
+    '/_authenticated/ponto/cartoes/$id': {
+      id: '/_authenticated/ponto/cartoes/$id'
+      path: '/cartoes/$id'
+      fullPath: '/ponto/cartoes/$id'
+      preLoaderRoute: typeof AuthenticatedPontoCartoesIdRouteImport
+      parentRoute: typeof AuthenticatedPontoRoute
+    }
+    '/_authenticated/ponto/equipe/': {
+      id: '/_authenticated/ponto/equipe/'
+      path: '/'
+      fullPath: '/ponto/equipe/'
+      preLoaderRoute: typeof AuthenticatedPontoEquipeIndexRouteImport
+      parentRoute: typeof AuthenticatedPontoEquipeRoute
+    }
+    '/_authenticated/ponto/equipe/cargos': {
+      id: '/_authenticated/ponto/equipe/cargos'
+      path: '/cargos'
+      fullPath: '/ponto/equipe/cargos'
+      preLoaderRoute: typeof AuthenticatedPontoEquipeCargosRouteImport
+      parentRoute: typeof AuthenticatedPontoEquipeRoute
     }
     '/api/automation/clock/candidates': {
       id: '/api/automation/clock/candidates'
@@ -1634,11 +1828,51 @@ const AuthenticatedPainelRouteChildren: AuthenticatedPainelRouteChildren = {
 const AuthenticatedPainelRouteWithChildren =
   AuthenticatedPainelRoute._addFileChildren(AuthenticatedPainelRouteChildren)
 
+interface AuthenticatedPontoEquipeRouteChildren {
+  AuthenticatedPontoEquipeCargosRoute: typeof AuthenticatedPontoEquipeCargosRoute
+  AuthenticatedPontoEquipeIndexRoute: typeof AuthenticatedPontoEquipeIndexRoute
+}
+
+const AuthenticatedPontoEquipeRouteChildren: AuthenticatedPontoEquipeRouteChildren =
+  {
+    AuthenticatedPontoEquipeCargosRoute: AuthenticatedPontoEquipeCargosRoute,
+    AuthenticatedPontoEquipeIndexRoute: AuthenticatedPontoEquipeIndexRoute,
+  }
+
+const AuthenticatedPontoEquipeRouteWithChildren =
+  AuthenticatedPontoEquipeRoute._addFileChildren(
+    AuthenticatedPontoEquipeRouteChildren,
+  )
+
+interface AuthenticatedPontoRouteChildren {
+  AuthenticatedPontoConfiguracoesRoute: typeof AuthenticatedPontoConfiguracoesRoute
+  AuthenticatedPontoEquipeRoute: typeof AuthenticatedPontoEquipeRouteWithChildren
+  AuthenticatedPontoEscalasRoute: typeof AuthenticatedPontoEscalasRoute
+  AuthenticatedPontoRegistrosRoute: typeof AuthenticatedPontoRegistrosRoute
+  AuthenticatedPontoIndexRoute: typeof AuthenticatedPontoIndexRoute
+  AuthenticatedPontoCartoesIdRoute: typeof AuthenticatedPontoCartoesIdRoute
+  AuthenticatedPontoCartoesIndexRoute: typeof AuthenticatedPontoCartoesIndexRoute
+}
+
+const AuthenticatedPontoRouteChildren: AuthenticatedPontoRouteChildren = {
+  AuthenticatedPontoConfiguracoesRoute: AuthenticatedPontoConfiguracoesRoute,
+  AuthenticatedPontoEquipeRoute: AuthenticatedPontoEquipeRouteWithChildren,
+  AuthenticatedPontoEscalasRoute: AuthenticatedPontoEscalasRoute,
+  AuthenticatedPontoRegistrosRoute: AuthenticatedPontoRegistrosRoute,
+  AuthenticatedPontoIndexRoute: AuthenticatedPontoIndexRoute,
+  AuthenticatedPontoCartoesIdRoute: AuthenticatedPontoCartoesIdRoute,
+  AuthenticatedPontoCartoesIndexRoute: AuthenticatedPontoCartoesIndexRoute,
+}
+
+const AuthenticatedPontoRouteWithChildren =
+  AuthenticatedPontoRoute._addFileChildren(AuthenticatedPontoRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
   AuthenticatedCaixaFinanceiroRoute: typeof AuthenticatedCaixaFinanceiroRouteWithChildren
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRouteWithChildren
+  AuthenticatedPontoRoute: typeof AuthenticatedPontoRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -1647,6 +1881,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedCaixaFinanceiroRouteWithChildren,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRouteWithChildren,
+  AuthenticatedPontoRoute: AuthenticatedPontoRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =

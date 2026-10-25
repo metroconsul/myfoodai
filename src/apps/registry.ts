@@ -38,7 +38,7 @@ export const APPS: AppManifest[] = [
     icon: Clock,
     entitlement: "app_ponto",
     status: "available",
-    entry: "/app/time-entries",
+    entry: "/ponto",
     roles: ["owner", "admin", "hr", "unit_manager", "supervisor"],
     tone: "acid",
   },

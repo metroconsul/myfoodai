@@ -251,7 +251,7 @@ function TeamPendenciesPage() {
                     Ver entregas
                   </Button>
                 </Link>
-                <Link to="/app/point-cards">
+                <Link to="/ponto/cartoes">
                   <Button variant="outline" size="sm">
                     Ver cartões de ponto
                   </Button>

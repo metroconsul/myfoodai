@@ -2,7 +2,6 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, type ReactNode } from "react";
 import {
-  Clock,
   FileText,
   LayoutDashboard,
   LayoutGrid,
@@ -44,7 +43,6 @@ const NAV: { label: string; items: NavItem[] }[] = [
       { to: "/painel", label: "Central de aplicativos", icon: LayoutGrid, exact: true },
       { to: "/app", label: "Dashboard", icon: LayoutDashboard, exact: true },
       { to: "/app/employees", label: "Colaboradores", icon: Users, feature: "employees" },
-      { to: "/app/time-entries", label: "Ponto", icon: Clock, feature: "time_entries", app: "app_ponto" },
       { to: "/app/conformidade/exames", label: "Documentos", icon: FileText, feature: "compliance", app: "app_documentos" },
       { to: "/app/deliveries", label: "EPIs", icon: Package, feature: "deliveries", app: "app_documentos" },
     ],

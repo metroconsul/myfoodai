@@ -65,3 +65,33 @@ export const saveFixedSchedule = createServerFn({ method: "POST" })
 
     return { ok: true };
   });
+
+/**
+ * Liga/desliga a jornada fixa da unidade sem apagar os horários.
+ * Desligada, dias sem horário na escala semanal ficam como folga (nada é preenchido automaticamente).
+ */
+export const setFixedScheduleActive = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ unitId: z.string().uuid(), active: z.boolean() }).parse(d))
+  .handler(async ({ data, context }) => {
+    const { requireFeature } = await import("./plan.server");
+    const companyId = await requireFeature(context.userId, "fixed_schedule");
+    const { data: rows, error } = await context.supabase
+      .from("fixed_work_schedules")
+      .update({ active: data.active })
+      .eq("unit_id", data.unitId)
+      .eq("company_id", companyId)
+      .select("id");
+    if (error) throw new Error("Não foi possível alterar o modo da escala.");
+    if (data.active && (rows ?? []).length === 0) throw new Error("Defina o horário padrão antes de usar este modo.");
+    await context.supabase.from("audit_logs").insert({
+      company_id: companyId,
+      unit_id: data.unitId,
+      user_id: context.userId,
+      action: data.active ? "jornada_fixa_ativada" : "jornada_fixa_desativada",
+      entity: "fixed_work_schedules",
+      entity_id: data.unitId,
+      metadata: {},
+    });
+    return { ok: true };
+  });
