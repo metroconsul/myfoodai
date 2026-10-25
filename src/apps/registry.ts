@@ -81,7 +81,7 @@ export const APPS: AppManifest[] = [
     description: "Organização das compras e dos fornecedores.",
     icon: ShoppingCart,
     entitlement: "app_compras",
-    status: "soon",
+    status: "available",
     entry: "/compras",
     roles: ["owner", "admin", "unit_manager", "stock_manager"],
     tone: "paper",

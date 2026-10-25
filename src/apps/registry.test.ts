@@ -20,8 +20,11 @@ describe("registro de aplicativos", () => {
     for (const app of APPS) expect(FEATURES).toContain(app.entitlement);
   });
 
-  it("Compras aparece como 'em breve' mesmo se ativado", () => {
-    expect(appAccess(appById("compras"), ctx({ features: ["app_compras"] }))).toBe("soon");
+  it("Compras abre para estoquista e gerente quando contratado", () => {
+    const cp = appById("compras");
+    expect(appAccess(cp, ctx({ features: ["app_compras"], roles: ["stock_manager"] }))).toBe("open");
+    expect(appAccess(cp, ctx({ features: [], roles: ["owner"] }))).toBe("not_contracted");
+    expect(appAccess(cp, ctx({ features: ["app_compras"], roles: ["cashier"] }))).toBe("no_role");
   });
 
   it("Caixa & Financeiro abre para operador de caixa e financeiro quando contratado", () => {
