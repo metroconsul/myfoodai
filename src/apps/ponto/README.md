@@ -13,6 +13,6 @@ Onde mexer em cada parte. As rotas em `src/routes/_authenticated/ponto*.tsx` só
 
 - **Abas e engrenagem:** `components/ponto-shell.tsx`. **Sub-abas de Equipe:** `components/sections.tsx`.
 - **Quem acessa:** `src/routes/_authenticated/ponto.tsx` (app contratado + papéis de `lib/roles.ts`). Cada ação continua protegida no banco.
-- **Textos de tipos e situações das batidas:** `lib/labels.ts`. **Consultas compartilhadas:** `lib/queries.ts`. **Datas locais:** `lib/dates.ts`.
+- **Textos de tipos e situações das batidas:** `lib/labels.ts`. **Consultas compartilhadas:** `lib/queries.ts`. **Datas locais e planilha:** `src/lib/local-date.ts`, `src/lib/csv.ts` (compartilhados com outros apps).
 - Colaboradores, Cargos e Políticas de aceite também aparecem em `/app` (Documentos/EPIs usam) — é a mesma tela.
 - Endereços antigos de ponto em `/app` redirecionam para cá. O Portal do Colaborador não usa estes arquivos.

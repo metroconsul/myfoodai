@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { dateTimeFmt } from "@/lib/format";
-import { toCsv } from "./csv";
+import { toCsv } from "@/lib/csv";
 import { ENTRY_TYPE_LABEL, GEO_STATUS_LABEL, label } from "./labels";
 
 /** Consultas do MyFoods Ponto usadas em mais de uma tela. */

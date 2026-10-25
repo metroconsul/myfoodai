@@ -1,4 +1,4 @@
-import { localYmd } from "./dates";
+import { localYmd } from "@/lib/local-date";
 
 /** Regras puras da escala semanal (sem banco), usadas pela tela Escalas e cobertas por testes. */
 

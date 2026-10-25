@@ -22,7 +22,7 @@ import {
   weekWarnings,
   type Warning,
 } from "../lib/schedule-rules";
-import { localYmd } from "../lib/dates";
+import { localYmd } from "@/lib/local-date";
 
 const DAY_NAMES = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
 const HHMM = /^([01]\d|2[0-3]):[0-5]\d$/;

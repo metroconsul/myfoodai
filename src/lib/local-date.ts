@@ -1,4 +1,4 @@
-/** Data local AAAA-MM-DD (o isoDate de @/lib/format usa UTC e vira o dia às 21h no Brasil). */
+/** Data local AAAA-MM-DD (o isoDate de @/lib/format usa UTC e vira o dia às 21h no Brasil). Usada pelos apps. */
 export function localYmd(d: Date = new Date()): string {
   const p = (n: number) => String(n).padStart(2, "0");
   return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;

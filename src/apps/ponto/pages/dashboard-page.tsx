@@ -5,7 +5,7 @@ import { EmptyState, LoadingState, PageHeader, SectionCard, StatCard, StatusBadg
 import { useWorkspace } from "@/hooks/use-workspace";
 import { supabase } from "@/integrations/supabase/client";
 import { dateTimeFmt, timeFmt } from "@/lib/format";
-import { daysAgoYmd, localYmd } from "../lib/dates";
+import { daysAgoYmd, localYmd } from "@/lib/local-date";
 import { CorrectionsSection } from "../components/corrections";
 import { ENTRY_TYPE_LABEL, GEO_STATUS_LABEL, label, needsReview } from "../lib/labels";
 import { ALL, useEntries } from "../lib/queries";

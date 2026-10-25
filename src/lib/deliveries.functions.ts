@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { itemSchema, createSchema, cancelSchema } from "./deliveries.functions.schemas";
+import { applyMovement } from "./stock.shared";
 
 /**
  * Cria entregas (individual ou em lote), valida e baixa o estoque da unidade
@@ -144,24 +145,43 @@ export const createDeliveries = createServerFn({ method: "POST" })
         continue;
       }
 
-      for (const r of reserved) {
-        await supabase
-          .from("inventory_items")
-          .update({ quantity: r.after, last_movement_at: nowIso })
-          .eq("id", r.stockId);
-        await supabase.from("stock_movements").insert({
-          company_id: companyId,
-          unit_id: data.unitId,
-          inventory_item_id: r.stockId,
-          movement_type: "saida",
+      // Baixa pela função do banco (atômica). Se algum item falhar, desfaz os já baixados e cancela a entrega.
+      const applied: { stockId: string; quantity: number; key: string }[] = [];
+      let stockError: string | null = null;
+      for (const [idx, r] of reserved.entries()) {
+        const res = await applyMovement(supabase, {
+          itemId: r.stockId,
+          type: "saida",
           quantity: r.item.quantity,
-          quantity_before: r.before,
-          quantity_after: r.after,
           reason: `Entrega de item para ${employee.full_name}`,
           reference: delivery.id,
-          performed_by: userId,
-          occurred_at: nowIso,
+          sourceApp: "documentos",
+          sourceId: `${delivery.id}:${idx}`,
         });
+        if (!res.ok) {
+          stockError = res.error;
+          break;
+        }
+        applied.push({ stockId: r.stockId, quantity: r.item.quantity, key: `${delivery.id}:${idx}` });
+      }
+      if (stockError) {
+        for (const a of applied) {
+          await applyMovement(supabase, {
+            itemId: a.stockId,
+            type: "entrada",
+            quantity: a.quantity,
+            reason: "Estorno: entrega não concluída",
+            reference: delivery.id,
+            sourceApp: "documentos",
+            sourceId: `${a.key}:estorno`,
+          });
+        }
+        await supabase
+          .from("item_deliveries")
+          .update({ status: "cancelado", cancelled_at: nowIso, cancel_reason: `Estoque: ${stockError}` })
+          .eq("id", delivery.id);
+        skipped.push(employee.full_name);
+        continue;
       }
 
       await supabase.from("item_delivery_events").insert([
@@ -220,34 +240,18 @@ export const cancelDelivery = createServerFn({ method: "POST" })
     if (data.restoreStock) {
       const { data: items } = await supabase
         .from("item_delivery_items")
-        .select("inventory_item_id, quantity, item_name")
+        .select("id, inventory_item_id, quantity, item_name")
         .eq("delivery_id", delivery.id);
       for (const item of items ?? []) {
         if (!item.inventory_item_id) continue;
-        const { data: stock } = await supabase
-          .from("inventory_items")
-          .select("id, quantity")
-          .eq("id", item.inventory_item_id)
-          .maybeSingle();
-        if (!stock) continue;
-        const before = Number(stock.quantity);
-        const after = before + Number(item.quantity);
-        await supabase
-          .from("inventory_items")
-          .update({ quantity: after, last_movement_at: nowIso })
-          .eq("id", stock.id);
-        await supabase.from("stock_movements").insert({
-          company_id: delivery.company_id,
-          unit_id: delivery.unit_id,
-          inventory_item_id: stock.id,
-          movement_type: "entrada",
+        await applyMovement(supabase, {
+          itemId: item.inventory_item_id,
+          type: "entrada",
           quantity: Number(item.quantity),
-          quantity_before: before,
-          quantity_after: after,
           reason: "Estorno de entrega cancelada",
           reference: delivery.id,
-          performed_by: userId,
-          occurred_at: nowIso,
+          sourceApp: "documentos",
+          sourceId: `${delivery.id}:cancelamento:${item.id}`,
         });
       }
     }

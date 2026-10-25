@@ -49,7 +49,7 @@ export const APPS: AppManifest[] = [
     icon: Boxes,
     entitlement: "app_estoque",
     status: "available",
-    entry: "/app/inventory",
+    entry: "/estoque",
     roles: ["owner", "admin", "unit_manager", "stock_manager"],
     tone: "ember",
   },

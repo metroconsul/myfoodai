@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { toCsv } from "./csv";
+import { toCsv } from "@/lib/csv";
 import { ENTRY_TYPE_LABEL, label, needsReview } from "./labels";
 
 describe("toCsv", () => {
@@ -26,7 +26,7 @@ describe("labels", () => {
 
 describe("localYmd", () => {
   it("uses the local calendar day", async () => {
-    const { localYmd } = await import("./dates");
+    const { localYmd } = await import("@/lib/local-date");
     expect(localYmd(new Date(2026, 9, 24, 23, 30))).toBe("2026-10-24");
     expect(localYmd(new Date(2026, 0, 5))).toBe("2026-01-05");
   });

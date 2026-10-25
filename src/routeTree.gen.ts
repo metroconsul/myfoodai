@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PortalRouteImport } from './routes/portal'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
 import { Route as AuthenticatedCaixaFinanceiroRouteImport } from './routes/_authenticated/caixa-financeiro'
+import { Route as AuthenticatedEstoqueRouteImport } from './routes/_authenticated/estoque'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as AuthenticatedPontoRouteImport } from './routes/_authenticated/ponto'
@@ -41,6 +42,12 @@ import { Route as AuthenticatedAppUnitsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedCaixaFinanceiroIndexRouteImport } from './routes/_authenticated/caixa-financeiro.index'
 import { Route as AuthenticatedCaixaFinanceiroConfiguracoesRouteImport } from './routes/_authenticated/caixa-financeiro.configuracoes'
 import { Route as AuthenticatedCaixaFinanceiroVendasRouteImport } from './routes/_authenticated/caixa-financeiro.vendas'
+import { Route as AuthenticatedEstoqueIndexRouteImport } from './routes/_authenticated/estoque.index'
+import { Route as AuthenticatedEstoqueFornecedoresRouteImport } from './routes/_authenticated/estoque.fornecedores'
+import { Route as AuthenticatedEstoqueInventarioRouteImport } from './routes/_authenticated/estoque.inventario'
+import { Route as AuthenticatedEstoqueMovimentacoesRouteImport } from './routes/_authenticated/estoque.movimentacoes'
+import { Route as AuthenticatedEstoqueProdutosRouteImport } from './routes/_authenticated/estoque.produtos'
+import { Route as AuthenticatedEstoqueRelatoriosRouteImport } from './routes/_authenticated/estoque.relatorios'
 import { Route as AuthenticatedPainelIndexRouteImport } from './routes/_authenticated/painel.index'
 import { Route as AuthenticatedPontoIndexRouteImport } from './routes/_authenticated/ponto.index'
 import { Route as AuthenticatedPontoConfiguracoesRouteImport } from './routes/_authenticated/ponto.configuracoes'
@@ -125,6 +132,11 @@ const AuthenticatedCaixaFinanceiroRoute =
     path: '/caixa-financeiro',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedEstoqueRoute = AuthenticatedEstoqueRouteImport.update({
+  id: '/estoque',
+  path: '/estoque',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
@@ -266,6 +278,42 @@ const AuthenticatedCaixaFinanceiroVendasRoute =
     id: '/vendas',
     path: '/vendas',
     getParentRoute: () => AuthenticatedCaixaFinanceiroRoute,
+  } as any)
+const AuthenticatedEstoqueIndexRoute =
+  AuthenticatedEstoqueIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedEstoqueRoute,
+  } as any)
+const AuthenticatedEstoqueFornecedoresRoute =
+  AuthenticatedEstoqueFornecedoresRouteImport.update({
+    id: '/fornecedores',
+    path: '/fornecedores',
+    getParentRoute: () => AuthenticatedEstoqueRoute,
+  } as any)
+const AuthenticatedEstoqueInventarioRoute =
+  AuthenticatedEstoqueInventarioRouteImport.update({
+    id: '/inventario',
+    path: '/inventario',
+    getParentRoute: () => AuthenticatedEstoqueRoute,
+  } as any)
+const AuthenticatedEstoqueMovimentacoesRoute =
+  AuthenticatedEstoqueMovimentacoesRouteImport.update({
+    id: '/movimentacoes',
+    path: '/movimentacoes',
+    getParentRoute: () => AuthenticatedEstoqueRoute,
+  } as any)
+const AuthenticatedEstoqueProdutosRoute =
+  AuthenticatedEstoqueProdutosRouteImport.update({
+    id: '/produtos',
+    path: '/produtos',
+    getParentRoute: () => AuthenticatedEstoqueRoute,
+  } as any)
+const AuthenticatedEstoqueRelatoriosRoute =
+  AuthenticatedEstoqueRelatoriosRouteImport.update({
+    id: '/relatorios',
+    path: '/relatorios',
+    getParentRoute: () => AuthenticatedEstoqueRoute,
   } as any)
 const AuthenticatedPainelIndexRoute =
   AuthenticatedPainelIndexRouteImport.update({
@@ -579,6 +627,7 @@ export interface FileRoutesByFullPath {
   '/portal': typeof PortalRouteWithChildren
   '/app': typeof AuthenticatedAppRouteWithChildren
   '/caixa-financeiro': typeof AuthenticatedCaixaFinanceiroRouteWithChildren
+  '/estoque': typeof AuthenticatedEstoqueRouteWithChildren
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/painel': typeof AuthenticatedPainelRouteWithChildren
   '/ponto': typeof AuthenticatedPontoRouteWithChildren
@@ -603,6 +652,11 @@ export interface FileRoutesByFullPath {
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/caixa-financeiro/configuracoes': typeof AuthenticatedCaixaFinanceiroConfiguracoesRoute
   '/caixa-financeiro/vendas': typeof AuthenticatedCaixaFinanceiroVendasRoute
+  '/estoque/fornecedores': typeof AuthenticatedEstoqueFornecedoresRoute
+  '/estoque/inventario': typeof AuthenticatedEstoqueInventarioRoute
+  '/estoque/movimentacoes': typeof AuthenticatedEstoqueMovimentacoesRoute
+  '/estoque/produtos': typeof AuthenticatedEstoqueProdutosRoute
+  '/estoque/relatorios': typeof AuthenticatedEstoqueRelatoriosRoute
   '/ponto/configuracoes': typeof AuthenticatedPontoConfiguracoesRoute
   '/ponto/equipe': typeof AuthenticatedPontoEquipeRouteWithChildren
   '/ponto/escalas': typeof AuthenticatedPontoEscalasRoute
@@ -617,6 +671,7 @@ export interface FileRoutesByFullPath {
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/caixa-financeiro/': typeof AuthenticatedCaixaFinanceiroIndexRoute
+  '/estoque/': typeof AuthenticatedEstoqueIndexRoute
   '/painel/': typeof AuthenticatedPainelIndexRoute
   '/ponto/': typeof AuthenticatedPontoIndexRoute
   '/portal/cartao-ponto/': typeof PortalCartaoPontoIndexRoute
@@ -684,6 +739,11 @@ export interface FileRoutesByTo {
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/caixa-financeiro/configuracoes': typeof AuthenticatedCaixaFinanceiroConfiguracoesRoute
   '/caixa-financeiro/vendas': typeof AuthenticatedCaixaFinanceiroVendasRoute
+  '/estoque/fornecedores': typeof AuthenticatedEstoqueFornecedoresRoute
+  '/estoque/inventario': typeof AuthenticatedEstoqueInventarioRoute
+  '/estoque/movimentacoes': typeof AuthenticatedEstoqueMovimentacoesRoute
+  '/estoque/produtos': typeof AuthenticatedEstoqueProdutosRoute
+  '/estoque/relatorios': typeof AuthenticatedEstoqueRelatoriosRoute
   '/ponto/configuracoes': typeof AuthenticatedPontoConfiguracoesRoute
   '/ponto/escalas': typeof AuthenticatedPontoEscalasRoute
   '/ponto/registros': typeof AuthenticatedPontoRegistrosRoute
@@ -697,6 +757,7 @@ export interface FileRoutesByTo {
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/caixa-financeiro': typeof AuthenticatedCaixaFinanceiroIndexRoute
+  '/estoque': typeof AuthenticatedEstoqueIndexRoute
   '/painel': typeof AuthenticatedPainelIndexRoute
   '/ponto': typeof AuthenticatedPontoIndexRoute
   '/portal/cartao-ponto': typeof PortalCartaoPontoIndexRoute
@@ -747,6 +808,7 @@ export interface FileRoutesById {
   '/portal': typeof PortalRouteWithChildren
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
   '/_authenticated/caixa-financeiro': typeof AuthenticatedCaixaFinanceiroRouteWithChildren
+  '/_authenticated/estoque': typeof AuthenticatedEstoqueRouteWithChildren
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRouteWithChildren
   '/_authenticated/ponto': typeof AuthenticatedPontoRouteWithChildren
@@ -771,6 +833,11 @@ export interface FileRoutesById {
   '/_authenticated/app/units': typeof AuthenticatedAppUnitsRoute
   '/_authenticated/caixa-financeiro/configuracoes': typeof AuthenticatedCaixaFinanceiroConfiguracoesRoute
   '/_authenticated/caixa-financeiro/vendas': typeof AuthenticatedCaixaFinanceiroVendasRoute
+  '/_authenticated/estoque/fornecedores': typeof AuthenticatedEstoqueFornecedoresRoute
+  '/_authenticated/estoque/inventario': typeof AuthenticatedEstoqueInventarioRoute
+  '/_authenticated/estoque/movimentacoes': typeof AuthenticatedEstoqueMovimentacoesRoute
+  '/_authenticated/estoque/produtos': typeof AuthenticatedEstoqueProdutosRoute
+  '/_authenticated/estoque/relatorios': typeof AuthenticatedEstoqueRelatoriosRoute
   '/_authenticated/ponto/configuracoes': typeof AuthenticatedPontoConfiguracoesRoute
   '/_authenticated/ponto/equipe': typeof AuthenticatedPontoEquipeRouteWithChildren
   '/_authenticated/ponto/escalas': typeof AuthenticatedPontoEscalasRoute
@@ -785,6 +852,7 @@ export interface FileRoutesById {
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/caixa-financeiro/': typeof AuthenticatedCaixaFinanceiroIndexRoute
+  '/_authenticated/estoque/': typeof AuthenticatedEstoqueIndexRoute
   '/_authenticated/painel/': typeof AuthenticatedPainelIndexRoute
   '/_authenticated/ponto/': typeof AuthenticatedPontoIndexRoute
   '/portal/cartao-ponto/': typeof PortalCartaoPontoIndexRoute
@@ -835,6 +903,7 @@ export interface FileRouteTypes {
     | '/portal'
     | '/app'
     | '/caixa-financeiro'
+    | '/estoque'
     | '/onboarding'
     | '/painel'
     | '/ponto'
@@ -859,6 +928,11 @@ export interface FileRouteTypes {
     | '/app/units'
     | '/caixa-financeiro/configuracoes'
     | '/caixa-financeiro/vendas'
+    | '/estoque/fornecedores'
+    | '/estoque/inventario'
+    | '/estoque/movimentacoes'
+    | '/estoque/produtos'
+    | '/estoque/relatorios'
     | '/ponto/configuracoes'
     | '/ponto/equipe'
     | '/ponto/escalas'
@@ -873,6 +947,7 @@ export interface FileRouteTypes {
     | '/portal/itens/$id'
     | '/app/'
     | '/caixa-financeiro/'
+    | '/estoque/'
     | '/painel/'
     | '/ponto/'
     | '/portal/cartao-ponto/'
@@ -940,6 +1015,11 @@ export interface FileRouteTypes {
     | '/app/units'
     | '/caixa-financeiro/configuracoes'
     | '/caixa-financeiro/vendas'
+    | '/estoque/fornecedores'
+    | '/estoque/inventario'
+    | '/estoque/movimentacoes'
+    | '/estoque/produtos'
+    | '/estoque/relatorios'
     | '/ponto/configuracoes'
     | '/ponto/escalas'
     | '/ponto/registros'
@@ -953,6 +1033,7 @@ export interface FileRouteTypes {
     | '/portal/itens/$id'
     | '/app'
     | '/caixa-financeiro'
+    | '/estoque'
     | '/painel'
     | '/ponto'
     | '/portal/cartao-ponto'
@@ -1002,6 +1083,7 @@ export interface FileRouteTypes {
     | '/portal'
     | '/_authenticated/app'
     | '/_authenticated/caixa-financeiro'
+    | '/_authenticated/estoque'
     | '/_authenticated/onboarding'
     | '/_authenticated/painel'
     | '/_authenticated/ponto'
@@ -1026,6 +1108,11 @@ export interface FileRouteTypes {
     | '/_authenticated/app/units'
     | '/_authenticated/caixa-financeiro/configuracoes'
     | '/_authenticated/caixa-financeiro/vendas'
+    | '/_authenticated/estoque/fornecedores'
+    | '/_authenticated/estoque/inventario'
+    | '/_authenticated/estoque/movimentacoes'
+    | '/_authenticated/estoque/produtos'
+    | '/_authenticated/estoque/relatorios'
     | '/_authenticated/ponto/configuracoes'
     | '/_authenticated/ponto/equipe'
     | '/_authenticated/ponto/escalas'
@@ -1040,6 +1127,7 @@ export interface FileRouteTypes {
     | '/portal/itens/$id'
     | '/_authenticated/app/'
     | '/_authenticated/caixa-financeiro/'
+    | '/_authenticated/estoque/'
     | '/_authenticated/painel/'
     | '/_authenticated/ponto/'
     | '/portal/cartao-ponto/'
@@ -1145,6 +1233,13 @@ declare module '@tanstack/react-router' {
       path: '/caixa-financeiro'
       fullPath: '/caixa-financeiro'
       preLoaderRoute: typeof AuthenticatedCaixaFinanceiroRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/estoque': {
+      id: '/_authenticated/estoque'
+      path: '/estoque'
+      fullPath: '/estoque'
+      preLoaderRoute: typeof AuthenticatedEstoqueRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/onboarding': {
@@ -1328,6 +1423,48 @@ declare module '@tanstack/react-router' {
       fullPath: '/caixa-financeiro/vendas'
       preLoaderRoute: typeof AuthenticatedCaixaFinanceiroVendasRouteImport
       parentRoute: typeof AuthenticatedCaixaFinanceiroRoute
+    }
+    '/_authenticated/estoque/': {
+      id: '/_authenticated/estoque/'
+      path: '/'
+      fullPath: '/estoque/'
+      preLoaderRoute: typeof AuthenticatedEstoqueIndexRouteImport
+      parentRoute: typeof AuthenticatedEstoqueRoute
+    }
+    '/_authenticated/estoque/fornecedores': {
+      id: '/_authenticated/estoque/fornecedores'
+      path: '/fornecedores'
+      fullPath: '/estoque/fornecedores'
+      preLoaderRoute: typeof AuthenticatedEstoqueFornecedoresRouteImport
+      parentRoute: typeof AuthenticatedEstoqueRoute
+    }
+    '/_authenticated/estoque/inventario': {
+      id: '/_authenticated/estoque/inventario'
+      path: '/inventario'
+      fullPath: '/estoque/inventario'
+      preLoaderRoute: typeof AuthenticatedEstoqueInventarioRouteImport
+      parentRoute: typeof AuthenticatedEstoqueRoute
+    }
+    '/_authenticated/estoque/movimentacoes': {
+      id: '/_authenticated/estoque/movimentacoes'
+      path: '/movimentacoes'
+      fullPath: '/estoque/movimentacoes'
+      preLoaderRoute: typeof AuthenticatedEstoqueMovimentacoesRouteImport
+      parentRoute: typeof AuthenticatedEstoqueRoute
+    }
+    '/_authenticated/estoque/produtos': {
+      id: '/_authenticated/estoque/produtos'
+      path: '/produtos'
+      fullPath: '/estoque/produtos'
+      preLoaderRoute: typeof AuthenticatedEstoqueProdutosRouteImport
+      parentRoute: typeof AuthenticatedEstoqueRoute
+    }
+    '/_authenticated/estoque/relatorios': {
+      id: '/_authenticated/estoque/relatorios'
+      path: '/relatorios'
+      fullPath: '/estoque/relatorios'
+      preLoaderRoute: typeof AuthenticatedEstoqueRelatoriosRouteImport
+      parentRoute: typeof AuthenticatedEstoqueRoute
     }
     '/_authenticated/painel/': {
       id: '/_authenticated/painel/'
@@ -1814,6 +1951,28 @@ const AuthenticatedCaixaFinanceiroRouteWithChildren =
     AuthenticatedCaixaFinanceiroRouteChildren,
   )
 
+interface AuthenticatedEstoqueRouteChildren {
+  AuthenticatedEstoqueFornecedoresRoute: typeof AuthenticatedEstoqueFornecedoresRoute
+  AuthenticatedEstoqueInventarioRoute: typeof AuthenticatedEstoqueInventarioRoute
+  AuthenticatedEstoqueMovimentacoesRoute: typeof AuthenticatedEstoqueMovimentacoesRoute
+  AuthenticatedEstoqueProdutosRoute: typeof AuthenticatedEstoqueProdutosRoute
+  AuthenticatedEstoqueRelatoriosRoute: typeof AuthenticatedEstoqueRelatoriosRoute
+  AuthenticatedEstoqueIndexRoute: typeof AuthenticatedEstoqueIndexRoute
+}
+
+const AuthenticatedEstoqueRouteChildren: AuthenticatedEstoqueRouteChildren = {
+  AuthenticatedEstoqueFornecedoresRoute: AuthenticatedEstoqueFornecedoresRoute,
+  AuthenticatedEstoqueInventarioRoute: AuthenticatedEstoqueInventarioRoute,
+  AuthenticatedEstoqueMovimentacoesRoute:
+    AuthenticatedEstoqueMovimentacoesRoute,
+  AuthenticatedEstoqueProdutosRoute: AuthenticatedEstoqueProdutosRoute,
+  AuthenticatedEstoqueRelatoriosRoute: AuthenticatedEstoqueRelatoriosRoute,
+  AuthenticatedEstoqueIndexRoute: AuthenticatedEstoqueIndexRoute,
+}
+
+const AuthenticatedEstoqueRouteWithChildren =
+  AuthenticatedEstoqueRoute._addFileChildren(AuthenticatedEstoqueRouteChildren)
+
 interface AuthenticatedPainelRouteChildren {
   AuthenticatedPainelIndexRoute: typeof AuthenticatedPainelIndexRoute
   AuthenticatedPainelAdminAplicativosRoute: typeof AuthenticatedPainelAdminAplicativosRoute
@@ -1870,6 +2029,7 @@ const AuthenticatedPontoRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
   AuthenticatedCaixaFinanceiroRoute: typeof AuthenticatedCaixaFinanceiroRouteWithChildren
+  AuthenticatedEstoqueRoute: typeof AuthenticatedEstoqueRouteWithChildren
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRouteWithChildren
   AuthenticatedPontoRoute: typeof AuthenticatedPontoRouteWithChildren
@@ -1879,6 +2039,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppRoute: AuthenticatedAppRouteWithChildren,
   AuthenticatedCaixaFinanceiroRoute:
     AuthenticatedCaixaFinanceiroRouteWithChildren,
+  AuthenticatedEstoqueRoute: AuthenticatedEstoqueRouteWithChildren,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRouteWithChildren,
   AuthenticatedPontoRoute: AuthenticatedPontoRouteWithChildren,
