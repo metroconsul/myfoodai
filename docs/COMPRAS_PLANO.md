@@ -1,6 +1,6 @@
 # MyFoods Compras — diagnóstico e plano
 
-Data: 2026-10-25 · Situação: **C1, C2 e C3 concluídas** (banco aplicado em produção, app em `/compras`, ativado para a Ramos Food). Decidido: Compras primeiro; depois, cardápio + receitas no Caixa (baixa automática na venda).
+Data: 2026-10-25 · Situação: **substituído** pela versão de listas (seção 5). Pedidos/recebimentos ficaram no banco, sem tela. Decidido: Compras primeiro; depois, cardápio + receitas no Caixa (baixa automática na venda).
 
 ## 1. Diagnóstico
 | Peça | Situação |
@@ -53,3 +53,10 @@ Testes unitários (sugestão de pedido, totais, texto do WhatsApp), kit SQL (ent
 - App `/compras`: Visão geral · Pedidos (sugestão pelo mínimo; enviar pelo WhatsApp; copiar texto; editar; cancelar) · Receber (de um pedido ou avulso; nota, data, vencimento) · Histórico (variação de preço, planilha, cancelar) · ⚙ Fornecedores. Mapa em `src/apps/compras/README.md`.
 - Testes: `scripts/security-tests/compras/run.sh` (18) e unitários de sugestão, WhatsApp e preços.
 - Conferido em produção (transação desfeita): pedido nº 1 → receber → estoque 14 → 19 e pedido "recebido"; nada ficou gravado.
+
+## 5. Mudança de rumo: Compras como listas (2026-10-25)
+Decisão do responsável: sem app Estoque; o Compras vira **listas do que falta** (só ingredientes, nome + quantidade), no estilo das Notas do iPhone, com **exportar em PDF e enviar para quem faz as compras**. Sem fornecedores.
+- Migration `20261025112419_compras_listas.sql` (aplicada): `shopping_lists`, `shopping_list_items`, `shopping_buyers` (quem compra, por loja). Qualquer funcionário com login usa; apagar lista e definir comprador: dono/admin/gerente; cada loja vê só as suas.
+- App `/compras`: listas em cartões, editor (Enter para anotar, sugestões do que já foi pedido, toque para marcar comprado), Enviar (compartilhar PDF no celular; no computador baixa + WhatsApp), Baixar PDF, Concluir/Reabrir.
+- App Estoque saiu da Central e foi desativado para a Ramos Food (dados mantidos). Cardápio no Caixa guardado no ramo `cardapio-caixa`.
+- Testes: `scripts/security-tests/listas/run.sh` (8) e unitários (listas e PDF).

@@ -1,93 +1,66 @@
-import type { OrderStatus } from "./db";
+import type { PdfLine } from "@/lib/simple-pdf";
+import type { ListStatus } from "./db";
 
-/** Regras puras do MyFoods Compras (sem banco), cobertas por testes. */
+/** Regras puras das listas de compras (cobertas por testes). */
 
-export const STATUS_LABEL: Record<OrderStatus, string> = {
-  aberto: "Rascunho",
-  enviado: "Enviado",
-  recebido_parcial: "Recebido em parte",
-  recebido: "Recebido",
-  cancelado: "Cancelado",
-};
-export const OPEN_STATUSES: OrderStatus[] = ["aberto", "enviado", "recebido_parcial"];
+export const STATUS_LABEL: Record<ListStatus, string> = { aberta: "Aberta", enviada: "Enviada", concluida: "Concluída" };
 
-export const STATUS_TONE: Record<OrderStatus, "neutral" | "info" | "warn" | "ok" | "danger"> = {
-  aberto: "neutral",
-  enviado: "info",
-  recebido_parcial: "warn",
-  recebido: "ok",
-  cancelado: "danger",
-};
+type Item = { name: string; quantity: string | null; checked: boolean; position: number; created_at: string };
 
-export type Line = { catalogItemId: string; quantity: number; unitPrice: number | null; orderItemId?: string | null };
-
-/** Unidades contadas por peça/embalagem: a sugestão arredonda para cima. */
-const WHOLE_UNITS = new Set(["un", "unidade", "cx", "pct", "dz", "fardo"]);
-
-type StockRow = { catalog_item_id: string; quantity: number | string; minimum_stock: number | string; maximum_stock?: number | string | null; unit_of_measure: string; unit_cost?: number | string | null };
-
-/**
- * Sugestão de pedido: produtos no mínimo ou abaixo; quantidade para chegar ao máximo
- * (ou ao dobro do mínimo, se não houver máximo).
- */
-export function suggestLines(stock: StockRow[]): Line[] {
-  return stock
-    .filter((s) => Number(s.minimum_stock) > 0 && Number(s.quantity) <= Number(s.minimum_stock))
-    .map((s) => {
-      const target = s.maximum_stock != null && Number(s.maximum_stock) > 0 ? Number(s.maximum_stock) : 2 * Number(s.minimum_stock);
-      const raw = Math.max(target - Number(s.quantity), 0);
-      const quantity = WHOLE_UNITS.has(s.unit_of_measure) ? Math.ceil(raw) : Math.round(raw * 1000) / 1000;
-      return { catalogItemId: s.catalog_item_id, quantity, unitPrice: s.unit_cost != null ? Number(s.unit_cost) : null };
-    })
-    .filter((l) => l.quantity > 0);
+/** Como nas Notas: o que falta comprar em cima, na ordem em que foi anotado; comprados embaixo. */
+export function sortItems<T extends Item>(items: T[]): T[] {
+  return [...items].sort((a, b) => Number(a.checked) - Number(b.checked) || a.position - b.position || a.created_at.localeCompare(b.created_at));
 }
 
-export const linesTotal = (lines: Pick<Line, "quantity" | "unitPrice">[]) =>
-  Math.round(lines.reduce((acc, l) => acc + l.quantity * (l.unitPrice ?? 0), 0) * 100) / 100;
+const ddmmyyyy = (d: Date) => d.toLocaleDateString("pt-BR");
 
-const fmtQty = (n: number) => new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 3 }).format(n);
+/** Título padrão de uma lista nova: "Compras de 25/10". */
+export const defaultTitle = (d = new Date()) => `Compras de ${d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })}`;
 
-/** Texto do pedido para o WhatsApp do fornecedor. */
-export function orderMessage(o: {
-  number: number;
-  supplier: string;
-  company: string;
-  unit: string;
-  expectedDate?: string | null;
-  notes?: string | null;
-  items: { name: string; unit: string; quantity: number }[];
-}) {
-  const lines = [
-    `Olá, ${o.supplier}! Segue o pedido nº ${o.number} de ${o.company} (${o.unit}):`,
-    "",
-    ...o.items.map((i) => `• ${fmtQty(i.quantity)} ${i.unit} — ${i.name}`),
+/** Separa "Leite 6 L" em nome e quantidade quando a pessoa digita tudo junto no campo do ingrediente. */
+export function splitEntry(text: string): { name: string; quantity: string | null } {
+  const t = text.trim().replace(/\s+/g, " ");
+  const m = /^(.*?)[\s—–-]+(\d+(?:[.,]\d+)?\s*(?:[a-zA-ZçÇãõéêíóúá.]+)?(?:\s+de\s+\S+)?)$/.exec(t);
+  if (m && m[1]!.trim().length > 0) return { name: m[1]!.trim(), quantity: m[2]!.trim() };
+  return { name: t, quantity: null };
+}
+
+export function pdfLines(o: { title: string; company: string; unit: string; date?: Date; items: Item[] }): PdfLine[] {
+  const items = sortItems(o.items);
+  const bought = items.filter((i) => i.checked).length;
+  return [
+    { kind: "title", text: o.title },
+    {
+      kind: "subtitle",
+      text: `${o.company} · ${o.unit} · ${ddmmyyyy(o.date ?? new Date())} · ${items.length} ${items.length === 1 ? "item" : "itens"}${bought ? ` (${bought} já comprado${bought === 1 ? "" : "s"})` : ""}`,
+    },
+    { kind: "gap" },
+    ...items.map((i) => ({ kind: "item" as const, text: i.name, detail: i.quantity, checked: i.checked })),
   ];
-  if (o.expectedDate) lines.push("", `Entrega: ${o.expectedDate.split("-").reverse().join("/")}`);
-  if (o.notes?.trim()) lines.push("", `Obs.: ${o.notes.trim()}`);
-  lines.push("", "Pode confirmar, por favor? Obrigado!");
-  return lines.join("\n");
 }
 
-/** Link do WhatsApp. Telefone brasileiro sem DDI ganha 55; sem telefone, abre para escolher o contato. */
+/** Texto para o WhatsApp: só o que falta comprar. */
+export function listMessage(o: { title: string; unit: string; buyer?: string | null | undefined; items: Item[] }) {
+  const missing = sortItems(o.items).filter((i) => !i.checked);
+  return [
+    `${o.buyer ? `Olá, ${o.buyer}! ` : ""}${o.title} — ${o.unit}:`,
+    "",
+    ...missing.map((i) => `• ${i.name}${i.quantity ? ` — ${i.quantity}` : ""}`),
+  ].join("\n");
+}
+
+/** Nome do arquivo: "compras-de-25-10.pdf". */
+export const fileName = (title: string) =>
+  `${title
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "") || "lista"}.pdf`;
+
+/** Link do WhatsApp; telefone brasileiro sem DDI ganha 55; sem telefone, abre para escolher o contato. */
 export function whatsappLink(phone: string | null | undefined, text: string) {
   let digits = (phone ?? "").replace(/\D/g, "");
   if (digits.length === 10 || digits.length === 11) digits = `55${digits}`;
-  const base = digits.length >= 12 ? `https://wa.me/${digits}` : "https://wa.me/";
-  return `${base}?text=${encodeURIComponent(text)}`;
-}
-
-/** Variação entre as duas últimas compras de cada produto (mais recente primeiro na lista de entrada). */
-export function priceChanges(rows: { catalog_item_id: string; unit_cost: number | null; received_at: string }[]) {
-  const by = new Map<string, number[]>();
-  for (const r of [...rows].sort((a, b) => b.received_at.localeCompare(a.received_at))) {
-    if (r.unit_cost == null) continue;
-    const list = by.get(r.catalog_item_id) ?? [];
-    if (list.length < 2) list.push(Number(r.unit_cost));
-    by.set(r.catalog_item_id, list);
-  }
-  return [...by.entries()]
-    .filter(([, l]) => l.length === 2 && l[1]! > 0)
-    .map(([id, [last, prev]]) => ({ catalogItemId: id, last: last!, previous: prev!, change: Math.round(((last! - prev!) / prev!) * 1000) / 10 }))
-    .filter((c) => c.change !== 0)
-    .sort((a, b) => Math.abs(b.change) - Math.abs(a.change));
+  return `${digits.length >= 12 ? `https://wa.me/${digits}` : "https://wa.me/"}?text=${encodeURIComponent(text)}`;
 }

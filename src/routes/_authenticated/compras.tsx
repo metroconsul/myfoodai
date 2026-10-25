@@ -42,7 +42,7 @@ function ComprasAccessGate() {
     );
   }
   if (!canUse && !isPlatformAdmin) {
-    return <Blocked title="Seu perfil não tem acesso" text="Peça ao administrador da empresa o papel de estoquista ou gerente." />;
+    return <Blocked title="Seu perfil não tem acesso" text="Peça ao administrador da empresa para liberar o seu acesso." />;
   }
   return (
     <ComprasShell>

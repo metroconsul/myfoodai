@@ -13,18 +13,17 @@ function ctx(over: Partial<AccessContext> & { features?: string[] } = {}): Acces
 }
 
 describe("registro de aplicativos", () => {
-  it("tem os cinco aplicativos, cada um com um código de acesso conhecido", () => {
-    expect(APPS.map((a) => a.id).sort()).toEqual(
-      ["caixa-financeiro", "compras", "documentos", "estoque", "ponto"],
-    );
+  it("tem os aplicativos da Central (Estoque saiu em 2026-10-25), cada um com um código de acesso conhecido", () => {
+    expect(APPS.map((a) => a.id).sort()).toEqual(["caixa-financeiro", "compras", "documentos", "ponto"]);
     for (const app of APPS) expect(FEATURES).toContain(app.entitlement);
   });
 
-  it("Compras abre para estoquista e gerente quando contratado", () => {
+  it("Compras (listas) abre para qualquer funcionário com login quando contratado", () => {
     const cp = appById("compras");
-    expect(appAccess(cp, ctx({ features: ["app_compras"], roles: ["stock_manager"] }))).toBe("open");
+    for (const role of ["staff", "cashier", "stock_manager", "unit_manager"]) {
+      expect(appAccess(cp, ctx({ features: ["app_compras"], roles: [role] }))).toBe("open");
+    }
     expect(appAccess(cp, ctx({ features: [], roles: ["owner"] }))).toBe("not_contracted");
-    expect(appAccess(cp, ctx({ features: ["app_compras"], roles: ["cashier"] }))).toBe("no_role");
   });
 
   it("Caixa & Financeiro abre para operador de caixa e financeiro quando contratado", () => {
@@ -36,7 +35,7 @@ describe("registro de aplicativos", () => {
   });
 
   it("app não contratado não abre, mesmo para o dono", () => {
-    expect(appAccess(appById("estoque"), ctx({ features: ["app_ponto"] }))).toBe("not_contracted");
+    expect(appAccess(appById("compras"), ctx({ features: ["app_ponto"] }))).toBe("not_contracted");
   });
 
   it("app contratado abre para papel autorizado e não abre para papel sem acesso", () => {

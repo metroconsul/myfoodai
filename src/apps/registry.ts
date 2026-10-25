@@ -1,4 +1,4 @@
-import { Boxes, Clock, FileText, ShoppingCart, Wallet, type LucideIcon } from "lucide-react";
+import { Clock, FileText, ShoppingCart, Wallet, type LucideIcon } from "lucide-react";
 import type { FeatureCode } from "@/config/features";
 
 export type AppId = "ponto" | "documentos" | "estoque" | "compras" | "caixa-financeiro";
@@ -43,17 +43,6 @@ export const APPS: AppManifest[] = [
     tone: "acid",
   },
   {
-    id: "estoque",
-    name: "MyFoods Estoque",
-    description: "Controle e organização do estoque, por unidade.",
-    icon: Boxes,
-    entitlement: "app_estoque",
-    status: "available",
-    entry: "/estoque",
-    roles: ["owner", "admin", "unit_manager", "stock_manager"],
-    tone: "ember",
-  },
-  {
     id: "documentos",
     name: "MyFoods Documentos",
     description: "Holerites, documentos dos colaboradores e entrega de EPIs.",
@@ -78,12 +67,13 @@ export const APPS: AppManifest[] = [
   {
     id: "compras",
     name: "MyFoods Compras",
-    description: "Organização das compras e dos fornecedores.",
+    description: "Listas do que falta, por loja, para enviar em PDF a quem faz as compras.",
     icon: ShoppingCart,
     entitlement: "app_compras",
     status: "available",
     entry: "/compras",
-    roles: ["owner", "admin", "unit_manager", "stock_manager"],
+    // Qualquer funcionário com login anota o que falta (decisão de 2026-10-25).
+    roles: ["owner", "admin", "unit_manager", "hr", "stock_manager", "supervisor", "staff", "cashier", "finance"],
     tone: "paper",
   },
 ];

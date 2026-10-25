@@ -1,110 +1,74 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
-import { cpdb } from "./db";
+import { ldb } from "./db";
 
-/** Consultas do MyFoods Compras. Passam pelas regras de acesso do banco (empresa, unidade, papel). */
+/** Consultas das listas de compras. Passam pelas regras do banco (empresa, loja, papel). */
 
-export const comprasKey = ["compras"] as const;
+export const listsKey = ["compras-listas"] as const;
 
-/** Produtos da empresa com o saldo desta unidade (quando houver), para pedidos, recebimentos e sugestão. */
-export function useProducts(unitId: string | null) {
+export function useLists(unitId: string | null) {
   return useQuery({
-    queryKey: [...comprasKey, "products", unitId],
+    queryKey: [...listsKey, "lists", unitId],
     enabled: Boolean(unitId),
     queryFn: async () => {
-      const [catalog, stock] = await Promise.all([
-        supabase.from("catalog_items").select("id, name, unit_of_measure, unit_cost, active, item_type").eq("active", true).order("name"),
-        supabase
-          .from("inventory_items")
-          .select("catalog_item_id, quantity, minimum_stock, maximum_stock, unit_cost, unit_of_measure")
-          .eq("unit_id", unitId!)
-          .eq("active", true),
-      ]);
-      if (catalog.error) throw catalog.error;
-      if (stock.error) throw stock.error;
-      const byCatalog = new Map((stock.data ?? []).map((s) => [s.catalog_item_id, s]));
-      return (catalog.data ?? []).map((c) => {
-        const s = byCatalog.get(c.id);
-        return {
-          id: c.id,
-          name: c.name,
-          unit: c.unit_of_measure,
-          unitCost: s?.unit_cost ?? c.unit_cost ?? null,
-          quantity: s ? Number(s.quantity) : null,
-          minimum: s ? Number(s.minimum_stock) : 0,
-        };
+      const { data, error } = await ldb.from("shopping_lists").select("*").eq("unit_id", unitId!).order("updated_at", { ascending: false }).limit(200);
+      if (error) throw new Error(error.message);
+      const lists = data ?? [];
+      const ids = lists.map((l) => l.id);
+      const { data: items, error: e2 } = ids.length
+        ? await ldb.from("shopping_list_items").select("list_id, name, checked").in("list_id", ids)
+        : { data: [], error: null };
+      if (e2) throw new Error(e2.message);
+      return lists.map((l) => {
+        const mine = (items ?? []).filter((i) => i.list_id === l.id);
+        return { ...l, total: mine.length, missing: mine.filter((i) => !i.checked).length, preview: mine.filter((i) => !i.checked).slice(0, 4).map((i) => i.name) };
       });
     },
   });
 }
-export type Product = NonNullable<ReturnType<typeof useProducts>["data"]>[number];
 
-/** Linhas de saldo da unidade no formato da sugestão de pedido. */
-export function useStockForSuggestion(unitId: string | null) {
+export function useList(id: string) {
   return useQuery({
-    queryKey: [...comprasKey, "stock", unitId],
+    queryKey: [...listsKey, "list", id],
+    queryFn: async () => {
+      const [list, items] = await Promise.all([
+        ldb.from("shopping_lists").select("*").eq("id", id).maybeSingle(),
+        ldb.from("shopping_list_items").select("*").eq("list_id", id),
+      ]);
+      if (list.error) throw new Error(list.error.message);
+      if (items.error) throw new Error(items.error.message);
+      return { list: list.data, items: items.data ?? [] };
+    },
+  });
+}
+
+/** Ingredientes já anotados nesta loja (sugestões ao digitar), do mais frequente para o menos. */
+export function useSuggestions(unitId: string | null) {
+  return useQuery({
+    queryKey: [...listsKey, "suggestions", unitId],
     enabled: Boolean(unitId),
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("inventory_items")
-        .select("catalog_item_id, quantity, minimum_stock, maximum_stock, unit_of_measure, unit_cost")
-        .eq("unit_id", unitId!)
-        .eq("active", true);
-      if (error) throw error;
-      // Todo saldo tem produto desde a migration estoque_core (os tipos gerados ainda não sabem).
-      return (data ?? []).flatMap((r) => (r.catalog_item_id ? [{ ...r, catalog_item_id: r.catalog_item_id }] : []));
+      const { data: lists } = await ldb.from("shopping_lists").select("id").eq("unit_id", unitId!).order("updated_at", { ascending: false }).limit(50);
+      const ids = (lists ?? []).map((l) => l.id);
+      if (!ids.length) return [];
+      const { data } = await ldb.from("shopping_list_items").select("name").in("list_id", ids).limit(1000);
+      const count = new Map<string, { name: string; n: number }>();
+      for (const r of data ?? []) {
+        const key = r.name.trim().toLowerCase();
+        count.set(key, { name: count.get(key)?.name ?? r.name.trim(), n: (count.get(key)?.n ?? 0) + 1 });
+      }
+      return [...count.values()].sort((a, b) => b.n - a.n).map((x) => x.name);
     },
   });
 }
 
-export function useOrders(unitId: string | null) {
+export function useBuyer(unitId: string | null) {
   return useQuery({
-    queryKey: [...comprasKey, "orders", unitId],
+    queryKey: [...listsKey, "buyer", unitId],
     enabled: Boolean(unitId),
     queryFn: async () => {
-      const { data, error } = await cpdb
-        .from("purchase_orders")
-        .select("*")
-        .eq("unit_id", unitId!)
-        .order("created_at", { ascending: false })
-        .limit(200);
-      if (error) throw error;
-      const orders = data ?? [];
-      const ids = orders.map((o) => o.id);
-      const { data: items, error: e2 } = ids.length
-        ? await cpdb.from("purchase_order_items").select("*").in("order_id", ids)
-        : { data: [], error: null };
-      if (e2) throw e2;
-      return orders.map((o) => ({ ...o, items: (items ?? []).filter((i) => i.order_id === o.id) }));
+      const { data, error } = await ldb.from("shopping_buyers").select("*").eq("unit_id", unitId!).maybeSingle();
+      if (error) throw new Error(error.message);
+      return data;
     },
   });
 }
-export type OrderWithItems = NonNullable<ReturnType<typeof useOrders>["data"]>[number];
-
-export function useReceipts(unitId: string | null, from: string, to: string) {
-  return useQuery({
-    queryKey: [...comprasKey, "receipts", unitId, from, to],
-    enabled: Boolean(unitId) && from <= to,
-    queryFn: async () => {
-      const end = new Date(`${to}T00:00:00`);
-      end.setDate(end.getDate() + 1);
-      const { data, error } = await cpdb
-        .from("purchase_receipts")
-        .select("*")
-        .eq("unit_id", unitId!)
-        .gte("received_at", new Date(`${from}T00:00:00`).toISOString())
-        .lt("received_at", end.toISOString())
-        .order("received_at", { ascending: false })
-        .limit(500);
-      if (error) throw error;
-      const receipts = data ?? [];
-      const ids = receipts.map((r) => r.id);
-      const { data: items, error: e2 } = ids.length
-        ? await cpdb.from("purchase_receipt_items").select("*").in("receipt_id", ids)
-        : { data: [], error: null };
-      if (e2) throw e2;
-      return receipts.map((r) => ({ ...r, items: (items ?? []).filter((i) => i.receipt_id === r.id) }));
-    },
-  });
-}
-export type ReceiptWithItems = NonNullable<ReturnType<typeof useReceipts>["data"]>[number];

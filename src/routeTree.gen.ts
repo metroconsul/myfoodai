@@ -44,9 +44,7 @@ import { Route as AuthenticatedCaixaFinanceiroIndexRouteImport } from './routes/
 import { Route as AuthenticatedCaixaFinanceiroConfiguracoesRouteImport } from './routes/_authenticated/caixa-financeiro.configuracoes'
 import { Route as AuthenticatedCaixaFinanceiroVendasRouteImport } from './routes/_authenticated/caixa-financeiro.vendas'
 import { Route as AuthenticatedComprasIndexRouteImport } from './routes/_authenticated/compras.index'
-import { Route as AuthenticatedComprasFornecedoresRouteImport } from './routes/_authenticated/compras.fornecedores'
-import { Route as AuthenticatedComprasHistoricoRouteImport } from './routes/_authenticated/compras.historico'
-import { Route as AuthenticatedComprasReceberRouteImport } from './routes/_authenticated/compras.receber'
+import { Route as AuthenticatedComprasCompradorRouteImport } from './routes/_authenticated/compras.comprador'
 import { Route as AuthenticatedEstoqueIndexRouteImport } from './routes/_authenticated/estoque.index'
 import { Route as AuthenticatedEstoqueFornecedoresRouteImport } from './routes/_authenticated/estoque.fornecedores'
 import { Route as AuthenticatedEstoqueInventarioRouteImport } from './routes/_authenticated/estoque.inventario'
@@ -86,8 +84,7 @@ import { Route as AuthenticatedAppSettingsLgpdRouteImport } from './routes/_auth
 import { Route as AuthenticatedCaixaFinanceiroCaixaIndexRouteImport } from './routes/_authenticated/caixa-financeiro.caixa.index'
 import { Route as AuthenticatedCaixaFinanceiroCaixaSessionIdRouteImport } from './routes/_authenticated/caixa-financeiro.caixa.$sessionId'
 import { Route as AuthenticatedCaixaFinanceiroCaixaHistoricoRouteImport } from './routes/_authenticated/caixa-financeiro.caixa.historico'
-import { Route as AuthenticatedComprasPedidosIndexRouteImport } from './routes/_authenticated/compras.pedidos.index'
-import { Route as AuthenticatedComprasPedidosIdRouteImport } from './routes/_authenticated/compras.pedidos.$id'
+import { Route as AuthenticatedComprasListaIdRouteImport } from './routes/_authenticated/compras.lista.$id'
 import { Route as AuthenticatedPainelAdminAplicativosRouteImport } from './routes/_authenticated/painel.admin.aplicativos'
 import { Route as AuthenticatedPontoCartoesIndexRouteImport } from './routes/_authenticated/ponto.cartoes.index'
 import { Route as AuthenticatedPontoCartoesIdRouteImport } from './routes/_authenticated/ponto.cartoes.$id'
@@ -297,22 +294,10 @@ const AuthenticatedComprasIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedComprasRoute,
   } as any)
-const AuthenticatedComprasFornecedoresRoute =
-  AuthenticatedComprasFornecedoresRouteImport.update({
-    id: '/fornecedores',
-    path: '/fornecedores',
-    getParentRoute: () => AuthenticatedComprasRoute,
-  } as any)
-const AuthenticatedComprasHistoricoRoute =
-  AuthenticatedComprasHistoricoRouteImport.update({
-    id: '/historico',
-    path: '/historico',
-    getParentRoute: () => AuthenticatedComprasRoute,
-  } as any)
-const AuthenticatedComprasReceberRoute =
-  AuthenticatedComprasReceberRouteImport.update({
-    id: '/receber',
-    path: '/receber',
+const AuthenticatedComprasCompradorRoute =
+  AuthenticatedComprasCompradorRouteImport.update({
+    id: '/comprador',
+    path: '/comprador',
     getParentRoute: () => AuthenticatedComprasRoute,
   } as any)
 const AuthenticatedEstoqueIndexRoute =
@@ -537,16 +522,10 @@ const AuthenticatedCaixaFinanceiroCaixaHistoricoRoute =
     path: '/caixa/historico',
     getParentRoute: () => AuthenticatedCaixaFinanceiroRoute,
   } as any)
-const AuthenticatedComprasPedidosIndexRoute =
-  AuthenticatedComprasPedidosIndexRouteImport.update({
-    id: '/pedidos/',
-    path: '/pedidos/',
-    getParentRoute: () => AuthenticatedComprasRoute,
-  } as any)
-const AuthenticatedComprasPedidosIdRoute =
-  AuthenticatedComprasPedidosIdRouteImport.update({
-    id: '/pedidos/$id',
-    path: '/pedidos/$id',
+const AuthenticatedComprasListaIdRoute =
+  AuthenticatedComprasListaIdRouteImport.update({
+    id: '/lista/$id',
+    path: '/lista/$id',
     getParentRoute: () => AuthenticatedComprasRoute,
   } as any)
 const AuthenticatedPainelAdminAplicativosRoute =
@@ -701,9 +680,7 @@ export interface FileRoutesByFullPath {
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/caixa-financeiro/configuracoes': typeof AuthenticatedCaixaFinanceiroConfiguracoesRoute
   '/caixa-financeiro/vendas': typeof AuthenticatedCaixaFinanceiroVendasRoute
-  '/compras/fornecedores': typeof AuthenticatedComprasFornecedoresRoute
-  '/compras/historico': typeof AuthenticatedComprasHistoricoRoute
-  '/compras/receber': typeof AuthenticatedComprasReceberRoute
+  '/compras/comprador': typeof AuthenticatedComprasCompradorRoute
   '/estoque/fornecedores': typeof AuthenticatedEstoqueFornecedoresRoute
   '/estoque/inventario': typeof AuthenticatedEstoqueInventarioRoute
   '/estoque/movimentacoes': typeof AuthenticatedEstoqueMovimentacoesRoute
@@ -742,7 +719,7 @@ export interface FileRoutesByFullPath {
   '/app/settings/lgpd': typeof AuthenticatedAppSettingsLgpdRoute
   '/caixa-financeiro/caixa/$sessionId': typeof AuthenticatedCaixaFinanceiroCaixaSessionIdRoute
   '/caixa-financeiro/caixa/historico': typeof AuthenticatedCaixaFinanceiroCaixaHistoricoRoute
-  '/compras/pedidos/$id': typeof AuthenticatedComprasPedidosIdRoute
+  '/compras/lista/$id': typeof AuthenticatedComprasListaIdRoute
   '/painel/admin/aplicativos': typeof AuthenticatedPainelAdminAplicativosRoute
   '/ponto/cartoes/$id': typeof AuthenticatedPontoCartoesIdRoute
   '/ponto/equipe/cargos': typeof AuthenticatedPontoEquipeCargosRoute
@@ -760,7 +737,6 @@ export interface FileRoutesByFullPath {
   '/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
   '/app/point-cards/': typeof AuthenticatedAppPointCardsIndexRoute
   '/caixa-financeiro/caixa/': typeof AuthenticatedCaixaFinanceiroCaixaIndexRoute
-  '/compras/pedidos/': typeof AuthenticatedComprasPedidosIndexRoute
   '/ponto/cartoes/': typeof AuthenticatedPontoCartoesIndexRoute
   '/ponto/equipe/': typeof AuthenticatedPontoEquipeIndexRoute
   '/app/conformidade/exames/$id': typeof AuthenticatedAppConformidadeExamesIdRoute
@@ -794,9 +770,7 @@ export interface FileRoutesByTo {
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/caixa-financeiro/configuracoes': typeof AuthenticatedCaixaFinanceiroConfiguracoesRoute
   '/caixa-financeiro/vendas': typeof AuthenticatedCaixaFinanceiroVendasRoute
-  '/compras/fornecedores': typeof AuthenticatedComprasFornecedoresRoute
-  '/compras/historico': typeof AuthenticatedComprasHistoricoRoute
-  '/compras/receber': typeof AuthenticatedComprasReceberRoute
+  '/compras/comprador': typeof AuthenticatedComprasCompradorRoute
   '/estoque/fornecedores': typeof AuthenticatedEstoqueFornecedoresRoute
   '/estoque/inventario': typeof AuthenticatedEstoqueInventarioRoute
   '/estoque/movimentacoes': typeof AuthenticatedEstoqueMovimentacoesRoute
@@ -834,7 +808,7 @@ export interface FileRoutesByTo {
   '/app/settings/lgpd': typeof AuthenticatedAppSettingsLgpdRoute
   '/caixa-financeiro/caixa/$sessionId': typeof AuthenticatedCaixaFinanceiroCaixaSessionIdRoute
   '/caixa-financeiro/caixa/historico': typeof AuthenticatedCaixaFinanceiroCaixaHistoricoRoute
-  '/compras/pedidos/$id': typeof AuthenticatedComprasPedidosIdRoute
+  '/compras/lista/$id': typeof AuthenticatedComprasListaIdRoute
   '/painel/admin/aplicativos': typeof AuthenticatedPainelAdminAplicativosRoute
   '/ponto/cartoes/$id': typeof AuthenticatedPontoCartoesIdRoute
   '/ponto/equipe/cargos': typeof AuthenticatedPontoEquipeCargosRoute
@@ -852,7 +826,6 @@ export interface FileRoutesByTo {
   '/app/deliveries': typeof AuthenticatedAppDeliveriesIndexRoute
   '/app/point-cards': typeof AuthenticatedAppPointCardsIndexRoute
   '/caixa-financeiro/caixa': typeof AuthenticatedCaixaFinanceiroCaixaIndexRoute
-  '/compras/pedidos': typeof AuthenticatedComprasPedidosIndexRoute
   '/ponto/cartoes': typeof AuthenticatedPontoCartoesIndexRoute
   '/ponto/equipe': typeof AuthenticatedPontoEquipeIndexRoute
   '/app/conformidade/exames/$id': typeof AuthenticatedAppConformidadeExamesIdRoute
@@ -895,9 +868,7 @@ export interface FileRoutesById {
   '/_authenticated/app/units': typeof AuthenticatedAppUnitsRoute
   '/_authenticated/caixa-financeiro/configuracoes': typeof AuthenticatedCaixaFinanceiroConfiguracoesRoute
   '/_authenticated/caixa-financeiro/vendas': typeof AuthenticatedCaixaFinanceiroVendasRoute
-  '/_authenticated/compras/fornecedores': typeof AuthenticatedComprasFornecedoresRoute
-  '/_authenticated/compras/historico': typeof AuthenticatedComprasHistoricoRoute
-  '/_authenticated/compras/receber': typeof AuthenticatedComprasReceberRoute
+  '/_authenticated/compras/comprador': typeof AuthenticatedComprasCompradorRoute
   '/_authenticated/estoque/fornecedores': typeof AuthenticatedEstoqueFornecedoresRoute
   '/_authenticated/estoque/inventario': typeof AuthenticatedEstoqueInventarioRoute
   '/_authenticated/estoque/movimentacoes': typeof AuthenticatedEstoqueMovimentacoesRoute
@@ -936,7 +907,7 @@ export interface FileRoutesById {
   '/_authenticated/app/settings/lgpd': typeof AuthenticatedAppSettingsLgpdRoute
   '/_authenticated/caixa-financeiro/caixa/$sessionId': typeof AuthenticatedCaixaFinanceiroCaixaSessionIdRoute
   '/_authenticated/caixa-financeiro/caixa/historico': typeof AuthenticatedCaixaFinanceiroCaixaHistoricoRoute
-  '/_authenticated/compras/pedidos/$id': typeof AuthenticatedComprasPedidosIdRoute
+  '/_authenticated/compras/lista/$id': typeof AuthenticatedComprasListaIdRoute
   '/_authenticated/painel/admin/aplicativos': typeof AuthenticatedPainelAdminAplicativosRoute
   '/_authenticated/ponto/cartoes/$id': typeof AuthenticatedPontoCartoesIdRoute
   '/_authenticated/ponto/equipe/cargos': typeof AuthenticatedPontoEquipeCargosRoute
@@ -954,7 +925,6 @@ export interface FileRoutesById {
   '/_authenticated/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
   '/_authenticated/app/point-cards/': typeof AuthenticatedAppPointCardsIndexRoute
   '/_authenticated/caixa-financeiro/caixa/': typeof AuthenticatedCaixaFinanceiroCaixaIndexRoute
-  '/_authenticated/compras/pedidos/': typeof AuthenticatedComprasPedidosIndexRoute
   '/_authenticated/ponto/cartoes/': typeof AuthenticatedPontoCartoesIndexRoute
   '/_authenticated/ponto/equipe/': typeof AuthenticatedPontoEquipeIndexRoute
   '/_authenticated/app/conformidade/exames/$id': typeof AuthenticatedAppConformidadeExamesIdRoute
@@ -997,9 +967,7 @@ export interface FileRouteTypes {
     | '/app/units'
     | '/caixa-financeiro/configuracoes'
     | '/caixa-financeiro/vendas'
-    | '/compras/fornecedores'
-    | '/compras/historico'
-    | '/compras/receber'
+    | '/compras/comprador'
     | '/estoque/fornecedores'
     | '/estoque/inventario'
     | '/estoque/movimentacoes'
@@ -1038,7 +1006,7 @@ export interface FileRouteTypes {
     | '/app/settings/lgpd'
     | '/caixa-financeiro/caixa/$sessionId'
     | '/caixa-financeiro/caixa/historico'
-    | '/compras/pedidos/$id'
+    | '/compras/lista/$id'
     | '/painel/admin/aplicativos'
     | '/ponto/cartoes/$id'
     | '/ponto/equipe/cargos'
@@ -1056,7 +1024,6 @@ export interface FileRouteTypes {
     | '/app/deliveries/'
     | '/app/point-cards/'
     | '/caixa-financeiro/caixa/'
-    | '/compras/pedidos/'
     | '/ponto/cartoes/'
     | '/ponto/equipe/'
     | '/app/conformidade/exames/$id'
@@ -1090,9 +1057,7 @@ export interface FileRouteTypes {
     | '/app/units'
     | '/caixa-financeiro/configuracoes'
     | '/caixa-financeiro/vendas'
-    | '/compras/fornecedores'
-    | '/compras/historico'
-    | '/compras/receber'
+    | '/compras/comprador'
     | '/estoque/fornecedores'
     | '/estoque/inventario'
     | '/estoque/movimentacoes'
@@ -1130,7 +1095,7 @@ export interface FileRouteTypes {
     | '/app/settings/lgpd'
     | '/caixa-financeiro/caixa/$sessionId'
     | '/caixa-financeiro/caixa/historico'
-    | '/compras/pedidos/$id'
+    | '/compras/lista/$id'
     | '/painel/admin/aplicativos'
     | '/ponto/cartoes/$id'
     | '/ponto/equipe/cargos'
@@ -1148,7 +1113,6 @@ export interface FileRouteTypes {
     | '/app/deliveries'
     | '/app/point-cards'
     | '/caixa-financeiro/caixa'
-    | '/compras/pedidos'
     | '/ponto/cartoes'
     | '/ponto/equipe'
     | '/app/conformidade/exames/$id'
@@ -1190,9 +1154,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/units'
     | '/_authenticated/caixa-financeiro/configuracoes'
     | '/_authenticated/caixa-financeiro/vendas'
-    | '/_authenticated/compras/fornecedores'
-    | '/_authenticated/compras/historico'
-    | '/_authenticated/compras/receber'
+    | '/_authenticated/compras/comprador'
     | '/_authenticated/estoque/fornecedores'
     | '/_authenticated/estoque/inventario'
     | '/_authenticated/estoque/movimentacoes'
@@ -1231,7 +1193,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/settings/lgpd'
     | '/_authenticated/caixa-financeiro/caixa/$sessionId'
     | '/_authenticated/caixa-financeiro/caixa/historico'
-    | '/_authenticated/compras/pedidos/$id'
+    | '/_authenticated/compras/lista/$id'
     | '/_authenticated/painel/admin/aplicativos'
     | '/_authenticated/ponto/cartoes/$id'
     | '/_authenticated/ponto/equipe/cargos'
@@ -1249,7 +1211,6 @@ export interface FileRouteTypes {
     | '/_authenticated/app/deliveries/'
     | '/_authenticated/app/point-cards/'
     | '/_authenticated/caixa-financeiro/caixa/'
-    | '/_authenticated/compras/pedidos/'
     | '/_authenticated/ponto/cartoes/'
     | '/_authenticated/ponto/equipe/'
     | '/_authenticated/app/conformidade/exames/$id'
@@ -1526,25 +1487,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedComprasIndexRouteImport
       parentRoute: typeof AuthenticatedComprasRoute
     }
-    '/_authenticated/compras/fornecedores': {
-      id: '/_authenticated/compras/fornecedores'
-      path: '/fornecedores'
-      fullPath: '/compras/fornecedores'
-      preLoaderRoute: typeof AuthenticatedComprasFornecedoresRouteImport
-      parentRoute: typeof AuthenticatedComprasRoute
-    }
-    '/_authenticated/compras/historico': {
-      id: '/_authenticated/compras/historico'
-      path: '/historico'
-      fullPath: '/compras/historico'
-      preLoaderRoute: typeof AuthenticatedComprasHistoricoRouteImport
-      parentRoute: typeof AuthenticatedComprasRoute
-    }
-    '/_authenticated/compras/receber': {
-      id: '/_authenticated/compras/receber'
-      path: '/receber'
-      fullPath: '/compras/receber'
-      preLoaderRoute: typeof AuthenticatedComprasReceberRouteImport
+    '/_authenticated/compras/comprador': {
+      id: '/_authenticated/compras/comprador'
+      path: '/comprador'
+      fullPath: '/compras/comprador'
+      preLoaderRoute: typeof AuthenticatedComprasCompradorRouteImport
       parentRoute: typeof AuthenticatedComprasRoute
     }
     '/_authenticated/estoque/': {
@@ -1820,18 +1767,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCaixaFinanceiroCaixaHistoricoRouteImport
       parentRoute: typeof AuthenticatedCaixaFinanceiroRoute
     }
-    '/_authenticated/compras/pedidos/': {
-      id: '/_authenticated/compras/pedidos/'
-      path: '/pedidos'
-      fullPath: '/compras/pedidos/'
-      preLoaderRoute: typeof AuthenticatedComprasPedidosIndexRouteImport
-      parentRoute: typeof AuthenticatedComprasRoute
-    }
-    '/_authenticated/compras/pedidos/$id': {
-      id: '/_authenticated/compras/pedidos/$id'
-      path: '/pedidos/$id'
-      fullPath: '/compras/pedidos/$id'
-      preLoaderRoute: typeof AuthenticatedComprasPedidosIdRouteImport
+    '/_authenticated/compras/lista/$id': {
+      id: '/_authenticated/compras/lista/$id'
+      path: '/lista/$id'
+      fullPath: '/compras/lista/$id'
+      preLoaderRoute: typeof AuthenticatedComprasListaIdRouteImport
       parentRoute: typeof AuthenticatedComprasRoute
     }
     '/_authenticated/painel/admin/aplicativos': {
@@ -2089,21 +2029,15 @@ const AuthenticatedCaixaFinanceiroRouteWithChildren =
   )
 
 interface AuthenticatedComprasRouteChildren {
-  AuthenticatedComprasFornecedoresRoute: typeof AuthenticatedComprasFornecedoresRoute
-  AuthenticatedComprasHistoricoRoute: typeof AuthenticatedComprasHistoricoRoute
-  AuthenticatedComprasReceberRoute: typeof AuthenticatedComprasReceberRoute
+  AuthenticatedComprasCompradorRoute: typeof AuthenticatedComprasCompradorRoute
   AuthenticatedComprasIndexRoute: typeof AuthenticatedComprasIndexRoute
-  AuthenticatedComprasPedidosIdRoute: typeof AuthenticatedComprasPedidosIdRoute
-  AuthenticatedComprasPedidosIndexRoute: typeof AuthenticatedComprasPedidosIndexRoute
+  AuthenticatedComprasListaIdRoute: typeof AuthenticatedComprasListaIdRoute
 }
 
 const AuthenticatedComprasRouteChildren: AuthenticatedComprasRouteChildren = {
-  AuthenticatedComprasFornecedoresRoute: AuthenticatedComprasFornecedoresRoute,
-  AuthenticatedComprasHistoricoRoute: AuthenticatedComprasHistoricoRoute,
-  AuthenticatedComprasReceberRoute: AuthenticatedComprasReceberRoute,
+  AuthenticatedComprasCompradorRoute: AuthenticatedComprasCompradorRoute,
   AuthenticatedComprasIndexRoute: AuthenticatedComprasIndexRoute,
-  AuthenticatedComprasPedidosIdRoute: AuthenticatedComprasPedidosIdRoute,
-  AuthenticatedComprasPedidosIndexRoute: AuthenticatedComprasPedidosIndexRoute,
+  AuthenticatedComprasListaIdRoute: AuthenticatedComprasListaIdRoute,
 }
 
 const AuthenticatedComprasRouteWithChildren =
