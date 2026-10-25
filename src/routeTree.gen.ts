@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PortalRouteImport } from './routes/portal'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
 import { Route as AuthenticatedCaixaFinanceiroRouteImport } from './routes/_authenticated/caixa-financeiro'
+import { Route as AuthenticatedCardapioRouteImport } from './routes/_authenticated/cardapio'
 import { Route as AuthenticatedComprasRouteImport } from './routes/_authenticated/compras'
 import { Route as AuthenticatedEstoqueRouteImport } from './routes/_authenticated/estoque'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
@@ -43,6 +44,11 @@ import { Route as AuthenticatedAppUnitsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedCaixaFinanceiroIndexRouteImport } from './routes/_authenticated/caixa-financeiro.index'
 import { Route as AuthenticatedCaixaFinanceiroConfiguracoesRouteImport } from './routes/_authenticated/caixa-financeiro.configuracoes'
 import { Route as AuthenticatedCaixaFinanceiroVendasRouteImport } from './routes/_authenticated/caixa-financeiro.vendas'
+import { Route as AuthenticatedCardapioIndexRouteImport } from './routes/_authenticated/cardapio.index'
+import { Route as AuthenticatedCardapioConfiguracoesRouteImport } from './routes/_authenticated/cardapio.configuracoes'
+import { Route as AuthenticatedCardapioDivulgarRouteImport } from './routes/_authenticated/cardapio.divulgar'
+import { Route as AuthenticatedCardapioItensRouteImport } from './routes/_authenticated/cardapio.itens'
+import { Route as AuthenticatedCardapioMesasRouteImport } from './routes/_authenticated/cardapio.mesas'
 import { Route as AuthenticatedComprasIndexRouteImport } from './routes/_authenticated/compras.index'
 import { Route as AuthenticatedComprasCompradorRouteImport } from './routes/_authenticated/compras.comprador'
 import { Route as AuthenticatedEstoqueIndexRouteImport } from './routes/_authenticated/estoque.index'
@@ -61,6 +67,7 @@ import { Route as ApiAutomationDispatchRouteImport } from './routes/api/automati
 import { Route as ApiAutomationManagerSummaryRouteImport } from './routes/api/automation/manager-summary'
 import { Route as ApiPublicSalesIngestRouteImport } from './routes/api/public/sales-ingest'
 import { Route as ApiPublicStripeWebhookRouteImport } from './routes/api/public/stripe-webhook'
+import { Route as CSlugIndexRouteImport } from './routes/c.$slug.index'
 import { Route as PortalCartaoPontoIndexRouteImport } from './routes/portal.cartao-ponto.index'
 import { Route as PortalCartaoPontoIdRouteImport } from './routes/portal.cartao-ponto.$id'
 import { Route as PortalDocumentosIndexRouteImport } from './routes/portal.documentos.index'
@@ -99,6 +106,7 @@ import { Route as ApiAutomationEventsDocumentsRouteImport } from './routes/api/a
 import { Route as ApiAutomationEventsEpisRouteImport } from './routes/api/automation/events.epis'
 import { Route as ApiPublicMercadoPagoCallbackRouteImport } from './routes/api/public/mercado-pago/callback'
 import { Route as ApiPublicMercadoPagoWebhookRouteImport } from './routes/api/public/mercado-pago/webhook'
+import { Route as CSlugPedidoTokenRouteImport } from './routes/c.$slug.pedido.$token'
 import { Route as PortalHoleritesIdComprovanteRouteImport } from './routes/portal.holerites.$id.comprovante'
 import { Route as AuthenticatedAppConformidadeExamesIndexRouteImport } from './routes/_authenticated/app.conformidade.exames.index'
 import { Route as AuthenticatedAppConformidadeExamesIdRouteImport } from './routes/_authenticated/app.conformidade.exames.$id'
@@ -136,6 +144,11 @@ const AuthenticatedCaixaFinanceiroRoute =
     path: '/caixa-financeiro',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedCardapioRoute = AuthenticatedCardapioRouteImport.update({
+  id: '/cardapio',
+  path: '/cardapio',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedComprasRoute = AuthenticatedComprasRouteImport.update({
   id: '/compras',
   path: '/compras',
@@ -288,6 +301,36 @@ const AuthenticatedCaixaFinanceiroVendasRoute =
     path: '/vendas',
     getParentRoute: () => AuthenticatedCaixaFinanceiroRoute,
   } as any)
+const AuthenticatedCardapioIndexRoute =
+  AuthenticatedCardapioIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedCardapioRoute,
+  } as any)
+const AuthenticatedCardapioConfiguracoesRoute =
+  AuthenticatedCardapioConfiguracoesRouteImport.update({
+    id: '/configuracoes',
+    path: '/configuracoes',
+    getParentRoute: () => AuthenticatedCardapioRoute,
+  } as any)
+const AuthenticatedCardapioDivulgarRoute =
+  AuthenticatedCardapioDivulgarRouteImport.update({
+    id: '/divulgar',
+    path: '/divulgar',
+    getParentRoute: () => AuthenticatedCardapioRoute,
+  } as any)
+const AuthenticatedCardapioItensRoute =
+  AuthenticatedCardapioItensRouteImport.update({
+    id: '/itens',
+    path: '/itens',
+    getParentRoute: () => AuthenticatedCardapioRoute,
+  } as any)
+const AuthenticatedCardapioMesasRoute =
+  AuthenticatedCardapioMesasRouteImport.update({
+    id: '/mesas',
+    path: '/mesas',
+    getParentRoute: () => AuthenticatedCardapioRoute,
+  } as any)
 const AuthenticatedComprasIndexRoute =
   AuthenticatedComprasIndexRouteImport.update({
     id: '/',
@@ -390,6 +433,11 @@ const ApiPublicSalesIngestRoute = ApiPublicSalesIngestRouteImport.update({
 const ApiPublicStripeWebhookRoute = ApiPublicStripeWebhookRouteImport.update({
   id: '/api/public/stripe-webhook',
   path: '/api/public/stripe-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CSlugIndexRoute = CSlugIndexRouteImport.update({
+  id: '/c/$slug/',
+  path: '/c/$slug/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PortalCartaoPontoIndexRoute = PortalCartaoPontoIndexRouteImport.update({
@@ -611,6 +659,11 @@ const ApiPublicMercadoPagoWebhookRoute =
     path: '/api/public/mercado-pago/webhook',
     getParentRoute: () => rootRouteImport,
   } as any)
+const CSlugPedidoTokenRoute = CSlugPedidoTokenRouteImport.update({
+  id: '/c/$slug/pedido/$token',
+  path: '/c/$slug/pedido/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PortalHoleritesIdComprovanteRoute =
   PortalHoleritesIdComprovanteRouteImport.update({
     id: '/comprovante',
@@ -654,6 +707,7 @@ export interface FileRoutesByFullPath {
   '/portal': typeof PortalRouteWithChildren
   '/app': typeof AuthenticatedAppRouteWithChildren
   '/caixa-financeiro': typeof AuthenticatedCaixaFinanceiroRouteWithChildren
+  '/cardapio': typeof AuthenticatedCardapioRouteWithChildren
   '/compras': typeof AuthenticatedComprasRouteWithChildren
   '/estoque': typeof AuthenticatedEstoqueRouteWithChildren
   '/onboarding': typeof AuthenticatedOnboardingRoute
@@ -680,6 +734,10 @@ export interface FileRoutesByFullPath {
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/caixa-financeiro/configuracoes': typeof AuthenticatedCaixaFinanceiroConfiguracoesRoute
   '/caixa-financeiro/vendas': typeof AuthenticatedCaixaFinanceiroVendasRoute
+  '/cardapio/configuracoes': typeof AuthenticatedCardapioConfiguracoesRoute
+  '/cardapio/divulgar': typeof AuthenticatedCardapioDivulgarRoute
+  '/cardapio/itens': typeof AuthenticatedCardapioItensRoute
+  '/cardapio/mesas': typeof AuthenticatedCardapioMesasRoute
   '/compras/comprador': typeof AuthenticatedComprasCompradorRoute
   '/estoque/fornecedores': typeof AuthenticatedEstoqueFornecedoresRoute
   '/estoque/inventario': typeof AuthenticatedEstoqueInventarioRoute
@@ -700,10 +758,12 @@ export interface FileRoutesByFullPath {
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/caixa-financeiro/': typeof AuthenticatedCaixaFinanceiroIndexRoute
+  '/cardapio/': typeof AuthenticatedCardapioIndexRoute
   '/compras/': typeof AuthenticatedComprasIndexRoute
   '/estoque/': typeof AuthenticatedEstoqueIndexRoute
   '/painel/': typeof AuthenticatedPainelIndexRoute
   '/ponto/': typeof AuthenticatedPontoIndexRoute
+  '/c/$slug/': typeof CSlugIndexRoute
   '/portal/cartao-ponto/': typeof PortalCartaoPontoIndexRoute
   '/portal/documentos/': typeof PortalDocumentosIndexRoute
   '/portal/holerites/': typeof PortalHoleritesIndexRoute
@@ -732,6 +792,7 @@ export interface FileRoutesByFullPath {
   '/api/automation/events/epis': typeof ApiAutomationEventsEpisRoute
   '/api/public/mercado-pago/callback': typeof ApiPublicMercadoPagoCallbackRoute
   '/api/public/mercado-pago/webhook': typeof ApiPublicMercadoPagoWebhookRoute
+  '/c/$slug/pedido/$token': typeof CSlugPedidoTokenRoute
   '/portal/holerites/$id/comprovante': typeof PortalHoleritesIdComprovanteRoute
   '/app/conformidade/': typeof AuthenticatedAppConformidadeIndexRoute
   '/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
@@ -770,6 +831,10 @@ export interface FileRoutesByTo {
   '/app/units': typeof AuthenticatedAppUnitsRoute
   '/caixa-financeiro/configuracoes': typeof AuthenticatedCaixaFinanceiroConfiguracoesRoute
   '/caixa-financeiro/vendas': typeof AuthenticatedCaixaFinanceiroVendasRoute
+  '/cardapio/configuracoes': typeof AuthenticatedCardapioConfiguracoesRoute
+  '/cardapio/divulgar': typeof AuthenticatedCardapioDivulgarRoute
+  '/cardapio/itens': typeof AuthenticatedCardapioItensRoute
+  '/cardapio/mesas': typeof AuthenticatedCardapioMesasRoute
   '/compras/comprador': typeof AuthenticatedComprasCompradorRoute
   '/estoque/fornecedores': typeof AuthenticatedEstoqueFornecedoresRoute
   '/estoque/inventario': typeof AuthenticatedEstoqueInventarioRoute
@@ -789,10 +854,12 @@ export interface FileRoutesByTo {
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/caixa-financeiro': typeof AuthenticatedCaixaFinanceiroIndexRoute
+  '/cardapio': typeof AuthenticatedCardapioIndexRoute
   '/compras': typeof AuthenticatedComprasIndexRoute
   '/estoque': typeof AuthenticatedEstoqueIndexRoute
   '/painel': typeof AuthenticatedPainelIndexRoute
   '/ponto': typeof AuthenticatedPontoIndexRoute
+  '/c/$slug': typeof CSlugIndexRoute
   '/portal/cartao-ponto': typeof PortalCartaoPontoIndexRoute
   '/portal/documentos': typeof PortalDocumentosIndexRoute
   '/portal/holerites': typeof PortalHoleritesIndexRoute
@@ -821,6 +888,7 @@ export interface FileRoutesByTo {
   '/api/automation/events/epis': typeof ApiAutomationEventsEpisRoute
   '/api/public/mercado-pago/callback': typeof ApiPublicMercadoPagoCallbackRoute
   '/api/public/mercado-pago/webhook': typeof ApiPublicMercadoPagoWebhookRoute
+  '/c/$slug/pedido/$token': typeof CSlugPedidoTokenRoute
   '/portal/holerites/$id/comprovante': typeof PortalHoleritesIdComprovanteRoute
   '/app/conformidade': typeof AuthenticatedAppConformidadeIndexRoute
   '/app/deliveries': typeof AuthenticatedAppDeliveriesIndexRoute
@@ -842,6 +910,7 @@ export interface FileRoutesById {
   '/portal': typeof PortalRouteWithChildren
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
   '/_authenticated/caixa-financeiro': typeof AuthenticatedCaixaFinanceiroRouteWithChildren
+  '/_authenticated/cardapio': typeof AuthenticatedCardapioRouteWithChildren
   '/_authenticated/compras': typeof AuthenticatedComprasRouteWithChildren
   '/_authenticated/estoque': typeof AuthenticatedEstoqueRouteWithChildren
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
@@ -868,6 +937,10 @@ export interface FileRoutesById {
   '/_authenticated/app/units': typeof AuthenticatedAppUnitsRoute
   '/_authenticated/caixa-financeiro/configuracoes': typeof AuthenticatedCaixaFinanceiroConfiguracoesRoute
   '/_authenticated/caixa-financeiro/vendas': typeof AuthenticatedCaixaFinanceiroVendasRoute
+  '/_authenticated/cardapio/configuracoes': typeof AuthenticatedCardapioConfiguracoesRoute
+  '/_authenticated/cardapio/divulgar': typeof AuthenticatedCardapioDivulgarRoute
+  '/_authenticated/cardapio/itens': typeof AuthenticatedCardapioItensRoute
+  '/_authenticated/cardapio/mesas': typeof AuthenticatedCardapioMesasRoute
   '/_authenticated/compras/comprador': typeof AuthenticatedComprasCompradorRoute
   '/_authenticated/estoque/fornecedores': typeof AuthenticatedEstoqueFornecedoresRoute
   '/_authenticated/estoque/inventario': typeof AuthenticatedEstoqueInventarioRoute
@@ -888,10 +961,12 @@ export interface FileRoutesById {
   '/portal/itens/$id': typeof PortalItensIdRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/caixa-financeiro/': typeof AuthenticatedCaixaFinanceiroIndexRoute
+  '/_authenticated/cardapio/': typeof AuthenticatedCardapioIndexRoute
   '/_authenticated/compras/': typeof AuthenticatedComprasIndexRoute
   '/_authenticated/estoque/': typeof AuthenticatedEstoqueIndexRoute
   '/_authenticated/painel/': typeof AuthenticatedPainelIndexRoute
   '/_authenticated/ponto/': typeof AuthenticatedPontoIndexRoute
+  '/c/$slug/': typeof CSlugIndexRoute
   '/portal/cartao-ponto/': typeof PortalCartaoPontoIndexRoute
   '/portal/documentos/': typeof PortalDocumentosIndexRoute
   '/portal/holerites/': typeof PortalHoleritesIndexRoute
@@ -920,6 +995,7 @@ export interface FileRoutesById {
   '/api/automation/events/epis': typeof ApiAutomationEventsEpisRoute
   '/api/public/mercado-pago/callback': typeof ApiPublicMercadoPagoCallbackRoute
   '/api/public/mercado-pago/webhook': typeof ApiPublicMercadoPagoWebhookRoute
+  '/c/$slug/pedido/$token': typeof CSlugPedidoTokenRoute
   '/portal/holerites/$id/comprovante': typeof PortalHoleritesIdComprovanteRoute
   '/_authenticated/app/conformidade/': typeof AuthenticatedAppConformidadeIndexRoute
   '/_authenticated/app/deliveries/': typeof AuthenticatedAppDeliveriesIndexRoute
@@ -941,6 +1017,7 @@ export interface FileRouteTypes {
     | '/portal'
     | '/app'
     | '/caixa-financeiro'
+    | '/cardapio'
     | '/compras'
     | '/estoque'
     | '/onboarding'
@@ -967,6 +1044,10 @@ export interface FileRouteTypes {
     | '/app/units'
     | '/caixa-financeiro/configuracoes'
     | '/caixa-financeiro/vendas'
+    | '/cardapio/configuracoes'
+    | '/cardapio/divulgar'
+    | '/cardapio/itens'
+    | '/cardapio/mesas'
     | '/compras/comprador'
     | '/estoque/fornecedores'
     | '/estoque/inventario'
@@ -987,10 +1068,12 @@ export interface FileRouteTypes {
     | '/portal/itens/$id'
     | '/app/'
     | '/caixa-financeiro/'
+    | '/cardapio/'
     | '/compras/'
     | '/estoque/'
     | '/painel/'
     | '/ponto/'
+    | '/c/$slug/'
     | '/portal/cartao-ponto/'
     | '/portal/documentos/'
     | '/portal/holerites/'
@@ -1019,6 +1102,7 @@ export interface FileRouteTypes {
     | '/api/automation/events/epis'
     | '/api/public/mercado-pago/callback'
     | '/api/public/mercado-pago/webhook'
+    | '/c/$slug/pedido/$token'
     | '/portal/holerites/$id/comprovante'
     | '/app/conformidade/'
     | '/app/deliveries/'
@@ -1057,6 +1141,10 @@ export interface FileRouteTypes {
     | '/app/units'
     | '/caixa-financeiro/configuracoes'
     | '/caixa-financeiro/vendas'
+    | '/cardapio/configuracoes'
+    | '/cardapio/divulgar'
+    | '/cardapio/itens'
+    | '/cardapio/mesas'
     | '/compras/comprador'
     | '/estoque/fornecedores'
     | '/estoque/inventario'
@@ -1076,10 +1164,12 @@ export interface FileRouteTypes {
     | '/portal/itens/$id'
     | '/app'
     | '/caixa-financeiro'
+    | '/cardapio'
     | '/compras'
     | '/estoque'
     | '/painel'
     | '/ponto'
+    | '/c/$slug'
     | '/portal/cartao-ponto'
     | '/portal/documentos'
     | '/portal/holerites'
@@ -1108,6 +1198,7 @@ export interface FileRouteTypes {
     | '/api/automation/events/epis'
     | '/api/public/mercado-pago/callback'
     | '/api/public/mercado-pago/webhook'
+    | '/c/$slug/pedido/$token'
     | '/portal/holerites/$id/comprovante'
     | '/app/conformidade'
     | '/app/deliveries'
@@ -1128,6 +1219,7 @@ export interface FileRouteTypes {
     | '/portal'
     | '/_authenticated/app'
     | '/_authenticated/caixa-financeiro'
+    | '/_authenticated/cardapio'
     | '/_authenticated/compras'
     | '/_authenticated/estoque'
     | '/_authenticated/onboarding'
@@ -1154,6 +1246,10 @@ export interface FileRouteTypes {
     | '/_authenticated/app/units'
     | '/_authenticated/caixa-financeiro/configuracoes'
     | '/_authenticated/caixa-financeiro/vendas'
+    | '/_authenticated/cardapio/configuracoes'
+    | '/_authenticated/cardapio/divulgar'
+    | '/_authenticated/cardapio/itens'
+    | '/_authenticated/cardapio/mesas'
     | '/_authenticated/compras/comprador'
     | '/_authenticated/estoque/fornecedores'
     | '/_authenticated/estoque/inventario'
@@ -1174,10 +1270,12 @@ export interface FileRouteTypes {
     | '/portal/itens/$id'
     | '/_authenticated/app/'
     | '/_authenticated/caixa-financeiro/'
+    | '/_authenticated/cardapio/'
     | '/_authenticated/compras/'
     | '/_authenticated/estoque/'
     | '/_authenticated/painel/'
     | '/_authenticated/ponto/'
+    | '/c/$slug/'
     | '/portal/cartao-ponto/'
     | '/portal/documentos/'
     | '/portal/holerites/'
@@ -1206,6 +1304,7 @@ export interface FileRouteTypes {
     | '/api/automation/events/epis'
     | '/api/public/mercado-pago/callback'
     | '/api/public/mercado-pago/webhook'
+    | '/c/$slug/pedido/$token'
     | '/portal/holerites/$id/comprovante'
     | '/_authenticated/app/conformidade/'
     | '/_authenticated/app/deliveries/'
@@ -1229,6 +1328,7 @@ export interface RootRouteChildren {
   ApiAutomationManagerSummaryRoute: typeof ApiAutomationManagerSummaryRoute
   ApiPublicSalesIngestRoute: typeof ApiPublicSalesIngestRoute
   ApiPublicStripeWebhookRoute: typeof ApiPublicStripeWebhookRoute
+  CSlugIndexRoute: typeof CSlugIndexRoute
   ApiAutomationClockCandidatesRoute: typeof ApiAutomationClockCandidatesRoute
   ApiAutomationDocumentsCandidatesRoute: typeof ApiAutomationDocumentsCandidatesRoute
   ApiAutomationEpisCandidatesRoute: typeof ApiAutomationEpisCandidatesRoute
@@ -1238,6 +1338,7 @@ export interface RootRouteChildren {
   ApiAutomationEventsEpisRoute: typeof ApiAutomationEventsEpisRoute
   ApiPublicMercadoPagoCallbackRoute: typeof ApiPublicMercadoPagoCallbackRoute
   ApiPublicMercadoPagoWebhookRoute: typeof ApiPublicMercadoPagoWebhookRoute
+  CSlugPedidoTokenRoute: typeof CSlugPedidoTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1282,6 +1383,13 @@ declare module '@tanstack/react-router' {
       path: '/caixa-financeiro'
       fullPath: '/caixa-financeiro'
       preLoaderRoute: typeof AuthenticatedCaixaFinanceiroRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/cardapio': {
+      id: '/_authenticated/cardapio'
+      path: '/cardapio'
+      fullPath: '/cardapio'
+      preLoaderRoute: typeof AuthenticatedCardapioRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/compras': {
@@ -1480,6 +1588,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCaixaFinanceiroVendasRouteImport
       parentRoute: typeof AuthenticatedCaixaFinanceiroRoute
     }
+    '/_authenticated/cardapio/': {
+      id: '/_authenticated/cardapio/'
+      path: '/'
+      fullPath: '/cardapio/'
+      preLoaderRoute: typeof AuthenticatedCardapioIndexRouteImport
+      parentRoute: typeof AuthenticatedCardapioRoute
+    }
+    '/_authenticated/cardapio/configuracoes': {
+      id: '/_authenticated/cardapio/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/cardapio/configuracoes'
+      preLoaderRoute: typeof AuthenticatedCardapioConfiguracoesRouteImport
+      parentRoute: typeof AuthenticatedCardapioRoute
+    }
+    '/_authenticated/cardapio/divulgar': {
+      id: '/_authenticated/cardapio/divulgar'
+      path: '/divulgar'
+      fullPath: '/cardapio/divulgar'
+      preLoaderRoute: typeof AuthenticatedCardapioDivulgarRouteImport
+      parentRoute: typeof AuthenticatedCardapioRoute
+    }
+    '/_authenticated/cardapio/itens': {
+      id: '/_authenticated/cardapio/itens'
+      path: '/itens'
+      fullPath: '/cardapio/itens'
+      preLoaderRoute: typeof AuthenticatedCardapioItensRouteImport
+      parentRoute: typeof AuthenticatedCardapioRoute
+    }
+    '/_authenticated/cardapio/mesas': {
+      id: '/_authenticated/cardapio/mesas'
+      path: '/mesas'
+      fullPath: '/cardapio/mesas'
+      preLoaderRoute: typeof AuthenticatedCardapioMesasRouteImport
+      parentRoute: typeof AuthenticatedCardapioRoute
+    }
     '/_authenticated/compras/': {
       id: '/_authenticated/compras/'
       path: '/'
@@ -1604,6 +1747,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/stripe-webhook'
       fullPath: '/api/public/stripe-webhook'
       preLoaderRoute: typeof ApiPublicStripeWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/c/$slug/': {
+      id: '/c/$slug/'
+      path: '/c/$slug'
+      fullPath: '/c/$slug/'
+      preLoaderRoute: typeof CSlugIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/portal/cartao-ponto/': {
@@ -1872,6 +2022,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicMercadoPagoWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/c/$slug/pedido/$token': {
+      id: '/c/$slug/pedido/$token'
+      path: '/c/$slug/pedido/$token'
+      fullPath: '/c/$slug/pedido/$token'
+      preLoaderRoute: typeof CSlugPedidoTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/portal/holerites/$id/comprovante': {
       id: '/portal/holerites/$id/comprovante'
       path: '/comprovante'
@@ -2028,6 +2185,28 @@ const AuthenticatedCaixaFinanceiroRouteWithChildren =
     AuthenticatedCaixaFinanceiroRouteChildren,
   )
 
+interface AuthenticatedCardapioRouteChildren {
+  AuthenticatedCardapioConfiguracoesRoute: typeof AuthenticatedCardapioConfiguracoesRoute
+  AuthenticatedCardapioDivulgarRoute: typeof AuthenticatedCardapioDivulgarRoute
+  AuthenticatedCardapioItensRoute: typeof AuthenticatedCardapioItensRoute
+  AuthenticatedCardapioMesasRoute: typeof AuthenticatedCardapioMesasRoute
+  AuthenticatedCardapioIndexRoute: typeof AuthenticatedCardapioIndexRoute
+}
+
+const AuthenticatedCardapioRouteChildren: AuthenticatedCardapioRouteChildren = {
+  AuthenticatedCardapioConfiguracoesRoute:
+    AuthenticatedCardapioConfiguracoesRoute,
+  AuthenticatedCardapioDivulgarRoute: AuthenticatedCardapioDivulgarRoute,
+  AuthenticatedCardapioItensRoute: AuthenticatedCardapioItensRoute,
+  AuthenticatedCardapioMesasRoute: AuthenticatedCardapioMesasRoute,
+  AuthenticatedCardapioIndexRoute: AuthenticatedCardapioIndexRoute,
+}
+
+const AuthenticatedCardapioRouteWithChildren =
+  AuthenticatedCardapioRoute._addFileChildren(
+    AuthenticatedCardapioRouteChildren,
+  )
+
 interface AuthenticatedComprasRouteChildren {
   AuthenticatedComprasCompradorRoute: typeof AuthenticatedComprasCompradorRoute
   AuthenticatedComprasIndexRoute: typeof AuthenticatedComprasIndexRoute
@@ -2121,6 +2300,7 @@ const AuthenticatedPontoRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
   AuthenticatedCaixaFinanceiroRoute: typeof AuthenticatedCaixaFinanceiroRouteWithChildren
+  AuthenticatedCardapioRoute: typeof AuthenticatedCardapioRouteWithChildren
   AuthenticatedComprasRoute: typeof AuthenticatedComprasRouteWithChildren
   AuthenticatedEstoqueRoute: typeof AuthenticatedEstoqueRouteWithChildren
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
@@ -2132,6 +2312,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppRoute: AuthenticatedAppRouteWithChildren,
   AuthenticatedCaixaFinanceiroRoute:
     AuthenticatedCaixaFinanceiroRouteWithChildren,
+  AuthenticatedCardapioRoute: AuthenticatedCardapioRouteWithChildren,
   AuthenticatedComprasRoute: AuthenticatedComprasRouteWithChildren,
   AuthenticatedEstoqueRoute: AuthenticatedEstoqueRouteWithChildren,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
@@ -2199,6 +2380,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAutomationManagerSummaryRoute: ApiAutomationManagerSummaryRoute,
   ApiPublicSalesIngestRoute: ApiPublicSalesIngestRoute,
   ApiPublicStripeWebhookRoute: ApiPublicStripeWebhookRoute,
+  CSlugIndexRoute: CSlugIndexRoute,
   ApiAutomationClockCandidatesRoute: ApiAutomationClockCandidatesRoute,
   ApiAutomationDocumentsCandidatesRoute: ApiAutomationDocumentsCandidatesRoute,
   ApiAutomationEpisCandidatesRoute: ApiAutomationEpisCandidatesRoute,
@@ -2208,6 +2390,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAutomationEventsEpisRoute: ApiAutomationEventsEpisRoute,
   ApiPublicMercadoPagoCallbackRoute: ApiPublicMercadoPagoCallbackRoute,
   ApiPublicMercadoPagoWebhookRoute: ApiPublicMercadoPagoWebhookRoute,
+  CSlugPedidoTokenRoute: CSlugPedidoTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

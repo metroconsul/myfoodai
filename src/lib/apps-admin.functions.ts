@@ -14,6 +14,7 @@ export const APP_CODES = [
   "app_estoque",
   "app_compras",
   "app_caixa_financeiro",
+  "app_cardapio",
 ] as const;
 
 const setCompanyAppSchema = z.object({

@@ -1,6 +1,6 @@
 # MyFoods Cardápio Digital (pedido por link e QR code) — diagnóstico e plano
 
-Data: 2026-10-25 · Situação: **aguardando decisões e aprovação** (nada implementado). Substitui o app Estoque na Central.
+Data: 2026-10-25 · Situação: **D1–D3 concluídas** (banco aplicado em produção, app publicado, ativado para a Ramos Food). Substitui o app Estoque na Central.
 
 ## 1. O que já existe e pode ser reaproveitado
 | Peça | Onde | Uso no cardápio digital |
@@ -40,3 +40,10 @@ Não existe nada público (sem login) no sistema hoje: o cardápio será a prime
 2. Pagamento no começo: **na hora, no balcão/mesa** (sem pagamento online)?
 3. Fotos dos itens: subir no próprio app (armazenamento do Supabase)?
 4. QR code: gerar com uma biblioteca pequena e conhecida de QR (a geração do QR é complexa para fazer à mão) — autoriza adicionar?
+
+## 6. Decisões e como ficou (2026-10-25)
+- Decisões: mesa (QR) e retirada (link) no começo; pagamento **na conta, no final** (mesa) ou no balcão (retirada) — online depois; fotos pelo próprio app; QR com `qrcode-generator` (MIT, sem dependências).
+- Migration `20261025114204_cardapio_digital.sql` (aplicada): `dm_stores`, `dm_items`, `dm_tabs` (conta da mesa), `dm_orders`, `dm_order_items`; funções públicas `dm_public_menu`, `dm_place_order`, `dm_order_status`; `dm_close_tab`; bucket público `menu-photos` com envio só pela gestão na pasta da empresa.
+- App `/cardapio` e páginas públicas `/c/...` (mapa em `src/apps/cardapio/README.md`).
+- Testes: `scripts/security-tests/cardapio-digital/run.sh` (15, incluindo abuso pela página pública) e unitários. Conferido em produção (transação desfeita): cardápio público → pedido na mesa com preço do banco → equipe vê → fechar conta.
+- O cardápio do Caixa (ramo `cardapio-caixa`) continua guardado; integração "pedido entregue → venda no Caixa" fica para a etapa D4.

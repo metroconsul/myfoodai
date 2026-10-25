@@ -14,7 +14,7 @@ function ctx(over: Partial<AccessContext> & { features?: string[] } = {}): Acces
 
 describe("registro de aplicativos", () => {
   it("tem os aplicativos da Central (Estoque saiu em 2026-10-25), cada um com um código de acesso conhecido", () => {
-    expect(APPS.map((a) => a.id).sort()).toEqual(["caixa-financeiro", "compras", "documentos", "ponto"]);
+    expect(APPS.map((a) => a.id).sort()).toEqual(["caixa-financeiro", "cardapio", "compras", "documentos", "ponto"]);
     for (const app of APPS) expect(FEATURES).toContain(app.entitlement);
   });
 

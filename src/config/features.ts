@@ -36,6 +36,7 @@ export const FEATURES = [
   "app_estoque",
   "app_compras",
   "app_caixa_financeiro",
+  "app_cardapio",
 ] as const;
 
 export type FeatureCode = (typeof FEATURES)[number];

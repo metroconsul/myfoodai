@@ -105,6 +105,11 @@ export function buildPdf(lines: PdfLine[], footer?: string): Uint8Array<ArrayBuf
   newPage();
   if (pages.length === 0) pages.push("");
 
+  return assemblePdf(pages, footer);
+}
+
+/** Monta o arquivo (catálogo, páginas, fontes Helvetica, xref) a partir do conteúdo de cada página. */
+function assemblePdf(pages: string[], footer?: string): Uint8Array<ArrayBuffer> {
   // Objetos: 1 catálogo, 2 páginas, 3 Helvetica, 4 Helvetica-Bold, depois (página, conteúdo) por página.
   const objs: string[] = [];
   const pageIds = pages.map((_, i) => 5 + i * 2);
@@ -136,4 +141,57 @@ export function buildPdf(lines: PdfLine[], footer?: string): Uint8Array<ArrayBuf
   const bytes = new Uint8Array(pdf.length);
   for (let i = 0; i < pdf.length; i++) bytes[i] = pdf.charCodeAt(i) & 0xff;
   return bytes;
+}
+
+export type QrCard = { label: string; sublabel?: string; modules: boolean[][] };
+
+/**
+ * Folha de QR codes para imprimir e recortar: 6 por página A4 (2 colunas × 3 linhas),
+ * cada um com título (ex.: "Mesa 5") e linha de apoio (ex.: nome da loja).
+ */
+export function buildQrSheetPdf(cards: QrCard[], footer?: string): Uint8Array<ArrayBuffer> {
+  const COLS = 2;
+  const ROWS = 3;
+  const cellW = (PAGE_W - 2 * MARGIN) / COLS;
+  const cellH = (PAGE_H - 2 * MARGIN - 20) / ROWS;
+  const qrSize = Math.min(cellW, cellH) - 70;
+  const pages: string[] = [];
+  for (let start = 0; start < Math.max(cards.length, 1); start += COLS * ROWS) {
+    const ops: string[] = [];
+    cards.slice(start, start + COLS * ROWS).forEach((card, i) => {
+      const col = i % COLS;
+      const row = Math.floor(i / COLS);
+      const x0 = MARGIN + col * cellW;
+      const yTop = PAGE_H - MARGIN - row * cellH;
+      // Moldura tracejada para recortar.
+      ops.push(`0.75 G 0.5 w [3 3] 0 d ${x0 + 6} ${(yTop - cellH + 6).toFixed(1)} ${cellW - 12} ${cellH - 12} re S [] 0 d`);
+      const n = card.modules.length;
+      const cell = qrSize / n;
+      const qx = x0 + (cellW - qrSize) / 2;
+      const qy = yTop - 20 - qrSize;
+      ops.push("0 g");
+      card.modules.forEach((line, r) => {
+        let c = 0;
+        while (c < n) {
+          if (!line[c]) {
+            c++;
+            continue;
+          }
+          let end = c;
+          while (end + 1 < n && line[end + 1]) end++;
+          const y = qy + (n - 1 - r) * cell;
+          ops.push(`${(qx + c * cell).toFixed(2)} ${y.toFixed(2)} ${((end - c + 1) * cell).toFixed(2)} ${cell.toFixed(2)} re f`);
+          c = end + 1;
+        }
+      });
+      const labelW = card.label.length * 18 * 0.55;
+      ops.push(`0 g BT /F2 18 Tf ${(x0 + (cellW - labelW) / 2).toFixed(1)} ${(qy - 26).toFixed(1)} Td (${pdfText(card.label)}) Tj ET`);
+      if (card.sublabel) {
+        const subW = card.sublabel.length * 9 * 0.5;
+        ops.push(`0.4 g BT /F1 9 Tf ${(x0 + (cellW - subW) / 2).toFixed(1)} ${(qy - 42).toFixed(1)} Td (${pdfText(card.sublabel)}) Tj ET`);
+      }
+    });
+    pages.push(ops.join("\n"));
+  }
+  return assemblePdf(pages, footer);
 }

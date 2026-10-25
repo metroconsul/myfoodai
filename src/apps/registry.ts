@@ -1,7 +1,7 @@
-import { Clock, FileText, ShoppingCart, Wallet, type LucideIcon } from "lucide-react";
+import { Clock, QrCode, FileText, ShoppingCart, Wallet, type LucideIcon } from "lucide-react";
 import type { FeatureCode } from "@/config/features";
 
-export type AppId = "ponto" | "documentos" | "estoque" | "compras" | "caixa-financeiro";
+export type AppId = "ponto" | "documentos" | "estoque" | "compras" | "caixa-financeiro" | "cardapio";
 export type AppRole =
   | "owner"
   | "admin"
@@ -41,6 +41,18 @@ export const APPS: AppManifest[] = [
     entry: "/ponto",
     roles: ["owner", "admin", "hr", "unit_manager", "supervisor"],
     tone: "acid",
+  },
+  {
+    id: "cardapio",
+    name: "MyFoods Cardápio Digital",
+    description: "Cardápio por link e QR code: o cliente pede pelo celular e paga na conta.",
+    icon: QrCode,
+    entitlement: "app_cardapio",
+    status: "available",
+    entry: "/cardapio",
+    // Qualquer funcionário com login acompanha os pedidos; a gestão monta o cardápio (regras no banco).
+    roles: ["owner", "admin", "unit_manager", "hr", "stock_manager", "supervisor", "staff", "cashier", "finance"],
+    tone: "ember",
   },
   {
     id: "documentos",
