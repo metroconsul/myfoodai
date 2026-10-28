@@ -11,7 +11,6 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import {
   ArrowRight,
-  Boxes,
   Cake,
   Clock,
   Coffee,
@@ -19,6 +18,7 @@ import {
   FileText,
   MessageCircle,
   Puzzle,
+  QrCode,
   Sandwich,
   ShoppingCart,
   Store,
@@ -29,7 +29,7 @@ import {
 
 const TITLE = `${GROUP_NAME} — aplicativos para a gestão de cafeterias e restaurantes`;
 const DESCRIPTION =
-  "Aplicativos especializados para cafeterias, restaurantes e padarias: ponto, estoque, compras, caixa e documentos. Escolha o que o seu negócio precisa.";
+  "Aplicativos especializados para cafeterias, restaurantes e padarias: ponto, cardápio digital, caixa, compras e documentos. Escolha o que o seu negócio precisa.";
 const OG_IMAGE = `${SITE_URL}${BRAND_LOGO}`;
 
 export const Route = createFileRoute("/")({
@@ -85,7 +85,7 @@ const APPS: AppCard[] = [
     benefitsTitle: "O que ele organiza",
     benefits: [
       "Registros de ponto da equipe",
-      "Acompanhamento de jornadas e escalas",
+      "Escalas da semana, simples de montar",
       "Cadastro e gestão de funcionários",
       "Foto e localização como evidência da batida",
       "Portal do Colaborador, com acesso por CPF e PIN",
@@ -93,19 +93,19 @@ const APPS: AppCard[] = [
     span: "lg:col-span-2",
   },
   {
-    id: "estoque",
-    name: "MyFoods Estoque",
-    icon: Boxes,
+    id: "cardapio",
+    name: "MyFoods Cardápio Digital",
+    icon: QrCode,
     tone: "ember",
     status: "available",
-    short: "Controle e organização do estoque, por unidade.",
+    short: "Cardápio por link e QR code: o cliente pede pelo celular.",
     benefitsTitle: "O que ele organiza",
     benefits: [
-      "Cadastro de produtos, com foto",
-      "Entradas, saídas e ajustes",
-      "Controle de quantidades",
-      "Histórico de movimentações",
-      "Alertas de estoque mínimo",
+      "Cardápio com foto, descrição e preço",
+      "QR code por mesa e link para mandar ao cliente",
+      "Pedidos chegando na hora, com aviso sonoro",
+      "Conta da mesa paga no final",
+      "Retirada no balcão",
     ],
     span: "lg:col-span-2",
   },
@@ -126,40 +126,40 @@ const APPS: AppCard[] = [
     span: "lg:col-span-2",
   },
   {
-    id: "compras",
-    name: "MyFoods Compras",
-    icon: ShoppingCart,
-    tone: "paper",
-    status: "soon",
-    short: "Organização das compras e dos fornecedores.",
-    benefitsTitle: "O que ele vai organizar",
-    benefits: [
-      "Cadastro de fornecedores",
-      "Solicitações de compra",
-      "Pedidos organizados",
-      "Histórico de compras",
-      "Acompanhamento de entregas",
-    ],
-    span: "lg:col-span-3",
-  },
-  {
     id: "caixa-financeiro",
     name: "MyFoods Caixa & Financeiro",
     icon: Wallet,
     tone: "acid2",
-    status: "soon",
-    short: "A operação de caixa e o controle financeiro reunidos em um único aplicativo.",
-    benefitsTitle: "Caixa — o que vai organizar",
+    status: "available",
+    short: "A operação de caixa e as vendas reunidas em um único aplicativo.",
+    benefitsTitle: "Caixa — o que organiza",
     benefits: [
       "Abertura e fechamento de caixa",
-      "Entradas, saídas e movimentações",
-      "Conferência de caixa",
+      "Entradas, saídas e sangrias",
+      "Conferência com a diferença do caixa",
     ],
-    extraTitle: "Financeiro — o que vai organizar",
+    extraTitle: "Vendas — o que organiza",
     extraBenefits: [
-      "Receitas e despesas",
-      "Contas a pagar e a receber",
-      "Fluxo de caixa e relatórios financeiros",
+      "Vendas do caixa e do Mercado Pago em uma lista só",
+      "Maquininha, Pix e link entrando sozinhos",
+      "Visão geral por forma de pagamento",
+    ],
+    span: "lg:col-span-3",
+  },
+  {
+    id: "compras",
+    name: "MyFoods Compras",
+    icon: ShoppingCart,
+    tone: "paper",
+    status: "available",
+    short: "Listas do que falta, por loja, para quem faz as compras.",
+    benefitsTitle: "O que ele organiza",
+    benefits: [
+      "Listas de ingredientes que faltam, como notas no celular",
+      "Cada loja com as suas listas",
+      "Nome e quantidade, sem complicação",
+      "Exportar em PDF",
+      "Enviar para quem faz as compras",
     ],
     span: "lg:col-span-3",
   },
@@ -173,7 +173,7 @@ const TONES: Record<AppCard["tone"], { head: string; text: string }> = {
   acid2: { head: "bg-[#fffdf6]", text: "text-[#09090b]" },
 };
 
-const MARQUEE = ["PONTO", "ESTOQUE", "COMPRAS", "CAIXA & FINANCEIRO", "DOCUMENTOS", "SIMPLES", "ESPECIALIZADO"];
+const MARQUEE = ["PONTO", "CARDÁPIO DIGITAL", "CAIXA & FINANCEIRO", "COMPRAS", "DOCUMENTOS", "SIMPLES", "ESPECIALIZADO"];
 
 const AUDIENCE: { icon: LucideIcon; name: string; text: string }[] = [
   { icon: Coffee, name: "Cafeterias", text: "Equipe em turnos curtos e insumos que acabam no meio do movimento." },
@@ -241,7 +241,8 @@ function EcosystemVisual() {
         </div>
       </div>
       <ul className="mt-4 grid grid-cols-2 gap-2.5">
-        {APPS.map((a) => (
+        {/* Caixa & Financeiro ocupa a linha inteira: vai por último para não deixar buraco na grade. */}
+        {[...APPS.filter((a) => a.id !== "caixa-financeiro"), ...APPS.filter((a) => a.id === "caixa-financeiro")].map((a) => (
           <li
             key={a.id}
             className={[
@@ -415,7 +416,7 @@ function Landing() {
               </h1>
               <p className="mt-5 max-w-xl text-lg text-[#5e5a50]">
                 O Grupo MyFoods reúne aplicativos especializados para ajudar você a controlar
-                funcionários, estoque, compras, caixa e documentos em um só ecossistema.
+                funcionários, pedidos, caixa, compras e documentos em um só ecossistema.
               </p>
               <div className="mt-7 flex flex-wrap items-center gap-3">
                 <a href="#aplicativos" className="gh-btn gh-btn-primary gh-press">
@@ -481,8 +482,8 @@ function Landing() {
           <section id="aplicativos" className="mx-auto max-w-6xl scroll-mt-28 px-6 py-8">
             <h2 className="gh-display text-3xl uppercase sm:text-4xl">Os aplicativos do Grupo MyFoods</h2>
             <p className="mt-3 max-w-2xl text-[#5e5a50]">
-              Cada aplicativo cuida de uma parte da rotina. Veja quais já estão disponíveis e quais
-              estão chegando.
+              Cada aplicativo cuida de uma parte da rotina. Todos já estão disponíveis: comece
+              pelo que mais pesa no seu dia a dia.
             </p>
             <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-6">
               {APPS.map((app) => (
@@ -490,8 +491,7 @@ function Landing() {
               ))}
             </div>
             <p className="gh-mono mt-5 text-[11px] text-[#5e5a50]">
-              A contratação é feita diretamente com a equipe do Grupo MyFoods, pelo WhatsApp. Os
-              aplicativos “em breve” ainda não estão à venda e não têm data de lançamento definida.
+              A contratação é feita diretamente com a equipe do Grupo MyFoods, pelo WhatsApp.
             </p>
           </section>
 
@@ -563,16 +563,16 @@ function Landing() {
                   Empresa · Unidades · Equipe
                 </div>
                 <div className="mt-3 grid grid-cols-3 gap-2 text-center text-[11px] font-bold">
-                  {["Ponto", "Estoque", "Documentos"].map((n) => (
+                  {["Ponto", "Cardápio Digital", "Documentos"].map((n) => (
                     <div key={n} className="rounded-lg border-2 border-[#d2e823] bg-[#d2e823] px-2 py-3 text-[#09090b]">
                       {n}
                     </div>
                   ))}
                 </div>
                 <div className="mt-2 grid grid-cols-2 gap-2 text-center text-[11px] font-bold">
-                  {["Compras", "Caixa & Financeiro"].map((n) => (
-                    <div key={n} className="rounded-lg border-2 border-dashed border-[#f8f4e8]/60 px-2 py-3 text-[#f8f4e8]">
-                      {n} · em breve
+                  {["Caixa & Financeiro", "Compras"].map((n) => (
+                    <div key={n} className="rounded-lg border-2 border-[#d2e823] bg-[#d2e823] px-2 py-3 text-[#09090b]">
+                      {n}
                     </div>
                   ))}
                 </div>
