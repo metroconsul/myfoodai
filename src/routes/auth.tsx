@@ -107,7 +107,7 @@ function AuthPage() {
 
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
-      <div className="flex items-center justify-center px-4 py-10">
+      <div className="auth-texture flex items-center justify-center px-4 py-10">
         <div className="w-full max-w-md surface-card p-7 animate-rise">
           <Link
             to="/"

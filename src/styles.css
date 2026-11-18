@@ -343,6 +343,28 @@
   opacity: 0.12;
 }
 
+/* Textura do fundo claro da tela de login: grade fina com pontos nos cruzamentos,
+   que some perto das bordas. O fundo continua claro; só tira o "liso" atrás do card. */
+.auth-texture {
+  position: relative;
+  isolation: isolate;
+}
+.auth-texture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(rgb(9 9 11 / 0.22) 1.2px, transparent 1.4px),
+    linear-gradient(rgb(9 9 11 / 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(9 9 11 / 0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: -0.5px -0.5px;
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, #000 35%, transparent 100%);
+}
+
 .gh-glitch:hover {
   animation: gh-glitch 0.3s steps(1) infinite;
 }
