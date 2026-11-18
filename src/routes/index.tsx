@@ -70,6 +70,8 @@ interface AppCard {
   benefits: string[];
   extraTitle?: string;
   extraBenefits?: string[];
+  /** Preço mensal avulso exibido no card. Em pacote, o valor é negociado com o estabelecimento. */
+  price: string;
   span: string;
 }
 
@@ -77,6 +79,7 @@ interface AppCard {
 const APPS: AppCard[] = [
   {
     id: "ponto",
+    price: "R$ 79,90",
     name: "MyFoods Ponto",
     icon: Clock,
     tone: "acid",
@@ -94,6 +97,7 @@ const APPS: AppCard[] = [
   },
   {
     id: "cardapio",
+    price: "R$ 49,90",
     name: "MyFoods Cardápio Digital",
     icon: QrCode,
     tone: "ember",
@@ -111,6 +115,7 @@ const APPS: AppCard[] = [
   },
   {
     id: "documentos",
+    price: "R$ 39,90",
     name: "MyFoods Documentos",
     icon: FileText,
     tone: "ink",
@@ -127,6 +132,7 @@ const APPS: AppCard[] = [
   },
   {
     id: "caixa-financeiro",
+    price: "R$ 59,90",
     name: "MyFoods Caixa & Financeiro",
     icon: Wallet,
     tone: "acid2",
@@ -148,6 +154,7 @@ const APPS: AppCard[] = [
   },
   {
     id: "compras",
+    price: "R$ 29,90",
     name: "MyFoods Compras",
     icon: ShoppingCart,
     tone: "paper",
@@ -315,6 +322,13 @@ function AppCardView({ app }: { app: AppCard }) {
         ) : null}
 
         <div className="mt-auto pt-5">
+          <div className="mb-4 flex flex-wrap items-end justify-between gap-x-3 gap-y-1 rounded-xl border-2 border-[#09090b] bg-[#f8f4e8] px-4 py-3">
+            <p className="gh-display text-3xl leading-none">
+              {app.price}
+              <span className="text-sm">/mês</span>
+            </p>
+            <p className="gh-mono text-[10px] font-bold text-[#5e5a50]">Avulso · menor em pacote</p>
+          </div>
           {soon ? (
             <a
               href={contactHref(`Olá! Quero saber mais sobre o ${app.name} quando estiver disponível.`)}
@@ -385,6 +399,7 @@ function Landing() {
 
             <div className="gh-mono mx-auto hidden gap-6 text-xs lg:flex">
               <a href="#aplicativos" className="hover:text-[#f26b38]">Aplicativos</a>
+              <a href="#pacotes" className="hover:text-[#f26b38]">Pacotes</a>
               <a href="#como-funciona" className="hover:text-[#f26b38]">Como funciona</a>
               <a href="#para-quem" className="hover:text-[#f26b38]">Para quem é</a>
               <a href="#ecossistema" className="hover:text-[#f26b38]">Ecossistema</a>
@@ -493,6 +508,62 @@ function Landing() {
             <p className="gh-mono mt-5 text-[11px] text-[#5e5a50]">
               A contratação é feita diretamente com a equipe do Grupo MyFoods, pelo WhatsApp.
             </p>
+          </section>
+
+          {/* 3b. PACOTES */}
+          <section id="pacotes" className="mx-auto max-w-6xl scroll-mt-28 px-6 py-8">
+            <div className="gh-box gh-box-lg grid gap-8 overflow-hidden p-6 sm:p-8 lg:grid-cols-12 lg:items-center">
+              <div className="lg:col-span-7">
+                <span className="gh-mono inline-block rounded-md border-2 border-[#09090b] bg-[#f26b38] px-3 py-1 text-[11px] font-bold">
+                  Pacotes
+                </span>
+                <h2 className="gh-display mt-4 text-3xl uppercase leading-tight sm:text-4xl">
+                  Juntou 2 ou 3 aplicativos? O preço cai.
+                </h2>
+                <p className="mt-3 max-w-xl text-[#5e5a50]">
+                  Montamos um pacote com os aplicativos que o seu estabelecimento usa de verdade. Em
+                  pacote, cada aplicativo sai mais barato do que contratado avulso. O valor é
+                  combinado direto com você, conforme o tamanho da operação.
+                </p>
+                <div className="mt-6">
+                  <a
+                    href={contactHref("Olá! Quero montar um pacote de aplicativos MyFoods para o meu estabelecimento.")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="gh-btn gh-btn-primary gh-press"
+                  >
+                    <MessageCircle className="size-4" aria-hidden /> Montar meu pacote
+                  </a>
+                </div>
+              </div>
+
+              <ul className="grid gap-3 lg:col-span-5" aria-label="Exemplos de pacote">
+                {[
+                  ["Ponto", "Documentos", "Para cuidar da equipe"],
+                  ["Cardápio Digital", "Caixa & Financeiro", "Para vender e fechar o caixa"],
+                  ["Cardápio Digital", "Caixa & Financeiro", "Compras", "Para o salão e a cozinha"],
+                ].map((combo) => {
+                  const apps = combo.slice(0, -1);
+                  const label = combo[combo.length - 1];
+                  return (
+                    <li key={combo.join("+")} className="rounded-xl border-2 border-[#09090b] bg-[#f8f4e8] p-3">
+                      <p className="gh-mono text-[10px] font-bold text-[#5e5a50]">{label}</p>
+                      <p className="mt-1 flex flex-wrap items-center gap-1.5 text-sm font-bold">
+                        {apps.map((a, i) => (
+                          <span key={a} className="flex items-center gap-1.5">
+                            {i > 0 ? <span aria-hidden className="text-[#f26b38]">+</span> : null}
+                            <span className="rounded-md border-2 border-[#09090b] bg-[#fffdf6] px-2 py-0.5">{a}</span>
+                          </span>
+                        ))}
+                      </p>
+                    </li>
+                  );
+                })}
+                <li className="gh-mono px-1 text-[11px] text-[#5e5a50]">
+                  Exemplos. Você escolhe a combinação.
+                </li>
+              </ul>
+            </div>
           </section>
 
           {/* 4. COMO FUNCIONA */}
